@@ -1,0 +1,1444 @@
+{
+  "_readme": "קובץ המוצרים. מחירים בשקלים כולל מע\"מ. ערך null = עדיין לא ידוע (TODO). ראו README.md.",
+  "products": [
+    {
+      "slug": "modubox-1x0-8",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 1×0.80",
+      "sizeLabel": "1×0.80",
+      "widthM": 1,
+      "depthM": 0.8,
+      "areaM2": 0.8,
+      "price": 2590,
+      "badge": null,
+      "shortDescription": "ארון/מחסן צר לגינה ולמרפסת – מושלם למכונת כביסה ומייבש, כלי גינה או מקרר חיצוני.",
+      "dimensions": {
+        "base": {
+          "width": 105.0,
+          "depth": 87.0,
+          "heightMin": 219.0,
+          "heightMax": 219.0
+        },
+        "outer": {
+          "width": 111.0,
+          "depth": 94.0,
+          "heightMin": 225.0,
+          "heightMax": 225.0
+        },
+        "inner": null,
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 500,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light",
+        "platform"
+      ],
+      "addonPriceOverrides": {
+        "platform": 350
+      },
+      "images": [
+        "photos/1f15a20e.webp",
+        "photos/6edae768.webp",
+        "photos/64f0fa98.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-1x0-80"
+    },
+    {
+      "slug": "modubox-1x1",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 1×1",
+      "sizeLabel": "1×1",
+      "widthM": 1,
+      "depthM": 1,
+      "areaM2": 1,
+      "price": 2900,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 105.0,
+          "depth": 105.0,
+          "heightMin": 218.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 111.0,
+          "depth": 111.0,
+          "heightMin": 225.0,
+          "heightMax": 233.0
+        },
+        "inner": "96/96 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 600,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/3b968764.webp",
+        "photos/fb48b12a.webp",
+        "photos/916fdfcb.webp",
+        "photos/79203cde.webp",
+        "photos/eaf74084.webp",
+        "photos/94738c8f.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודולרי-1-1"
+    },
+    {
+      "slug": "modubox-2x0-8",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 2×0.80",
+      "sizeLabel": "2×0.80",
+      "widthM": 2,
+      "depthM": 0.8,
+      "areaM2": 1.6,
+      "price": 3800,
+      "badge": null,
+      "shortDescription": "ארון/מחסן צר לגינה ולמרפסת – מושלם למכונת כביסה ומייבש, כלי גינה או מקרר חיצוני.",
+      "dimensions": {
+        "base": {
+          "width": 203.0,
+          "depth": 87.0,
+          "heightMin": 218.0,
+          "heightMax": 218.0
+        },
+        "outer": {
+          "width": 210.0,
+          "depth": 94.0,
+          "heightMin": 225.0,
+          "heightMax": 225.0
+        },
+        "inner": null,
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 650,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light",
+        "platform"
+      ],
+      "addonPriceOverrides": {
+        "platform": 600
+      },
+      "images": [
+        "photos/25b61968.webp",
+        "photos/f9020362.webp",
+        "photos/4d2e7d30.webp",
+        "photos/a513e6a7.webp",
+        "photos/5a241dbe.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-2x0-80"
+    },
+    {
+      "slug": "modubox-2x1",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 2×1",
+      "sizeLabel": "2×1",
+      "widthM": 2,
+      "depthM": 1,
+      "areaM2": 2,
+      "price": 4300,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 202.0,
+          "depth": 105.0,
+          "heightMin": 218.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 209.0,
+          "depth": 111.0,
+          "heightMin": 225.0,
+          "heightMax": 233.0
+        },
+        "inner": "96/194 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 700,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/2266500b.webp",
+        "photos/176e922f.webp",
+        "photos/f73f6ee3.webp",
+        "photos/38a8b8ba.webp",
+        "photos/2175ce6e.webp",
+        "photos/ba4a92d9.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-1-2"
+    },
+    {
+      "slug": "modubox-2x1-6",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 2×1.60",
+      "sizeLabel": "2×1.60",
+      "widthM": 2,
+      "depthM": 1.6,
+      "areaM2": 3.2,
+      "price": 5300,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 202.0,
+          "depth": 159.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 209.0,
+          "depth": 166.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": null,
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 800,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/a059e31e.webp",
+        "photos/da4bc89d.webp",
+        "photos/722fbfb6.webp",
+        "photos/1435b6aa.webp",
+        "photos/bc761ac6.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-2x1-60"
+    },
+    {
+      "slug": "modubox-3x1",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 3×1",
+      "sizeLabel": "3×1",
+      "widthM": 3,
+      "depthM": 1,
+      "areaM2": 3,
+      "price": 5300,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 301.0,
+          "depth": 105.0,
+          "heightMin": 218.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 307.0,
+          "depth": 112.0,
+          "heightMin": 225.0,
+          "heightMax": 233.0
+        },
+        "inner": "97/292 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 800,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/a1aeef2d.webp",
+        "photos/13767fa8.webp",
+        "photos/f710c307.webp",
+        "photos/ada2bade.webp",
+        "photos/6a47c8b5.webp",
+        "photos/c52c05b9.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-1-3"
+    },
+    {
+      "slug": "modubox-2x2",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 2×2",
+      "sizeLabel": "2×2",
+      "widthM": 2,
+      "depthM": 2,
+      "areaM2": 4,
+      "price": 5990,
+      "badge": "הנמכר ביותר",
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 202.0,
+          "depth": 202.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 209.0,
+          "depth": 209.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": "194/194 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 900,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/d77c1b81.webp",
+        "photos/a2d69812.webp",
+        "photos/13fb91e6.webp",
+        "photos/c2529d99.webp",
+        "photos/a61220b3.webp",
+        "photos/bcb7a769.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-2-3"
+    },
+    {
+      "slug": "modubox-4x1",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 4×1",
+      "sizeLabel": "4×1",
+      "widthM": 4,
+      "depthM": 1,
+      "areaM2": 4,
+      "price": 5990,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 399.0,
+          "depth": 105.0,
+          "heightMin": 218.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 405.0,
+          "depth": 112.0,
+          "heightMin": 225.0,
+          "heightMax": 233.0
+        },
+        "inner": null,
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 800,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/7fff7988.webp",
+        "photos/0134117e.webp",
+        "photos/3f11fd4e.webp",
+        "photos/8c419ba2.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-4x1"
+    },
+    {
+      "slug": "modubox-3x1-6",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 3×1.60",
+      "sizeLabel": "3×1.60",
+      "widthM": 3,
+      "depthM": 1.6,
+      "areaM2": 4.8,
+      "price": 6990,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 301.0,
+          "depth": 159.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 308.0,
+          "depth": 166.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": null,
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1000,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/9169dc67.webp",
+        "photos/e0b61509.webp",
+        "photos/6f88c7e0.webp",
+        "photos/218563be.webp",
+        "photos/a3eb6cbd.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-3x1-60"
+    },
+    {
+      "slug": "modubox-4x1-6",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 4×1.60",
+      "sizeLabel": "4×1.60",
+      "widthM": 4,
+      "depthM": 1.6,
+      "areaM2": 6.4,
+      "price": 7400,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 399.0,
+          "depth": 159.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 405.0,
+          "depth": 166.0,
+          "heightMin": 225.0,
+          "heightMax": 233.0
+        },
+        "inner": null,
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1100,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/de25c091.webp",
+        "photos/3a5a6abb.webp",
+        "photos/49470a5c.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-4x1-60"
+    },
+    {
+      "slug": "modubox-3x2",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 3×2",
+      "sizeLabel": "3×2",
+      "widthM": 3,
+      "depthM": 2,
+      "areaM2": 6,
+      "price": 7800,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 300.0,
+          "depth": 202.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 306.0,
+          "depth": 209.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": "194/291 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1000,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/0e9ce80c.webp",
+        "photos/27f645f0.webp",
+        "photos/39bd9bb4.webp",
+        "photos/c3af4c9a.webp",
+        "photos/7177ce78.webp",
+        "photos/0cfb93d3.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-2-3-1"
+    },
+    {
+      "slug": "modubox-4x2",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 4×2",
+      "sizeLabel": "4×2",
+      "widthM": 4,
+      "depthM": 2,
+      "areaM2": 8,
+      "price": 8800,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 399.0,
+          "depth": 203.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 405.0,
+          "depth": 210.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": "195/390 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1100,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/a6079b2a.webp",
+        "photos/f16e8132.webp",
+        "photos/0cf569d9.webp",
+        "photos/eee03e18.webp",
+        "photos/d4267a14.webp",
+        "photos/2e81c0ef.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-4-2"
+    },
+    {
+      "slug": "modubox-3x3",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 3×3",
+      "sizeLabel": "3×3",
+      "widthM": 3,
+      "depthM": 3,
+      "areaM2": 9,
+      "price": 9800,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 300.0,
+          "depth": 300.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 306.0,
+          "depth": 306.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": "291/291 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1200,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/683b0ddc.webp",
+        "photos/0a8d591f.webp",
+        "photos/3b0700d0.webp",
+        "photos/c87f8001.webp",
+        "photos/4aa938d0.webp",
+        "photos/358aea3c.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס"
+    },
+    {
+      "slug": "modubox-5x2",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 5×2",
+      "sizeLabel": "5×2",
+      "widthM": 5,
+      "depthM": 2,
+      "areaM2": 10,
+      "price": 10900,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 496.0,
+          "depth": 203.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 513.0,
+          "depth": 210.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": "195/488 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1400,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/e184e900.webp",
+        "photos/3835e234.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-5x2"
+    },
+    {
+      "slug": "modubox-4x3",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 4×3",
+      "sizeLabel": "4×3",
+      "widthM": 4,
+      "depthM": 3,
+      "areaM2": 12,
+      "price": 11990,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 397.0,
+          "depth": 300.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 404.0,
+          "depth": 306.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": "291/389 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1400,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/f1c86e7f.webp",
+        "photos/7b2976de.webp",
+        "photos/dc5dd38c.webp",
+        "photos/6a489771.webp",
+        "photos/d6d8d9ff.webp",
+        "photos/6800b8e3.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/4-3-מחסן-מודובוקס"
+    },
+    {
+      "slug": "modubox-6x2",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 6×2",
+      "sizeLabel": "6×2",
+      "widthM": 6,
+      "depthM": 2,
+      "areaM2": 12,
+      "price": 12500,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 595.0,
+          "depth": 203.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 601.0,
+          "depth": 210.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": "585/195 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1600,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/150eca13.webp",
+        "photos/72edbbac.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-גינה-מודובוקס-6x2"
+    },
+    {
+      "slug": "modubox-5x3",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 5×3",
+      "sizeLabel": "5×3",
+      "widthM": 5,
+      "depthM": 3,
+      "areaM2": 15,
+      "price": 14990,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": {
+          "width": 496.0,
+          "depth": 301.0,
+          "heightMin": 210.0,
+          "heightMax": 225.0
+        },
+        "outer": {
+          "width": 513.0,
+          "depth": 307.0,
+          "heightMin": 218.0,
+          "heightMax": 233.0
+        },
+        "inner": "292/488 ס\"מ",
+        "doorWidth": 91.5,
+        "doorOpening": 89.2
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1700,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/b16744e8.webp",
+        "photos/8b4fe247.webp",
+        "photos/f1889911.webp",
+        "photos/6a27cb21.webp",
+        "photos/8795c3bc.webp",
+        "photos/fd535fe4.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-מודובוקס-3-5"
+    },
+    {
+      "slug": "modubox-6x3",
+      "category": "modubox",
+      "name": "מחסן מודובוקס 6×3",
+      "sizeLabel": "6×3",
+      "widthM": 6,
+      "depthM": 3,
+      "areaM2": 18,
+      "price": 17900,
+      "badge": null,
+      "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
+      "dimensions": {
+        "base": null,
+        "outer": {
+          "width": 601,
+          "depth": 306,
+          "heightMin": 218,
+          "heightMax": 233
+        },
+        "inner": null,
+        "doorWidth": 91.5,
+        "doorOpening": 89.2,
+        "approximate": true
+      },
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": null,
+        "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
+      },
+      "warrantyYears": 10,
+      "configurable": true,
+      "addons": [
+        "profile-color",
+        "extra-door",
+        "double-door",
+        "sliding-window",
+        "glass-wall",
+        "vent-grill",
+        "electric-panel",
+        "shelf-4",
+        "shelf-5",
+        "ac",
+        "size-shortening",
+        "kip-window",
+        "mosquito-net",
+        "solar-light"
+      ],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/f1c86e7f.webp",
+        "photos/7b2976de.webp",
+        "photos/dc5dd38c.webp",
+        "photos/6800b8e3.webp"
+      ],
+      "oldUrl": null,
+      "todo": "TODO: אין עמוד מוצר באתר הישן – מחיר 17,900 ₪ מופיע בקטלוג. חסרים: מחיר הובלה+התקנה, מידות מדויקות, תמונות."
+    },
+    {
+      "slug": "gilboa-s",
+      "category": "gilboa",
+      "name": "מחסן גינה גלבוע S",
+      "sizeLabel": "2.10×1.15",
+      "widthM": 2.1,
+      "depthM": 1.15,
+      "areaM2": 2.41,
+      "price": 2590,
+      "badge": null,
+      "shortDescription": "מחסן פלסטיק איכותי מפוליפרופילן מוקשח עם דפנות כפולות ושלדת אלומיניום פנימית. לא מחליד ולא דורש תחזוקה.",
+      "dimensions": {
+        "outer": {
+          "width": 210,
+          "depth": 114.7,
+          "heightMin": 252,
+          "heightMax": 252
+        },
+        "wallHeight": 200.5
+      },
+      "fulfillment": {
+        "pickup": 0,
+        "pickupNote": "איסוף עצמי מקיבוץ עין חרוד",
+        "delivery": 300,
+        "deliveryNote": "הובלה בלבד – פריקה למדרכה",
+        "installation": null,
+        "deliveryAndInstallation": 600,
+        "note": "דרומית לבאר שבע ועד מצפה רמון ומעבר לקו הירוק: תוספת 200 ₪."
+      },
+      "warrantyYears": 5,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/1c86f4c5.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-גינה-גלבוע-s"
+    },
+    {
+      "slug": "gilboa-m",
+      "category": "gilboa",
+      "name": "מחסן גינה גלבוע M",
+      "sizeLabel": "2.10×1.65",
+      "widthM": 2.1,
+      "depthM": 1.64,
+      "areaM2": 3.45,
+      "price": 3290,
+      "badge": null,
+      "shortDescription": "מחסן פלסטיק איכותי מפוליפרופילן מוקשח עם דפנות כפולות ושלדת אלומיניום פנימית. לא מחליד ולא דורש תחזוקה.",
+      "dimensions": {
+        "outer": {
+          "width": 210,
+          "depth": 164.2,
+          "heightMin": 252,
+          "heightMax": 252
+        },
+        "wallHeight": 200.5
+      },
+      "fulfillment": {
+        "pickup": 0,
+        "pickupNote": "איסוף עצמי מקיבוץ עין חרוד",
+        "delivery": 300,
+        "deliveryNote": "הובלה בלבד – פריקה למדרכה",
+        "installation": null,
+        "deliveryAndInstallation": 700,
+        "note": "דרומית לבאר שבע ועד מצפה רמון ומעבר לקו הירוק: תוספת 200 ₪."
+      },
+      "warrantyYears": 5,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/f15188c0.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-גינה-גלבוע-מידה-m-2-10-1-65"
+    },
+    {
+      "slug": "gilboa-l",
+      "category": "gilboa",
+      "name": "מחסן גינה גלבוע L",
+      "sizeLabel": "2.10×2.10",
+      "widthM": 2.1,
+      "depthM": 2.14,
+      "areaM2": 4.49,
+      "price": 3990,
+      "badge": null,
+      "shortDescription": "מחסן פלסטיק איכותי מפוליפרופילן מוקשח עם דפנות כפולות ושלדת אלומיניום פנימית. לא מחליד ולא דורש תחזוקה.",
+      "dimensions": {
+        "outer": {
+          "width": 210,
+          "depth": 213.7,
+          "heightMin": 252,
+          "heightMax": 252
+        },
+        "wallHeight": 200.5
+      },
+      "fulfillment": {
+        "pickup": 0,
+        "pickupNote": "איסוף עצמי מקיבוץ עין חרוד",
+        "delivery": 300,
+        "deliveryNote": "הובלה בלבד – פריקה למדרכה",
+        "installation": null,
+        "deliveryAndInstallation": 800,
+        "note": "דרומית לבאר שבע ועד מצפה רמון ומעבר לקו הירוק: תוספת 200 ₪."
+      },
+      "warrantyYears": 5,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/53d5bd2d.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-גינה-גלבוע-מידה-l-2-10-2-10"
+    },
+    {
+      "slug": "gilboa-xl",
+      "category": "gilboa",
+      "name": "מחסן גינה גלבוע XL",
+      "sizeLabel": "2.10×2.60",
+      "widthM": 2.1,
+      "depthM": 2.63,
+      "areaM2": 5.53,
+      "price": 4990,
+      "badge": null,
+      "shortDescription": "מחסן פלסטיק איכותי מפוליפרופילן מוקשח עם דפנות כפולות ושלדת אלומיניום פנימית. לא מחליד ולא דורש תחזוקה.",
+      "dimensions": {
+        "outer": {
+          "width": 210,
+          "depth": 263.2,
+          "heightMin": 252,
+          "heightMax": 252
+        },
+        "wallHeight": 200.5
+      },
+      "fulfillment": {
+        "pickup": 0,
+        "pickupNote": "איסוף עצמי מקיבוץ עין חרוד",
+        "delivery": 300,
+        "deliveryNote": "הובלה בלבד – פריקה למדרכה",
+        "installation": null,
+        "deliveryAndInstallation": 800,
+        "note": "דרומית לבאר שבע ועד מצפה רמון ומעבר לקו הירוק: תוספת 200 ₪."
+      },
+      "warrantyYears": 5,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/4154d3a8.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מחסן-גינה-גלבוע-מידה-xl-2-10-2-60"
+    },
+    {
+      "slug": "toilet-1x1",
+      "category": "special",
+      "name": "מבנה שירותים 1×1",
+      "sizeLabel": "1×1",
+      "widthM": 1,
+      "depthM": 1,
+      "areaM2": 1,
+      "price": 4300,
+      "badge": null,
+      "shortDescription": "מבנה שירותים מפנל מבודד XPV עם רצפה פנימית קשיחה, דלת עם מנעול צילינדר וחלונות סקיילייט.",
+      "dimensions": null,
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 800,
+        "note": "הובלה והתקנה – התשלום מול המתקינים ביום ההתקנה",
+        "payToInstaller": true
+      },
+      "warrantyYears": 10,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/a2674b47.webp",
+        "photos/b78b8f73.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מבנה-שירותים-1x1"
+    },
+    {
+      "slug": "toilet-1-6x1",
+      "category": "special",
+      "name": "מבנה שירותים 1.6×1",
+      "sizeLabel": "1.6×1",
+      "widthM": 1.6,
+      "depthM": 1,
+      "areaM2": 1.6,
+      "price": 6600,
+      "badge": null,
+      "shortDescription": "מבנה שירותים מפנל מבודד XPV – כולל אסלה איכותית, כיור פינתי וברז, דלת עם מנעול צילינדר וסקיילייט.",
+      "dimensions": null,
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1000,
+        "note": "הובלה והתקנה – התשלום מול המתקינים ביום ההתקנה",
+        "payToInstaller": true
+      },
+      "warrantyYears": 10,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/bea318f3.webp",
+        "photos/dd817353.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מבנה-שירותים-1-6x1"
+    },
+    {
+      "slug": "toilet-2x1",
+      "category": "special",
+      "name": "מבנה שירותים 2×1",
+      "sizeLabel": "2×1",
+      "widthM": 2,
+      "depthM": 1,
+      "areaM2": 2,
+      "price": 6900,
+      "badge": null,
+      "shortDescription": "מבנה שירותים מפנל מבודד XPV – כולל אסלה, ארון עם כיור וברז ומראה.",
+      "dimensions": null,
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 1050,
+        "note": "הובלה והתקנה – התשלום מול המתקינים ביום ההתקנה",
+        "payToInstaller": true
+      },
+      "warrantyYears": 10,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/bf3508ba.webp",
+        "photos/729588d0.webp",
+        "photos/0fef20e6.webp",
+        "photos/f9c7c7ce.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מבנה-שירותים-2x1"
+    },
+    {
+      "slug": "toilet-shower-3x1",
+      "category": "special",
+      "name": "מבנה שירותים ומקלחת 3×1",
+      "sizeLabel": "3×1",
+      "widthM": 3,
+      "depthM": 1,
+      "areaM2": 3,
+      "price": 10200,
+      "badge": "חדש!",
+      "shortDescription": "מבנה שירותים ומקלחת מפנל מבודד XPV – אסלה, ארון כיור עם מראה ואגנית מקלחת עם טוש וברז.",
+      "dimensions": null,
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 2000,
+        "note": null
+      },
+      "warrantyYears": 10,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/5b9450fa.webp",
+        "photos/103d7625.webp",
+        "photos/af03b46f.webp",
+        "photos/d683a6e9.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/מבנה-שירותים-ומקלחת-3x1"
+    },
+    {
+      "slug": "guard-booth-2x2",
+      "category": "special",
+      "name": "עמדת שמירה 2×2",
+      "sizeLabel": "2×2",
+      "widthM": 2,
+      "depthM": 2,
+      "areaM2": 4,
+      "price": 12250,
+      "badge": null,
+      "shortDescription": "בוטקה שמירה מפנל מבודד ופרופילי אלומיניום חזקים, עם 3 חלונות הזזה ופאנל חשמל (תאורה ו־3 שקעים). המחיר כולל הובלה והרכבה.",
+      "dimensions": null,
+      "fulfillment": {
+        "pickup": null,
+        "delivery": null,
+        "installation": null,
+        "deliveryAndInstallation": 0,
+        "note": "המחיר כולל הובלה והרכבה"
+      },
+      "warrantyYears": 10,
+      "configurable": false,
+      "addons": [],
+      "addonPriceOverrides": {},
+      "images": [
+        "photos/a7bcde7e.webp",
+        "photos/7cec7c32.webp",
+        "photos/0f0cbe53.webp"
+      ],
+      "oldUrl": "https://www.modubox.com/product-page/עמדת-שמירה-2x2"
+    }
+  ]
+}

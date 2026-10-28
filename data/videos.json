@@ -1,0 +1,11 @@
+{
+  "_readme": "סרטוני יוטיוב. youtubeId = המזהה מהקישור (youtube.com/watch?v=XXXX).",
+  "videos": [
+    { "youtubeId": "HeG68YSVfmg", "title": "בניית מחסן פאנל מבודד בהילוך מהיר" },
+    { "youtubeId": "aJVSlFyo4YU", "title": "מחסן מודובוקס ענק עם ויטרינות" },
+    { "youtubeId": "VDANB6cIfNg", "title": "בניית סטודיו מפאנל מבודד" },
+    { "youtubeId": "gz5W_HCGFXo", "title": "הרכבת מחסן 3×2 בהילוך מהיר" },
+    { "youtubeId": "PfxZivCF1A4", "title": "בניית מחסן מפאנל מבודד" },
+    { "youtubeId": "OErvwbC8pS8", "title": "בניית מחסן פנל מבודד מודובוקס" }
+  ]
+}

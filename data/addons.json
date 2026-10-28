@@ -1,0 +1,165 @@
+{
+  "_readme": "תוספות למחסני מודובוקס. price = מחיר בש\"ח כולל מע\"מ. null = מחיר בתיאום (TODO). maxQty = כמה יחידות מותר לבחור. ראו README.md.",
+  "addons": [
+    {
+      "id": "profile-color",
+      "name": "צבע פרופילי אלומיניום",
+      "group": "עיצוב",
+      "kind": "choice",
+      "choices": [
+        { "id": "white", "label": "לבן", "price": 0, "swatch": "#f4f4f2" },
+        { "id": "black", "label": "שחור", "price": 0, "swatch": "#1d1f22" }
+      ],
+      "default": "white",
+      "description": "צבע השלדה והפרופילים. ללא תוספת מחיר."
+    },
+    {
+      "id": "double-door",
+      "name": "דלת כפולה (פתח 1.80 מ')",
+      "group": "דלתות וחלונות",
+      "kind": "toggle",
+      "price": 1190,
+      "image": "photos/565e14b7.webp",
+      "description": "החלפת הדלת הראשית בדלת כפולה – פתח רחב במיוחד להכנסת ציוד גדול, אופנועים, ריהוט ומכונות.",
+      "minWidthM": 2
+    },
+    {
+      "id": "extra-door",
+      "name": "דלת נוספת",
+      "group": "דלתות וחלונות",
+      "kind": "qty",
+      "price": 1190,
+      "maxQty": 3,
+      "image": "photos/5433c890.webp",
+      "description": "דלת מעוצבת נוספת עם מנעול, בכל קיר שתבחרו – גישה למחסן מכל כיוון."
+    },
+    {
+      "id": "sliding-window",
+      "name": "חלון הזזה כולל רשת",
+      "group": "דלתות וחלונות",
+      "kind": "qty",
+      "price": 1190,
+      "maxQty": 4,
+      "image": "photos/a9cf21c8.webp",
+      "description": "סוף סוף! חלון הזזה כולל רשת, מותאם למחסני מודובוקס. אור ואוורור טבעי."
+    },
+    {
+      "id": "glass-wall",
+      "name": "קיר זכוכית ויטרינה",
+      "group": "דלתות וחלונות",
+      "kind": "choice",
+      "choices": [
+        { "id": "none", "label": "ללא", "price": 0 },
+        { "id": "glass", "label": "ויטרינה – זכוכית כפולה מבודדת", "price": 1190 },
+        { "id": "glass-shutter", "label": "ויטרינה + תריס ונציאני מובנה", "price": 1990 }
+      ],
+      "default": "none",
+      "image": "photos/2c981b23.webp",
+      "description": "קיר זכוכית מחוסמת DOUBLE GLAZE כפולה ובידודית. אפשר עם תריס ונציאני מובנה בזכוכית עם פתיחה והרמה מגנטית.",
+      "minWidthM": 1
+    },
+    {
+      "id": "electric-panel",
+      "name": "פאנל חיבור לחשמל",
+      "group": "חשמל ומיזוג",
+      "kind": "toggle",
+      "price": 1790,
+      "image": "photos/ce126ab7.webp",
+      "description": "הגנה נגד התחשמלות, מפסקים חצי אוטומטיים לשקעים ולתאורה, 2 שקעים עליונים (הכנה למזגן ותקשורת) + 2 שקעים, תאורת לד עם מפסק, חיבור חד-פאזי עמיד במים."
+    },
+    {
+      "id": "ac",
+      "name": "מזגן אינוורטר",
+      "group": "חשמל ומיזוג",
+      "kind": "choice",
+      "choices": [
+        { "id": "none", "label": "ללא", "price": 0 },
+        { "id": "iska-1", "label": "איסקה אינוורטר 1 כ\"ס (מבצע לרוכשי מחסן)", "price": 1350 },
+        { "id": "tornado-12", "label": "Tornado 1 כ\"ס INV-12 WIFI", "price": 1400 },
+        { "id": "tornado-16", "label": "Tornado 1.25 כ\"ס INV-16 WIFI", "price": 1550 },
+        { "id": "tornado-18", "label": "Tornado 1.5 כ\"ס INV-18 WIFI", "price": 2300 },
+        { "id": "tornado-22", "label": "Tornado 2 כ\"ס INV-22 WIFI", "price": 2700 }
+      ],
+      "default": "none",
+      "note": "לא כולל התקנה. מומלץ לשלב עם פאנל חיבור לחשמל.",
+      "description": "מזגן עילי אינוורטר חסכוני ושקט, ניתן לרכישה כתוספת למחסן בלבד."
+    },
+    {
+      "id": "vent-grill",
+      "name": "גריל לאוורור",
+      "group": "אוורור",
+      "kind": "qty",
+      "price": 190,
+      "maxQty": 4,
+      "image": "photos/c8230334.webp",
+      "description": "למי שלא רוצה מבנה אטום לגמרי ורוצה תחלופה של אוויר."
+    },
+    {
+      "id": "shelf-4",
+      "name": "כוננית אוורסט 4 מדפים",
+      "group": "אחסון פנימי",
+      "kind": "qty",
+      "price": 250,
+      "maxQty": 6,
+      "image": "photos/2bf4a45d.webp",
+      "description": "שלדת מתכת ומדפי עץ בציפוי למינציה. עד 120 ק\"ג למדף. 96×40×183 ס\"מ."
+    },
+    {
+      "id": "shelf-5",
+      "name": "כוננית אוורסט 5 מדפים",
+      "group": "אחסון פנימי",
+      "kind": "qty",
+      "price": 300,
+      "maxQty": 6,
+      "image": "photos/cf06b2d0.webp",
+      "description": "שלדת מתכת ומדפי עץ בציפוי למינציה. עד 120 ק\"ג למדף. 96×40×190.5 ס\"מ."
+    },
+    {
+      "id": "platform",
+      "name": "במה מפנל מבודד",
+      "group": "בסיס",
+      "kind": "toggle",
+      "price": null,
+      "description": "המחסן אינו יכול לעמוד על אדמה בלבד – במה מפנל מבודד בעובי 4 ס\"מ עם סגירת אלומיניום לבנה בצדדים. המחיר משתנה לפי דגם."
+    },
+    {
+      "id": "size-shortening",
+      "name": "התאמת מידות (קיצור לפי מידה)",
+      "group": "התאמה אישית",
+      "kind": "choice",
+      "choices": [
+        { "id": "none", "label": "מידה סטנדרטית", "price": 0 },
+        { "id": "width", "label": "קיצור רוחב", "price": 500 },
+        { "id": "depth", "label": "קיצור עומק", "price": 600 },
+        { "id": "width-depth", "label": "קיצור רוחב + עומק", "price": 1000 },
+        { "id": "height", "label": "קיצור גובה", "price": 1000 }
+      ],
+      "default": "none",
+      "description": "צריכים מחסן שייכנס בדיוק לפינה? נקצר עבורכם את המידות. את המידה המדויקת נתאם בטלפון."
+    },
+    {
+      "id": "kip-window",
+      "name": "חלון קיפ",
+      "group": "דלתות וחלונות",
+      "kind": "toggle",
+      "price": null,
+      "description": "TODO: מחיר לא מופיע באתר הישן – מחיר בתיאום."
+    },
+    {
+      "id": "mosquito-net",
+      "name": "רשת נגד יתושים",
+      "group": "אוורור",
+      "kind": "toggle",
+      "price": null,
+      "description": "TODO: מחיר לא מופיע באתר הישן – מחיר בתיאום."
+    },
+    {
+      "id": "solar-light",
+      "name": "ערכת תאורה סולארית",
+      "group": "חשמל ומיזוג",
+      "kind": "toggle",
+      "price": null,
+      "description": "TODO: מחיר לא מופיע באתר הישן – מחיר בתיאום."
+    }
+  ]
+}

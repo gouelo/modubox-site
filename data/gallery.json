@@ -1,0 +1,125 @@
+{
+  "_readme": "תמונות לגלריה. src = קובץ בתוך public/images. alt = תיאור קצר.",
+  "images": [
+    {
+      "src": "photos/2c981b23.webp",
+      "alt": "משרד גינה עם קיר ויטרינה"
+    },
+    {
+      "src": "photos/005a75bc.webp",
+      "alt": "סטודיו עם קירות זכוכית"
+    },
+    {
+      "src": "photos/7b2976de.webp",
+      "alt": "חדר עבודה בחצר"
+    },
+    {
+      "src": "photos/8795c3bc.webp",
+      "alt": "חדר אירוח עם מזגן"
+    },
+    {
+      "src": "photos/dc5dd38c.webp",
+      "alt": "משרד ביתי"
+    },
+    {
+      "src": "photos/f1889911.webp",
+      "alt": "יחידת חצר מאובזרת"
+    },
+    {
+      "src": "photos/39bd9bb4.webp",
+      "alt": "חדר כושר ביתי"
+    },
+    {
+      "src": "photos/8b4fe247.webp",
+      "alt": "יחידת חצר על דק"
+    },
+    {
+      "src": "photos/72edbbac.webp",
+      "alt": "מחסן גינה גדול"
+    },
+    {
+      "src": "photos/0134117e.webp",
+      "alt": "מחסן מודובוקס"
+    },
+    {
+      "src": "photos/2266500b.webp",
+      "alt": "מחסן מודובוקס"
+    },
+    {
+      "src": "photos/912976d2.webp",
+      "alt": "מחסן מודובוקס"
+    },
+    {
+      "src": "photos/f16e8132.webp",
+      "alt": "מחסן מודובוקס"
+    },
+    {
+      "src": "photos/a513e6a7.webp",
+      "alt": "מחסן ליד הבריכה"
+    },
+    {
+      "src": "photos/6edae768.webp",
+      "alt": "ארון למכונת כביסה ומייבש"
+    },
+    {
+      "src": "photos/b16744e8.webp",
+      "alt": "מחסן מודובוקס"
+    },
+    {
+      "src": "photos/d683a6e9.webp",
+      "alt": "מחסן מודובוקס בחצר"
+    },
+    {
+      "src": "photos/7fff7988.webp",
+      "alt": "מחסן מודובוקס"
+    },
+    {
+      "src": "photos/6a489771.webp",
+      "alt": "מחסן מודובוקס"
+    },
+    {
+      "src": "photos/13ae0513.webp",
+      "alt": "גריל אוורור ומזגן"
+    },
+    {
+      "src": "photos/eaf74084.webp",
+      "alt": "מזגן על מחסן מודובוקס"
+    },
+    {
+      "src": "photos/d6d8d9ff.webp",
+      "alt": "ויטרינות בפרויקט אמיתי"
+    },
+    {
+      "src": "photos/be3e5de6.webp",
+      "alt": "מבנה גדול בהתקנה"
+    },
+    {
+      "src": "photos/eae52cba.webp",
+      "alt": "שילוט Modubox"
+    },
+    {
+      "src": "photos/7180af37.webp",
+      "alt": "מחסן מודובוקס"
+    },
+    {
+      "src": "photos/a2d69812.webp",
+      "alt": "מבנה שירותים לאתר בנייה"
+    },
+    {
+      "src": "photos/7cec7c32.webp",
+      "alt": "עמדת שמירה"
+    },
+    {
+      "src": "photos/bea318f3.webp",
+      "alt": "מבנה שירותים"
+    },
+    {
+      "src": "photos/30ee5b71.webp",
+      "alt": "מחסן כביסה – תמונה מלקוח"
+    },
+    {
+      "src": "photos/722fbfb6.webp",
+      "alt": "סידור פנימי עם מדפים"
+    }
+  ]
+}

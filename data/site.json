@@ -1,0 +1,32 @@
+{
+  "_readme": "פרטי העסק – מופיעים בכל האתר. עדכנו כאן טלפון, וואטסאפ, כתובת וכו'.",
+  "name": "מודובוקס",
+  "nameEn": "Modubox",
+  "tagline": "מבנים מודולריים מפנל מבודד – מחסנים, משרדים ויחידות חצר",
+  "url": "https://www.modubox.com",
+  "phone": "072-3954739",
+  "phoneAlt": "073-8020040",
+  "shortCode": "*3748",
+  "whatsapp": "972529555057",
+  "whatsappGreeting": "היי מודובוקס! אשמח לקבל פרטים נוספים",
+  "email": "sales@modubox.com",
+  "factory": "קיבוץ עין חרוד מאוחד",
+  "factory2": "אזור תעשייה מבוא חורון",
+  "pickupLocation": "מחסני רדיוס, קיבוץ עין חרוד מאוחד",
+  "hours": "TODO: שעות פעילות – לא מופיעות באתר הישן",
+  "googleReviewsUrl": "https://www.google.com/search?q=%D7%9E%D7%95%D7%93%D7%95%D7%91%D7%95%D7%A7%D7%A1#lrd=0x1502cffd485695b1:0xc72e9c9ced498570,1,,,",
+  "rating": 4.9,
+  "reviewCount": 211,
+  "social": {
+    "facebook": "https://www.facebook.com/moduboxofficial",
+    "instagram": "https://www.instagram.com/moduboxofficial",
+    "youtube": "https://www.youtube.com/channel/UCfMSftclKtV8nJJqCNz0Btg/videos"
+  },
+  "installationDays": 21,
+  "warrantyYears": 10,
+  "maxPayments": 12,
+  "leadFormEndpoint": "",
+  "paymentProvider": "TODO: Cardcom / Tranzila / Grow",
+  "logo": "/brand/logo.svg",
+  "logoWhite": "/brand/logo-white.svg"
+}
