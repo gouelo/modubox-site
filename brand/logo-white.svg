@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 44" role="img" aria-label="Modubox">
+  <g transform="translate(2 4)">
+    <path d="M18 0 34 9v18L18 36 2 27V9z" fill="#12a3b4"/>
+    <path d="M18 0 34 9 18 18 2 9z" fill="#5fd0dc"/>
+    <path d="M18 18v18L2 27V9z" fill="#0b7280"/>
+  </g>
+  <text x="46" y="31" font-family="Heebo, Arial, sans-serif" font-size="25" font-weight="800" letter-spacing="2.5" fill="#ffffff">MODUBOX</text>
+</svg>

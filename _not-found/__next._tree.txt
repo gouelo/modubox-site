@@ -1,0 +1,5 @@
+:HL["/modubox-site/_next/static/chunks/3uvdrxjvyg2yy.css","style"]
+:HL["/modubox-site/brand/logo-white.svg","image"]
+2:[["children",{"s":"__PAGE__","h":160}]]
+1:[["children",{"s":"/_not-found","h":64,"c":"$Q2"}]]
+0:{"b":"PJzCMCY95L2-KATmU8435","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
