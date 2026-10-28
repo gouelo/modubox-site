@@ -3,4 +3,4 @@
 :HL["/modubox-site/_next/static/media/d0c0bfa28634aa91-s.p.3dq6enaul-s3b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/brand/logo-white.svg","image"]
 1:[["children",{"s":"__PAGE__","h":128}]]
-0:{"b":"PJzCMCY95L2-KATmU8435","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"JPG55-DUhW2sKC7bShywl","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
