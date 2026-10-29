@@ -6,9 +6,9 @@ import { Logo } from "./Logo";
 
 export function Footer() {
   return (
-    <footer className="mt-24 bg-ink text-white/80">
-      <div className="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
-        <div className="space-y-4">
+    <footer className="mt-16 bg-ink text-white/80 sm:mt-24">
+      <div className="container-x grid grid-cols-2 gap-x-6 gap-y-8 py-10 sm:py-14 lg:grid-cols-4">
+        <div className="col-span-2 space-y-4 lg:col-span-1">
           <Logo white className="h-8 w-auto" />
           <p className="leading-7 text-white/70">{site.tagline}. פיתוח וייצור ישראלי, {site.warrantyYears} שנות אחריות והתקנה עד הבית.</p>
           <div className="flex gap-2">
@@ -33,8 +33,6 @@ export function Footer() {
                 <Link href={`/shop/#${c.id}`} className="hover:text-white">{c.title}</Link>
               </li>
             ))}
-            <li><Link href="/shop/#addons" className="hover:text-white">תוספות למחסן</Link></li>
-            <li><Link href="/configurator/" className="hover:text-white">קונפיגורטור 3D</Link></li>
           </ul>
         </div>
         <div>
@@ -44,10 +42,10 @@ export function Footer() {
             <li><Link href="/gallery/" className="hover:text-white">גלריה וסרטונים</Link></li>
             <li><Link href="/warranty/" className="hover:text-white">אחריות ושירות</Link></li>
             <li><Link href="/terms/" className="hover:text-white">תקנון האתר</Link></li>
-            <li><Link href="/#faq" className="hover:text-white">שאלות נפוצות</Link></li>
+            <li><Link href="/faq/" className="hover:text-white">שאלות נפוצות</Link></li>
           </ul>
         </div>
-        <div>
+        <div className="col-span-2 lg:col-span-1">
           <h3 className="mb-4 font-bold text-white">דברו איתנו</h3>
           <ul className="space-y-3">
             <li>

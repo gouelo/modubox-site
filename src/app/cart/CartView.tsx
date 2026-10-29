@@ -3,19 +3,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
-import { TrustBar } from "@/components/TrustBar";
 import { useCart } from "@/lib/cart-store";
 import { site } from "@/lib/catalog";
 import { formatILS } from "@/lib/format";
 import { fulfillmentOptions, summarizeCart, type CartSummary } from "@/lib/pricing";
-import { encodeSelections } from "@/lib/share";
 import { useHydrated } from "@/lib/use-hydrated";
 import { orderMessage, waLink } from "@/lib/whatsapp";
 
 export function Totals({ cart }: { cart: CartSummary }) {
   return (
     <dl className="space-y-2 text-[15px]">
-      <div className="flex justify-between"><dt className="text-ink-soft">מוצרים ותוספות</dt><dd className="font-semibold">{formatILS(cart.itemsTotal)}</dd></div>
+      <div className="flex justify-between"><dt className="text-ink-soft">מוצרים</dt><dd className="font-semibold">{formatILS(cart.itemsTotal)}</dd></div>
       <div className="flex justify-between"><dt className="text-ink-soft">הובלה והתקנה</dt><dd className="font-semibold">{cart.fulfillmentTotal ? formatILS(cart.fulfillmentTotal) : "—"}</dd></div>
       <div className="flex items-end justify-between border-t border-line pt-3">
         <dt className="font-bold">סה"כ לתשלום</dt>
@@ -40,11 +38,8 @@ export function CartView() {
       <div className="mt-10 rounded-3xl bg-sand p-10 text-center">
         <span className="mx-auto grid size-16 place-items-center rounded-full bg-white text-ink/40"><Icon name="cart" className="size-8" /></span>
         <p className="mt-4 text-xl font-extrabold">הסל ריק</p>
-        <p className="mt-1 text-ink-soft">בחרו מידה ועצבו את המחסן שלכם – זה לוקח דקה.</p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link href="/configurator/" className="btn-brand"><Icon name="cube" /> לקונפיגורטור</Link>
-          <Link href="/shop/" className="btn-ghost">לקטלוג</Link>
-        </div>
+        <p className="mt-1 text-ink-soft">בחרו מידה מהקטלוג – זה לוקח דקה.</p>
+        <Link href="/shop/" className="btn-primary mt-6">לקטלוג</Link>
       </div>
     );
 
@@ -54,7 +49,7 @@ export function CartView() {
         <AnimatePresence initial={false}>
           {cart.lines.map((l) => {
             const options = fulfillmentOptions(l.product);
-            const editHref = `/product/${l.product.slug}/${Object.keys(l.item.selections).length ? `#c=${encodeSelections(l.item.selections)}` : ""}`;
+            const editHref = `/product/${l.product.slug}/`;
             return (
               <motion.li key={l.item.id} layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: 40 }} className="card p-4 sm:p-5">
                 <div className="flex gap-4">
@@ -83,7 +78,6 @@ export function CartView() {
                       </div>
                       <span className="text-xl font-black">{formatILS(l.itemsTotal)}</span>
                     </div>
-                    <Link href={editHref} className="mt-2 inline-block text-sm font-semibold text-brand-dark underline-offset-4 hover:underline">עריכת התוספות</Link>
                   </div>
                 </div>
                 <fieldset className="mt-4 border-t border-line pt-4">
@@ -116,7 +110,6 @@ export function CartView() {
             <a href={`tel:${site.phone}`} className="btn-ghost w-full"><Icon name="phone" /> הזמנה בטלפון</a>
           </div>
         </div>
-        <div className="mt-4"><TrustBar /></div>
       </aside>
 
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 p-3 backdrop-blur lg:hidden">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Faq } from "@/components/Faq";
+import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { LeadForm } from "@/components/LeadForm";
 import { site } from "@/lib/catalog";
@@ -43,7 +43,7 @@ export default function ContactPage() {
             <p className="mt-2 text-sm text-ink-soft">ביקור בתצוגה – בתיאום מראש. {site.hours.startsWith("TODO") ? "" : site.hours}</p>
             <a href={`https://waze.com/ul?q=${encodeURIComponent(site.factory)}`} target="_blank" rel="noopener" className="btn-ghost mt-4">ניווט עם Waze</a>
           </div>
-          <Faq limit={4} />
+          <Link href="/faq/" className="btn-ghost w-full">לשאלות הנפוצות ←</Link>
         </div>
       </div>
     </div>

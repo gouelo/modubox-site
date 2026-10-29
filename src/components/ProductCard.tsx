@@ -24,26 +24,26 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         {product.badge && (
           <span className="absolute top-3 start-3 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white shadow">{product.badge}</span>
         )}
-        <span className="absolute bottom-3 end-3 rounded-xl bg-white/95 px-2.5 py-1 text-lg font-black shadow backdrop-blur" dir="ltr">
+        <span className="absolute bottom-2 end-2 rounded-lg bg-white/95 px-2 py-0.5 font-black shadow sm:bottom-3 sm:end-3 sm:px-2.5 sm:py-1 sm:text-lg" dir="ltr">
           {product.sizeLabel}
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-3 p-4">
+      <div className="flex flex-1 flex-col gap-2 p-3 sm:gap-3 sm:p-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h3 className="font-extrabold leading-snug">{product.name}</h3>
-            <p className="mt-0.5 text-sm text-ink-soft">{product.areaM2} מ"ר{product.dimensions?.outer ? ` · גובה עד ${Math.round(product.dimensions.outer.heightMax)} ס"מ` : ""}</p>
+            <h3 className="text-[15px] font-extrabold leading-snug sm:text-base">{product.name}</h3>
+            <p className="mt-0.5 text-xs text-ink-soft sm:text-sm">{product.areaM2} מ"ר{product.dimensions?.outer ? ` · גובה עד ${Math.round(product.dimensions.outer.heightMax)} ס"מ` : ""}</p>
           </div>
-          <Footprint w={product.widthM} d={product.depthM} className="size-12 shrink-0 text-ink" />
+          <Footprint w={product.widthM} d={product.depthM} className="hidden size-12 shrink-0 text-ink sm:block" />
         </div>
         <div className="mt-auto flex items-end justify-between">
           <div>
-            <p className="text-2xl font-black tracking-tight">{formatILS(product.price)}</p>
+            <p className="text-xl font-black tracking-tight sm:text-2xl">{formatILS(product.price)}</p>
             <p className="text-xs text-ink-soft">
               {delivery === null ? "הובלה בתיאום" : delivery === 0 ? "כולל הובלה והרכבה" : `+ הובלה והתקנה ${formatILS(delivery)}`}
             </p>
           </div>
-          <span className="grid size-10 place-items-center rounded-full bg-ink text-white transition group-hover:bg-brand">
+          <span className="hidden size-10 place-items-center rounded-full bg-ink text-white transition group-hover:bg-brand sm:grid">
             <Icon name="arrow" className="size-5" />
           </span>
         </div>

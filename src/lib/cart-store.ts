@@ -27,6 +27,15 @@ export const useCart = create<CartState>()(
       remove: (id) => set((s) => ({ items: s.items.filter((i) => i.id !== id) })),
       clear: () => set({ items: [] }),
     }),
-    { name: "modubox-cart", version: 1, partialize: (s) => ({ items: s.items }) },
+    {
+      name: "modubox-cart",
+      version: 2,
+      partialize: (s) => ({ items: s.items }),
+      // v1 carts carried add-ons from the old 3D configurator; v2 sells the base product only
+      migrate: (state) => {
+        const s = state as { items?: CartItem[] };
+        return { items: (s.items ?? []).map((i) => ({ ...i, selections: {} })) } as CartState;
+      },
+    },
   ),
 );

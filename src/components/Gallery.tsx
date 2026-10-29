@@ -42,10 +42,10 @@ export function Gallery({ images, layout = "masonry" }: { images: GalleryImage[]
           ))}
         </div>
       ) : (
-        <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 sm:mx-0 sm:px-0">
           {images.map((img, i) => (
-            <button key={img.src + i} type="button" onClick={() => setIndex(i)} className="relative aspect-[4/3] w-[78%] shrink-0 snap-start overflow-hidden rounded-2xl bg-sand sm:w-[38%] lg:w-[28%]">
-              <Image src={img.src} alt={img.alt} fill sizes="(min-width:1024px) 28vw, 78vw" className="object-cover" />
+            <button key={img.src + i} type="button" onClick={() => setIndex(i)} className="relative aspect-[4/3] w-24 shrink-0 snap-start overflow-hidden rounded-xl bg-sand sm:w-28" aria-label={`הגדלת ${img.alt}`}>
+              <Image src={img.src} alt="" fill sizes="112px" className="object-cover" />
             </button>
           ))}
         </div>
