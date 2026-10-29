@@ -1,5 +1,5 @@
-:HL["/modubox-site/_next/static/chunks/10-yvldrenlh1.css","style"]
+:HL["/modubox-site/_next/static/chunks/03by3-nol08ps.css","style"]
 :HL["/modubox-site/brand/logo-white.svg","image"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":64,"c":"$Q2"}]]
-0:{"b":"2mK6-37hT2nsxqPstYzLu","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"l-V97UsRQsHzNxH2UFmOS","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
