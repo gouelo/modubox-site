@@ -81,7 +81,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <Image src={product.images[0]} alt={product.name} fill priority sizes="(min-width:1024px) 58vw, 100vw" className="object-cover" />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/50 to-transparent" />
             {product.badge && <span className="absolute top-3 start-3 rounded-full bg-copper px-3 py-1 text-xs font-bold text-white">{product.badge}</span>}
-            <span className="absolute bottom-3 end-4 font-display text-5xl font-bold text-white drop-shadow-lg sm:text-6xl" dir="ltr">{product.sizeLabel}</span>
+            <span className="absolute bottom-3 end-4 font-display text-5xl font-extrabold text-white drop-shadow-lg sm:text-6xl" dir="ltr">{product.sizeLabel}</span>
           </div>
           {product.images.length > 1 && (
             <Gallery layout="strip" images={product.images.map((src, i) => ({ src, alt: `${product.name} – תמונה ${i + 1}` }))} />
@@ -90,12 +90,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
         <div className="lg:self-center">
           <p className="eyebrow">{range?.subtitle}</p>
-          <h1 className="mt-2 text-[2.4rem] font-bold leading-[1.05] sm:text-5xl">{product.name}</h1>
+          <h1 className="mt-2 text-[2.4rem] font-extrabold leading-[1.05] sm:text-5xl">{product.name}</h1>
           <a href={site.googleReviewsUrl} target="_blank" rel="noopener" className="mt-2 inline-flex items-center gap-1.5 text-sm text-ink-soft">
             <Stars value={5} className="size-3.5" /> {site.rating} · {site.reviewCount} ביקורות בגוגל
           </a>
           <div className="mt-5 flex items-end gap-3">
-            <p className="font-display text-5xl font-bold leading-none tabular-nums">{formatILS(product.price)}</p>
+            <p className="font-display text-5xl font-extrabold leading-none tabular-nums">{formatILS(product.price)}</p>
             <p className="pb-1 text-sm leading-tight text-ink-soft">כולל מע&quot;מ<br />עד {site.maxPayments} תשלומים</p>
           </div>
           {product.todo && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 ring-1 ring-amber-200">⚠️ {product.todo}</p>}
@@ -131,7 +131,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       <section className="mt-12 grid gap-6 sm:mt-16 lg:grid-cols-[1fr_1.4fr] lg:gap-12">
         <div>
-          <h2 className="text-3xl font-bold">מפרט</h2>
+          <h2 className="text-3xl font-extrabold">מפרט</h2>
           <p className="mt-2 text-ink-soft">
             <Icon name="truck" className="me-1 inline size-4 align-[-2px] text-brand-dark" /> הובלה והתקנה נבחרות בסל · <Link href="/terms/" className="underline">תנאים</Link> · <Link href="/warranty/" className="underline">אחריות</Link>
           </p>
@@ -151,7 +151,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {!configurable && sizes.length > 1 && (
         <section className="mt-12">
-          <h2 className="mb-3 text-2xl font-bold">מידות נוספות</h2>
+          <h2 className="mb-3 text-2xl font-extrabold">מידות נוספות</h2>
           <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:px-0">
             {sizes.map((p) => (
               <Link

@@ -9,7 +9,7 @@ export function ReviewCard({ name, text, date, rating }: { name: string; text: s
         <Stars value={rating} />
         <Icon name="google" className="size-5 text-ink/25" />
       </div>
-      <blockquote className="line-clamp-5 flex-1 font-display text-xl leading-8 text-ink">“{text}”</blockquote>
+      <blockquote className="line-clamp-5 flex-1 text-xl font-medium leading-8 text-ink">“{text}”</blockquote>
       <figcaption className="flex items-center gap-3">
         <span className="grid size-10 place-items-center rounded-full bg-ink font-bold text-white">{name.trim()[0]}</span>
         <span>

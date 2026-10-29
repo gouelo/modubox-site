@@ -74,7 +74,7 @@ export default function Home() {
               ].map(([v, k]) => (
                 <div key={k} className="px-3 text-center">
                   <dt className="sr-only">{k}</dt>
-                  <dd className="font-display text-2xl font-bold sm:text-3xl">{v}</dd>
+                  <dd className="font-display text-2xl font-extrabold sm:text-3xl">{v}</dd>
                   <dd className="text-xs text-white/65">{k}</dd>
                 </div>
               ))}

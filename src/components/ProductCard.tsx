@@ -22,7 +22,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           <span className="absolute top-3 start-3 rounded-full bg-copper px-3 py-1 text-xs font-bold text-white shadow">{product.badge}</span>
         )}
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-3 text-white sm:p-4">
-          <span className="font-display text-[2rem] font-bold leading-none drop-shadow sm:text-5xl" dir="ltr">{product.sizeLabel}</span>
+          <span className="font-display text-[2rem] font-extrabold leading-none drop-shadow sm:text-5xl" dir="ltr">{product.sizeLabel}</span>
           <span className="hidden size-10 place-items-center rounded-full bg-white/15 backdrop-blur-md sm:grid transition duration-500 group-hover:bg-white group-hover:text-ink">
             <Icon name="arrow" className="size-4" />
           </span>

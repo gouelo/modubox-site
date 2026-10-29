@@ -12,7 +12,7 @@ export default function ShopPage() {
   return (
     <div className="container-x py-8 sm:py-12">
       <header className="max-w-3xl">
-        <h1 className="text-3xl font-black tracking-tight sm:text-5xl">כל המחסנים והמבנים</h1>
+        <h1 className="text-3xl font-extrabold sm:text-5xl">כל המחסנים והמבנים</h1>
         <p className="mt-2 text-ink-soft">המחירים כוללים מע&quot;מ. הובלה והתקנה נבחרות בסל.</p>
       </header>
       <nav className="no-scrollbar sticky top-16 z-20 -mx-4 mt-4 flex gap-2 overflow-x-auto bg-white/90 px-4 py-3 backdrop-blur lg:top-[72px]" aria-label="קטגוריות">
@@ -26,7 +26,7 @@ export default function ShopPage() {
         <section key={c.id} id={c.id} className="scroll-mt-36 pt-8">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-black sm:text-3xl">{c.title}</h2>
+              <h2 className="text-2xl font-extrabold sm:text-3xl">{c.title}</h2>
               <p className="text-ink-soft">{c.subtitle}</p>
             </div>
           </div>

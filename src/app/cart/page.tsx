@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "סל הקניות", robots: { index:
 export default function Page() {
   return (
     <div className="container-x py-10">
-      <h1 className="text-3xl font-black tracking-tight sm:text-4xl">סל הקניות</h1>
+      <h1 className="text-3xl font-extrabold sm:text-4xl">סל הקניות</h1>
       <CartView />
     </div>
   );

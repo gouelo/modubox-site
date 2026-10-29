@@ -4,12 +4,13 @@
  * Design system
  * - Ink (near-black with a green cast) and deep petrol carry the brand; teal is
  *   the action colour; copper marks highlights and "price on request".
- * - Headlines in Frank Ruhl Libre (serif display), everything else in Heebo.
+ * - One family, Heebo (variable): headlines in ExtraBold with tight tracking,
+ *   body in Regular. No serifs.
  * - Light surfaces are cool mist, not beige.
  */
 @theme {
   --font-sans: var(--font-heebo), system-ui, sans-serif;
-  --font-display: var(--font-frank), var(--font-heebo), Georgia, serif;
+  --font-display: var(--font-heebo), system-ui, sans-serif;
   --color-ink: #0a1517;
   --color-ink-soft: #46575b;
   --color-night: #061012;
@@ -54,7 +55,8 @@ body {
 h1,
 h2 {
   font-family: var(--font-display);
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 ::selection {
@@ -67,6 +69,7 @@ h2 {
 }
 @utility font-display {
   font-family: var(--font-display);
+  letter-spacing: -0.03em;
 }
 @utility btn {
   @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-[15px] font-bold transition-all duration-300 ease-(--ease-out-expo) active:scale-[0.97] disabled:pointer-events-none disabled:opacity-40;
@@ -90,7 +93,7 @@ h2 {
   @apply inline-flex items-center gap-2 text-[13px] font-bold tracking-[0.08em] text-brand-dark;
 }
 @utility h-section {
-  @apply font-display text-[2rem] font-bold leading-[1.1] text-balance sm:text-5xl;
+  @apply font-display text-[2rem] font-extrabold leading-[1.08] text-balance sm:text-5xl;
 }
 @utility card {
   @apply rounded-xl2 border border-line bg-white shadow-soft;
@@ -105,10 +108,10 @@ h2 {
 
 @layer components {
   .prose-he h1 {
-    @apply mb-6 text-3xl font-bold sm:text-5xl;
+    @apply mb-6 text-3xl font-extrabold sm:text-5xl;
   }
   .prose-he h2 {
-    @apply mt-10 mb-4 text-2xl font-bold;
+    @apply mt-10 mb-4 text-2xl font-extrabold;
   }
   .prose-he h3 {
     @apply mt-6 mb-2 text-lg font-bold;

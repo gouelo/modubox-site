@@ -83,7 +83,7 @@ export function AddonBuilder({ product, sizes }: Props) {
           <Icon name={current.icon} className="size-5" />
         </span>
         <div>
-          <h3 className="font-display text-2xl font-bold leading-tight">{current.title}</h3>
+          <h3 className="font-display text-2xl font-extrabold leading-tight">{current.title}</h3>
           <p className="text-sm text-ink-soft">{current.subtitle}</p>
         </div>
       </div>
@@ -116,7 +116,7 @@ export function AddonBuilder({ product, sizes }: Props) {
             <p className="eyebrow">
               <Icon name="sparkle" className="size-4 text-copper" /> מידה, תוספות, סיכום
             </p>
-            <h2 id="build-title" className="mt-1 text-[1.9rem] font-bold leading-tight sm:text-4xl">
+            <h2 id="build-title" className="mt-1 text-[1.9rem] font-extrabold leading-tight sm:text-4xl">
               הרכיבו את המחסן שלכם
             </h2>
           </div>
@@ -204,7 +204,7 @@ export function AddonBuilder({ product, sizes }: Props) {
               <Lines q={q} dark onJump={(id) => goTo(stepOf(id))} />
               <div className="mt-4 border-t border-white/15 pt-4">
                 <p className="text-sm text-white/60">סה&quot;כ כולל מע&quot;מ</p>
-                <AnimatedPrice value={q.total} className="font-display text-4xl font-bold" />
+                <AnimatedPrice value={q.total} className="font-display text-4xl font-extrabold" />
                 {q.onRequest.length > 0 && <p className="mt-1 text-sm text-copper">+ {q.onRequest.length} פריטים במחיר בתיאום</p>}
                 <p className="mt-1 text-xs text-white/50">
                   {delivery.price === null ? "הובלה והתקנה בתיאום" : delivery.price === 0 ? "כולל הובלה והרכבה" : `+ הובלה והתקנה ${formatILS(delivery.price)} (נבחר בסל)`}
@@ -246,7 +246,7 @@ export function AddonBuilder({ product, sizes }: Props) {
                 transition={{ duration: 0.35, ease }}
                 className="mb-2 max-h-[60svh] overflow-y-auto rounded-3xl bg-white p-5 shadow-lift"
               >
-                <p className="font-display text-xl font-bold">{product.name}</p>
+                <p className="font-display text-xl font-extrabold">{product.name}</p>
                 <Lines q={q} onJump={(id) => goTo(stepOf(id))} />
                 <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
                   <Icon name="whatsapp" /> שליחת ההרכב בוואטסאפ
@@ -385,14 +385,14 @@ function SummaryStep({ product, q, goTo, stepOf }: { product: Product; q: Quote;
       <div className="relative h-40 sm:h-52">
         <Image src={product.images[0]} alt={product.name} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" />
-        <p className="absolute bottom-3 start-4 font-display text-2xl font-bold text-white">{product.name}</p>
+        <p className="absolute bottom-3 start-4 font-display text-2xl font-extrabold text-white">{product.name}</p>
       </div>
       <div className="p-4 sm:p-6">
         <Lines q={q} onJump={(id) => goTo(stepOf(id))} />
         <div className="mt-4 flex items-end justify-between gap-3 border-t border-line pt-4">
           <div>
             <p className="text-sm text-ink-soft">סה&quot;כ כולל מע&quot;מ</p>
-            <AnimatedPrice value={q.total} className="font-display text-4xl font-bold" showDelta={false} />
+            <AnimatedPrice value={q.total} className="font-display text-4xl font-extrabold" showDelta={false} />
           </div>
           <button type="button" onClick={() => goTo(1)} className="text-sm font-bold text-brand-dark underline underline-offset-4">
             שינוי תוספות

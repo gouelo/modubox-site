@@ -17,7 +17,7 @@ export default function ContactPage() {
     <div className="container-x py-12">
       <header className="max-w-3xl">
         <p className="eyebrow">צור קשר</p>
-        <h1 className="mt-2 text-4xl font-black tracking-tight sm:text-5xl">נשמח לעזור לכם לבחור</h1>
+        <h1 className="mt-2 text-4xl font-extrabold sm:text-5xl">נשמח לעזור לכם לבחור</h1>
         <p className="mt-4 text-lg text-ink-soft">צוות המומחים שלנו יסייע לכם לבחור את המבנה המתאים ביותר. השאירו פרטים ונחזור אליכם.</p>
       </header>
       <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -32,7 +32,7 @@ export default function ContactPage() {
       </div>
       <div className="mt-12 grid gap-10 lg:grid-cols-2">
         <div className="card p-6 sm:p-8">
-          <h2 className="mb-6 text-2xl font-black">השאירו פרטים</h2>
+          <h2 className="mb-6 text-2xl font-extrabold">השאירו פרטים</h2>
           <LeadForm />
         </div>
         <div className="space-y-6">

@@ -18,7 +18,7 @@ export default function AboutPage() {
         <Image src="photos/7b2976de.webp" alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-40" />
         <div className="container-x max-w-3xl">
           <p className="eyebrow !text-brand">אודות</p>
-          <h1 className="mt-3 text-4xl font-black leading-tight sm:text-6xl">אנחנו מודובוקס, ואנחנו יודעים לבנות מחסנים מעולים.</h1>
+          <h1 className="mt-3 text-4xl font-extrabold leading-tight sm:text-6xl">אנחנו מודובוקס, ואנחנו יודעים לבנות מחסנים מעולים.</h1>
           <p className="mt-5 text-lg leading-8 text-white/80">מחפשים מבנה מבנייה קלה, איכותי באמת ובמחיר שפוי? זה בדיוק מה שאנחנו עושים.</p>
         </div>
       </section>
@@ -45,7 +45,7 @@ export default function AboutPage() {
         <TrustBar />
         <div className="mt-10 rounded-3xl bg-sand p-8 sm:flex sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-2xl font-black">בואו לראות מקרוב</h2>
+            <h2 className="text-2xl font-extrabold">בואו לראות מקרוב</h2>
             <p className="mt-1 text-ink-soft">אפשר לתאם ביקור בתצוגה במפעל – {site.factory}.</p>
           </div>
           <div className="mt-5 flex flex-wrap gap-3 sm:mt-0">

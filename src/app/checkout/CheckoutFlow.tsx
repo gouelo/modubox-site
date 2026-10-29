@@ -50,7 +50,7 @@ export function CheckoutFlow() {
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-xl rounded-3xl bg-sand p-8 text-center">
         <span className="mx-auto grid size-16 place-items-center rounded-full bg-brand text-white"><Icon name="check" className="size-8" /></span>
-        <h1 className="mt-4 text-3xl font-black">ההזמנה נקלטה!</h1>
+        <h1 className="mt-4 text-3xl font-extrabold">ההזמנה נקלטה!</h1>
         <p className="mt-2 text-ink-soft">מספר הזמנה <strong className="text-ink">#{done.id}</strong>. נציג של מודובוקס יחזור אליכם לתיאום ההתקנה ולהשלמת התשלום.</p>
         <a href={waLink(done.message)} target="_blank" rel="noopener" className="btn-wa mt-6 w-full py-4 text-base"><Icon name="whatsapp" /> שליחת ההזמנה בוואטסאפ לאישור מהיר</a>
         <Link href="/" className="btn-ghost mt-3 w-full">חזרה לדף הבית</Link>
@@ -103,7 +103,7 @@ export function CheckoutFlow() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
       <div>
-        <h1 className="mb-6 text-3xl font-black tracking-tight">השלמת הזמנה</h1>
+        <h1 className="mb-6 text-3xl font-extrabold">השלמת הזמנה</h1>
         <Steps step={step} />
         <AnimatePresence mode="wait">
           <motion.div key={step} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.25 }}>

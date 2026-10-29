@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export function HeroTitle({ lines, accent }: { lines: string[]; accent: string }) {
   const all = [...lines, accent];
   return (
-    <h1 className="font-display text-[3.1rem] font-bold leading-[1] sm:text-7xl lg:text-8xl">
+    <h1 className="font-display text-[3.2rem] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-7xl lg:text-8xl">
       {all.map((line, i) => (
         <span key={line} className="block overflow-hidden pb-[0.08em]">
           <motion.span
