@@ -1,8 +1,10 @@
-:HL["/modubox-site/_next/static/chunks/0m0hmei69znku.css","style"]
+:HL["/modubox-site/_next/static/chunks/10-yvldrenlh1.css","style"]
+:HL["/modubox-site/_next/static/media/1d7209318a5cfb62-s.p.1wvhz6ut8au_x.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/modubox-site/_next/static/media/69f57dd9cdb7b559-s.p.1o88h9hhck-f8.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/_next/static/media/a2ad9851afd9a4d8-s.p.0jgv4ivu1938h.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/_next/static/media/d0c0bfa28634aa91-s.p.3dq6enaul-s3b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/brand/logo-white.svg","image"]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"d","k":"toilet-1-6x1","s":[]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"product","h":64,"c":"$Q2"}]]
-0:{"b":"rLU4r3iSrpkpJbxjYgJj8","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"2mK6-37hT2nsxqPstYzLu","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
