@@ -63,13 +63,6 @@ export function CartView() {
                         <Icon name="trash" className="size-4" />
                       </button>
                     </div>
-                    {l.quote.lines.length > 1 && (
-                      <ul className="mt-1 space-y-0.5 text-sm text-ink-soft">
-                        {l.quote.lines.slice(1).map((x) => (
-                          <li key={x.id}>+ {x.label}{x.qty > 1 ? ` ×${x.qty}` : ""} {x.total === null ? "(בתיאום)" : x.total ? `(${formatILS(x.total)})` : ""}</li>
-                        ))}
-                      </ul>
-                    )}
                     <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                       <div className="flex items-center gap-1 rounded-full bg-sand p-1">
                         <button type="button" aria-label="הפחתת כמות" disabled={l.item.qty <= 1} onClick={() => update(l.item.id, { qty: l.item.qty - 1 })} className="grid size-8 place-items-center rounded-full bg-white disabled:opacity-30"><Icon name="minus" className="size-4" /></button>
@@ -80,6 +73,25 @@ export function CartView() {
                     </div>
                   </div>
                 </div>
+                {l.quote.lines.length > 1 && (
+                  <ul className="mt-4 space-y-1.5 rounded-2xl bg-sand p-3 text-[13px] leading-5 text-ink-soft">
+                    <li className="flex justify-between gap-3 text-ink">
+                      <span className="font-bold">מחיר בסיס</span>
+                      <span className="shrink-0 font-semibold tabular-nums">{formatILS(l.product.price)}</span>
+                    </li>
+                    {l.quote.lines.slice(1).map((x) => (
+                      <li key={x.id} className="flex justify-between gap-3">
+                        <span>
+                          {x.label}
+                          {x.qty > 1 ? ` ×${x.qty}` : ""}
+                        </span>
+                        <span className="shrink-0 font-semibold tabular-nums">
+                          {x.total === null ? <span className="text-copper">בתיאום</span> : x.total ? formatILS(x.total) : "ללא תוספת"}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <fieldset className="mt-4 border-t border-line pt-4">
                   <legend className="sr-only">הובלה והתקנה ל{l.product.name}</legend>
                   <p className="mb-2 flex items-center gap-2 text-sm font-bold"><Icon name="truck" className="size-4 text-brand-dark" /> הובלה והתקנה</p>
@@ -112,13 +124,13 @@ export function CartView() {
         </div>
       </aside>
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 p-3 backdrop-blur lg:hidden">
-        <div className="mx-auto flex max-w-xl items-center gap-3">
+      <div className="fixed inset-x-0 bottom-0 z-30 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
+        <div className="mx-auto flex max-w-xl items-center gap-3 rounded-[1.4rem] bg-ink/95 p-2 ps-4 text-white shadow-lift ring-1 ring-white/10 backdrop-blur-md">
           <div className="flex-1">
-            <p className="text-xs text-ink-soft">סה"כ כולל הובלה</p>
-            <p className="text-xl font-black">{formatILS(cart.total)}</p>
+            <p className="text-[11px] text-white/60">סה"כ כולל הובלה</p>
+            <p className="text-xl font-black tabular-nums">{formatILS(cart.total)}</p>
           </div>
-          <Link href="/checkout/" className="btn-primary h-12 px-6">לתשלום</Link>
+          <Link href="/checkout/" className="btn h-12 bg-white px-6 text-ink">לתשלום <Icon name="arrow" className="size-4" /></Link>
         </div>
       </div>
     </div>

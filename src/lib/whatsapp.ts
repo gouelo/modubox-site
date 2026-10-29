@@ -15,6 +15,15 @@ function quoteLines(q: Quote): string[] {
   });
 }
 
+/** The configuration from the add-ons builder, for "send it to us on WhatsApp". */
+export function configMessage(product: Product, q: Quote): string {
+  const out = [`היי מודובוקס! אשמח להזמין ${product.name}`, `מחיר בסיס: ${formatILS(product.price)}`];
+  const extras = quoteLines(q);
+  out.push(...(extras.length ? ["", "התוספות שבחרתי:", ...extras] : ["", "ללא תוספות"]));
+  out.push("", `סה"כ: ${formatILS(q.total)}${q.onRequest.length ? " + פריטים במחיר בתיאום" : ""}`, "(הובלה והתקנה לפי האזור)");
+  return out.join("\n");
+}
+
 export function productMessage(product: Product): string {
   return [`היי מודובוקס! אשמח לפרטים על ${product.name}`, `מחיר בסיס: ${formatILS(product.price)}`].join("\n");
 }

@@ -54,9 +54,14 @@ export function Header() {
     };
   }, [open]);
 
+  // on the home page the header floats over the hero until you scroll
+  const overHero = pathname === "/" && !scrolled;
+
   return (
     <header
-      className={`sticky top-0 z-40 border-b bg-white transition-colors duration-300 ${scrolled ? "border-line" : "border-transparent"}`}
+      className={`sticky top-0 z-40 border-b transition-[background-color,border-color,color] duration-500 ${
+        overHero ? "border-transparent bg-transparent text-white" : `bg-white/90 text-ink backdrop-blur-xl ${scrolled ? "border-line" : "border-transparent"}`
+      }`}
     >
       <div className="container-x flex h-16 items-center gap-3 lg:h-[72px]">
         <button
@@ -69,15 +74,15 @@ export function Header() {
           <Icon name="menu" className="size-6" />
         </button>
         <Link href="/" className="shrink-0" aria-label="מודובוקס – דף הבית">
-          <Logo className="h-7 w-auto lg:h-8" />
+          <Logo white={overHero} className="h-7 w-auto lg:h-8" />
         </Link>
         <nav className="ms-6 hidden items-center gap-1 lg:flex" aria-label="ניווט ראשי">
           {NAV.map((n) => (
             <Link
               key={n.href}
               href={n.href}
-              className={`rounded-full px-3.5 py-2 text-[15px] font-semibold transition hover:bg-sand ${
-                pathname?.startsWith(n.href) ? "text-brand-dark" : "text-ink/80"
+              className={`rounded-full px-3.5 py-2 text-[15px] font-semibold transition ${
+                overHero ? "text-white/85 hover:bg-white/10" : pathname?.startsWith(n.href) ? "text-brand-dark hover:bg-sand" : "text-ink/80 hover:bg-sand"
               }`}
             >
               {n.label}
@@ -85,14 +90,14 @@ export function Header() {
           ))}
         </nav>
         <div className="ms-auto flex items-center gap-2">
-          <a href={`tel:${site.phone}`} className="hidden items-center gap-2 rounded-full px-3 py-2 text-[15px] font-bold sm:flex hover:bg-sand" dir="ltr">
-            <Icon name="phone" className="size-4 text-brand-dark" />
+          <a href={`tel:${site.phone}`} className={`hidden items-center gap-2 rounded-full px-3 py-2 text-[15px] font-bold sm:flex ${overHero ? "hover:bg-white/10" : "hover:bg-sand"}`} dir="ltr">
+            <Icon name="phone" className={`size-4 ${overHero ? "text-glow" : "text-brand-dark"}`} />
             {site.phone}
           </a>
-          <a href={`tel:${site.phone}`} className="grid size-11 place-items-center rounded-full bg-sand sm:hidden" aria-label="חייגו אלינו">
+          <a href={`tel:${site.phone}`} className={`grid size-11 place-items-center rounded-full transition-colors sm:hidden ${overHero ? "bg-white/15 backdrop-blur" : "bg-sand"}`} aria-label="חייגו אלינו">
             <Icon name="phone" className="size-5" />
           </a>
-          <Link href="/cart/" className="relative grid size-11 place-items-center rounded-full bg-ink text-white" aria-label={`סל הקניות${mounted && count ? `, ${count} פריטים` : ""}`}>
+          <Link href="/cart/" className={`relative grid size-11 place-items-center rounded-full transition-colors ${overHero ? "bg-white text-ink" : "bg-ink text-white"}`} aria-label={`סל הקניות${mounted && count ? `, ${count} פריטים` : ""}`}>
             <Icon name="cart" className="size-5" />
             <AnimatePresence>
               {mounted && count > 0 && (

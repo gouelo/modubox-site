@@ -76,6 +76,47 @@ const paths: Record<string, React.ReactNode> = {
   ),
   rotate: <path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5" />,
   share: <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" />,
+  palette: (
+    <>
+      <path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.5 3.3A2 2 0 0 1 12 22Z" />
+      <circle cx="7.5" cy="11.5" r="1" fill="currentColor" />
+      <circle cx="10.5" cy="7.5" r="1" fill="currentColor" />
+      <circle cx="15.5" cy="8.5" r="1" fill="currentColor" />
+    </>
+  ),
+  door: (
+    <>
+      <path d="M5 22V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v19M3 22h18" />
+      <path d="M15 12h.01" />
+    </>
+  ),
+  window: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="1.5" />
+      <path d="M12 3v18M3 12h18" />
+    </>
+  ),
+  shelf: (
+    <>
+      <path d="M4 2v20M20 2v20M4 7h16M4 12h16M4 17h16" />
+    </>
+  ),
+  layers: (
+    <>
+      <path d="m12 2 10 5-10 5L2 7l10-5Z" />
+      <path d="m2 12 10 5 10-5M2 17l10 5 10-5" />
+    </>
+  ),
+  snow: <path d="M12 2v20M4.9 4.9l14.2 14.2M2 12h20M4.9 19.1 19.1 4.9M9 3l3 2 3-2M9 21l3-2 3 2M3 9l2 3-2 3M21 9l-2 3 2 3" />,
+  wind: <path d="M3 8h11a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h7" />,
+  scissors: (
+    <>
+      <circle cx="6" cy="6" r="3" />
+      <circle cx="6" cy="18" r="3" />
+      <path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12" />
+    </>
+  ),
+  sparkle: <path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2Z" />,
   facebook: <path fill="currentColor" stroke="none" d="M14 8h3V4h-3a5 5 0 0 0-5 5v2H7v4h2v8h4v-8h3l1-4h-4V9a1 1 0 0 1 1-1Z" />,
   instagram: (
     <>
