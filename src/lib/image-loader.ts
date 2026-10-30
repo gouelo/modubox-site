@@ -1,5 +1,5 @@
 // next/image loader: picks the pre-made WebP size (see scripts/optimize-images.mjs).
-const WIDTHS = [480, 960, 1600];
+const WIDTHS = [480, 960, 1600, 2400];
 
 export default function imageLoader({ src, width }: { src: string; width: number }) {
   if (/^https?:\/\//.test(src)) return src;

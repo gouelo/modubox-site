@@ -16,6 +16,7 @@ const ICONS: Record<string, IconName> = {
   "vent-grill": "wind",
   "shelf-4": "shelf",
   "shelf-5": "shelf",
+  "wpc-floor": "ruler",
 };
 
 const spring = { type: "spring", stiffness: 500, damping: 30 } as const;
@@ -147,10 +148,36 @@ function ChoicePrice({ c }: { c: AddonChoice }) {
   return <PriceTag price={c.price} className="shrink-0" />;
 }
 
+/** A colour dot, a material sample (an image), or, for "none", an empty ring. */
+function Swatch({ swatch }: { swatch?: string }) {
+  if (!swatch) return <span className="absolute inset-0 rounded-full border-2 border-dashed border-ink/25" />;
+  if (swatch.includes("/"))
+    return (
+      <span className="absolute inset-0 overflow-hidden rounded-full shadow-[inset_0_0_0_1px_rgb(0_0_0/0.12)]">
+        <Image src={swatch} alt="" fill sizes="48px" className="object-cover" />
+      </span>
+    );
+  return <span className="absolute inset-0 rounded-full shadow-[inset_0_0_0_1px_rgb(0_0_0/0.12)]" style={{ background: swatch }} />;
+}
+
+/** "120 ₪ למ"ר × 6 מ"ר = 720 ₪" for an add-on priced by floor area. */
+function AreaPrice({ addon }: { addon: Addon }) {
+  if (!addon.pricePerM2 || !addon.areaM2) return null;
+  return (
+    <p className="mt-2 inline-flex flex-wrap items-center gap-x-1.5 rounded-full bg-brand-tint px-3 py-1 text-sm font-semibold text-brand-dark">
+      <span>{formatILS(addon.pricePerM2)} למ&quot;ר</span>
+      <span aria-hidden="true">×</span>
+      <span>{addon.areaM2} מ&quot;ר במחסן הזה</span>
+      <span aria-hidden="true">=</span>
+      <span className="font-extrabold tabular-nums">{formatILS(Math.round(addon.pricePerM2 * addon.areaM2))}</span>
+    </p>
+  );
+}
+
 /** Pick one: colour swatches, or a list of options. */
 export function ChoiceGroup({ addon, value, onChange }: { addon: Addon; value: string; onChange: (id: string) => void }) {
   const choices = addon.choices ?? [];
-  const swatches = choices.every((c) => c.swatch);
+  const swatches = choices.some((c) => c.swatch) && choices.every((c) => c.swatch || c.id === addon.default);
   return (
     <div role="radiogroup" aria-label={addon.name} className="rounded-2xl border border-line bg-white p-3 sm:p-4">
       <div className="flex items-start gap-3">
@@ -158,10 +185,11 @@ export function ChoiceGroup({ addon, value, onChange }: { addon: Addon; value: s
         <div className="min-w-0 flex-1">
           <p className="font-bold leading-snug">{addon.name}</p>
           {addon.description && <p className="mt-1 text-sm leading-6 text-ink-soft">{addon.description}</p>}
+          <AreaPrice addon={addon} />
         </div>
       </div>
       {swatches ? (
-        <div className="mt-4 grid grid-cols-2 gap-3">
+        <div className={`mt-4 grid grid-cols-2 gap-3 ${choices.length > 2 ? "sm:grid-cols-4" : ""}`}>
           {choices.map((c) => {
             const on = c.id === value;
             return (
@@ -173,7 +201,8 @@ export function ChoiceGroup({ addon, value, onChange }: { addon: Addon; value: s
                 onClick={() => onChange(c.id)}
                 className={`group relative flex items-center gap-3 rounded-2xl border p-3 transition-all duration-300 ${on ? "border-brand bg-brand-tint/50" : "border-line hover:border-ink/30"}`}
               >
-                <span className="relative size-12 shrink-0 rounded-full shadow-[inset_0_0_0_1px_rgb(0_0_0/0.12)]" style={{ background: c.swatch }}>
+                <span className="relative size-12 shrink-0 rounded-full">
+                  <Swatch swatch={c.swatch} />
                   {on && <motion.span layoutId={`ring-${addon.id}`} transition={spring} className="absolute -inset-1.5 rounded-full border-2 border-brand" />}
                 </span>
                 <span className="text-start">

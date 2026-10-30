@@ -23,7 +23,7 @@ export const PROFILE_ADDON = "profile-color";
 const ADDON_STEPS: { id: string; title: string; subtitle: string; icon: StepIcon; groups: string[] }[] = [
   { id: "openings", title: "דלתות וחלונות", subtitle: "פתחים, אור טבעי וגישה נוחה", icon: "door", groups: ["דלתות וחלונות"] },
   { id: "power", title: "חשמל ומיזוג", subtitle: "להפוך את המחסן לחדר שאפשר לעבוד בו", icon: "bolt", groups: ["חשמל ומיזוג"] },
-  { id: "interior", title: "פנים ואוורור", subtitle: "סדר בפנים ואוויר נקי", icon: "shelf", groups: ["אחסון פנימי", "אוורור"] },
+  { id: "interior", title: "פנים ורצפה", subtitle: "רצפה, סדר בפנים ואוויר נקי", icon: "shelf", groups: ["רצפה", "אחסון פנימי", "אוורור"] },
 ];
 
 /** The profile-colour add-on, when the product offers it. */
@@ -36,7 +36,8 @@ export function builderSteps(product: Product): BuilderStep[] {
   const steps: BuilderStep[] = [];
   const placed = new Set<string>();
   for (const s of ADDON_STEPS) {
-    const addons = all.filter((a) => s.groups.includes(a.group));
+    // in the order of the step's groups (the floor before shelves), stable within a group
+    const addons = s.groups.flatMap((g) => all.filter((a) => a.group === g));
     addons.forEach((a) => placed.add(a.id));
     if (addons.length) steps.push({ id: s.id, title: s.title, subtitle: s.subtitle, icon: s.icon, addons });
   }

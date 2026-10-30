@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Icon } from "./Icon";
 
 /** YouTube that loads only when tapped – keeps the page fast. */
-export function VideoCard({ id, title }: { id: string; title: string }) {
+export function VideoCard({ id, title, large = false }: { id: string; title: string; large?: boolean }) {
   const [play, setPlay] = useState(false);
   return (
     <div className="overflow-hidden rounded-2xl bg-ink shadow-soft">
@@ -19,9 +19,9 @@ export function VideoCard({ id, title }: { id: string; title: string }) {
         ) : (
           <button type="button" onClick={() => setPlay(true)} className="group absolute inset-0" aria-label={`ניגון: ${title}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" className="size-full object-cover opacity-90 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
+            <img src={`https://i.ytimg.com/vi/${id}/${large ? "maxresdefault" : "hqdefault"}.jpg`} alt="" loading="lazy" className="size-full object-cover opacity-90 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
             <span className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
-            <span className="absolute left-1/2 top-1/2 grid size-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-ink shadow-lift transition group-hover:scale-110">
+            <span className={`absolute left-1/2 top-1/2 grid ${large ? "size-20 sm:size-24" : "size-16"} -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-ink shadow-lift transition group-hover:scale-110`}>
               <Icon name="play" className="ms-1 size-7" />
             </span>
           </button>

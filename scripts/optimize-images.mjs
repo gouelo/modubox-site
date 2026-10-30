@@ -7,7 +7,7 @@ import sharp from "sharp";
 
 const SRC = "public/images";
 const OUT = "public/_img";
-export const WIDTHS = [480, 960, 1600];
+export const WIDTHS = [480, 960, 1600, 2400];
 
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {

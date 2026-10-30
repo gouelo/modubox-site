@@ -59,6 +59,7 @@ export interface AddonChoice {
   id: string;
   label: string;
   price: number | null;
+  /** a CSS colour ("#1d1f22") or an image under public/images ("floor/wpc-grey.webp") */
   swatch?: string;
 }
 
@@ -75,6 +76,10 @@ export interface Addon {
   description?: string;
   note?: string;
   minWidthM?: number;
+  /** Priced by floor area: every choice but the default costs pricePerM2 × widthM × depthM. */
+  pricePerM2?: number;
+  /** Set by addonsFor on a per-m² add-on: the product's floor area it was priced for. */
+  areaM2?: number;
 }
 
 /** toggle → 0/1, qty → count, choice → choice id */

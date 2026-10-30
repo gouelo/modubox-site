@@ -49,3 +49,27 @@ describe("configuration WhatsApp message", () => {
     expect(msg).not.toContain("בתיאום");
   });
 });
+
+describe("WPC parquet floor", () => {
+  it("sits in the interior step of every Modubox shed", () => {
+    for (const slug of ["modubox-1x0-8", "modubox-3x2", "modubox-6x3"]) {
+      const interior = builderSteps(getProduct(slug)!).find((s) => s.id === "interior")!;
+      expect(interior.addons[0].id, slug).toBe("wpc-floor");
+    }
+    expect(addonsFor(getProduct("gilboa-m")!).map((a) => a.id)).not.toContain("wpc-floor");
+  });
+
+  it("costs 120 ₪ per m² of the shed's floor, in each of its 3 colours", () => {
+    const floor = (slug: string) => addonsFor(getProduct(slug)!).find((a) => a.id === "wpc-floor")!;
+    expect(floor("modubox-3x2").choices!.map((c) => [c.id, c.price])).toEqual([["none", 0], ["grey", 720], ["teak", 720], ["light", 720]]);
+    expect(floor("modubox-5x3").choices![1].price).toBe(1800);
+    expect(floor("modubox-1x0-8").choices![1].price).toBe(96);
+  });
+
+  it("is carried into the quote and the WhatsApp message", () => {
+    const q = quote(p32, { ...defaultSelections(p32), "wpc-floor": "teak" });
+    expect(q.total).toBe(7800 + 720);
+    expect(plain(configMessage(p32, q))).toContain('רצפת WPC איכותית: חום טיק (6 מ"ר) – 720');
+    expect(quote(p32, defaultSelections(p32)).lines.map((l) => l.id)).not.toContain("wpc-floor");
+  });
+});

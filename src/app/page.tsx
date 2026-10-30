@@ -1,26 +1,36 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Design3DButton } from "@/components/Design3DButton";
-import { HeroTitle } from "@/components/HeroTitle";
+import { BuildLauncher } from "@/components/home/BuildLauncher";
+import { HomeHero } from "@/components/home/HomeHero";
+import { ReviewMarquee } from "@/components/home/ReviewMarquee";
 import { Icon, type IconName } from "@/components/Icon";
+import { LeadForm } from "@/components/LeadForm";
+import { Materials } from "@/components/Materials";
 import { ProductCard } from "@/components/ProductCard";
 import { Reveal } from "@/components/Reveal";
-import { ReviewCard } from "@/components/ReviewCard";
 import { Stars } from "@/components/Stars";
-import { addons, categories, lowestPrice, productsIn, reviews, site } from "@/lib/catalog";
+import { VideoCard } from "@/components/VideoCard";
+import { addons, categories, lowestPrice, productsIn, reviews, site, videos } from "@/lib/catalog";
 import { formatILS } from "@/lib/format";
 import { waLink } from "@/lib/whatsapp";
 
 const FEATURED = ["modubox-3x2", "modubox-4x2", "modubox-4x3", "modubox-5x3"];
-/** where "start building" leads: the best-selling size's builder */
-const BUILD_FROM = "modubox-3x2";
-/** a real customer's shed, the whole of it in frame */
-const HERO = { src: "photos/da9360e8.webp", alt: "מחסן מודובוקס לבן בחצר של לקוח, עם דלת פתוחה ופרחים", caption: "מחסן מודובוקס בחצר של לקוח" };
 const SHOWCASE = ["double-door", "sliding-window", "glass-wall", "electric-panel", "vent-grill", "shelf-5"];
+/** the home page's video: a 3×2 going up, sped up */
+const VIDEO = "JizvTsM5H1c";
+
+/** Yoel's renders of Modubox units in use (the gallery stays real photos only). */
+const USES = [
+  { src: "renders/garden-meeting-room.webp", title: "חדר ישיבות בחצר", alt: "יחידת מודובוקס עם קיר ויטרינה ותריס, ובתוכה שולחן ישיבות" },
+  { src: "renders/garden-office-black.webp", title: "משרד בגינה", alt: "יחידת מודובוקס בפרופיל שחור עם קיר זכוכית ומשרד בפנים" },
+  { src: "renders/garden-studio-black.webp", title: "פינת עבודה שקטה", alt: "יחידת מודובוקס בפרופיל שחור עם דלת לבנה ומדפים מוארים" },
+  { src: "renders/garden-suite-black.webp", title: "חדר עבודה ואירוח", alt: "יחידת מודובוקס רחבה בפרופיל שחור עם חלון, קיר זכוכית ושביל" },
+];
 
 const STEPS: { icon: IconName; title: string; text: string }[] = [
   { icon: "ruler", title: "בוחרים מידה", text: "18 מידות, מ־1×0.80 ועד 6×3" },
-  { icon: "door", title: "מוסיפים תוספות", text: "דלתות, חלונות, ויטרינה, חשמל ומזגן" },
+  { icon: "door", title: "מוסיפים תוספות", text: "דלתות, ויטרינה, חשמל, מזגן ורצפה" },
   { icon: "truck", title: "מקבלים מותקן", text: `עד ${site.installationDays} ימי עסקים, עד הבית` },
 ];
 
@@ -28,69 +38,14 @@ export default function Home() {
   const sheds = productsIn("modubox");
   const featured = FEATURED.map((s) => sheds.find((p) => p.slug === s)).filter((p) => !!p);
   const showcase = SHOWCASE.map((id) => addons.find((a) => a.id === id)).filter((a) => !!a);
+  const video = videos.find((v) => v.youtubeId === VIDEO) ?? videos[0];
 
   return (
     <>
-      {/* HERO: the text beside a real customer's shed, shown whole */}
-      <section className="relative isolate -mt-16 overflow-hidden bg-night text-white lg:-mt-[72px]">
-        <div className="absolute -top-40 end-[-10%] -z-10 size-[42rem] rounded-full bg-brand/20 blur-3xl" aria-hidden="true" />
-        <div className="container-x grid items-center gap-8 pb-10 pt-20 lg:min-h-[88vh] lg:grid-cols-[1fr_1.1fr] lg:gap-14 lg:pb-16 lg:pt-28">
-          <div className="order-2 max-w-2xl lg:order-1">
-            <p className="eyebrow text-glow">
-              <span className="h-px w-8 bg-glow/70" /> מבנים מפנל מבודד · ייצור ישראלי
-            </p>
-            <div className="mt-4">
-              <HeroTitle lines={["החצר שלכם."]} accent="עוד חדר." />
-            </div>
-            <Reveal delay={0.5}>
-              <p className="mt-5 max-w-md text-lg leading-8 text-white/80">
-                מחסנים ויחידות חצר בשלדת אלומיניום, מותאמים לכם עם דלתות, חלונות, חשמל ומיזוג. החל מ־{formatILS(lowestPrice("modubox"))}.
-              </p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link href="/shop/" className="btn bg-white px-7 py-4 text-base text-ink hover:bg-brand-tint">
-                  לקטלוג המחסנים <Icon name="arrow" className="size-4" />
-                </Link>
-                <a href={waLink(site.whatsappGreeting)} target="_blank" rel="noopener" className="btn-glass px-7 py-4 text-base">
-                  <Icon name="whatsapp" className="size-5 text-wa" /> ייעוץ בוואטסאפ
-                </a>
-              </div>
-            </Reveal>
-            <Reveal delay={0.7} className="mt-8 lg:mt-12">
-              <dl className="grid grid-cols-3 divide-x divide-x-reverse divide-white/15 rounded-2xl border border-white/15 bg-white/5 py-3 backdrop-blur-md sm:max-w-xl">
-                {[
-                  [`${site.rating}`, `${site.reviewCount} ביקורות בגוגל`],
-                  [`${site.warrantyYears}`, "שנות אחריות"],
-                  [`${site.installationDays}`, "ימים להתקנה"],
-                ].map(([v, k]) => (
-                  <div key={k} className="px-3 text-center">
-                    <dt className="sr-only">{k}</dt>
-                    <dd className="font-display text-2xl font-extrabold sm:text-3xl">{v}</dd>
-                    <dd className="text-xs text-white/65">{k}</dd>
-                  </div>
-                ))}
-              </dl>
-            </Reveal>
-          </div>
-          <div className="order-1 lg:order-2">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] shadow-lift ring-1 ring-white/10 lg:rounded-[2.5rem]">
-              <Image
-                src={HERO.src}
-                alt={HERO.alt}
-                fill
-                priority
-                sizes="(min-width:1024px) 52vw, 100vw"
-                className="animate-[heroZoom_2.4s_cubic-bezier(0.16,1,0.3,1)_both] object-cover"
-              />
-              <span className="absolute bottom-3 start-3 flex items-center gap-1.5 rounded-full bg-night/70 px-3 py-1.5 text-xs font-semibold backdrop-blur-md sm:bottom-4 sm:start-4 sm:text-sm">
-                <Icon name="pin" className="size-4 text-glow" /> {HERO.caption}
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeHero fromPrice={formatILS(lowestPrice("modubox"))} sizes={sheds.length} range={`מ־${sheds[0].sizeLabel} ועד ${sheds[sheds.length - 1].sizeLabel}`} />
 
-      {/* CATALOG */}
-      <section className="container-x mt-16 sm:mt-28">
+      {/* CATALOG: four popular sizes, each photo whole */}
+      <section className="container-x mt-16 sm:mt-24">
         <Reveal className="mb-6 flex items-end justify-between gap-4 sm:mb-10">
           <div>
             <p className="eyebrow">הקטלוג</p>
@@ -100,14 +55,14 @@ export default function Home() {
             כל {sheds.length} המידות <Icon name="arrow" className="size-4 transition group-hover:-translate-x-1" />
           </Link>
         </Reveal>
-        <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 lg:grid-cols-4">
+        <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 sm:overflow-visible sm:px-0">
           {featured.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 0.08} className="w-[72%] shrink-0 snap-start sm:w-auto">
-              <ProductCard product={p} priority={i < 2} />
+            <Reveal key={p.slug} delay={(i % 2) * 0.08} className="w-[85%] shrink-0 snap-start sm:w-auto">
+              <ProductCard product={p} priority={i < 2} sizes="(min-width:1024px) 40vw, (min-width:640px) 48vw, 85vw" />
             </Reveal>
           ))}
         </div>
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-8 flex flex-wrap gap-2">
           {categories.slice(1).map((c) => (
             <Link key={c.id} href={`/shop/#${c.id}`} className="rounded-full border border-line px-4 py-2 text-sm font-bold transition hover:border-ink hover:bg-ink hover:text-white">
               {c.title} · החל מ־{formatILS(lowestPrice(c.id))}
@@ -116,7 +71,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ADD-ONS: how a shed becomes yours */}
+      {/* USES: what people put in the yard */}
+      <section className="mt-16 bg-night py-14 text-white sm:mt-28 sm:py-20">
+        <div className="container-x">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-2xl">
+              <p className="eyebrow text-glow">השראה</p>
+              <h2 className="h-section mt-1">חדר נוסף בחצר, לכל מה שתרצו</h2>
+              <p className="mt-3 text-lg leading-8 text-white/70">משרד, סטודיו, חדר ישיבות או מחסן מסודר: אותו מבנה, עם הפתחים והתוספות שמתאימים לכם.</p>
+            </div>
+          </Reveal>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4 lg:grid-rows-[16rem_16rem]">
+            {USES.map((u, i) => (
+              <Reveal key={u.src} delay={i * 0.06} className={i === 0 ? "sm:col-span-2 lg:row-span-2" : i === 3 ? "sm:col-span-2" : ""}>
+                <figure className="group relative aspect-video overflow-hidden rounded-3xl bg-white/5 lg:aspect-auto lg:h-full">
+                  <Image src={u.src} alt={u.alt} fill sizes={i === 0 ? "(min-width:1024px) 50vw, 100vw" : "(min-width:1024px) 25vw, (min-width:640px) 50vw, 100vw"} className="object-cover transition duration-[1.6s] ease-(--ease-out-expo) group-hover:scale-[1.04]" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-night/80 to-transparent" />
+                  <figcaption className="absolute bottom-3 start-4 text-lg font-extrabold sm:text-xl">{u.title}</figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Materials />
+
+      {/* ADD-ONS: how a shed becomes yours; "start building" asks for a size first */}
       <section className="mt-16 sm:mt-28 sm:px-6 lg:px-8">
         <div className="grain relative mx-auto max-w-7xl overflow-hidden bg-petrol py-14 text-white sm:rounded-[2.5rem] sm:py-20">
           <div className="container-x">
@@ -125,7 +106,7 @@ export default function Home() {
                 <Icon name="sparkle" className="size-4 text-copper" /> תוספות
               </p>
               <h2 className="h-section mt-2">מחסן שמותאם בדיוק לכם</h2>
-              <p className="mt-3 text-lg leading-8 text-white/70">בכל דף מחסן בוחרים תוספות בכמה צעדים, ורואים את המחיר הסופי מתעדכן תוך כדי.</p>
+              <p className="mt-3 text-lg leading-8 text-white/70">בוחרים מידה, ובדף שלה מרכיבים: צבע פרופילים, פתחים, חשמל, מיזוג ורצפה, ורואים את המחיר הסופי מתעדכן תוך כדי.</p>
             </Reveal>
             <ol className="mt-10 grid gap-3 sm:grid-cols-3 sm:gap-5">
               {STEPS.map((s, i) => (
@@ -144,66 +125,80 @@ export default function Home() {
               ))}
             </ol>
           </div>
-          <div className="no-scrollbar mt-10 flex snap-x gap-3 overflow-x-auto px-5 sm:px-6 lg:px-8">
-            {showcase.map((a) => (
-              <Link
-                key={a.id}
-                href={`/product/${BUILD_FROM}/#build`}
-                className="group relative h-52 w-40 shrink-0 snap-start overflow-hidden rounded-2xl bg-white/10 sm:h-64 sm:w-52"
-              >
-                {a.image && <Image src={a.image} alt={a.name} fill sizes="208px" className="object-cover transition duration-1000 group-hover:scale-110" />}
-                <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/10 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-3">
-                  <p className="text-sm font-bold leading-snug">{a.name}</p>
-                  <p className="text-xs text-glow">{a.price ? `+${formatILS(a.price)}` : "מחיר בתיאום"}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="container-x mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link href={`/product/${BUILD_FROM}/#build`} className="btn bg-white px-7 py-4 text-base text-ink hover:bg-brand-tint">
-              התחילו להרכיב מחסן <Icon name="arrow" className="size-4" />
-            </Link>
+          <BuildLauncher
+            sizes={sheds.map((p) => ({ slug: p.slug, sizeLabel: p.sizeLabel, widthM: p.widthM, depthM: p.depthM, areaM2: p.areaM2, price: p.price, popular: FEATURED.includes(p.slug) }))}
+            tiles={showcase.map((a) => ({ id: a.id, name: a.name, image: a.image, price: a.price }))}
+          >
             <div className="sm:w-auto">
               <Design3DButton variant="tile" className="border-white/15 bg-white/5 text-white hover:border-glow" />
             </div>
-          </div>
+          </BuildLauncher>
+        </div>
+      </section>
+
+      {/* VIDEO */}
+      <section className="container-x mt-16 sm:mt-28">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.6fr] lg:items-center lg:gap-12">
+          <Reveal>
+            <p className="eyebrow">וידאו</p>
+            <h2 className="h-section mt-1">ככה מרכיבים מחסן מודובוקס</h2>
+            <p className="mt-3 text-lg leading-8 text-ink-soft">המבנה מגיע מהמפעל מוכן, והצוות שלנו מרכיב אותו אצלכם בחצר. צפו בהרכבה מתחילתה ועד הסוף, בהילוך מהיר.</p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link href="/gallery/" className="btn-ghost">
+                עוד סרטונים ותמונות <Icon name="arrow" className="size-4" />
+              </Link>
+              <a href={site.social.youtube} target="_blank" rel="noopener" className="btn-ghost">
+                <Icon name="youtube" className="size-5 text-red-600" /> הערוץ שלנו
+              </a>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <VideoCard id={video.youtubeId} title={video.title} large />
+          </Reveal>
         </div>
       </section>
 
       {/* REVIEWS */}
-      <section className="container-x mt-16 sm:mt-28">
-        <Reveal className="mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 sm:mb-10">
+      <section className="mt-16 sm:mt-28">
+        <Reveal className="container-x mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 sm:mb-10">
           <div>
             <p className="eyebrow">לקוחות</p>
             <h2 className="h-section mt-1">מה אומרים עלינו</h2>
           </div>
           <a href={site.googleReviewsUrl} target="_blank" rel="noopener" className="flex shrink-0 items-center gap-2 text-sm font-bold">
-            <Stars value={5} className="size-4" /> {site.rating} · {site.reviewCount} בגוגל
+            <Stars value={5} className="size-4" /> {site.rating} · {site.reviewCount} ביקורות בגוגל <Icon name="arrow" className="size-4" />
           </a>
         </Reveal>
-        <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-3 md:px-0">
-          {reviews.slice(0, 3).map((r, i) => (
-            <Reveal key={r.name} delay={i * 0.08} className="w-[85%] shrink-0 snap-start md:w-auto">
-              <ReviewCard {...r} />
-            </Reveal>
-          ))}
-        </div>
+        <ReviewMarquee reviews={reviews} />
       </section>
 
-      {/* WHATSAPP CTA */}
-      <section className="container-x mt-16 sm:mt-28">
-        <Reveal>
-          <div className="relative isolate overflow-hidden rounded-[2rem] bg-ink px-6 py-14 text-center text-white sm:py-20">
-            <Image src="photos/8b4fe247.webp" alt="" fill sizes="100vw" className="-z-10 object-cover opacity-30" />
-            <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/70 to-ink/40" />
-            <h2 className="h-section">לא בטוחים איזו מידה?</h2>
-            <p className="mt-3 text-white/75">כתבו לנו – נעזור לבחור תוך דקות.</p>
-            <a href={waLink(site.whatsappGreeting)} target="_blank" rel="noopener" className="btn-wa mt-7 px-8 py-4 text-base">
-              <Icon name="whatsapp" /> דברו איתנו בוואטסאפ
-            </a>
+      {/* CONTACT: the lead form (WhatsApp until there's an endpoint) */}
+      <section id="contact" className="container-x mt-16 scroll-mt-20 sm:mt-28">
+        <div className="relative isolate overflow-hidden rounded-[2rem] bg-ink text-white sm:rounded-[2.5rem]">
+          <Image src="renders/garden-office-black.webp" alt="" fill sizes="100vw" className="-z-10 object-cover opacity-35" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-l from-ink via-ink/85 to-ink/40" />
+          <div className="grid gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-14 lg:p-14">
+            <Reveal>
+              <p className="eyebrow text-glow">דברו איתנו</p>
+              <h2 className="h-section mt-1">לא בטוחים איזו מידה?</h2>
+              <p className="mt-3 text-lg leading-8 text-white/75">השאירו פרטים ונחזור אליכם, או כתבו לנו בוואטסאפ. נעזור לבחור מידה ותוספות, בלי התחייבות.</p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <a href={waLink(site.whatsappGreeting)} target="_blank" rel="noopener" className="btn-wa px-7 py-4 text-base">
+                  <Icon name="whatsapp" /> וואטסאפ
+                </a>
+                <a href={`tel:${site.phone}`} className="btn-glass px-7 py-4 text-base" dir="ltr">
+                  <Icon name="phone" className="size-5" /> {site.phone}
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="rounded-3xl bg-white p-5 text-ink shadow-lift sm:p-7">
+                <p className="mb-4 text-xl font-extrabold">השאירו פרטים ונחזור אליכם</p>
+                <LeadForm />
+              </div>
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
       </section>
     </>
   );

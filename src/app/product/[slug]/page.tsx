@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Design3DButton } from "@/components/Design3DButton";
 import { Gallery } from "@/components/Gallery";
 import { Icon } from "@/components/Icon";
+import { Materials } from "@/components/Materials";
 import { ProductBuyBox } from "@/components/ProductBuyBox";
 import { Stars } from "@/components/Stars";
 import { AddonBuilder } from "@/components/builder/AddonBuilder";
@@ -77,7 +78,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       <div className="mt-3 grid gap-6 lg:mt-5 lg:grid-cols-[1.25fr_1fr] lg:gap-12">
         <div className="grid content-start gap-3">
-          <div className="relative -mx-5 aspect-[4/3] overflow-hidden bg-sand sm:mx-0 sm:rounded-[2rem]">
+          <div className="relative -mx-5 aspect-video overflow-hidden bg-sand sm:mx-0 sm:rounded-[2rem]">
             <Image src={product.images[0]} alt={product.name} fill priority sizes="(min-width:1024px) 58vw, 100vw" className="object-cover" />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/50 to-transparent" />
             {product.badge && <span className="absolute top-3 start-3 rounded-full bg-copper px-3 py-1 text-xs font-bold text-white">{product.badge}</span>}
@@ -148,6 +149,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           {d?.approximate && <p className="mt-2 text-xs text-ink-soft">* מידות משוערות – TODO לאמת מול המפעל</p>}
         </div>
       </section>
+
+      {product.category === "modubox" && <Materials compact />}
 
       {sizes.length > 1 && (
         <section className="mt-12">

@@ -56,6 +56,19 @@ export function getAddon(id: string): Addon | undefined {
   return addonById.get(id);
 }
 
+/** The floor area a per-m² add-on is priced on: width × length, to 2 decimals. */
+export function floorArea(product: Product): number {
+  return Math.round(product.widthM * product.depthM * 100) / 100;
+}
+
+/** A per-m² add-on (the WPC floor) priced for this product's floor area. */
+function priceByArea(a: Addon, product: Product): Addon {
+  if (!a.pricePerM2) return a;
+  const areaM2 = floorArea(product);
+  const price = Math.round(a.pricePerM2 * areaM2);
+  return { ...a, areaM2, choices: a.choices?.map((c) => (c.id === a.default ? c : { ...c, price })) };
+}
+
 /** The add-ons a product offers, with its price overrides applied. */
 export function addonsFor(product: Product): Addon[] {
   return product.addons
@@ -66,7 +79,8 @@ export function addonsFor(product: Product): Addon[] {
       product.addonPriceOverrides[a.id] !== undefined
         ? { ...a, price: product.addonPriceOverrides[a.id] }
         : a,
-    );
+    )
+    .map((a) => priceByArea(a, product));
 }
 
 export function lowestPrice(category: Category): number {

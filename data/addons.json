@@ -1,5 +1,5 @@
 {
-  "_readme": "תוספות למחסני מודובוקס. price = מחיר בש\"ח כולל מע\"מ. null = מחיר בתיאום (TODO). maxQty = כמה יחידות מותר לבחור. ראו README.md.",
+  "_readme": "תוספות למחסני מודובוקס. price = מחיר בש\"ח כולל מע\"מ. null = מחיר בתיאום (TODO). pricePerM2 = מחיר למ\"ר: כל אפשרות (חוץ מ\"ללא\") עולה pricePerM2 × רוחב × אורך המחסן. maxQty = כמה יחידות מותר לבחור. ראו README.md.",
   "addons": [
     {
       "id": "profile-color",
@@ -94,6 +94,22 @@
       "maxQty": 4,
       "image": "photos/c8230334.webp",
       "description": "למי שלא רוצה מבנה אטום לגמרי ורוצה תחלופה של אוויר."
+    },
+    {
+      "id": "wpc-floor",
+      "name": "רצפת WPC איכותית",
+      "group": "רצפה",
+      "kind": "choice",
+      "pricePerM2": 120,
+      "choices": [
+        { "id": "none", "label": "ללא", "price": 0 },
+        { "id": "grey", "label": "אפור", "price": 0, "swatch": "floor/wpc-grey.webp" },
+        { "id": "teak", "label": "חום טיק", "price": 0, "swatch": "floor/wpc-teak.webp" },
+        { "id": "light", "label": "אפור־לבן", "price": 0, "swatch": "floor/wpc-light.webp" }
+      ],
+      "default": "none",
+      "description": "שילוב של עץ ופולימר: מראה טבעי של עץ עם עמידות גבוהה. עובי 37 מ\"מ, כולל שכבת בידוד וספיגת רעשים. עמידה במים – שוטפים במים וסבון.",
+      "note": "120 ₪ למ\"ר כולל התקנה, לפי שטח הרצפה של המחסן · 5 שנות אחריות"
     },
     {
       "id": "shelf-4",

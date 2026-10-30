@@ -31,7 +31,8 @@ function addonLine(a: Addon, value: number | string | undefined): PriceLine | nu
   if (a.kind === "choice") {
     const choice = a.choices?.find((c) => c.id === value);
     if (!choice || choice.id === a.default) return null;
-    return { id: a.id, label: `${a.name}: ${choice.label}`, qty: 1, unitPrice: choice.price, total: choice.price };
+    const area = a.areaM2 ? ` (${a.areaM2} מ"ר)` : "";
+    return { id: a.id, label: `${a.name}: ${choice.label}${area}`, qty: 1, unitPrice: choice.price, total: choice.price };
   }
   const qty = typeof value === "number" ? value : 0;
   if (qty <= 0) return null;
