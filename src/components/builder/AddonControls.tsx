@@ -11,16 +11,11 @@ const ICONS: Record<string, IconName> = {
   "extra-door": "door",
   "sliding-window": "window",
   "glass-wall": "window",
-  "kip-window": "window",
   "electric-panel": "bolt",
   ac: "snow",
-  "solar-light": "sun",
   "vent-grill": "wind",
-  "mosquito-net": "wind",
   "shelf-4": "shelf",
   "shelf-5": "shelf",
-  platform: "layers",
-  "size-shortening": "scissors",
 };
 
 const spring = { type: "spring", stiffness: 500, damping: 30 } as const;
@@ -64,7 +59,7 @@ function Thumb({ addon, on }: { addon: Addon; on: boolean }) {
 
 function shell(on: boolean) {
   return `relative flex w-full gap-3 rounded-2xl border bg-white p-3 text-start transition-all duration-300 ease-(--ease-out-expo) sm:gap-4 sm:p-4 ${
-    on ? "border-brand shadow-[0_0_0_1px_var(--color-brand),0_12px_30px_-14px_rgb(19_166_181/0.5)]" : "border-line hover:border-ink/30 hover:shadow-soft"
+    on ? "border-brand shadow-[0_0_0_1px_var(--color-brand),0_12px_30px_-14px_rgb(2_159_159/0.5)]" : "border-line hover:border-ink/30 hover:shadow-soft"
   }`;
 }
 
@@ -83,7 +78,8 @@ export function ToggleCard({ addon, on, onChange }: { addon: Addon; on: boolean;
             <motion.span layout transition={spring} className={`size-5 rounded-full bg-white shadow ${on ? "ms-auto" : ""}`} />
           </span>
         </span>
-        {addon.description && <span className="mt-1 line-clamp-2 text-sm leading-6 text-ink-soft">{addon.description}</span>}
+        {addon.description && <span className="mt-1 block text-sm leading-6 text-ink-soft">{addon.description}</span>}
+        {addon.note && <span className="mt-2 block rounded-xl bg-sand px-3 py-2 text-[13px] leading-5 text-ink-soft">{addon.note}</span>}
         <PriceTag price={addon.price} className="mt-1.5 inline-block" />
       </span>
     </motion.button>

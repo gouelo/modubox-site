@@ -32,7 +32,7 @@ export const addons: Addon[] = (addonsFile.addons as unknown as Addon[]).map((a)
 }));
 export const site = siteFile;
 export const reviews = reviewsFile.reviews;
-export const videos = videosFile.videos;
+export const videos = videosFile.videos.map((v) => ({ ...v, title: ltrSizes(v.title) }));
 export const gallery = galleryFile.images;
 export const faq = faqFile.faq;
 

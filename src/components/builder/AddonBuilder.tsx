@@ -3,12 +3,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { builderSteps, chosenIn, type BuilderStep } from "@/lib/builder";
+import { builderSteps, chosenIn, profileAddon, type BuilderStep } from "@/lib/builder";
 import { useCart } from "@/lib/cart-store";
 import { addonsFor } from "@/lib/catalog";
 import { formatILS } from "@/lib/format";
 import { defaultFulfillment, defaultSelections, fulfillmentOptions, quote, type Quote } from "@/lib/pricing";
-import type { Product, Selections } from "@/lib/types";
+import type { Addon, Product, Selections } from "@/lib/types";
 import { configMessage, waLink } from "@/lib/whatsapp";
 import { AnimatedPrice } from "../AnimatedPrice";
 import { Footprint } from "../Footprint";
@@ -17,19 +17,15 @@ import { ChoiceGroup, PriceTag, QtyCard, ToggleCard } from "./AddonControls";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-interface Props {
-  product: Product;
-  /** the other sizes in this product's range, for the size step */
-  sizes: Product[];
-}
-
 /**
- * The heart of a product page: a guided builder, size → design → doors and
- * windows → power → interior → base → summary, with a running total and the
- * add-ons carried into the cart.
+ * The heart of a product page: a guided builder for the page's own size. The
+ * profile colour comes first, above the steps; then doors and windows → power
+ * → interior → summary, with a running total and the add-ons carried into the
+ * cart.
  */
-export function AddonBuilder({ product, sizes }: Props) {
+export function AddonBuilder({ product }: { product: Product }) {
   const steps = useMemo(() => builderSteps(product), [product]);
+  const profile = useMemo(() => profileAddon(product), [product]);
   const [selections, setSelections] = useState<Selections>(() => defaultSelections(product));
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState(1);
@@ -44,6 +40,7 @@ export function AddonBuilder({ product, sizes }: Props) {
   const added = addedAs === JSON.stringify(selections);
   const delivery = fulfillmentOptions(product)[0];
   const current = steps[step];
+  const profileLabel = profile?.choices?.find((c) => c.id === selections[profile.id])?.label;
 
   const set = (id: string, v: number | string) => setSelections((s) => ({ ...s, [id]: v }));
   const goTo = (i: number) => {
@@ -69,6 +66,16 @@ export function AddonBuilder({ product, sizes }: Props) {
     chip.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
   }, [step]);
 
+  const cta = added ? (
+    <Link href="/cart/" className="btn-brand w-full py-4 text-base">
+      <Icon name="check" /> נוסף לסל · למעבר לסל
+    </Link>
+  ) : (
+    <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={addToCart} className="btn-primary w-full py-4 text-base">
+      <Icon name="cart" /> הוספה לסל
+    </motion.button>
+  );
+
   const panel = (
     <motion.div
       key={current.id}
@@ -87,24 +94,12 @@ export function AddonBuilder({ product, sizes }: Props) {
           <p className="text-sm text-ink-soft">{current.subtitle}</p>
         </div>
       </div>
-      {current.id === "size" ? (
-        <SizeStep product={product} sizes={sizes} />
-      ) : current.id === "summary" ? (
-        <SummaryStep product={product} q={q} goTo={goTo} stepOf={stepOf} />
+      {current.id === "summary" ? (
+        <SummaryStep product={product} q={q} profile={profileLabel} goTo={goTo} stepOf={stepOf} cta={cta} />
       ) : (
         <AddonStep step={current} product={product} selections={selections} set={set} />
       )}
     </motion.div>
-  );
-
-  const cta = added ? (
-    <Link href="/cart/" className="btn-brand w-full py-4 text-base">
-      <Icon name="check" /> נוסף לסל · למעבר לסל
-    </Link>
-  ) : (
-    <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={addToCart} className="btn-primary w-full py-4 text-base">
-      <Icon name="cart" /> הוספה לסל
-    </motion.button>
   );
 
   return (
@@ -114,16 +109,23 @@ export function AddonBuilder({ product, sizes }: Props) {
         <div className="mb-5 flex flex-wrap items-end justify-between gap-2 sm:mb-6">
           <div>
             <p className="eyebrow">
-              <Icon name="sparkle" className="size-4 text-copper" /> מידה, תוספות, סיכום
+              <Icon name="sparkle" className="size-4 text-copper" /> צבע, תוספות, סיכום
             </p>
             <h2 id="build-title" className="mt-1 text-[1.9rem] font-extrabold leading-tight sm:text-4xl">
               הרכיבו את המחסן שלכם
             </h2>
           </div>
-          <p className="text-sm font-semibold text-ink-soft">
-            שלב {step + 1} מתוך {steps.length}
+          <p className="flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm font-bold">
+            <Footprint w={product.widthM} d={product.depthM} className="size-5 text-brand-dark" />
+            מידה <span dir="ltr">{product.sizeLabel}</span>
           </p>
         </div>
+
+        {profile && <ProfilePicker addon={profile} value={String(selections[profile.id] ?? profile.default ?? "")} onChange={(v) => set(profile.id, v)} />}
+
+        <p className="mb-2 mt-6 text-sm font-semibold text-ink-soft">
+          שלב {step + 1} מתוך {steps.length}
+        </p>
 
         {/* step rail */}
         <ol ref={rail} className="no-scrollbar relative -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0" aria-label="שלבי הבנייה">
@@ -183,9 +185,7 @@ export function AddonBuilder({ product, sizes }: Props) {
                 <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={() => goTo(step + 1)} className="btn-primary h-12 flex-1 sm:flex-none sm:px-8">
                   {step === steps.length - 2 ? "לסיכום" : `הבא: ${steps[step + 1].title}`} <Icon name="arrow" className="size-4" />
                 </motion.button>
-              ) : (
-                <div className="flex-1 lg:hidden">{cta}</div>
-              )}
+              ) : null}
             </div>
           </div>
 
@@ -201,7 +201,7 @@ export function AddonBuilder({ product, sizes }: Props) {
                   <p className="truncate font-bold">{product.name}</p>
                 </div>
               </div>
-              <Lines q={q} dark onJump={(id) => goTo(stepOf(id))} />
+              <Lines q={q} profile={profileLabel} dark onJump={(id) => goTo(stepOf(id))} />
               <div className="mt-4 border-t border-white/15 pt-4">
                 <p className="text-sm text-white/60">סה&quot;כ כולל מע&quot;מ</p>
                 <AnimatedPrice value={q.total} className="font-display text-4xl font-extrabold" />
@@ -247,7 +247,7 @@ export function AddonBuilder({ product, sizes }: Props) {
                 className="mb-2 max-h-[60svh] overflow-y-auto rounded-3xl bg-white p-5 shadow-lift"
               >
                 <p className="font-display text-xl font-extrabold">{product.name}</p>
-                <Lines q={q} onJump={(id) => goTo(stepOf(id))} />
+                <Lines q={q} profile={profileLabel} onJump={(id) => goTo(stepOf(id))} />
                 <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
                   <Icon name="whatsapp" /> שליחת ההרכב בוואטסאפ
                 </a>
@@ -281,26 +281,62 @@ export function AddonBuilder({ product, sizes }: Props) {
   );
 }
 
-function SizeStep({ product, sizes }: { product: Product; sizes: Product[] }) {
+/** White or black profiles: the first choice, as two big swatches with a little shed in that colour. */
+function ProfilePicker({ addon, value, onChange }: { addon: Addon; value: string; onChange: (id: string) => void }) {
   return (
-    <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
-      {sizes.map((p) => {
-        const on = p.slug === product.slug;
-        return (
-          <Link
-            key={p.slug}
-            href={`/product/${p.slug}/#build`}
-            scroll={false}
-            aria-current={on ? "page" : undefined}
-            className={`group relative flex flex-col items-center gap-0.5 rounded-xl border px-1 py-2.5 text-center sm:gap-1 sm:rounded-2xl sm:py-3 transition-all duration-300 ${on ? "border-ink bg-ink text-white shadow-lift" : "border-line bg-white hover:-translate-y-0.5 hover:border-ink/40"}`}
-          >
-            <Footprint w={p.widthM} d={p.depthM} className={`hidden size-9 sm:block ${on ? "text-glow" : "text-ink/70"}`} />
-            <span className="text-[15px] font-black" dir="ltr">{p.sizeLabel}</span>
-            <span className={`text-[11px] tabular-nums sm:text-xs ${on ? "text-white/70" : "text-ink-soft"}`}>{formatILS(p.price)}</span>
-          </Link>
-        );
-      })}
+    <div className="mt-5 rounded-3xl bg-white p-4 shadow-soft sm:p-5">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <p className="text-lg font-extrabold">קודם כל: באיזה צבע הפרופילים?</p>
+        <p className="text-sm text-ink-soft">{addon.description}</p>
+      </div>
+      <div role="radiogroup" aria-label={addon.name} className="mt-3 grid grid-cols-2 gap-3">
+        {(addon.choices ?? []).map((c) => {
+          const on = c.id === value;
+          return (
+            <motion.button
+              key={c.id}
+              type="button"
+              role="radio"
+              aria-checked={on}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => onChange(c.id)}
+              className={`relative flex flex-col items-center gap-2 rounded-2xl border-2 p-3 transition-colors duration-300 sm:flex-row sm:gap-4 sm:p-4 ${on ? "border-brand bg-brand-tint/60" : "border-line hover:border-ink/30"}`}
+            >
+              <ShedIcon frame={c.swatch ?? "#1d1f22"} className="h-16 w-20 shrink-0 sm:h-20 sm:w-24" />
+              <span className="text-center sm:text-start">
+                <span className="block text-lg font-extrabold">פרופיל {c.label}</span>
+                <PriceTag price={c.price} />
+              </span>
+              {on && (
+                <motion.span layoutId="profile-check" transition={{ type: "spring", stiffness: 500, damping: 32 }} className="absolute top-2 end-2 grid size-6 place-items-center rounded-full bg-brand text-white">
+                  <Icon name="check" className="size-3.5" strokeWidth={3} />
+                </motion.span>
+              )}
+            </motion.button>
+          );
+        })}
+      </div>
     </div>
+  );
+}
+
+/** A Modubox shed, front view: white panels in an aluminium frame of the given colour. */
+function ShedIcon({ frame, className = "" }: { frame: string; className?: string }) {
+  const light = frame.toLowerCase() > "#888888";
+  const edge = light ? "#c9d2d1" : frame;
+  return (
+    <svg viewBox="0 0 96 76" className={className} aria-hidden="true">
+      <rect x="4" y="4" width="88" height="8" rx="1" fill={frame} stroke={edge} />
+      <rect x="8" y="12" width="80" height="58" fill={frame} stroke={edge} />
+      <rect x="12" y="14" width="22" height="6" fill="#9fc3c7" />
+      <rect x="37" y="14" width="22" height="6" fill="#9fc3c7" />
+      <rect x="62" y="14" width="22" height="6" fill="#9fc3c7" />
+      <rect x="12" y="23" width="22" height="45" fill="#fbfcfc" stroke="#dfe5e4" />
+      <rect x="37" y="23" width="22" height="45" fill="#f3f6f6" stroke="#dfe5e4" />
+      <rect x="62" y="23" width="22" height="45" fill="#fbfcfc" stroke="#dfe5e4" />
+      <rect x="54" y="43" width="2" height="6" rx="1" fill="#5b6466" />
+      <rect x="4" y="70" width="88" height="3" rx="1" fill={frame} stroke={edge} />
+    </svg>
   );
 }
 
@@ -330,7 +366,7 @@ function AddonStep({ step, product, selections, set }: { step: BuilderStep; prod
           >
             <div className="flex items-center gap-3 rounded-2xl bg-copper-tint p-3 ring-1 ring-copper/25">
               <Icon name="bolt" className="size-5 shrink-0 text-copper" />
-              <p className="flex-1 text-sm font-semibold">מזגן צריך חשמל: מומלץ להוסיף פאנל חיבור לחשמל.</p>
+              <p className="flex-1 text-sm font-semibold">מזגן צריך חשמל: מומלץ להוסיף פאנל חשמל למחסן.</p>
               <button type="button" onClick={() => set("electric-panel", 1)} className="btn h-10 shrink-0 bg-ink px-4 text-sm text-white">
                 הוספה <PriceTag price={panel.price} className="text-white" />
               </button>
@@ -342,14 +378,20 @@ function AddonStep({ step, product, selections, set }: { step: BuilderStep; prod
   );
 }
 
-function Lines({ q, dark = false, onJump }: { q: Quote; dark?: boolean; onJump: (addonId: string) => void }) {
-  const extras = q.lines.slice(1);
+function Lines({ q, profile, dark = false, onJump }: { q: Quote; profile?: string; dark?: boolean; onJump: (addonId: string) => void }) {
+  const extras = q.lines.slice(1).filter((l) => l.id !== "profile-color");
   return (
     <ul className={`mt-4 space-y-1 text-sm ${dark ? "text-white/85" : "text-ink"}`}>
       <li className="flex justify-between gap-3 py-1">
         <span className={dark ? "text-white/60" : "text-ink-soft"}>מחיר בסיס</span>
         <span className="font-semibold tabular-nums">{formatILS(q.lines[0].total ?? 0)}</span>
       </li>
+      {profile && (
+        <li className="flex justify-between gap-3 py-1">
+          <span className={dark ? "text-white/60" : "text-ink-soft"}>פרופילים</span>
+          <span className="font-semibold">{profile}</span>
+        </li>
+      )}
       <AnimatePresence initial={false}>
         {extras.map((l) => (
           <motion.li
@@ -378,7 +420,7 @@ function Lines({ q, dark = false, onJump }: { q: Quote; dark?: boolean; onJump: 
   );
 }
 
-function SummaryStep({ product, q, goTo, stepOf }: { product: Product; q: Quote; goTo: (i: number) => void; stepOf: (id: string) => number }) {
+function SummaryStep({ product, q, profile, goTo, stepOf, cta }: { product: Product; q: Quote; profile?: string; goTo: (i: number) => void; stepOf: (id: string) => number; cta: React.ReactNode }) {
   const delivery = fulfillmentOptions(product)[0];
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-soft">
@@ -388,13 +430,13 @@ function SummaryStep({ product, q, goTo, stepOf }: { product: Product; q: Quote;
         <p className="absolute bottom-3 start-4 font-display text-2xl font-extrabold text-white">{product.name}</p>
       </div>
       <div className="p-4 sm:p-6">
-        <Lines q={q} onJump={(id) => goTo(stepOf(id))} />
+        <Lines q={q} profile={profile} onJump={(id) => goTo(stepOf(id))} />
         <div className="mt-4 flex items-end justify-between gap-3 border-t border-line pt-4">
           <div>
             <p className="text-sm text-ink-soft">סה&quot;כ כולל מע&quot;מ</p>
             <AnimatedPrice value={q.total} className="font-display text-4xl font-extrabold" showDelta={false} />
           </div>
-          <button type="button" onClick={() => goTo(1)} className="text-sm font-bold text-brand-dark underline underline-offset-4">
+          <button type="button" onClick={() => goTo(0)} className="text-sm font-bold text-brand-dark underline underline-offset-4">
             שינוי תוספות
           </button>
         </div>
@@ -410,6 +452,7 @@ function SummaryStep({ product, q, goTo, stepOf }: { product: Product; q: Quote;
         <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
           <Icon name="whatsapp" /> שליחת ההרכב בוואטסאפ
         </a>
+        <div className="mt-3">{cta}</div>
       </div>
     </div>
   );

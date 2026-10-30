@@ -36,12 +36,25 @@ export default function ContactPage() {
           <LeadForm />
         </div>
         <div className="space-y-6">
-          <div className="card p-6">
-            <h2 className="mb-3 flex items-center gap-2 text-xl font-extrabold"><Icon name="pin" className="text-brand-dark" /> איפה אנחנו</h2>
-            <p>מפעל ראשי ותצוגה: <strong>{site.factory}</strong></p>
-            <p>מפעל משני: <strong>{site.factory2}</strong></p>
-            <p className="mt-2 text-sm text-ink-soft">ביקור בתצוגה – בתיאום מראש. {site.hours.startsWith("TODO") ? "" : site.hours}</p>
-            <a href={`https://waze.com/ul?q=${encodeURIComponent(site.factory)}`} target="_blank" rel="noopener" className="btn-ghost mt-4">ניווט עם Waze</a>
+          <div className="card overflow-hidden">
+            <iframe
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(site.mapQuery)}&hl=iw&z=14&output=embed`}
+              title={`מפה: מודובוקס, ${site.factory}`}
+              className="block h-72 w-full border-0 sm:h-80"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+            <div className="p-6">
+              <h2 className="mb-3 flex items-center gap-2 text-xl font-extrabold"><Icon name="pin" className="size-5 shrink-0 text-brand-dark" /> איפה אנחנו</h2>
+              <p>מפעל ראשי ותצוגה: <strong>{site.factory}</strong></p>
+              <p>מפעל משני: <strong>{site.factory2}</strong></p>
+              <p className="mt-2 text-sm text-ink-soft">ביקור בתצוגה – בתיאום מראש. {site.hours.startsWith("TODO") ? "" : site.hours}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <a href={`https://waze.com/ul?q=${encodeURIComponent(site.mapQuery)}&navigate=yes`} target="_blank" rel="noopener" className="btn-ghost">ניווט עם Waze</a>
+                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.mapQuery)}`} target="_blank" rel="noopener" className="btn-ghost">פתיחה ב־Google Maps</a>
+              </div>
+            </div>
           </div>
           <Link href="/faq/" className="btn-ghost w-full">לשאלות הנפוצות ←</Link>
         </div>

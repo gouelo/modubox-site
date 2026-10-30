@@ -125,7 +125,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
       {configurable && (
         <div className="mt-10 sm:mt-14">
-          <AddonBuilder product={product} sizes={sizes} />
+          <AddonBuilder product={product} />
         </div>
       )}
 
@@ -149,7 +149,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </div>
       </section>
 
-      {!configurable && sizes.length > 1 && (
+      {sizes.length > 1 && (
         <section className="mt-12">
           <h2 className="mb-3 text-2xl font-extrabold">מידות נוספות</h2>
           <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:px-0">

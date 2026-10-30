@@ -10,15 +10,16 @@
   "whatsapp": "972529555057",
   "whatsappGreeting": "היי מודובוקס! אשמח לקבל פרטים נוספים",
   "design3d": {
-    "_readme": "כפתור 'עיצוב בתלת־ממד'. כשהקונפיגורטור של המפתח יהיה מוכן, שימו את הכתובת שלו ב-url ({slug} יוחלף בקוד המוצר, למשל https://3d.modubox.com/?model={slug}). כל עוד url ריק, הכפתור פותח וואטסאפ עם ההודעה שב-whatsappMessage ({product} יוחלף בשם המוצר).",
-    "url": "",
-    "label": "רוצים לעצב את המחסן שלכם בתלת־ממד?",
-    "whatsappMessage": "היי מודובוקס! אשמח לעצב בתלת־ממד את {product}",
-    "whatsappMessageGeneral": "היי מודובוקס! אשמח לעצב את המחסן שלי בתלת־ממד"
+    "_readme": "כפתור 'עיצוב בתלת־ממד': נפתח בחלונית צד מעל הדף (embed.js שבכתובת script). {model} יוחלף בדגם של המוצר (3x2, 4x1...), שנגזר מהמידות שלו או מהשדה configuratorModel ב-products.json. בדפים בלי מוצר (בית, קטלוג) הכפתור פותח את הקונפיגורטור בלי דגם. url ריק = הכפתור לא מוצג.",
+    "url": "https://web-production-950b8.up.railway.app/il?model={model}",
+    "script": "https://web-production-950b8.up.railway.app/embed.js",
+    "market": "il",
+    "label": "רוצים לעצב את המחסן שלכם בתלת־ממד?"
   },
   "email": "sales@modubox.com",
   "factory": "קיבוץ עין חרוד מאוחד",
   "factory2": "אזור תעשייה מבוא חורון",
+  "mapQuery": "מחסני רדיוס עין חרוד מאוחד",
   "pickupLocation": "מחסני רדיוס, קיבוץ עין חרוד מאוחד",
   "hours": "TODO: שעות פעילות – לא מופיעות באתר הישן",
   "googleReviewsUrl": "https://www.google.com/search?q=%D7%9E%D7%95%D7%93%D7%95%D7%91%D7%95%D7%A7%D7%A1#lrd=0x1502cffd485695b1:0xc72e9c9ced498570,1,,,",

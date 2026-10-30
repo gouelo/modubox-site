@@ -1,7 +1,7 @@
 import { addonsFor } from "./catalog";
 import type { Addon, Product, Selections } from "./types";
 
-export type StepIcon = "ruler" | "palette" | "door" | "bolt" | "shelf" | "layers" | "plus" | "check";
+export type StepIcon = "door" | "bolt" | "shelf" | "plus" | "check";
 
 export interface BuilderStep {
   id: string;
@@ -11,24 +11,29 @@ export interface BuilderStep {
   addons: Addon[];
 }
 
+/** The add-on chosen up front, before the steps: the profiles' colour, white or black. */
+export const PROFILE_ADDON = "profile-color";
+
 /**
- * The steps of the add-ons builder on a product page. Add-ons are placed by
- * their `group` in data/addons.json; a group that no step names lands in
- * "תוספות נוספות", so a new group always shows up.
+ * The steps of the add-ons builder on a product page. The size is the page's
+ * own and the profile colour is chosen above the steps, so the steps are only
+ * add-ons, placed by their `group` in data/addons.json; a group that no step
+ * names lands in "תוספות נוספות", so a new group always shows up.
  */
 const ADDON_STEPS: { id: string; title: string; subtitle: string; icon: StepIcon; groups: string[] }[] = [
-  { id: "design", title: "עיצוב", subtitle: "באיזה צבע תרצו את השלדה?", icon: "palette", groups: ["עיצוב"] },
   { id: "openings", title: "דלתות וחלונות", subtitle: "פתחים, אור טבעי וגישה נוחה", icon: "door", groups: ["דלתות וחלונות"] },
   { id: "power", title: "חשמל ומיזוג", subtitle: "להפוך את המחסן לחדר שאפשר לעבוד בו", icon: "bolt", groups: ["חשמל ומיזוג"] },
   { id: "interior", title: "פנים ואוורור", subtitle: "סדר בפנים ואוויר נקי", icon: "shelf", groups: ["אחסון פנימי", "אוורור"] },
-  { id: "base", title: "בסיס והתאמה", subtitle: "על מה המחסן יעמוד, ובאיזו מידה בדיוק", icon: "layers", groups: ["בסיס", "התאמה אישית"] },
 ];
 
+/** The profile-colour add-on, when the product offers it. */
+export function profileAddon(product: Product): Addon | undefined {
+  return addonsFor(product).find((a) => a.id === PROFILE_ADDON);
+}
+
 export function builderSteps(product: Product): BuilderStep[] {
-  const all = addonsFor(product);
-  const steps: BuilderStep[] = [
-    { id: "size", title: "מידה", subtitle: "בחרו את גודל המחסן", icon: "ruler", addons: [] },
-  ];
+  const all = addonsFor(product).filter((a) => a.id !== PROFILE_ADDON);
+  const steps: BuilderStep[] = [];
   const placed = new Set<string>();
   for (const s of ADDON_STEPS) {
     const addons = all.filter((a) => s.groups.includes(a.group));

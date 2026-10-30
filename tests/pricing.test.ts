@@ -29,16 +29,16 @@ describe("quote", () => {
   });
 
   it("keeps price-on-request add-ons out of the total", () => {
-    const q = quote(p22, { ...defaultSelections(p22), "kip-window": 1 });
+    const onRequest = { ...p22, addonPriceOverrides: { "electric-panel": null as unknown as number } };
+    const q = quote(onRequest, { ...defaultSelections(p22), "electric-panel": 1 });
     expect(q.total).toBe(5990);
-    expect(q.onRequest.map((l) => l.id)).toEqual(["kip-window"]);
+    expect(q.onRequest.map((l) => l.id)).toEqual(["electric-panel"]);
   });
 
-  it("applies per-product add-on price overrides (platform)", () => {
-    const narrow = getProduct("modubox-2x0-8")!;
-    expect(addonsFor(narrow).find((a) => a.id === "platform")?.price).toBe(600);
-    expect(quote(narrow, { platform: 1 }).total).toBe(3800 + 600);
-    expect(addonsFor(p22).some((a) => a.id === "platform")).toBe(false);
+  it("applies per-product add-on price overrides", () => {
+    const cheap = { ...p22, addonPriceOverrides: { "vent-grill": 150 } };
+    expect(addonsFor(cheap).find((a) => a.id === "vent-grill")?.price).toBe(150);
+    expect(quote(cheap, { "vent-grill": 2 }).total).toBe(5990 + 300);
   });
 
   it("hides the double door on sheds narrower than 2 m", () => {

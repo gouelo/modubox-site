@@ -28,17 +28,6 @@ export function productMessage(product: Product): string {
   return [`היי מודובוקס! אשמח לפרטים על ${product.name}`, `מחיר בסיס: ${formatILS(product.price)}`].join("\n");
 }
 
-/**
- * Where the "design it in 3D" button goes. Set `design3d.url` in data/site.json
- * to the developer's configurator ({slug} becomes the product's slug); while it
- * is empty the button opens WhatsApp with a message naming the product.
- */
-export function design3dLink(product?: Product): string {
-  const d = site.design3d;
-  if (d.url) return product ? d.url.replaceAll("{slug}", product.slug) : d.url.replace(/[?&][^?&]*\{slug\}[^&]*/, "");
-  return waLink(product ? d.whatsappMessage.replaceAll("{product}", product.name) : d.whatsappMessageGeneral);
-}
-
 export interface Customer {
   name: string;
   phone: string;

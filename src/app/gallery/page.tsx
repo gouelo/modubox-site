@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
 import { Gallery } from "@/components/Gallery";
 import { VideoCard } from "@/components/VideoCard";
-import { gallery, products, site, videos } from "@/lib/catalog";
+import { gallery, site, videos } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "גלריה וסרטונים",
-  description: "תמונות של מחסני ויחידות חצר מודובוקס אצל לקוחות, הדמיות וסרטוני התקנה.",
+  description: "סרטונים ותמונות אמיתיות של מחסני ויחידות חצר מודובוקס אצל לקוחות.",
 };
 
 export default function GalleryPage() {
-  const seen = new Set(gallery.map((g) => g.src));
-  const more = products
-    .filter((p) => p.category === "modubox")
-    .flatMap((p) => p.images.map((src) => ({ src, alt: p.name })))
-    .filter((g) => !seen.has(g.src) && (seen.add(g.src), true));
   return (
     <div className="container-x py-12">
       <header className="max-w-3xl">
@@ -29,8 +24,9 @@ export default function GalleryPage() {
         <a href={site.social.youtube} target="_blank" rel="noopener" className="btn-ghost mt-6">לכל הסרטונים ביוטיוב</a>
       </section>
       <section className="mt-14">
-        <h2 className="mb-5 text-2xl font-extrabold">תמונות</h2>
-        <Gallery images={[...gallery, ...more]} />
+        <h2 className="mb-1 text-2xl font-extrabold">תמונות מלקוחות</h2>
+        <p className="mb-5 text-ink-soft">צילומים אמיתיים מהתקנות שלנו, בלי הדמיות.</p>
+        <Gallery images={gallery} />
       </section>
     </div>
   );

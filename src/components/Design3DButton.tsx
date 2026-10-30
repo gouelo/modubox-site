@@ -1,15 +1,17 @@
 import { site } from "@/lib/catalog";
+import { design3dLink, hasDesign3d } from "@/lib/design3d";
 import type { Product } from "@/lib/types";
-import { design3dLink } from "@/lib/whatsapp";
 import { Icon } from "./Icon";
 
 /**
- * "Design your shed in 3D": WhatsApp for now, the developer's configurator later
- * (data/site.json → design3d.url). `tile` is the quieter variant for product pages.
+ * "Design your shed in 3D": a plain link to the configurator (data/site.json →
+ * design3d.url). The configurator's embed script, loaded in the root layout,
+ * catches the click and opens it in a side panel over the page; without the
+ * script the link opens it in a new tab. `tile` is the quieter variant.
  */
 export function Design3DButton({ product, className = "", variant = "solid" }: { product?: Product; className?: string; variant?: "solid" | "tile" }) {
-  const external = !site.design3d.url || !site.design3d.url.startsWith("/");
-  const link = { href: design3dLink(product), ...(external ? { target: "_blank", rel: "noopener" } : {}) };
+  if (!hasDesign3d(product)) return null;
+  const link = { href: design3dLink(product), target: "_blank", rel: "noopener" };
   if (variant === "tile")
     return (
       <a {...link} className={`group flex items-center gap-3 rounded-2xl border border-line bg-white p-3 pe-4 transition-all duration-300 hover:border-brand hover:shadow-soft ${className}`}>

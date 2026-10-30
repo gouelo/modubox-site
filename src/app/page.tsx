@@ -11,9 +11,11 @@ import { addons, categories, lowestPrice, productsIn, reviews, site } from "@/li
 import { formatILS } from "@/lib/format";
 import { waLink } from "@/lib/whatsapp";
 
-const FEATURED = ["modubox-2x1", "modubox-2x2", "modubox-3x2", "modubox-4x2"];
+const FEATURED = ["modubox-3x2", "modubox-4x2", "modubox-4x3", "modubox-5x3"];
 /** where "start building" leads: the best-selling size's builder */
 const BUILD_FROM = "modubox-3x2";
+/** a real customer's shed, the whole of it in frame */
+const HERO = { src: "photos/da9360e8.webp", alt: "מחסן מודובוקס לבן בחצר של לקוח, עם דלת פתוחה ופרחים", caption: "מחסן מודובוקס בחצר של לקוח" };
 const SHOWCASE = ["double-door", "sliding-window", "glass-wall", "electric-panel", "vent-grill", "shelf-5"];
 
 const STEPS: { icon: IconName; title: string; text: string }[] = [
@@ -29,22 +31,11 @@ export default function Home() {
 
   return (
     <>
-      {/* HERO */}
+      {/* HERO: the text beside a real customer's shed, shown whole */}
       <section className="relative isolate -mt-16 overflow-hidden bg-night text-white lg:-mt-[72px]">
-        {/* phones: the photo fills the top and fades into the dark; desktop: full bleed */}
-        <div className="absolute inset-x-0 top-0 -z-10 h-[64%] overflow-hidden lg:h-full">
-          <Image
-            src="photos/2c981b23.webp"
-            alt="יחידת חצר של מודובוקס עם קיר ויטרינה בשקיעה"
-            fill
-            priority
-            sizes="100vw"
-            className="animate-[heroZoom_2.4s_cubic-bezier(0.16,1,0.3,1)_both] object-cover object-[30%_center] lg:object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/20 to-night/30 lg:bg-gradient-to-l lg:from-night/90 lg:via-night/40 lg:to-transparent" />
-        </div>
-        <div className="container-x flex min-h-[92svh] flex-col justify-end pb-8 pt-28 lg:min-h-[88vh] lg:justify-center lg:pb-16">
-          <div className="max-w-2xl">
+        <div className="absolute -top-40 end-[-10%] -z-10 size-[42rem] rounded-full bg-brand/20 blur-3xl" aria-hidden="true" />
+        <div className="container-x grid items-center gap-8 pb-10 pt-20 lg:min-h-[88vh] lg:grid-cols-[1fr_1.1fr] lg:gap-14 lg:pb-16 lg:pt-28">
+          <div className="order-2 max-w-2xl lg:order-1">
             <p className="eyebrow text-glow">
               <span className="h-px w-8 bg-glow/70" /> מבנים מפנל מבודד · ייצור ישראלי
             </p>
@@ -64,22 +55,37 @@ export default function Home() {
                 </a>
               </div>
             </Reveal>
+            <Reveal delay={0.7} className="mt-8 lg:mt-12">
+              <dl className="grid grid-cols-3 divide-x divide-x-reverse divide-white/15 rounded-2xl border border-white/15 bg-white/5 py-3 backdrop-blur-md sm:max-w-xl">
+                {[
+                  [`${site.rating}`, `${site.reviewCount} ביקורות בגוגל`],
+                  [`${site.warrantyYears}`, "שנות אחריות"],
+                  [`${site.installationDays}`, "ימים להתקנה"],
+                ].map(([v, k]) => (
+                  <div key={k} className="px-3 text-center">
+                    <dt className="sr-only">{k}</dt>
+                    <dd className="font-display text-2xl font-extrabold sm:text-3xl">{v}</dd>
+                    <dd className="text-xs text-white/65">{k}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
           </div>
-          <Reveal delay={0.7} className="mt-10 lg:mt-16">
-            <dl className="grid grid-cols-3 divide-x divide-x-reverse divide-white/15 rounded-2xl border border-white/15 bg-white/5 py-3 backdrop-blur-md sm:max-w-xl">
-              {[
-                [`${site.rating}`, `${site.reviewCount} ביקורות בגוגל`],
-                [`${site.warrantyYears}`, "שנות אחריות"],
-                [`${site.installationDays}`, "ימים להתקנה"],
-              ].map(([v, k]) => (
-                <div key={k} className="px-3 text-center">
-                  <dt className="sr-only">{k}</dt>
-                  <dd className="font-display text-2xl font-extrabold sm:text-3xl">{v}</dd>
-                  <dd className="text-xs text-white/65">{k}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
+          <div className="order-1 lg:order-2">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] shadow-lift ring-1 ring-white/10 lg:rounded-[2.5rem]">
+              <Image
+                src={HERO.src}
+                alt={HERO.alt}
+                fill
+                priority
+                sizes="(min-width:1024px) 52vw, 100vw"
+                className="animate-[heroZoom_2.4s_cubic-bezier(0.16,1,0.3,1)_both] object-cover"
+              />
+              <span className="absolute bottom-3 start-3 flex items-center gap-1.5 rounded-full bg-night/70 px-3 py-1.5 text-xs font-semibold backdrop-blur-md sm:bottom-4 sm:start-4 sm:text-sm">
+                <Icon name="pin" className="size-4 text-glow" /> {HERO.caption}
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 

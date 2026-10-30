@@ -49,6 +49,8 @@ export interface Product {
   addons: string[];
   addonPriceOverrides: Record<string, number>;
   images: string[];
+  /** 3D configurator model ("3x2"); null = none. Unset: from widthM×depthM. */
+  configuratorModel?: string | null;
   oldUrl?: string | null;
   todo?: string;
 }
