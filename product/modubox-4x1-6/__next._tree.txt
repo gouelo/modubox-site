@@ -1,8 +1,8 @@
-:HL["/modubox-site/_next/static/chunks/01o-m1kfz6or_.css","style"]
+:HL["/modubox-site/_next/static/chunks/0wjw26yv7c0v0.css","style"]
 :HL["/modubox-site/_next/static/media/a2ad9851afd9a4d8-s.p.0jgv4ivu1938h.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/_next/static/media/d0c0bfa28634aa91-s.p.3dq6enaul-s3b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/brand/logo-white.svg","image"]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"d","k":"modubox-4x1-6","s":[]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"product","h":64,"c":"$Q2"}]]
-0:{"b":"QXHubk109I2nTNR9rEbnJ","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"oo6uBKVQ3rj7PN6vqibaX","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
