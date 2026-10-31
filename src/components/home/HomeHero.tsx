@@ -16,7 +16,9 @@ const PHOTO = { src: "renders/garden-office-white.webp", alt: "יחידת חצר
  * The home hero: the headline on a dark stage, then the shed full-bleed,
  * drifting slowly as the page scrolls. The photo's box keeps the whole shed
  * in view: 4:3 on phones (the shed sits in the middle 60% of the frame), and
- * the rest of the screen's height from lg up.
+ * from lg up a 2.1:1 frame (never wider, so cover-cropping keeps roof to base:
+ * the shed fills 76% of the photo's height) that also fits under the headline
+ * on short screens, where it narrows and fades into the dark at its sides.
  */
 export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes: number; range: string }) {
   const ref = useRef<HTMLElement>(null);
@@ -28,7 +30,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
   return (
     <section ref={ref} className="relative isolate -mt-16 overflow-hidden bg-night text-white lg:-mt-[72px]">
       <div className="absolute -top-48 start-[-10%] -z-10 size-[44rem] rounded-full bg-brand/25 blur-3xl" aria-hidden="true" />
-      <div className="flex flex-col lg:h-[100svh] lg:min-h-[44rem]">
+      <div className="flex flex-col">
         <div className="container-x grid gap-6 pt-24 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-end lg:gap-12 lg:pt-28">
           <div>
             <p className="eyebrow text-glow">
@@ -51,7 +53,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
           </Reveal>
         </div>
 
-        <div className="relative mt-8 aspect-[4/3] sm:aspect-[16/9] lg:mt-6 lg:aspect-auto lg:min-h-[26rem] lg:flex-1">
+        <div className="relative mx-auto mt-8 aspect-[4/3] w-full sm:aspect-[16/9] lg:mt-6 lg:aspect-[2.1/1] lg:max-w-[max(56rem,calc((100svh-18rem)*2.1))] lg:[mask-image:linear-gradient(to_right,transparent,black_2%,black_98%,transparent)]">
           <motion.div style={{ y }} className="absolute inset-0">
             <Image
               src={PHOTO.src}
@@ -59,12 +61,12 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
               fill
               priority
               sizes="100vw"
-              className="animate-[heroZoom_2.6s_cubic-bezier(0.16,1,0.3,1)_both] object-cover object-[50%_62%]"
+              className="animate-[heroZoom_2.6s_cubic-bezier(0.16,1,0.3,1)_both] object-cover object-[50%_62%] lg:object-[50%_70%]"
             />
           </motion.div>
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-night to-transparent" aria-hidden="true" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-night/80 to-transparent" aria-hidden="true" />
-          <div className="container-x absolute inset-x-0 bottom-4 sm:bottom-6">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-night to-transparent lg:h-6" aria-hidden="true" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-night/80 to-transparent lg:h-10" aria-hidden="true" />
+          <div className="container-x absolute inset-x-0 bottom-4 sm:bottom-6 lg:bottom-auto lg:top-6 lg:text-end">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-night/60 px-3 py-1.5 text-xs font-semibold ring-1 ring-white/15 backdrop-blur-md sm:text-sm">
               <Icon name="sparkle" className="size-4 text-glow" /> משרד בגינה מבית מודובוקס
             </span>

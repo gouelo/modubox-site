@@ -25,10 +25,15 @@ const BENEFITS: { icon: IconName; title: string; text: string }[] = [
   { icon: "check", title: `${site.warrantyYears} שנות אחריות`, text: "ייצור ישראלי, במפעל שלנו" },
 ];
 
-/** Where the two materials sit in the photo (it is shown whole, 16:9, so the points stay put). */
-const SPOTS = [
-  { x: 32.6, y: 40, label: "פרופיל אלומיניום" },
-  { x: 40, y: 70, label: "פאנל מבודד XPV" },
+/**
+ * Callouts on the photo, measured on the render itself (it is shown whole, 16:9,
+ * so the points stay put): x/y in % of the photo, and the side the label opens to.
+ */
+const SPOTS: { x: number; y: number; label: string; side: "left" | "right" }[] = [
+  { x: 42, y: 24.5, label: "חלונות סקיילייט", side: "right" },
+  { x: 33.1, y: 79, label: "פרופיל אלומיניום", side: "left" },
+  { x: 40.6, y: 70, label: "פאנל מבודד XPV", side: "right" },
+  { x: 63.5, y: 80.5, label: "רצפה פנימית מוגבהת", side: "right" },
 ];
 
 /** What a Modubox shed is made of: aluminium profiles and insulated XPV panels. */
@@ -54,13 +59,13 @@ export function Materials({ compact = false }: { compact?: boolean }) {
             />
             {SPOTS.map((s) => (
               <span key={s.label} className="absolute" style={{ left: `${s.x}%`, top: `${s.y}%` }}>
-                <span className="absolute -translate-x-1/2 -translate-y-1/2">
+                <span className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2">
                   <span className="relative grid size-4 place-items-center">
                     <span className="absolute inset-0 animate-ping rounded-full bg-glow/70" />
                     <span className="relative size-3 rounded-full bg-brand ring-2 ring-white" />
                   </span>
                 </span>
-                <span className="absolute left-3 top-0 -translate-y-1/2 whitespace-nowrap rounded-full bg-night/80 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur sm:text-xs">{s.label}</span>
+                <span className={`absolute top-0 -translate-y-1/2 whitespace-nowrap ${s.side === "left" ? "right-3" : "left-3"} rounded-full bg-night/80 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur sm:text-xs`}>{s.label}</span>
               </span>
             ))}
           </div>
