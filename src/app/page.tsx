@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Design3DButton } from "@/components/Design3DButton";
 import { BuildLauncher } from "@/components/home/BuildLauncher";
 import { ClientLogos } from "@/components/home/ClientLogos";
+import { Craftsmanship } from "@/components/home/Craftsmanship";
 import { HomeHero } from "@/components/home/HomeHero";
 import { PromoBanner } from "@/components/home/PromoBanner";
 import { ReviewMarquee } from "@/components/home/ReviewMarquee";
@@ -106,6 +107,8 @@ export default function Home() {
       </section>
 
       <Materials />
+
+      <Craftsmanship />
 
       {/* HOW IT WORKS: buying in three steps, then the ways in (size picker, 3D, talk to us) */}
       <section className="mt-16 sm:mt-28 sm:px-6 lg:px-8">
