@@ -1,6 +1,5 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -19,21 +18,14 @@ export interface PickerSize {
   popular: boolean;
 }
 
-export interface PickerTile {
-  id: string;
-  name: string;
-  image?: string;
-  price: number | null | undefined;
-}
-
 const ease = [0.16, 1, 0.3, 1] as const;
 
 /**
  * "Start building" on the home page: the builder lives on each size's page,
  * so the visitor picks a size first, in a sheet of every Modubox size, and
- * lands on that size's builder. The add-on tiles open the same sheet.
+ * lands on that size's builder. `children` sit beside the button (the other CTAs).
  */
-export function BuildLauncher({ sizes, tiles, children }: { sizes: PickerSize[]; tiles: PickerTile[]; children?: ReactNode }) {
+export function BuildLauncher({ sizes, children }: { sizes: PickerSize[]; children?: ReactNode }) {
   const [open, setOpen] = useState(false);
   const mounted = useHydrated();
   useEffect(() => {
@@ -105,24 +97,7 @@ export function BuildLauncher({ sizes, tiles, children }: { sizes: PickerSize[];
 
   return (
     <>
-      <div className="no-scrollbar mt-10 flex snap-x gap-3 overflow-x-auto px-5 sm:px-6 lg:px-8">
-        {tiles.map((a) => (
-          <button
-            key={a.id}
-            type="button"
-            onClick={() => setOpen(true)}
-            className="group relative h-52 w-40 shrink-0 snap-start overflow-hidden rounded-2xl bg-white/10 text-start sm:h-64 sm:w-52"
-          >
-            {a.image && <Image src={a.image} alt={a.name} fill sizes="208px" className="object-cover transition duration-1000 group-hover:scale-110" />}
-            <div className="absolute inset-0 bg-gradient-to-t from-night/90 via-night/10 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-3">
-              <p className="text-sm font-bold leading-snug">{a.name}</p>
-              <p className="text-xs text-glow">{a.price ? `+${formatILS(a.price)}` : a.price === 0 ? "לפי מ\"ר" : "מחיר בתיאום"}</p>
-            </div>
-          </button>
-        ))}
-      </div>
-      <div className="container-x mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={() => setOpen(true)} className="btn bg-white px-7 py-4 text-base text-ink hover:bg-brand-tint" aria-haspopup="dialog">
           התחילו להרכיב מחסן <Icon name="arrow" className="size-4" />
         </motion.button>

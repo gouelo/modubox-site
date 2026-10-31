@@ -1,0 +1,71 @@
+{
+  "_readme": "לקוחות קיימים – הלוגואים בפס 'בין לקוחותינו' בדף הבית. כל לוגו הוא קובץ PNG שקוף באפור כהה בתיקייה public/clients (גובה 160 פיקסלים). כדי להוסיף לקוח: שמים את הלוגו בתיקייה ומוסיפים שורה כאן עם name, file, width ו-height של הקובץ. הלוגואים נלקחו מהאתר הישן modubox.com.",
+  "clients": [
+    {
+      "name": "HP",
+      "file": "clients/hp.png",
+      "width": 160,
+      "height": 160
+    },
+    {
+      "name": "אוניברסיטת בן־גוריון בנגב",
+      "file": "clients/ben-gurion-university.png",
+      "width": 150,
+      "height": 160
+    },
+    {
+      "name": "עיריית תל אביב־יפו",
+      "file": "clients/tel-aviv-yafo.png",
+      "width": 290,
+      "height": 160
+    },
+    {
+      "name": "עיריית רעננה",
+      "file": "clients/raanana.png",
+      "width": 148,
+      "height": 160
+    },
+    {
+      "name": "מכון וינגייט",
+      "file": "clients/wingate.png",
+      "width": 160,
+      "height": 160
+    },
+    {
+      "name": "משרד החוץ האמריקאי",
+      "file": "clients/us-state-department.png",
+      "width": 160,
+      "height": 160
+    },
+    {
+      "name": "בזאר שטראוס",
+      "file": "clients/bazar-strauss.png",
+      "width": 315,
+      "height": 160
+    },
+    {
+      "name": "הצלה ללא גבולות",
+      "file": "clients/rescuers-without-borders.png",
+      "width": 161,
+      "height": 160
+    },
+    {
+      "name": "אור שלום",
+      "file": "clients/or-shalom.png",
+      "width": 205,
+      "height": 160
+    },
+    {
+      "name": "ועד מקומי בית זית",
+      "file": "clients/beit-zayit.png",
+      "width": 160,
+      "height": 160
+    },
+    {
+      "name": "עלה טוב",
+      "file": "clients/ale-tov.png",
+      "width": 175,
+      "height": 160
+    }
+  ]
+}
