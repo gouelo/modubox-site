@@ -9,7 +9,7 @@ import { Materials } from "@/components/Materials";
 import { ProductBuyBox } from "@/components/ProductBuyBox";
 import { Stars } from "@/components/Stars";
 import { AddonBuilder } from "@/components/builder/AddonBuilder";
-import { addonsFor, categories, getProduct, plain, products, productsIn, site } from "@/lib/catalog";
+import { addonsFor, allCategories, getProduct, plain, products, productsIn, site } from "@/lib/catalog";
 import { formatCm, formatILS } from "@/lib/format";
 import { fulfillmentOptions } from "@/lib/pricing";
 
@@ -66,7 +66,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     ...(d?.outer ? ([["גובה", formatCm(d.outer.heightMax)]] as [string, string][]) : []),
     ["אחריות", `${product.warrantyYears} שנים`],
   ];
-  const range = categories.find((c) => c.id === product.category);
+  const range = allCategories.find((c) => c.id === product.category);
 
   return (
     <div className="container-x pb-32 pt-3 sm:pt-6 lg:pb-0">

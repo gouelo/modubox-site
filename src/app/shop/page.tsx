@@ -5,7 +5,7 @@ import { categories, productsIn } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "קטלוג מחסנים – כל המידות והמחירים",
-  description: "כל מחסני מודובוקס מפנל מבודד במידות 1×0.80 עד 6×3, מחסני גלבוע, מבני שירותים ועמדות שמירה – עם מחירים, הובלה והתקנה.",
+  description: "כל מחסני מודובוקס מפנל מבודד במידות 1×0.80 עד 6×3, מבני שירותים ועמדות שמירה – עם מחירים, הובלה והתקנה.",
 };
 
 export default function ShopPage() {
@@ -28,6 +28,7 @@ export default function ShopPage() {
             <div>
               <h2 className="text-2xl font-extrabold sm:text-3xl">{c.title}</h2>
               <p className="text-ink-soft">{c.subtitle}</p>
+              {c.intro && <p className="mt-3 max-w-3xl leading-7 text-ink-soft">{c.intro}</p>}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">

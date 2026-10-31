@@ -36,11 +36,24 @@ export const videos = videosFile.videos.map((v) => ({ ...v, title: ltrSizes(v.ti
 export const gallery = galleryFile.images;
 export const faq = faqFile.faq;
 
-export const categories: { id: Category; title: string; subtitle: string }[] = [
+/** Every product category, hidden ones included (their products and pages stay). */
+export const allCategories: { id: Category; title: string; subtitle: string; intro?: string }[] = [
   { id: "modubox", title: "מחסני מודובוקס", subtitle: "פנל מבודד ושלדת אלומיניום · 10 שנות אחריות" },
   { id: "gilboa", title: "מחסני גלבוע", subtitle: "מחסני פלסטיק איכותיים · 5 שנות אחריות" },
-  { id: "special", title: "מבנים מיוחדים ושירותים", subtitle: "מבני שירותים, מקלחת ועמדות שמירה" },
+  {
+    id: "special",
+    title: "מבנים מיוחדים ושירותים",
+    subtitle: "מבני שירותים, מקלחת ועמדות שמירה",
+    intro:
+      "לצד המחסנים, אנחנו מייצרים במפעל יחידות מודולריות לשימושים מיוחדים: מבני שירותים, שירותים ומקלחת ועמדות שמירה. הן בנויות מאותה שלדת אלומיניום ומאותו פאנל מבודד כמו מחסני מודובוקס, ומגיעות מוכנות להצבה. כל יחידה מיוצרת לפי הזמנה, ואפשר להתאים מידה, פתחים והכנות לחשמל ולאינסטלציה. מתאים לבתים פרטיים, לאתרי עבודה, לחניונים, לשטחים ציבוריים ולעסקים.",
+  },
 ];
+
+/** Categories hidden from the catalog and menus (site.json → hiddenCategories). */
+export const hiddenCategories = new Set<string>(siteFile.hiddenCategories ?? []);
+
+/** The categories the site shows. */
+export const categories = allCategories.filter((c) => !hiddenCategories.has(c.id));
 
 export function getProduct(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
