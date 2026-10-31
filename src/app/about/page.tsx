@@ -14,12 +14,18 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-ink py-24 text-white">
-        <Image src="photos/7b2976de.webp" alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-40" />
-        <div className="container-x max-w-3xl">
-          <p className="eyebrow !text-brand">אודות</p>
-          <h1 className="mt-3 text-4xl font-extrabold leading-tight sm:text-6xl">אנחנו מודובוקס, ואנחנו יודעים לבנות מחסנים מעולים.</h1>
-          <p className="mt-5 text-lg leading-8 text-white/80">מחפשים מבנה מבנייה קלה, איכותי באמת ובמחיר שפוי? זה בדיוק מה שאנחנו עושים.</p>
+      {/* the photo in its own 16:9 frame beside the headline, so the whole unit shows */}
+      <section className="relative isolate overflow-hidden bg-ink py-14 text-white sm:py-20">
+        <div className="absolute -top-40 start-[-10%] -z-10 size-[36rem] rounded-full bg-brand/20 blur-3xl" aria-hidden="true" />
+        <div className="container-x grid items-center gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
+          <div>
+            <p className="eyebrow !text-brand">אודות</p>
+            <h1 className="mt-3 text-4xl font-extrabold leading-tight sm:text-6xl">אנחנו מודובוקס, ואנחנו יודעים לבנות מחסנים מעולים.</h1>
+            <p className="mt-5 text-lg leading-8 text-white/80">מחפשים מבנה מבנייה קלה, איכותי באמת ובמחיר שפוי? זה בדיוק מה שאנחנו עושים.</p>
+          </div>
+          <div className="relative aspect-video overflow-hidden rounded-3xl bg-white/5 shadow-lift">
+            <Image src="photos/7b2976de.webp" alt="יחידת מודובוקס עם דק עץ בגינה" fill priority sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
+          </div>
         </div>
       </section>
       <section className="container-x mt-16 grid gap-12 lg:grid-cols-2">
@@ -29,13 +35,17 @@ export default function AboutPage() {
           <p>הפתרונות שלנו נולדו מתוך צורך אמיתי: ליצור מבנים חכמים, עמידים ויפים, שמאפשרים להוסיף שטח שימושי בלי תהליכים מורכבים ובלי להתפשר על המראה.</p>
           <p>הגיע הזמן להגיד את האמת – בדרך כלל מבנים כאלה לא אסתטיים. אנחנו שמנו דגש רציני על היופי של המוצר. וכל המבנים שלנו מודולריים: אפשר לשחק עם הגודל, להוסיף חלונות ודלתות ולמקם אותם איפה שרוצים.</p>
           <p>צוות המהנדסים שלנו מביא מעל 35 שנות ניסיון בבניין, אדריכלות ובנייה קלה, ובעבודה עם אלומיניום, פוליקרבונט ופנל מבודד – כדי להבטיח עמידות לשנים רבות באקלים הישראלי.</p>
-          <blockquote>כתבה על Modubox התפרסמה במגזין "עיצוב", גיליון 249 (פברואר–מרץ 2020).</blockquote>
         </Reveal>
         <Reveal delay={0.1}>
+          {/* each photo in its own frame (16:9, like the photos), so nothing is cropped */}
           <div className="grid grid-cols-2 gap-3">
-            {["photos/dc5dd38c.webp", "photos/39bd9bb4.webp", "photos/64f0fa98.webp", "photos/2c981b23.webp"].map((src, i) => (
-              <div key={src} className={`relative overflow-hidden rounded-3xl bg-sand ${i % 3 === 0 ? "aspect-[4/5]" : "aspect-square"}`}>
-                <Image src={src} alt="פרויקט של מודובוקס" fill sizes="(min-width:1024px) 25vw, 50vw" className="object-cover" />
+            {[
+              { src: "photos/dc5dd38c.webp", ratio: "aspect-video", wide: true },
+              { src: "photos/39bd9bb4.webp", ratio: "aspect-video" },
+              { src: "photos/64f0fa98.webp", ratio: "aspect-video" },
+            ].map(({ src, ratio, wide }) => (
+              <div key={src} className={`relative overflow-hidden rounded-3xl bg-sand ${ratio} ${wide ? "col-span-2" : ""}`}>
+                <Image src={src} alt="פרויקט של מודובוקס" fill sizes={wide ? "(min-width:1024px) 50vw, 100vw" : "(min-width:1024px) 25vw, 50vw"} className="object-cover" />
               </div>
             ))}
           </div>

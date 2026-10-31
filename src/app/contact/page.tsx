@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { LeadForm } from "@/components/LeadForm";
+import { Stars } from "@/components/Stars";
 import { site } from "@/lib/catalog";
 import { waLink } from "@/lib/whatsapp";
 
@@ -38,7 +39,7 @@ export default function ContactPage() {
         <div className="space-y-6">
           <div className="card overflow-hidden">
             <iframe
-              src={`https://maps.google.com/maps?q=${encodeURIComponent(site.mapQuery)}&hl=iw&z=14&output=embed`}
+              src={`https://maps.google.com/maps?q=${site.mapCoords}&hl=iw&z=15&output=embed`}
               title={`מפה: מודובוקס, ${site.factory}`}
               className="block h-72 w-full border-0 sm:h-80"
               loading="lazy"
@@ -51,11 +52,26 @@ export default function ContactPage() {
               <p>מפעל משני: <strong>{site.factory2}</strong></p>
               <p className="mt-2 text-sm text-ink-soft">ביקור בתצוגה – בתיאום מראש. {site.hours.startsWith("TODO") ? "" : site.hours}</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                <a href={`https://waze.com/ul?q=${encodeURIComponent(site.mapQuery)}&navigate=yes`} target="_blank" rel="noopener" className="btn-ghost">ניווט עם Waze</a>
-                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.mapQuery)}`} target="_blank" rel="noopener" className="btn-ghost">פתיחה ב־Google Maps</a>
+                <a href={`https://waze.com/ul?ll=${site.mapCoords}&navigate=yes`} target="_blank" rel="noopener" className="btn-ghost">ניווט עם Waze</a>
+                <a href={`https://www.google.com/maps/search/?api=1&query=${site.mapCoords}`} target="_blank" rel="noopener" className="btn-ghost">פתיחה ב־Google Maps</a>
               </div>
             </div>
           </div>
+          {/* Modubox's own Google listing (not the Ein Harod one the map pins) */}
+          <a href={site.googleReviewsUrl} target="_blank" rel="noopener" className="card group flex items-center gap-4 p-5 transition hover:-translate-y-0.5 hover:shadow-lift sm:p-6">
+            <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-sand">
+              <Icon name="google" className="size-7" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-bold text-ink-soft">מודובוקס בגוגל</span>
+              <span className="mt-0.5 flex items-center gap-2">
+                <span className="text-3xl font-black leading-none">{site.rating}</span>
+                <Stars value={5} className="size-5" />
+              </span>
+              <span className="mt-1 block text-sm text-ink-soft">{site.reviewCount} ביקורות של לקוחות</span>
+            </span>
+            <span className="shrink-0 font-bold text-brand-dark underline-offset-4 group-hover:underline">לביקורות ←</span>
+          </a>
           <Link href="/faq/" className="btn-ghost w-full">לשאלות הנפוצות ←</Link>
         </div>
       </div>
