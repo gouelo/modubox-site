@@ -1360,14 +1360,14 @@
       "areaM2": 4,
       "price": 12250,
       "badge": null,
-      "shortDescription": "בוטקה שמירה מפנל מבודד ופרופילי אלומיניום חזקים, עם 3 חלונות הזזה ופאנל חשמל (תאורה ו־3 שקעים). המחיר כולל הובלה והרכבה.",
+      "shortDescription": "בוטקה שמירה מפנל מבודד ופרופילי אלומיניום חזקים, עם 3 חלונות הזזה ופאנל חשמל (תאורה ו־3 שקעים). המחיר כולל הובלה והתקנה.",
       "dimensions": null,
       "fulfillment": {
         "pickup": null,
         "delivery": null,
         "installation": null,
         "deliveryAndInstallation": 0,
-        "note": "המחיר כולל הובלה והרכבה"
+        "note": "המחיר כולל הובלה והתקנה"
       },
       "warrantyYears": 10,
       "configurable": false,

@@ -137,7 +137,7 @@ export function CartView() {
       <div className="fixed inset-x-0 bottom-0 z-30 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
         <div className="mx-auto flex max-w-xl items-center gap-3 rounded-[1.4rem] bg-ink/95 p-2 ps-4 text-white shadow-lift ring-1 ring-white/10 backdrop-blur-md">
           <div className="flex-1">
-            <p className="text-[11px] text-white/60">סה"כ כולל הובלה</p>
+            <p className="text-[11px] text-white/60">סה"כ כולל הובלה והתקנה</p>
             <p className="text-xl font-black tabular-nums">{formatILS(cart.total)}</p>
           </div>
           <Link href="/checkout/" className="btn h-12 bg-white px-6 text-ink">לתשלום <Icon name="arrow" className="size-4" /></Link>

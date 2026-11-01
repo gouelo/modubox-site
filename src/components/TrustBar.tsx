@@ -3,7 +3,7 @@ import { Icon, type IconName } from "./Icon";
 
 export const TRUST: { icon: IconName; title: string; text: string }[] = [
   { icon: "shield", title: `${site.warrantyYears} שנות אחריות`, text: "על מחסני מודובוקס" },
-  { icon: "truck", title: `התקנה עד ${site.installationDays} ימי עסקים`, text: "הובלה והרכבה עד הבית" },
+  { icon: "truck", title: `התקנה עד ${site.installationDays} ימי עסקים`, text: "הובלה והתקנה עד הבית" },
   { icon: "flag", title: "פיתוח וייצור ישראלי", text: "מדגם רשום, מפעל בעין חרוד" },
   { icon: "card", title: `עד ${site.maxPayments} תשלומים`, text: "תשלום מאובטח" },
 ];

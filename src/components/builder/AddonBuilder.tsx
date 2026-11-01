@@ -207,7 +207,7 @@ export function AddonBuilder({ product }: { product: Product }) {
                 <AnimatedPrice value={q.total} className="font-display text-4xl font-extrabold" />
                 {q.onRequest.length > 0 && <p className="mt-1 text-sm text-copper">+ {q.onRequest.length} פריטים במחיר בתיאום</p>}
                 <p className="mt-1 text-xs text-white/50">
-                  {delivery.price === null ? "הובלה והתקנה בתיאום" : delivery.price === 0 ? "כולל הובלה והרכבה" : `+ הובלה והתקנה ${formatILS(delivery.price)} (נבחר בסל)`}
+                  {delivery.price === null ? "הובלה והתקנה בתיאום" : delivery.price === 0 ? "כולל הובלה והתקנה" : `+ הובלה והתקנה ${formatILS(delivery.price)} (נבחר בסל)`}
                 </p>
               </div>
               <div className="mt-5 grid gap-2">
@@ -447,7 +447,7 @@ function SummaryStep({ product, q, profile, goTo, stepOf, cta }: { product: Prod
         )}
         <p className="mt-3 flex items-center gap-2 text-sm text-ink-soft">
           <Icon name="truck" className="size-4 shrink-0 text-brand-dark" />
-          {delivery.price === null ? "הובלה והתקנה בתיאום" : delivery.price === 0 ? "כולל הובלה והרכבה" : `הובלה והתקנה: ${formatILS(delivery.price)}, נבחרות בסל`}
+          {delivery.price === null ? "הובלה והתקנה בתיאום" : delivery.price === 0 ? "כולל הובלה והתקנה" : `הובלה והתקנה: ${formatILS(delivery.price)}, נבחרות בסל`}
         </p>
         <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
           <Icon name="whatsapp" /> שליחת ההרכב בוואטסאפ

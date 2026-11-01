@@ -74,7 +74,7 @@ export function fulfillmentOptions(product: Product): FulfillmentOption[] {
   if (f.deliveryAndInstallation !== null) {
     opts.push({
       id: "deliveryAndInstallation",
-      label: f.deliveryAndInstallation === 0 ? "הובלה והרכבה (כלול במחיר)" : "הובלה + התקנה מקצועית",
+      label: f.deliveryAndInstallation === 0 ? "הובלה והתקנה (כלול במחיר)" : "הובלה והתקנה מקצועית",
       price: f.deliveryAndInstallation,
       note: f.note ?? undefined,
       payToInstaller: f.payToInstaller,
@@ -82,7 +82,7 @@ export function fulfillmentOptions(product: Product): FulfillmentOption[] {
   } else if (f.delivery !== null && f.installation !== null) {
     opts.push({
       id: "deliveryAndInstallation",
-      label: "הובלה + התקנה מקצועית",
+      label: "הובלה והתקנה מקצועית",
       price: f.delivery + f.installation,
       note: f.note ?? undefined,
       payToInstaller: f.payToInstaller,
@@ -95,7 +95,7 @@ export function fulfillmentOptions(product: Product): FulfillmentOption[] {
     opts.push({ id: "pickup", label: "איסוף עצמי", price: f.pickup, note: f.pickupNote });
   }
   if (opts.length === 0) {
-    opts.push({ id: "deliveryAndInstallation", label: "הובלה + התקנה (מחיר בתיאום)", price: null, note: f.note ?? undefined });
+    opts.push({ id: "deliveryAndInstallation", label: "הובלה והתקנה (מחיר בתיאום)", price: null, note: f.note ?? undefined });
   }
   return opts;
 }
