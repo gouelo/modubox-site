@@ -68,7 +68,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
               <span className="size-1 rounded-full bg-copper" aria-hidden="true" />
               ייצור ישראלי
               <span className="size-1 rounded-full bg-copper" aria-hidden="true" />
-              משלוח והתקנה
+              הובלה והתקנה
             </p>
           </Reveal>
         </div>
@@ -100,7 +100,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
             { v: `${site.rating}`, k: `${site.reviewCount} ביקורות בגוגל`, stars: true },
             { v: `${site.warrantyYears}`, k: "שנות אחריות" },
             { v: `${site.installationDays}`, k: "ימי עסקים להתקנה" },
-            { v: `${sizes}`, k: ltrSizes(`מידות, ${range}`) },
+            { v: `${sizes}`, k: ltrSizes(`מידות, ${range}, ועוד בהתאמה אישית`) },
           ].map(({ v, k, stars }) => (
             <div key={k} className="px-3 text-center">
               <dt className="sr-only">{k}</dt>

@@ -5,6 +5,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { formatILS } from "@/lib/format";
 import { useHydrated } from "@/lib/use-hydrated";
+import { CustomSizeNote } from "../CustomSize";
 import { Footprint } from "../Footprint";
 import { Icon } from "../Icon";
 
@@ -89,6 +90,7 @@ export function BuildLauncher({ sizes, children }: { sizes: PickerSize[]; childr
                 </motion.li>
               ))}
             </ul>
+            <CustomSizeNote className="mt-4" />
           </motion.div>
         </div>
       )}

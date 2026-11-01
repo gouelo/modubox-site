@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CustomSizeNote } from "@/components/CustomSize";
 import { Design3DButton } from "@/components/Design3DButton";
 import { Gallery } from "@/components/Gallery";
 import { Icon } from "@/components/Icon";
@@ -168,6 +169,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </Link>
             ))}
           </div>
+          {product.category === "modubox" && <CustomSizeNote className="mt-4 max-w-2xl" />}
         </section>
       )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

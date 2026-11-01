@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Design3DButton } from "@/components/Design3DButton";
+import { CustomSizeBanner } from "@/components/CustomSize";
 import { ProductCard } from "@/components/ProductCard";
 import { categories, productsIn } from "@/lib/catalog";
 
@@ -13,7 +14,7 @@ export default function ShopPage() {
     <div className="container-x py-8 sm:py-12">
       <header className="max-w-3xl">
         <h1 className="text-3xl font-extrabold sm:text-5xl">כל המחסנים והמבנים</h1>
-        <p className="mt-2 text-ink-soft">המחירים כוללים מע&quot;מ. הובלה והתקנה נבחרות בסל.</p>
+        <p className="mt-2 text-ink-soft">המחירים כוללים מע&quot;מ. הובלה והתקנה נבחרות בסל. מעבר למידות הקבועות, אנחנו מתאימים מבנים גם במידות מיוחדות.</p>
       </header>
       <nav className="no-scrollbar sticky top-16 z-20 -mx-4 mt-4 flex gap-2 overflow-x-auto bg-white/90 px-4 py-3 backdrop-blur lg:top-[72px]" aria-label="קטגוריות">
         {categories.map((c) => (
@@ -36,6 +37,7 @@ export default function ShopPage() {
               <ProductCard key={p.slug} product={p} priority={c.id === "modubox" && i < 2} />
             ))}
           </div>
+          {c.id === "modubox" && <CustomSizeBanner fixedSizes={productsIn("modubox").length} className="mt-8" />}
         </section>
       ))}
       <div className="mx-auto mt-12 max-w-md">

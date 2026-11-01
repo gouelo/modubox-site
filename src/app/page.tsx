@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Design3DButton } from "@/components/Design3DButton";
 import { BuildLauncher } from "@/components/home/BuildLauncher";
+import { CustomSizeBanner } from "@/components/CustomSize";
 import { ClientLogos } from "@/components/home/ClientLogos";
 import { Craftsmanship } from "@/components/home/Craftsmanship";
 import { HomeHero } from "@/components/home/HomeHero";
@@ -19,9 +20,9 @@ import { formatILS } from "@/lib/format";
 import { waLink } from "@/lib/whatsapp";
 
 const FEATURED = ["modubox-3x2", "modubox-3x3", "modubox-4x2", "modubox-4x3", "modubox-5x3", "modubox-6x3"];
-/** the home page's videos: Yoel explaining how to choose a shed, and the channel's most-watched build */
+/** the home page's videos: the Channel 13 piece on adding a room without renovating (round 8), and the channel's most-watched build */
 const VIDEOS = [
-  { id: "HhLbcjyC81g", label: "איך בוחרים מחסן", hd: false },
+  { id: "YKFs20v9HA4", label: "איך מוסיפים חדר לבית בלי שיפוץ", hd: true },
   { id: "PfxZivCF1A4", label: "הרכבה מתחילה ועד הסוף", hd: true },
 ];
 
@@ -36,7 +37,7 @@ const USES = [
 ];
 
 const STEPS: { icon: IconName; title: string; text: string }[] = [
-  { icon: "ruler", title: "בוחרים מידה", text: "18 מידות, מ־1×0.80 ועד 6×3. לכל מידה מחיר קבוע ושקוף." },
+  { icon: "ruler", title: "בוחרים מידה", text: "18 מידות קבועות, מ־1×0.80 ועד 6×3, במחיר קבוע ושקוף. צריכים מידה אחרת? מתאימים אישית." },
   { icon: "door", title: "מוסיפים תוספות", text: "צבע פרופילים, דלתות, חלונות וויטרינה, חשמל, מזגן ורצפה. המחיר מתעדכן תוך כדי." },
   { icon: "truck", title: "מקבלים את המחסן מותקן עד הבית", text: `הצוות שלנו מביא ומרכיב אצלכם, תוך ${site.installationDays} ימי עסקים.` },
 ];
@@ -70,6 +71,9 @@ export default function Home() {
             </Reveal>
           ))}
         </div>
+        <Reveal className="mt-10 sm:mt-14">
+          <CustomSizeBanner fixedSizes={sheds.length} />
+        </Reveal>
         <div className="mt-8 flex flex-wrap gap-2">
           {categories.slice(1).map((c) => (
             <Link key={c.id} href={`/shop/#${c.id}`} className="rounded-full border border-line px-4 py-2 text-sm font-bold transition hover:border-ink hover:bg-ink hover:text-white">
@@ -148,13 +152,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* VIDEO: Yoel explains, then a whole build */}
+      {/* VIDEO: the Channel 13 piece, then a whole build */}
       <section className="container-x mt-16 sm:mt-28">
         <Reveal className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
             <p className="eyebrow">וידאו</p>
             <h2 className="h-section mt-1">ככה מרכיבים מחסן מודובוקס</h2>
-            <p className="mt-3 text-lg leading-8 text-ink-soft">המבנה מגיע מהמפעל מוכן, והצוות שלנו מרכיב אותו אצלכם בחצר. שמעו מאיתנו איך בוחרים מחסן, וצפו בהרכבה מתחילתה ועד הסוף.</p>
+            <p className="mt-3 text-lg leading-8 text-ink-soft">המבנה מגיע מהמפעל מוכן, והצוות שלנו מרכיב אותו אצלכם בחצר. צפו בכתבה בערוץ 13 על חדר נוסף בלי שיפוץ, ובהרכבה מתחילתה ועד הסוף.</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link href="/gallery/" className="btn-ghost">
