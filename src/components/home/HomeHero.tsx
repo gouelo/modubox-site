@@ -3,14 +3,16 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { ltrSizes, site } from "@/lib/catalog";
+import { lp } from "@/i18n";
+import { useLocale, useT } from "@/i18n/client";
+import { catalog, localSizes } from "@/lib/catalog";
 import { waLink } from "@/lib/whatsapp";
 import { HeroTitle } from "../HeroTitle";
 import { Icon } from "../Icon";
 import { Reveal } from "../Reveal";
 
 /** Yoel's pick: a Modubox garden office, the whole shed in frame. */
-const PHOTO = { src: "renders/garden-office-white.webp", alt: "יחידת חצר מודובוקס לבנה עם פרופילים כהים, דלת פתוחה ומשרד בפנים, בגינה" };
+const PHOTO = "renders/garden-office-white.webp";
 
 /**
  * The home hero: the headline on a dark stage, then the shed full-bleed,
@@ -27,14 +29,21 @@ const PHOTO = { src: "renders/garden-office-white.webp", alt: "יחידת חצר
  * line sit. The shed is about 1.1 times the photo's height wide, so the photo
  * is at most 40vw tall: the shed then ends at 47vw, left of the text column at
  * every width. The stage fills the screen under the header up to 42vw; on a
- * taller stage the photo sits at its bottom. It settles in slowly (Ken Burns);
- * reduced motion stops it at its end.
+ * taller stage the photo sits at its bottom. It settles in (Ken Burns, 5
+ * seconds at most, so nothing moves on its own for longer); reduced motion
+ * stops it at its end. In English (left to right) the stage mirrors: the photo
+ * bleeds in from the right edge (its empty right sixth off screen) and fades
+ * into the dark on the left, under the text.
  */
 export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes: number; range: string }) {
   const ref = useRef<HTMLElement>(null);
+  const locale = useLocale();
+  const t = useT();
+  const h = t.hero;
+  const site = catalog(locale).site;
   const still = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const pitch = `מחסנים, משרדי גינה ויחידות חצר, מותאמים לכם עם דלתות, חלונות, חשמל, מיזוג ורצפה. החל מ־${fromPrice}.`;
+  const pitch = h.pitch(fromPrice);
   const y = useTransform(scrollYProgress, [0, 1], still ? ["0%", "0%"] : ["0%", "14%"]);
 
   return (
@@ -44,65 +53,70 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
         <div className="container-x grid gap-6 pt-24 lg:relative lg:z-10 lg:grid-cols-[minmax(0,40rem)] lg:gap-0 lg:pt-0">
           <div>
             <p className="eyebrow text-glow">
-              <span className="h-px w-8 bg-glow/70" /> שלדת אלומיניום · פאנל מבודד XPV · ייצור ישראלי
+              <span className="h-px w-8 bg-glow/70" aria-hidden="true" /> {h.eyebrow}
             </p>
             <div className="mt-3">
-              <HeroTitle lines={["מחסן או חדר נוסף"]} accent="בחצר שלכם." size="text-[2.75rem] sm:text-7xl lg:text-[3.75rem] xl:text-[4.75rem] lg:whitespace-nowrap" />
+              <HeroTitle
+                lines={h.lines}
+                accent={h.accent}
+                // English runs longer than Hebrew: a step smaller from lg up, so the two lines stay clear of the photo
+                size={`text-[2.75rem] sm:text-7xl lg:whitespace-nowrap ${locale === "he" ? "lg:text-[3.75rem] xl:text-[4.75rem]" : "lg:text-[3.25rem] xl:text-[4.25rem]"}`}
+              />
             </div>
           </div>
           <Reveal delay={0.45}>
             <p className="max-w-md text-lg leading-8 text-white/80 lg:mt-6 lg:text-[1.1875rem] lg:text-white/75">{pitch}</p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row lg:mt-9">
-              <Link href="/shop/" className="btn whitespace-nowrap bg-white px-7 py-4 text-base text-ink hover:bg-brand-tint">
-                לקטלוג המחסנים <Icon name="arrow" className="size-4" />
+              <Link href={lp(locale, "/shop/")} className="btn whitespace-nowrap bg-white px-7 py-4 text-base text-ink hover:bg-brand-tint">
+                {h.catalog} <Icon name="arrow" className="size-4" />
               </Link>
               <a href={waLink(site.whatsappGreeting)} target="_blank" rel="noopener" className="btn-glass whitespace-nowrap px-7 py-4 text-base">
-                <Icon name="whatsapp" className="size-5 text-wa" /> ייעוץ בוואטסאפ
+                <Icon name="whatsapp" className="size-5 text-wa" /> {h.whatsapp}
               </a>
             </div>
             <p className="mt-8 hidden items-center gap-3 text-sm text-white/65 lg:flex">
               <span className="flex items-center gap-1.5 font-bold text-white">
                 <Icon name="star" className="size-4 text-star" /> {site.rating}
               </span>
-              {site.reviewCount} ביקורות בגוגל
+              {t.common.reviewsOnGoogle(site.reviewCount)}
               <span className="size-1 rounded-full bg-copper" aria-hidden="true" />
-              ייצור ישראלי
+              {h.madeInIsrael}
               <span className="size-1 rounded-full bg-copper" aria-hidden="true" />
-              הובלה והתקנה
+              {h.delivery}
             </p>
           </Reveal>
         </div>
 
-        <div className="relative mx-auto mt-8 aspect-[4/3] w-full sm:aspect-[16/9] lg:absolute lg:bottom-0 lg:left-[calc(3vw-var(--photo-h)*0.356)] lg:mx-0 lg:mt-0 lg:aspect-video lg:h-(--photo-h) lg:w-auto lg:overflow-hidden lg:[--photo-h:min(var(--hero-h),40vw)] lg:[mask-image:linear-gradient(to_left,transparent,black_16%)]">
+        <div className="relative mx-auto mt-8 aspect-[4/3] w-full sm:aspect-[16/9] lg:absolute lg:bottom-0 lg:left-[calc(3vw-var(--photo-h)*0.356)] lg:mx-0 lg:mt-0 lg:aspect-video lg:h-(--photo-h) lg:w-auto lg:overflow-hidden lg:[--photo-h:min(var(--hero-h),40vw)] lg:[mask-image:linear-gradient(to_left,transparent,black_16%)] lg:ltr:right-[calc(3vw-var(--photo-h)*0.32)] lg:ltr:left-auto lg:ltr:[mask-image:linear-gradient(to_right,transparent,black_16%)]">
           <motion.div style={{ y }} className="absolute inset-0">
             <Image
-              src={PHOTO.src}
-              alt={PHOTO.alt}
+              src={PHOTO}
+              alt={h.photoAlt}
               fill
               priority
               sizes="100vw"
-              className="animate-[heroZoom_2.6s_cubic-bezier(0.16,1,0.3,1)_both] object-cover object-[50%_62%] lg:origin-[30%_60%] lg:animate-[heroKen_16s_cubic-bezier(0.22,1,0.36,1)_both] lg:object-center"
+              className="animate-[heroZoom_2.6s_cubic-bezier(0.16,1,0.3,1)_both] object-cover object-[50%_62%] lg:origin-[30%_60%] lg:animate-[heroKen_5s_cubic-bezier(0.22,1,0.36,1)_both] lg:object-center"
             />
           </motion.div>
           <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-night to-transparent lg:h-40" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-night/80 to-transparent lg:h-40 lg:from-night" aria-hidden="true" />
           <div className="container-x absolute inset-x-0 bottom-4 sm:bottom-6 lg:hidden">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-night/60 px-3 py-1.5 text-xs font-semibold ring-1 ring-white/15 backdrop-blur-md sm:text-sm">
-              <Icon name="sparkle" className="size-4 text-glow" /> משרד בגינה מבית מודובוקס
+              <Icon name="sparkle" className="size-4 text-glow" /> {h.caption}
             </span>
           </div>
         </div>
       </div>
 
       <div className="container-x grid items-center gap-6 py-6 sm:py-8 lg:py-10">
-        <dl className="grid grid-cols-2 gap-y-4 sm:grid-cols-4 sm:divide-x sm:divide-x-reverse sm:divide-white/15">
+        <dl className="grid grid-cols-2 gap-y-4 sm:grid-cols-4">
           {[
-            { v: `${site.rating}`, k: `${site.reviewCount} ביקורות בגוגל`, stars: true },
-            { v: `${site.warrantyYears}`, k: "שנות אחריות" },
-            { v: `${site.installationDays}`, k: "ימי עסקים להתקנה" },
-            { v: `${sizes}`, k: ltrSizes(`מידות, ${range}, ועוד בהתאמה אישית`) },
-          ].map(({ v, k, stars }) => (
-            <div key={k} className="px-3 text-center">
+            { v: `${site.rating}`, k: t.common.reviewsOnGoogle(site.reviewCount), stars: true },
+            { v: `${site.warrantyYears}`, k: h.stats.warranty },
+            { v: `${site.installationDays}`, k: h.stats.days },
+            { v: `${sizes}`, k: localSizes(locale, h.stats.sizes(range)) },
+          ].map(({ v, k, stars }, i) => (
+            <div key={k} className={`px-3 text-center ${i > 0 ? "sm:border-s sm:border-white/15" : ""}`}>
               <dt className="sr-only">{k}</dt>
               <dd className="flex items-center justify-center gap-2 font-display text-3xl font-extrabold sm:text-4xl">
                 {v}

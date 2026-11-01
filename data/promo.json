@@ -1,5 +1,5 @@
 {
-  "_readme": "מבצע החודש – הפס שמופיע בדף הבית מתחת לתמונה הראשית. מחליפים כאן כל חודש: enabled (true = מוצג, false = מוסתר), eyebrow (התווית הקטנה), title (כותרת), text (שורת הסבר), endDate (תאריך סיום בפורמט YYYY-MM-DD; אחרי התאריך הפס נעלם לבד; ריק = בלי תאריך), cta.label (טקסט הכפתור), cta.href (קישור: whatsapp = וואטסאפ עם הודעה מוכנה, או דף באתר כמו /shop/ או /product/modubox-3x2/). ראו README.md.",
+  "_readme": "מבצע החודש – הפס שמופיע בדף הבית מתחת לתמונה הראשית. מחליפים כאן כל חודש: enabled (true = מוצג, false = מוסתר), eyebrow (התווית הקטנה), title (כותרת), text (שורת הסבר), endDate (תאריך סיום בפורמט YYYY-MM-DD; אחרי התאריך הפס נעלם לבד; ריק = בלי תאריך), cta.label (טקסט הכפתור), cta.href (קישור: whatsapp = וואטסאפ עם הודעה מוכנה, או דף באתר כמו /shop/ או /product/modubox-3x2/). ראו README.md. באתר באנגלית (/en/) מופיע הנוסח שב-en: אותם שדות באנגלית. כשמחליפים מבצע, עדכנו גם אותו (או כתבו enabled: false בתוכו כדי להסתיר את הפס באנגלית).",
   "enabled": true,
   "eyebrow": "מבצע החודש",
   "title": "כאן תופיע כותרת המבצע של החודש",
@@ -9,5 +9,13 @@
     "label": "לפרטים בוואטסאפ",
     "href": "whatsapp",
     "whatsappText": "היי מודובוקס! אשמח לשמוע על מבצע החודש"
+  },
+  "en": {
+    "enabled": true,
+    "eyebrow": "This month's offer",
+    "title": "This month's offer headline goes here",
+    "text": "Sample text: one line describing the offer and who it's for.",
+    "ctaLabel": "Details on WhatsApp",
+    "whatsappText": "Hi Modubox! I'd love to hear about this month's offer."
   }
 }

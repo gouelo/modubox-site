@@ -1,4 +1,5 @@
-import { site } from "@/lib/catalog";
+import type { Locale } from "@/i18n";
+import { catalog } from "@/lib/catalog";
 import { design3dLink, hasDesign3d } from "@/lib/design3d";
 import type { Product } from "@/lib/types";
 import { Icon } from "./Icon";
@@ -9,8 +10,9 @@ import { Icon } from "./Icon";
  * opens it in a side panel over the page with "add to cart"; without
  * JavaScript the link opens it in a new tab. `tile` is the quieter variant.
  */
-export function Design3DButton({ product, className = "", variant = "solid" }: { product?: Product; className?: string; variant?: "solid" | "tile" }) {
+export function Design3DButton({ product, locale, className = "", variant = "solid" }: { product?: Product; locale: Locale; className?: string; variant?: "solid" | "tile" }) {
   if (!hasDesign3d(product)) return null;
+  const { site } = catalog(locale);
   const link = { href: design3dLink(product), target: "_blank", rel: "noopener" };
   if (variant === "tile")
     return (
@@ -19,7 +21,7 @@ export function Design3DButton({ product, className = "", variant = "solid" }: {
           <Icon name="cube" className="size-5" />
         </span>
         <span className="flex-1 text-[15px] font-bold leading-snug">{site.design3d.label}</span>
-        <Icon name="arrow" className="size-4 shrink-0 text-ink/40 transition group-hover:-translate-x-1 group-hover:text-brand-dark" />
+        <Icon name="arrow" className="size-4 shrink-0 text-ink/40 transition group-hover:-translate-x-1 group-hover:text-brand-dark ltr:group-hover:translate-x-1" />
       </a>
     );
   return (

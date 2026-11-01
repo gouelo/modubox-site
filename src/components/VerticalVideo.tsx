@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useT } from "@/i18n/client";
 import { asset } from "@/lib/paths";
 import { Icon } from "./Icon";
 
@@ -17,7 +18,8 @@ export interface VerticalVideoSource {
 export function VerticalVideo({ video, className = "" }: { video: VerticalVideoSource; className?: string }) {
   const [play, setPlay] = useState(false);
   const id = video.youtubeId?.trim();
-  const title = video.caption || "סרטון מהמפעל";
+  const t = useT();
+  const title = video.caption || t.about.videoFallback;
   return (
     <figure className={className}>
       <div className="relative aspect-[9/16] overflow-hidden rounded-[2rem] bg-ink shadow-lift ring-1 ring-white/10">
@@ -40,7 +42,7 @@ export function VerticalVideo({ video, className = "" }: { video: VerticalVideoS
             allowFullScreen
           />
         ) : (
-          <button type="button" onClick={() => setPlay(true)} className="group absolute inset-0" aria-label={`ניגון: ${title}`}>
+          <button type="button" onClick={() => setPlay(true)} className="group absolute inset-0" aria-label={t.common.play(title)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={video.poster ? asset(video.poster) : `https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" className="size-full object-cover opacity-90 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
             <span className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />

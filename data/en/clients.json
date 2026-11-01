@@ -1,0 +1,16 @@
+{
+  "_readme": "English names for the client logos in data/clients.json, by logo file.",
+  "clients": {
+    "clients/hp.png": "HP",
+    "clients/ben-gurion-university.png": "Ben-Gurion University of the Negev",
+    "clients/tel-aviv-yafo.png": "Tel Aviv-Yafo Municipality",
+    "clients/raanana.png": "Ra'anana Municipality",
+    "clients/wingate.png": "Wingate Institute",
+    "clients/us-state-department.png": "U.S. Department of State",
+    "clients/bazar-strauss.png": "Bazar Strauss",
+    "clients/rescuers-without-borders.png": "Rescuers Without Borders",
+    "clients/or-shalom.png": "Or Shalom",
+    "clients/beit-zayit.png": "Beit Zayit Local Committee",
+    "clients/ale-tov.png": "Ale Tov"
+  }
+}

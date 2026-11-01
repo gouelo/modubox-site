@@ -1,9 +1,12 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { lp } from "@/i18n";
+import { useLocale, useT } from "@/i18n/client";
 import { formatILS } from "@/lib/format";
+import { useDialog } from "@/lib/use-dialog";
 import { useHydrated } from "@/lib/use-hydrated";
 import { CustomSizeNote } from "../CustomSize";
 import { Footprint } from "../Footprint";
@@ -29,25 +32,27 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function BuildLauncher({ sizes, children }: { sizes: PickerSize[]; children?: ReactNode }) {
   const [open, setOpen] = useState(false);
   const mounted = useHydrated();
+  const locale = useLocale();
+  const t = useT();
+  const box = useRef<HTMLDivElement>(null);
+  useDialog(box, open, () => setOpen(false));
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
     };
   }, [open]);
 
   const sheet = (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="size-picker-title">
+        <div ref={box} className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="size-picker-title">
           <motion.button
             type="button"
-            aria-label="סגירה"
+            tabIndex={-1}
+            aria-label={t.common.close}
             className="absolute inset-0 bg-night/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -63,11 +68,11 @@ export function BuildLauncher({ sizes, children }: { sizes: PickerSize[]; childr
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="eyebrow">שלב 1 מתוך 2</p>
-                <h2 id="size-picker-title" className="mt-1 font-display text-3xl font-extrabold sm:text-4xl">באיזו מידה המחסן שלכם?</h2>
-                <p className="mt-1 text-ink-soft">בוחרים מידה, ובדף שלה ממשיכים לצבע ולתוספות.</p>
+                <p className="eyebrow">{t.build.eyebrow}</p>
+                <h2 id="size-picker-title" className="mt-1 font-display text-3xl font-extrabold sm:text-4xl">{t.build.title}</h2>
+                <p className="mt-1 text-ink-soft">{t.build.text}</p>
               </div>
-              <button type="button" onClick={() => setOpen(false)} className="grid size-11 shrink-0 place-items-center rounded-full bg-sand transition hover:bg-sand-deep" aria-label="סגירה">
+              <button type="button" onClick={() => setOpen(false)} className="grid size-11 shrink-0 place-items-center rounded-full bg-sand transition hover:bg-sand-deep" aria-label={t.common.close} data-autofocus>
                 <Icon name="close" className="size-5" />
               </button>
             </div>
@@ -75,22 +80,22 @@ export function BuildLauncher({ sizes, children }: { sizes: PickerSize[]; childr
               {sizes.map((s, i) => (
                 <motion.li key={s.slug} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.1 + i * 0.02, ease }}>
                   <Link
-                    href={`/product/${s.slug}/#build`}
+                    href={lp(locale, `/product/${s.slug}/#build`)}
                     className={`group relative flex h-full items-center gap-3 rounded-2xl border p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand hover:shadow-soft ${s.popular ? "border-brand/40 bg-brand-tint/40" : "border-line"}`}
                   >
                     <Footprint w={s.widthM} d={s.depthM} className="size-11 shrink-0 text-ink sm:size-12" />
                     <span className="min-w-0">
                       <span className="block font-display text-2xl font-extrabold leading-none" dir="ltr">{s.sizeLabel}</span>
                       <span className="mt-1 block text-xs text-ink-soft">
-                        {s.areaM2} מ&quot;ר · {formatILS(s.price)}
+                        {t.common.m2(s.areaM2)} · {formatILS(s.price, locale)}
                       </span>
                     </span>
-                    {s.popular && <span className="absolute -top-2 end-2 rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold text-white">פופולרי</span>}
+                    {s.popular && <span className="absolute -top-2 end-2 rounded-full bg-brand-dark px-2 py-0.5 text-[10px] font-bold text-white">{t.build.popular}</span>}
                   </Link>
                 </motion.li>
               ))}
             </ul>
-            <CustomSizeNote className="mt-4" />
+            <CustomSizeNote locale={locale} className="mt-4" />
           </motion.div>
         </div>
       )}
@@ -101,7 +106,7 @@ export function BuildLauncher({ sizes, children }: { sizes: PickerSize[]; childr
     <>
       <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={() => setOpen(true)} className="btn bg-white px-7 py-4 text-base text-ink hover:bg-brand-tint" aria-haspopup="dialog">
-          התחילו להרכיב מחסן <Icon name="arrow" className="size-4" />
+          {t.build.start} <Icon name="arrow" className="size-4" />
         </motion.button>
         {children}
       </div>

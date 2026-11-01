@@ -1,0 +1,17 @@
+{
+  "_readme": "English translations of the Google reviews in data/reviews.json, in the same order (the site says they are translated from Hebrew). name = the reviewer's name in English letters.",
+  "reviews": [
+    { "name": "Linoy Sharon", "text": "I ordered a room for my backyard and didn't expect such great quality and service. The company answered every question I had in seconds, they're super nice and met all my requests. On top of that, the room arrived in just a week even though they commit to up to 21 business days, and they assembled it in an hour – it was ready. Highly recommend!" },
+    { "name": "Eldad Itah", "text": "The purchase started with Yitzhak, the sales rep – a warm, professional person who listens and really knows his stuff. It ended with an installation by Avi, who worked thoroughly, professionally and cleanly. Highly recommended!!!" },
+    { "name": "Michael Grobman", "text": "Yitzhak was very patient with all my changes. A great person. Excellent service. A salesman without equal. The unit was delivered yesterday and Binyamin installed it perfectly. We're very happy." },
+    { "name": "Matan Gat", "text": "An excellent product – a shed that feels like a home – with excellent service and installation. Highly recommended." },
+    { "name": "Roy Reuveny", "text": "A perfect, top-quality product with a top-quality team, in both service and installation. Thank you for everything!" },
+    { "name": "Assaf Tene-Arama", "text": "A fantastic shed – works as an office, a study, a shed and even a living unit." },
+    { "name": "Dganit Luks", "text": "Excellent service. On time, and a product that feels like it will be with us for years. Thank you." },
+    { "name": "Shahar Bilis", "text": "Excellent service, very good quality, good insulation, and it's really nice to have windows all around." },
+    { "name": "Ayala Ayala", "text": "Very happy with the service, the finished product, the short delivery time, how functional the office/shed is, and the quick replies from dear Yitzhak and the rest of the dedicated team." },
+    { "name": "Ami Cohen", "text": "Really happy with the quality of the materials and the work. Simply perfect." },
+    { "name": "Liran Penso", "text": "Thank you so much for amazing service and a great attitude." },
+    { "name": "Alex Michal", "text": "A great product, fast service!!! Highly recommended." }
+  ]
+}

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useT } from "@/i18n/client";
 import { Icon } from "./Icon";
 
 /**
@@ -8,6 +9,7 @@ import { Icon } from "./Icon";
  */
 export function VideoCard({ id, title, large = false, hd = large }: { id: string; title: string; large?: boolean; hd?: boolean }) {
   const [play, setPlay] = useState(false);
+  const t = useT();
   return (
     <div className="overflow-hidden rounded-2xl bg-ink shadow-soft">
       <div className="relative aspect-video">
@@ -20,7 +22,7 @@ export function VideoCard({ id, title, large = false, hd = large }: { id: string
             allowFullScreen
           />
         ) : (
-          <button type="button" onClick={() => setPlay(true)} className="group absolute inset-0" aria-label={`ניגון: ${title}`}>
+          <button type="button" onClick={() => setPlay(true)} className="group absolute inset-0" aria-label={t.common.play(title)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={`https://i.ytimg.com/vi/${id}/${hd ? "maxresdefault" : "hqdefault"}.jpg`} alt="" loading="lazy" className="size-full object-cover opacity-90 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
             <span className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />

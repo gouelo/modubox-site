@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { faq, type FaqImage, type FaqItem } from "@/lib/catalog";
+import { lp, type Locale } from "@/i18n";
+import type { FaqImage, FaqItem } from "@/lib/catalog";
 import { CustomSizeNote } from "./CustomSize";
 import { Icon } from "./Icon";
 import { MaterialsPhoto } from "./Materials";
@@ -17,20 +18,20 @@ export function FaqPhoto({ image, sizes, className = "" }: { image: FaqImage; si
   );
 }
 
-function Answer({ item }: { item: FaqItem }) {
+function Answer({ item, locale }: { item: FaqItem; locale: Locale }) {
   const photos = Array.isArray(item.media) ? item.media : [];
   return (
     <div className="pb-6">
       <p className="leading-8 text-ink-soft">{item.a}</p>
       {item.link && (
-        <Link href={item.link.href} className="mt-3 inline-flex items-center gap-1 font-bold text-brand-dark hover:underline">
+        <Link href={lp(locale, item.link.href)} className="mt-3 inline-flex items-center gap-1 font-bold text-brand-dark hover:underline">
           {item.link.label} <Icon name="arrow" className="size-4" />
         </Link>
       )}
-      {item.cta === "custom-size" && <CustomSizeNote className="mt-4" />}
+      {item.cta === "custom-size" && <CustomSizeNote locale={locale} className="mt-4" />}
       {item.media === "materials" && (
         <div className="-mx-3 mt-5 sm:mx-0">
-          <MaterialsPhoto sizes="(min-width:768px) 42rem, 100vw" />
+          <MaterialsPhoto locale={locale} sizes="(min-width:768px) 42rem, 100vw" />
         </div>
       )}
       {photos.length > 0 && (
@@ -50,7 +51,7 @@ function Answer({ item }: { item: FaqItem }) {
 }
 
 /** Questions as an accordion; answers may carry a link, photos or the custom-size card. */
-export function Faq({ items = faq }: { items?: FaqItem[] }) {
+export function Faq({ items, locale }: { items: FaqItem[]; locale: Locale }) {
   return (
     <div className="divide-y divide-line rounded-3xl border border-line bg-white shadow-soft">
       {items.map((f) => (
@@ -61,7 +62,7 @@ export function Faq({ items = faq }: { items?: FaqItem[] }) {
               <Icon name="plus" className="size-4" />
             </span>
           </summary>
-          <Answer item={f} />
+          <Answer item={f} locale={locale} />
         </details>
       ))}
     </div>

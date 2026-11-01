@@ -1,0 +1,75 @@
+import type { Metadata, Viewport } from "next";
+import { Heebo } from "next/font/google";
+import type { ReactNode } from "react";
+import { dict, dirOf, type Locale } from "@/i18n";
+import { LocaleProvider } from "@/i18n/client";
+import { catalog, site } from "@/lib/catalog";
+import { asset } from "@/lib/paths";
+import { ConfiguratorPanel } from "./ConfiguratorPanel";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { WhatsAppFab } from "./WhatsAppFab";
+
+const heebo = Heebo({ subsets: ["hebrew", "latin"], variable: "--font-heebo", display: "swap" });
+
+export function rootMetadata(locale: Locale): Metadata {
+  const m = dict(locale).meta;
+  return {
+    metadataBase: new URL(site.url),
+    title: { default: m.defaultTitle, template: m.titleTemplate },
+    description: m.description,
+    keywords: m.keywords,
+    openGraph: {
+      type: "website",
+      locale: m.ogLocale,
+      alternateLocale: locale === "he" ? "en_US" : "he_IL",
+      siteName: m.siteName,
+      images: [{ url: "/_img/photos/2c981b23-1600.webp", width: 1600, height: 900, alt: m.ogImageAlt }],
+    },
+    icons: { icon: asset("/brand/favicon.svg"), apple: asset("/brand/apple-touch-icon.png") },
+    formatDetection: { telephone: false },
+  };
+}
+
+export const viewport: Viewport = {
+  themeColor: "#0a1517",
+  width: "device-width",
+  initialScale: 1,
+};
+
+/** The <html> of every page, in one language: lang and dir, header, footer and the site-wide pieces. */
+export function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
+  const t = dict(locale);
+  const s = catalog(locale).site;
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    name: t.meta.siteName,
+    url: site.url,
+    telephone: s.phone,
+    email: s.email,
+    address: { "@type": "PostalAddress", streetAddress: s.factory, addressCountry: "IL" },
+    aggregateRating: { "@type": "AggregateRating", ratingValue: s.rating, reviewCount: s.reviewCount },
+    sameAs: Object.values(s.social),
+  };
+  return (
+    <html lang={locale} dir={dirOf(locale)} className={heebo.variable}>
+      <body className="min-h-dvh font-sans antialiased">
+        <LocaleProvider locale={locale}>
+          <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[80] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
+            {t.common.skip}
+          </a>
+          <Header />
+          <main id="main" tabIndex={-1} className="outline-none">
+            {children}
+          </main>
+          <Footer locale={locale} />
+          <WhatsAppFab />
+          {/* the 3D configurator: opens links to it in a side panel, with "add to cart" */}
+          <ConfiguratorPanel />
+        </LocaleProvider>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+      </body>
+    </html>
+  );
+}

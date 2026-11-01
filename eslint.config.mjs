@@ -7,7 +7,11 @@ const eslintConfig = defineConfig([
   ...nextTs,
   {
     // Hebrew text is full of geresh (מ') and gershayim (מ"ר)
-    rules: { "react/no-unescaped-entities": "off" },
+    rules: {
+      "react/no-unescaped-entities": "off",
+      // dictionary functions share one signature, so some ignore their argument (named _)
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    },
   },
   // Override default ignores of eslint-config-next.
   globalIgnores([

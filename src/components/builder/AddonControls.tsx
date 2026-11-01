@@ -1,6 +1,7 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useLocale, useT } from "@/i18n/client";
 import { formatILS } from "@/lib/format";
 import type { Addon, AddonChoice } from "@/lib/types";
 import { Icon, type IconName } from "../Icon";
@@ -22,13 +23,15 @@ const ICONS: Record<string, IconName> = {
 const spring = { type: "spring", stiffness: 500, damping: 30 } as const;
 
 export function PriceTag({ price, per = false, className = "" }: { price: number | null | undefined; per?: boolean; className?: string }) {
+  const locale = useLocale();
+  const t = useT();
   if (price === null || price === undefined)
-    return <span className={`inline-flex items-center gap-1 rounded-full bg-copper-tint px-2 py-0.5 text-xs font-bold text-copper ring-1 ring-copper/30 ${className}`}>מחיר בתיאום</span>;
-  if (price === 0) return <span className={`text-sm font-semibold text-ink-soft ${className}`}>ללא תוספת</span>;
+    return <span className={`inline-flex items-center gap-1 rounded-full bg-copper-tint px-2 py-0.5 text-xs font-bold text-copper-deep ring-1 ring-copper/30 ${className}`}>{t.common.priceOnRequest}</span>;
+  if (price === 0) return <span className={`text-sm font-semibold text-ink-soft ${className}`}>{t.common.noExtra}</span>;
   return (
     <span className={`text-sm font-bold tabular-nums ${className}`}>
-      +{formatILS(price)}
-      {per && <span className="font-normal text-ink-soft"> ליח׳</span>}
+      +{formatILS(price, locale)}
+      {per && <span className="font-normal text-ink-soft"> {t.builder.perUnit}</span>}
     </span>
   );
 }
@@ -49,6 +52,7 @@ function Thumb({ addon, on }: { addon: Addon; on: boolean }) {
             exit={{ scale: 0 }}
             transition={spring}
             className="absolute top-1 start-1 grid size-6 place-items-center rounded-full bg-brand text-white shadow-glow"
+            aria-hidden="true"
           >
             <Icon name="check" className="size-3.5" strokeWidth={3} />
           </motion.span>
@@ -91,6 +95,7 @@ export function ToggleCard({ addon, on, onChange }: { addon: Addon; on: boolean;
 export function QtyCard({ addon, qty, onChange }: { addon: Addon; qty: number; onChange: (qty: number) => void }) {
   const max = addon.maxQty ?? 10;
   const on = qty > 0;
+  const t = useT();
   return (
     <motion.div layout="position" className={shell(on)}>
       <Thumb addon={addon} on={on} />
@@ -110,7 +115,7 @@ export function QtyCard({ addon, qty, onChange }: { addon: Addon; qty: number; o
                 transition={spring}
                 className="flex items-center gap-1 rounded-full bg-ink p-1 text-white"
               >
-                <button type="button" onClick={() => onChange(qty - 1)} aria-label={`פחות ${addon.name}`} className="grid size-8 place-items-center rounded-full transition hover:bg-white/15 active:scale-90">
+                <button type="button" onClick={() => onChange(qty - 1)} aria-label={t.builder.less(addon.name)} className="grid size-8 place-items-center rounded-full transition hover:bg-white/15 active:scale-90">
                   <Icon name={qty === 1 ? "trash" : "minus"} className="size-4" />
                 </button>
                 <span className="relative grid h-8 w-6 place-items-center overflow-hidden font-bold tabular-nums" aria-live="polite">
@@ -120,7 +125,7 @@ export function QtyCard({ addon, qty, onChange }: { addon: Addon; qty: number; o
                     </motion.span>
                   </AnimatePresence>
                 </span>
-                <button type="button" onClick={() => onChange(qty + 1)} disabled={qty >= max} aria-label={`עוד ${addon.name}`} className="grid size-8 place-items-center rounded-full transition hover:bg-white/15 active:scale-90 disabled:opacity-30">
+                <button type="button" onClick={() => onChange(qty + 1)} disabled={qty >= max} aria-label={t.builder.more(addon.name)} className="grid size-8 place-items-center rounded-full transition hover:bg-white/15 active:scale-90 disabled:opacity-30">
                   <Icon name="plus" className="size-4" />
                 </button>
               </motion.div>
@@ -135,7 +140,7 @@ export function QtyCard({ addon, qty, onChange }: { addon: Addon; qty: number; o
                 onClick={() => onChange(1)}
                 className="flex h-10 items-center gap-1.5 rounded-full border border-ink/15 px-4 text-sm font-bold transition hover:border-ink hover:bg-ink hover:text-white"
               >
-                <Icon name="plus" className="size-4" /> הוספה
+                <Icon name="plus" className="size-4" /> {t.common.add}
               </motion.button>
             )}
           </AnimatePresence>
@@ -163,14 +168,16 @@ function Swatch({ swatch }: { swatch?: string }) {
 
 /** "120 ₪ למ"ר × 6 מ"ר = 720 ₪" for an add-on priced by floor area. */
 function AreaPrice({ addon }: { addon: Addon }) {
+  const locale = useLocale();
+  const t = useT().builder;
   if (!addon.pricePerM2 || !addon.areaM2) return null;
   return (
     <p className="mt-2 inline-flex flex-wrap items-center gap-x-1.5 rounded-full bg-brand-tint px-3 py-1 text-sm font-semibold text-brand-dark">
-      <span>{formatILS(addon.pricePerM2)} למ&quot;ר</span>
+      <span>{t.perM2(formatILS(addon.pricePerM2, locale))}</span>
       <span aria-hidden="true">×</span>
-      <span>{addon.areaM2} מ&quot;ר במחסן הזה</span>
+      <span>{t.inThisShed(addon.areaM2)}</span>
       <span aria-hidden="true">=</span>
-      <span className="font-extrabold tabular-nums">{formatILS(Math.round(addon.pricePerM2 * addon.areaM2))}</span>
+      <span className="font-extrabold tabular-nums">{formatILS(Math.round(addon.pricePerM2 * addon.areaM2), locale)}</span>
     </p>
   );
 }
@@ -240,7 +247,7 @@ export function ChoiceGroup({ addon, value, onChange }: { addon: Addon; value: s
           })}
         </div>
       )}
-      {addon.note && <p className="mt-3 flex items-start gap-2 rounded-xl bg-sand px-3 py-2 text-sm text-ink-soft"><Icon name="sparkle" className="mt-0.5 size-4 shrink-0 text-copper" />{addon.note}</p>}
+      {addon.note && <p className="mt-3 flex items-start gap-2 rounded-xl bg-sand px-3 py-2 text-sm text-ink-soft"><Icon name="sparkle" className="mt-0.5 size-4 shrink-0 text-copper-deep" />{addon.note}</p>}
     </div>
   );
 }

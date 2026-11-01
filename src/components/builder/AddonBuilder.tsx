@@ -3,6 +3,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { lp } from "@/i18n";
+import { useLocale, useT } from "@/i18n/client";
 import { builderSteps, chosenIn, profileAddon, type BuilderStep } from "@/lib/builder";
 import { useCart } from "@/lib/cart-store";
 import { addonsFor } from "@/lib/catalog";
@@ -34,6 +36,12 @@ export function AddonBuilder({ product }: { product: Product }) {
   const top = useRef<HTMLDivElement>(null);
   const rail = useRef<HTMLOListElement>(null);
   const add = useCart((s) => s.add);
+  const locale = useLocale();
+  const t = useT();
+  const b = t.builder;
+  const ils = (n: number) => formatILS(n, locale);
+  // steps slide in from the reading direction's "forward" side
+  const fwd = locale === "he" ? 1 : -1;
 
   const q = quote(product, selections);
   const extras = q.lines.length - 1;
@@ -67,12 +75,12 @@ export function AddonBuilder({ product }: { product: Product }) {
   }, [step]);
 
   const cta = added ? (
-    <Link href="/cart/" className="btn-brand w-full py-4 text-base">
-      <Icon name="check" /> נוסף לסל · למעבר לסל
+    <Link href={lp(locale, "/cart/")} className="btn-brand w-full py-4 text-base">
+      <Icon name="check" /> {b.addedGoToCart}
     </Link>
   ) : (
     <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={addToCart} className="btn-primary w-full py-4 text-base">
-      <Icon name="cart" /> הוספה לסל
+      <Icon name="cart" /> {t.common.addToCart}
     </motion.button>
   );
 
@@ -80,13 +88,13 @@ export function AddonBuilder({ product }: { product: Product }) {
     <motion.div
       key={current.id}
       custom={dir}
-      initial={{ opacity: 0, x: dir * -36 }}
+      initial={{ opacity: 0, x: dir * fwd * -36 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: dir * 36 }}
+      exit={{ opacity: 0, x: dir * fwd * 36 }}
       transition={{ duration: 0.3, ease }}
     >
       <div className="mb-4 flex items-center gap-3">
-        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink text-white">
+        <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-ink text-white" aria-hidden="true">
           <Icon name={current.icon} className="size-5" />
         </span>
         <div>
@@ -109,26 +117,26 @@ export function AddonBuilder({ product }: { product: Product }) {
         <div className="mb-5 flex flex-wrap items-end justify-between gap-2 sm:mb-6">
           <div>
             <p className="eyebrow">
-              <Icon name="sparkle" className="size-4 text-copper" /> צבע, תוספות, סיכום
+              <Icon name="sparkle" className="size-4 text-copper" /> {b.eyebrow}
             </p>
             <h2 id="build-title" className="mt-1 text-[1.9rem] font-extrabold leading-tight sm:text-4xl">
-              הרכיבו את המחסן שלכם
+              {b.title}
             </h2>
           </div>
           <p className="flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm font-bold">
             <Footprint w={product.widthM} d={product.depthM} className="size-5 text-brand-dark" />
-            מידה <span dir="ltr">{product.sizeLabel}</span>
+            {b.size} <span dir="ltr">{product.sizeLabel}</span>
           </p>
         </div>
 
         {profile && <ProfilePicker addon={profile} value={String(selections[profile.id] ?? profile.default ?? "")} onChange={(v) => set(profile.id, v)} />}
 
-        <p className="mb-2 mt-6 text-sm font-semibold text-ink-soft">
-          שלב {step + 1} מתוך {steps.length}
+        <p className="mb-2 mt-6 text-sm font-semibold text-ink-soft" aria-live="polite">
+          {b.stepOf(step + 1, steps.length)}
         </p>
 
         {/* step rail */}
-        <ol ref={rail} className="no-scrollbar relative -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0" aria-label="שלבי הבנייה">
+        <ol ref={rail} className="no-scrollbar relative -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0" aria-label={b.steps}>
           {steps.map((s, i) => {
             const n = chosenIn(s, selections);
             const active = i === step;
@@ -139,7 +147,7 @@ export function AddonBuilder({ product }: { product: Product }) {
                   type="button"
                   onClick={() => goTo(i)}
                   aria-current={active ? "step" : undefined}
-                  className={`relative flex h-11 items-center gap-2 rounded-full px-4 text-sm font-bold transition-colors duration-300 ${active ? "text-white" : done ? "bg-white text-ink" : "bg-white/60 text-ink/55 hover:text-ink"}`}
+                  className={`relative flex h-11 items-center gap-2 rounded-full px-4 text-sm font-bold transition-colors duration-300 ${active ? "text-white" : done ? "bg-white text-ink" : "bg-white/60 text-ink/75 hover:text-ink"}`}
                 >
                   {active && <motion.span layoutId="rail-pill" transition={{ type: "spring", stiffness: 400, damping: 34 }} className="absolute inset-0 rounded-full bg-ink" />}
                   <span className={`relative grid size-5 place-items-center rounded-full text-[11px] ${active ? "bg-white/15" : done ? "bg-brand text-white" : "bg-ink/10"}`}>
@@ -152,7 +160,7 @@ export function AddonBuilder({ product }: { product: Product }) {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         exit={{ scale: 0 }}
-                        className={`relative grid min-w-5 place-items-center rounded-full px-1 text-[11px] ${active ? "bg-brand text-white" : "bg-brand-tint text-brand-dark"}`}
+                        className={`relative grid min-w-5 place-items-center rounded-full px-1 text-[11px] ${active ? "bg-brand-dark text-white" : "bg-brand-tint text-brand-dark"}`}
                       >
                         {n}
                       </motion.span>
@@ -164,7 +172,7 @@ export function AddonBuilder({ product }: { product: Product }) {
           })}
         </ol>
         <div className="mt-2 h-1 overflow-hidden rounded-full bg-white">
-          <motion.div className="h-full rounded-full bg-gradient-to-l from-brand to-glow" animate={{ width: `${((step + 1) / steps.length) * 100}%` }} transition={{ duration: 0.6, ease }} />
+          <motion.div className="h-full rounded-full bg-gradient-to-l from-brand to-glow ltr:bg-gradient-to-r" animate={{ width: `${((step + 1) / steps.length) * 100}%` }} transition={{ duration: 0.6, ease }} />
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-8">
@@ -177,13 +185,13 @@ export function AddonBuilder({ product }: { product: Product }) {
 
             <div className="mt-6 flex items-center gap-3">
               {step > 0 && (
-                <button type="button" onClick={() => goTo(step - 1)} className="btn-ghost h-12 px-5" aria-label="לשלב הקודם">
-                  <Icon name="arrow" className="size-4 rotate-180" /> חזרה
+                <button type="button" onClick={() => goTo(step - 1)} className="btn-ghost h-12 px-5" aria-label={b.prevStep}>
+                  <Icon name="arrow" className="size-4 rotate-180" /> {t.common.back}
                 </button>
               )}
               {step < steps.length - 1 ? (
                 <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={() => goTo(step + 1)} className="btn-primary h-12 flex-1 sm:flex-none sm:px-8">
-                  {step === steps.length - 2 ? "לסיכום" : `הבא: ${steps[step + 1].title}`} <Icon name="arrow" className="size-4" />
+                  {step === steps.length - 2 ? b.toSummary : b.next(steps[step + 1].title)} <Icon name="arrow" className="size-4" />
                 </motion.button>
               ) : null}
             </div>
@@ -197,27 +205,27 @@ export function AddonBuilder({ product }: { product: Product }) {
                   <Image src={product.images[0]} alt="" fill sizes="56px" className="object-cover" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-sm text-white/60">המחסן שלכם</p>
+                  <p className="text-sm text-white/60">{b.yourShed}</p>
                   <p className="truncate font-bold">{product.name}</p>
                 </div>
               </div>
               <Lines q={q} profile={profileLabel} dark onJump={(id) => goTo(stepOf(id))} />
               <div className="mt-4 border-t border-white/15 pt-4">
-                <p className="text-sm text-white/60">סה&quot;כ כולל מע&quot;מ</p>
+                <p className="text-sm text-white/60">{t.common.totalInclVat}</p>
                 <AnimatedPrice value={q.total} className="font-display text-4xl font-extrabold" />
-                {q.onRequest.length > 0 && <p className="mt-1 text-sm text-copper">+ {q.onRequest.length} פריטים במחיר בתיאום</p>}
-                <p className="mt-1 text-xs text-white/50">
-                  {delivery.price === null ? "הובלה והתקנה בתיאום" : delivery.price === 0 ? "כולל הובלה והתקנה" : `+ הובלה והתקנה ${formatILS(delivery.price)} (נבחר בסל)`}
+                {q.onRequest.length > 0 && <p className="mt-1 text-sm text-copper">{b.onRequestCount(q.onRequest.length)}</p>}
+                <p className="mt-1 text-xs text-white/60">
+                  {delivery.price === null ? b.deliveryOnRequest : delivery.price === 0 ? b.deliveryIncluded : b.deliveryPlus(ils(delivery.price))}
                 </p>
               </div>
               <div className="mt-5 grid gap-2">
                 {added ? cta : (
                   <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={addToCart} className="btn w-full bg-white py-4 text-base text-ink hover:bg-brand-tint">
-                    <Icon name="cart" /> הוספה לסל
+                    <Icon name="cart" /> {t.common.addToCart}
                   </motion.button>
                 )}
                 <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-glass w-full">
-                  <Icon name="whatsapp" className="size-5 text-wa" /> שליחת ההרכב בוואטסאפ
+                  <Icon name="whatsapp" className="size-5 text-wa" /> {b.sendWhatsapp}
                 </a>
               </div>
             </div>
@@ -232,7 +240,8 @@ export function AddonBuilder({ product }: { product: Product }) {
             <>
               <motion.button
                 type="button"
-                aria-label="סגירת הסיכום"
+                aria-label={b.closeSummary}
+                tabIndex={-1}
                 className="fixed inset-0 -z-10 bg-night/40 backdrop-blur-[2px]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -249,7 +258,7 @@ export function AddonBuilder({ product }: { product: Product }) {
                 <p className="font-display text-xl font-extrabold">{product.name}</p>
                 <Lines q={q} profile={profileLabel} onJump={(id) => goTo(stepOf(id))} />
                 <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
-                  <Icon name="whatsapp" /> שליחת ההרכב בוואטסאפ
+                  <Icon name="whatsapp" /> {b.sendWhatsapp}
                 </a>
               </motion.div>
             </>
@@ -259,20 +268,20 @@ export function AddonBuilder({ product }: { product: Product }) {
           <button type="button" onClick={() => setSheet((v) => !v)} aria-expanded={sheet} className="flex min-w-0 flex-1 items-center gap-2 py-1 text-start">
             <span className="min-w-0">
               <span className="block text-[11px] text-white/60">
-                {extras === 0 ? "מחיר בסיס" : extras === 1 ? "תוספת אחת" : `${extras} תוספות`}
-                {q.onRequest.length ? " · חלק בתיאום" : ""}
+                {b.extras(extras)}
+                {q.onRequest.length ? b.partOnRequest : ""}
               </span>
               <AnimatedPrice value={q.total} className="text-xl font-black leading-tight" />
             </span>
-            <Icon name="chevron" className={`size-4 shrink-0 text-white/60 transition-transform duration-300 ${sheet ? "" : "rotate-180"}`} />
+            <Icon name="chevron" aria-hidden="true" className={`size-4 shrink-0 text-white/60 transition-transform duration-300 ${sheet ? "" : "rotate-180"}`} />
           </button>
           {added ? (
-            <Link href="/cart/" className="btn-brand h-12 shrink-0 px-5">
-              <Icon name="check" /> לסל
+            <Link href={lp(locale, "/cart/")} className="btn-brand h-12 shrink-0 px-5">
+              <Icon name="check" /> {t.common.toCart}
             </Link>
           ) : (
             <motion.button type="button" whileTap={{ scale: 0.95 }} onClick={addToCart} className="btn h-12 shrink-0 bg-white px-5 text-ink">
-              <Icon name="cart" /> הוספה לסל
+              <Icon name="cart" /> {t.common.addToCart}
             </motion.button>
           )}
         </div>
@@ -283,10 +292,11 @@ export function AddonBuilder({ product }: { product: Product }) {
 
 /** White or black profiles: the first choice, as two big swatches with a little shed in that colour. */
 function ProfilePicker({ addon, value, onChange }: { addon: Addon; value: string; onChange: (id: string) => void }) {
+  const b = useT().builder;
   return (
     <div className="mt-5 rounded-3xl bg-white p-4 shadow-soft sm:p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-        <p className="text-lg font-extrabold">קודם כל: באיזה צבע הפרופילים?</p>
+        <p className="text-lg font-extrabold">{b.profileQuestion}</p>
         <p className="text-sm text-ink-soft">{addon.description}</p>
       </div>
       <div role="radiogroup" aria-label={addon.name} className="mt-3 grid grid-cols-2 gap-3">
@@ -304,11 +314,11 @@ function ProfilePicker({ addon, value, onChange }: { addon: Addon; value: string
             >
               <ShedIcon frame={c.swatch ?? "#1d1f22"} className="h-16 w-20 shrink-0 sm:h-20 sm:w-24" />
               <span className="text-center sm:text-start">
-                <span className="block text-lg font-extrabold">פרופיל {c.label}</span>
+                <span className="block text-lg font-extrabold">{b.profile(c.label)}</span>
                 <PriceTag price={c.price} />
               </span>
               {on && (
-                <motion.span layoutId="profile-check" transition={{ type: "spring", stiffness: 500, damping: 32 }} className="absolute top-2 end-2 grid size-6 place-items-center rounded-full bg-brand text-white">
+                <motion.span layoutId="profile-check" transition={{ type: "spring", stiffness: 500, damping: 32 }} className="absolute top-2 end-2 grid size-6 place-items-center rounded-full bg-brand text-white" aria-hidden="true">
                   <Icon name="check" className="size-3.5" strokeWidth={3} />
                 </motion.span>
               )}
@@ -342,6 +352,7 @@ function ShedIcon({ frame, className = "" }: { frame: string; className?: string
 
 function AddonStep({ step, product, selections, set }: { step: BuilderStep; product: Product; selections: Selections; set: (id: string, v: number | string) => void }) {
   const panel = addonsFor(product).find((a) => a.id === "electric-panel");
+  const t = useT();
   const wantsPanel = step.addons.some((a) => a.id === "ac") && selections.ac !== undefined && selections.ac !== "none" && panel && !selections["electric-panel"];
   return (
     <div className="grid gap-3 md:grid-cols-2">
@@ -365,10 +376,10 @@ function AddonStep({ step, product, selections, set }: { step: BuilderStep; prod
             className="overflow-hidden md:col-span-2"
           >
             <div className="flex items-center gap-3 rounded-2xl bg-copper-tint p-3 ring-1 ring-copper/25">
-              <Icon name="bolt" className="size-5 shrink-0 text-copper" />
-              <p className="flex-1 text-sm font-semibold">מזגן צריך חשמל: מומלץ להוסיף פאנל חשמל למחסן.</p>
+              <Icon name="bolt" className="size-5 shrink-0 text-copper-deep" />
+              <p className="flex-1 text-sm font-semibold">{t.builder.acNeedsPower}</p>
               <button type="button" onClick={() => set("electric-panel", 1)} className="btn h-10 shrink-0 bg-ink px-4 text-sm text-white">
-                הוספה <PriceTag price={panel.price} className="text-white" />
+                {t.common.add} <PriceTag price={panel.price} className="text-white" />
               </button>
             </div>
           </motion.div>
@@ -380,15 +391,17 @@ function AddonStep({ step, product, selections, set }: { step: BuilderStep; prod
 
 function Lines({ q, profile, dark = false, onJump }: { q: Quote; profile?: string; dark?: boolean; onJump: (addonId: string) => void }) {
   const extras = q.lines.slice(1).filter((l) => l.id !== "profile-color");
+  const locale = useLocale();
+  const t = useT();
   return (
     <ul className={`mt-4 space-y-1 text-sm ${dark ? "text-white/85" : "text-ink"}`}>
       <li className="flex justify-between gap-3 py-1">
-        <span className={dark ? "text-white/60" : "text-ink-soft"}>מחיר בסיס</span>
-        <span className="font-semibold tabular-nums">{formatILS(q.lines[0].total ?? 0)}</span>
+        <span className={dark ? "text-white/60" : "text-ink-soft"}>{t.common.basePrice}</span>
+        <span className="font-semibold tabular-nums">{formatILS(q.lines[0].total ?? 0, locale)}</span>
       </li>
       {profile && (
         <li className="flex justify-between gap-3 py-1">
-          <span className={dark ? "text-white/60" : "text-ink-soft"}>פרופילים</span>
+          <span className={dark ? "text-white/60" : "text-ink-soft"}>{t.builder.profiles}</span>
           <span className="font-semibold">{profile}</span>
         </li>
       )}
@@ -409,48 +422,51 @@ function Lines({ q, profile, dark = false, onJump }: { q: Quote; profile?: strin
                 {l.qty > 1 && <span className={dark ? "text-white/60" : "text-ink-soft"}> ×{l.qty}</span>}
               </span>
               <span className="shrink-0 font-semibold tabular-nums">
-                {l.total === null ? <span className="text-copper">בתיאום</span> : l.total === 0 ? "ללא תוספת" : `+${formatILS(l.total)}`}
+                {l.total === null ? <span className={dark ? "text-copper" : "text-copper-deep"}>{t.common.onRequest}</span> : l.total === 0 ? t.common.noExtra : `+${formatILS(l.total, locale)}`}
               </span>
             </button>
           </motion.li>
         ))}
       </AnimatePresence>
-      {extras.length === 0 && <li className={`py-1 ${dark ? "text-white/45" : "text-ink-soft"}`}>עוד לא נבחרו תוספות</li>}
+      {extras.length === 0 && <li className={`py-1 ${dark ? "text-white/60" : "text-ink-soft"}`}>{t.builder.noAddons}</li>}
     </ul>
   );
 }
 
 function SummaryStep({ product, q, profile, goTo, stepOf, cta }: { product: Product; q: Quote; profile?: string; goTo: (i: number) => void; stepOf: (id: string) => number; cta: React.ReactNode }) {
   const delivery = fulfillmentOptions(product)[0];
+  const locale = useLocale();
+  const t = useT();
+  const b = t.builder;
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-soft">
       <div className="relative h-40 sm:h-52">
-        <Image src={product.images[0]} alt={product.name} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" />
+        <Image src={product.images[0]} alt="" fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" aria-hidden="true" />
         <p className="absolute bottom-3 start-4 font-display text-2xl font-extrabold text-white">{product.name}</p>
       </div>
       <div className="p-4 sm:p-6">
         <Lines q={q} profile={profile} onJump={(id) => goTo(stepOf(id))} />
         <div className="mt-4 flex items-end justify-between gap-3 border-t border-line pt-4">
           <div>
-            <p className="text-sm text-ink-soft">סה&quot;כ כולל מע&quot;מ</p>
+            <p className="text-sm text-ink-soft">{t.common.totalInclVat}</p>
             <AnimatedPrice value={q.total} className="font-display text-4xl font-extrabold" showDelta={false} />
           </div>
           <button type="button" onClick={() => goTo(0)} className="text-sm font-bold text-brand-dark underline underline-offset-4">
-            שינוי תוספות
+            {b.changeAddons}
           </button>
         </div>
         {q.onRequest.length > 0 && (
           <p className="mt-3 rounded-xl bg-copper-tint px-3 py-2 text-sm text-ink ring-1 ring-copper/25">
-            <strong className="text-copper">מחיר בתיאום:</strong> {q.onRequest.map((l) => l.label).join(", ")}. נציג יאשר את המחיר מולכם לפני התשלום.
+            <strong className="text-copper-deep">{t.common.priceOnRequest}:</strong> {b.onRequestNote(q.onRequest.map((l) => l.label).join(", "))}
           </p>
         )}
         <p className="mt-3 flex items-center gap-2 text-sm text-ink-soft">
           <Icon name="truck" className="size-4 shrink-0 text-brand-dark" />
-          {delivery.price === null ? "הובלה והתקנה בתיאום" : delivery.price === 0 ? "כולל הובלה והתקנה" : `הובלה והתקנה: ${formatILS(delivery.price)}, נבחרות בסל`}
+          {delivery.price === null ? b.deliveryOnRequest : delivery.price === 0 ? b.deliveryIncluded : b.deliverySummary(formatILS(delivery.price, locale))}
         </p>
         <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
-          <Icon name="whatsapp" /> שליחת ההרכב בוואטסאפ
+          <Icon name="whatsapp" /> {b.sendWhatsapp}
         </a>
         <div className="mt-3">{cta}</div>
       </div>

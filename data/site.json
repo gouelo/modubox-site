@@ -47,5 +47,11 @@
   "leadFormEndpoint": "",
   "paymentProvider": "TODO: Cardcom / Tranzila / Grow",
   "logo": "/brand/logo.svg",
-  "logoWhite": "/brand/logo-white.svg"
+  "logoWhite": "/brand/logo-white.svg",
+  "accessibility": {
+    "_readme": "הצהרת הנגישות (/accessibility/): שם רכז/ת הנגישות (coordinator בעברית, coordinatorEn באנגלית) ותאריך העדכון האחרון של ההצהרה (updated, בפורמט YYYY-MM-DD). כל עוד השם מתחיל ב-TODO, בדף מופיע רק התפקיד. הטלפון, הוואטסאפ והמייל נלקחים מהפרטים למעלה.",
+    "coordinator": "TODO: שם רכז/ת הנגישות",
+    "coordinatorEn": "TODO: accessibility coordinator name",
+    "updated": "2026-11-01"
+  }
 }

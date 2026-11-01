@@ -1,4 +1,5 @@
-import { addonsFor, products, site } from "./catalog";
+import { dict, type Locale } from "@/i18n";
+import { addonsFor, catalog, site } from "./catalog";
 import { configuratorModel } from "./design3d";
 import { defaultSelections } from "./pricing";
 import type { CartDesign, DesignExtra, Product, Selections } from "./types";
@@ -117,13 +118,13 @@ export function parseDesign(input: string): ConfiguratorDesign {
 }
 
 /** The Modubox product for a configurator model ("3x2"), if the site sells it. */
-export function productForModel(model: string): Product | undefined {
-  return products.find((p) => configuratorModel(p) === model);
+export function productForModel(model: string, locale: Locale = "he"): Product | undefined {
+  return catalog(locale).products.find((p) => configuratorModel(p) === model);
 }
 
 /** The configurator models the site sells, smallest first (for the fallback's size picker). */
 export function sellableModels(): { model: string; product: Product }[] {
-  return products
+  return catalog("he").products
     .filter((p) => configuratorModel(p))
     .map((p) => ({ model: configuratorModel(p)!, product: p }))
     .sort((a, b) => a.product.areaM2 - b.product.areaM2 || a.product.widthM - b.product.widthM);
@@ -145,8 +146,8 @@ export interface ConfiguratorCartItem {
  * price, "מחיר בתיאום"). The first single door is part of the shed, as in the
  * configurator. null when the site doesn't sell that size.
  */
-export function designToCartItem(design: ConfiguratorDesign, link: string): ConfiguratorCartItem | null {
-  const product = productForModel(design.model);
+export function designToCartItem(design: ConfiguratorDesign, link: string, locale: Locale = "he"): ConfiguratorCartItem | null {
+  const product = productForModel(design.model, locale);
   if (!product) return null;
   const offered = new Map(addonsFor(product).map((a) => [a.id, a]));
   const selections: Selections = { ...defaultSelections(product) };
@@ -186,8 +187,8 @@ export function designToCartItem(design: ConfiguratorDesign, link: string): Conf
   const floor = FLOOR_CHOICE[design.floor];
   if (floor && offered.get("wpc-floor")?.choices?.some((c) => c.id === floor)) selections["wpc-floor"] = floor;
 
-  if (design.kipp > 0) extras.push({ id: "cfg-kipp", label: "חלון קיפ", qty: design.kipp, unitPrice: null });
-  if (design.glassDoors > 0) extras.push({ id: "cfg-glass-door", label: "דלת זכוכית", qty: design.glassDoors, unitPrice: null });
+  if (design.kipp > 0) extras.push({ id: "cfg-kipp", label: dict(locale).configurator.kipp, qty: design.kipp, unitPrice: null });
+  if (design.glassDoors > 0) extras.push({ id: "cfg-glass-door", label: dict(locale).configurator.glassDoor, qty: design.glassDoors, unitPrice: null });
 
   return { product, selections, design: { source: "configurator", link, exact: true, ...(extras.length ? { extras } : {}) } };
 }
@@ -203,8 +204,8 @@ export function designLink(query: string): string {
  * size and colour the customer confirmed, marked as a configurator design whose
  * openings and add-ons a representative goes over with them.
  */
-export function fallbackCartItem(model: string, frame: "dark" | "light", link: string): ConfiguratorCartItem | null {
-  const product = productForModel(model);
+export function fallbackCartItem(model: string, frame: "dark" | "light", link: string, locale: Locale = "he"): ConfiguratorCartItem | null {
+  const product = productForModel(model, locale);
   if (!product) return null;
   const selections: Selections = { ...defaultSelections(product) };
   if (addonsFor(product).some((a) => a.id === "profile-color")) selections["profile-color"] = frame === "dark" ? "black" : "white";

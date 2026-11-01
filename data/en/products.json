@@ -1,0 +1,152 @@
+{
+  "_readme": "English text for data/products.json, by product slug (name, shortDescription, badge, todo and the delivery notes). Prices, sizes and photos come from data/products.json. Add a product there → add its English here (a test checks).",
+  "products": {
+    "modubox-1x0-8": {
+      "name": "Modubox Shed 1×0.80",
+      "shortDescription": "A slim storage cabinet for the garden or balcony – perfect for a washer and dryer, garden tools or an outdoor fridge.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-1x1": {
+      "name": "Modubox Shed 1×1",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-2x0-8": {
+      "name": "Modubox Shed 2×0.80",
+      "shortDescription": "A slim storage cabinet for the garden or balcony – perfect for a washer and dryer, garden tools or an outdoor fridge.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-2x1": {
+      "name": "Modubox Shed 2×1",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-2x1-6": {
+      "name": "Modubox Shed 2×1.60",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-3x1": {
+      "name": "Modubox Shed 3×1",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-2x2": {
+      "name": "Modubox Shed 2×2",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-4x1": {
+      "name": "Modubox Shed 4×1",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-3x1-6": {
+      "name": "Modubox Shed 3×1.60",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-4x1-6": {
+      "name": "Modubox Shed 4×1.60",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-3x2": {
+      "name": "Modubox Shed 3×2",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement.",
+      "badge": "Best seller"
+    },
+    "modubox-4x2": {
+      "name": "Modubox Shed 4×2",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-3x3": {
+      "name": "Modubox Shed 3×3",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-5x2": {
+      "name": "Modubox Shed 5×2",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-4x3": {
+      "name": "Modubox Shed 4×3",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement.",
+      "badge": "Best seller"
+    },
+    "modubox-6x2": {
+      "name": "Modubox Shed 6×2",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
+    },
+    "modubox-5x3": {
+      "name": "Modubox Shed 5×3",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement.",
+      "badge": "Best seller"
+    },
+    "modubox-6x3": {
+      "name": "Modubox Shed 6×3",
+      "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement.",
+      "todo": "TODO: no product page on the old site – ₪17,900 appears in the catalog. Missing: delivery + installation price, exact dimensions, photos."
+    },
+    "gilboa-s": {
+      "name": "Gilboa Garden Shed S",
+      "shortDescription": "A quality resin shed made of reinforced polypropylene, with double walls and an internal aluminum frame. Won't rust and needs no maintenance.",
+      "note": "South of Be'er Sheva down to Mitzpe Ramon, and beyond the Green Line: add ₪200.",
+      "pickupNote": "Self pickup from Kibbutz Ein Harod",
+      "deliveryNote": "Delivery only – unloaded at the curb"
+    },
+    "gilboa-m": {
+      "name": "Gilboa Garden Shed M",
+      "shortDescription": "A quality resin shed made of reinforced polypropylene, with double walls and an internal aluminum frame. Won't rust and needs no maintenance.",
+      "note": "South of Be'er Sheva down to Mitzpe Ramon, and beyond the Green Line: add ₪200.",
+      "pickupNote": "Self pickup from Kibbutz Ein Harod",
+      "deliveryNote": "Delivery only – unloaded at the curb"
+    },
+    "gilboa-l": {
+      "name": "Gilboa Garden Shed L",
+      "shortDescription": "A quality resin shed made of reinforced polypropylene, with double walls and an internal aluminum frame. Won't rust and needs no maintenance.",
+      "note": "South of Be'er Sheva down to Mitzpe Ramon, and beyond the Green Line: add ₪200.",
+      "pickupNote": "Self pickup from Kibbutz Ein Harod",
+      "deliveryNote": "Delivery only – unloaded at the curb"
+    },
+    "gilboa-xl": {
+      "name": "Gilboa Garden Shed XL",
+      "shortDescription": "A quality resin shed made of reinforced polypropylene, with double walls and an internal aluminum frame. Won't rust and needs no maintenance.",
+      "note": "South of Be'er Sheva down to Mitzpe Ramon, and beyond the Green Line: add ₪200.",
+      "pickupNote": "Self pickup from Kibbutz Ein Harod",
+      "deliveryNote": "Delivery only – unloaded at the curb"
+    },
+    "toilet-1x1": {
+      "name": "Restroom Unit 1×1",
+      "shortDescription": "An XPV insulated-panel restroom unit with a rigid interior floor, a door with a cylinder lock and skylight windows.",
+      "note": "Delivery & installation – paid to the installers on installation day"
+    },
+    "toilet-1-6x1": {
+      "name": "Restroom Unit 1.6×1",
+      "shortDescription": "An XPV insulated-panel restroom unit – with a quality toilet, a corner sink and faucet, a door with a cylinder lock and a skylight.",
+      "note": "Delivery & installation – paid to the installers on installation day"
+    },
+    "toilet-2x1": {
+      "name": "Restroom Unit 2×1",
+      "shortDescription": "An XPV insulated-panel restroom unit – with a toilet, a vanity with sink and faucet, and a mirror.",
+      "note": "Delivery & installation – paid to the installers on installation day"
+    },
+    "toilet-shower-3x1": {
+      "name": "Restroom & Shower Unit 3×1",
+      "shortDescription": "An XPV insulated-panel restroom and shower unit – a toilet, a vanity with mirror, and a shower tray with a handheld shower and faucet.",
+      "badge": "New!"
+    },
+    "guard-booth-2x2": {
+      "name": "Guard Booth 2×2",
+      "shortDescription": "A guard booth built from insulated panels and heavy-duty aluminum profiles, with 3 sliding windows and an electrical panel (lighting and 3 outlets). Price includes delivery and installation.",
+      "note": "Price includes delivery and installation"
+    }
+  }
+}

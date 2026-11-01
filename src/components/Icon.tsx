@@ -44,6 +44,7 @@ const paths: Record<string, React.ReactNode> = {
   ),
   ruler: <path d="M21.3 15.3 8.7 2.7a1 1 0 0 0-1.4 0L2.7 7.3a1 1 0 0 0 0 1.4l12.6 12.6a1 1 0 0 0 1.4 0l4.6-4.6a1 1 0 0 0 0-1.4ZM7.5 10.5l2-2M10.5 13.5l2-2M13.5 16.5l2-2" />,
   play: <path fill="currentColor" stroke="none" d="M8 5v14l11-7z" />,
+  pause: <path fill="currentColor" stroke="none" d="M6 5h4v14H6zM14 5h4v14h-4z" />,
   arrow: <path d="M19 12H5m7 7-7-7 7-7" />,
   chevron: <path d="m6 9 6 6 6-6" />,
   plus: <path d="M12 5v14M5 12h14" />,
@@ -131,6 +132,9 @@ const paths: Record<string, React.ReactNode> = {
 
 export type IconName = keyof typeof paths;
 
+/** Icons that point "forward": drawn for Hebrew (pointing left), mirrored on left-to-right pages. */
+const DIRECTIONAL = new Set<string>(["arrow"]);
+
 export function Icon({ name, className = "size-5", ...rest }: { name: IconName } & SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -141,7 +145,7 @@ export function Icon({ name, className = "size-5", ...rest }: { name: IconName }
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={className}
+      className={DIRECTIONAL.has(name) ? `${className} ltr:-scale-x-100` : className}
       {...rest}
     >
       {paths[name]}

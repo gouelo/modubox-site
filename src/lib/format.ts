@@ -1,9 +1,12 @@
-const ils = new Intl.NumberFormat("he-IL", { maximumFractionDigits: 0 });
+import type { Locale } from "@/i18n/config";
 
-export function formatILS(n: number): string {
-  return `${ils.format(n)} ₪`;
+const num = { he: new Intl.NumberFormat("he-IL", { maximumFractionDigits: 0 }), en: new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }) };
+
+/** "1,190 ₪" in Hebrew, "₪1,190" in English. */
+export function formatILS(n: number, locale: Locale = "he"): string {
+  return locale === "he" ? `${num.he.format(n)} ₪` : `₪${num.en.format(n)}`;
 }
 
-export function formatCm(n: number): string {
-  return `${ils.format(n)} ס"מ`;
+export function formatCm(n: number, locale: Locale = "he"): string {
+  return locale === "he" ? `${num.he.format(n)} ס"מ` : `${num.en.format(n)} cm`;
 }

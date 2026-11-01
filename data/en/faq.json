@@ -1,0 +1,107 @@
+{
+  "_readme": "The FAQ in English: the same groups and questions as data/faq.json, in the same order (a test checks). Photos, links and other settings come from data/faq.json; only the words are here.",
+  "groups": [
+    {
+      "id": "structure",
+      "title": "Structure & materials",
+      "image": { "alt": "Corner of a Modubox shed: dark aluminum profiles, a high glass strip and white walls", "caption": "Aluminum profiles and insulated panels, up close" },
+      "items": [
+        {
+          "q": "What is a Modubox shed made of?",
+          "a": "The frame and profiles are electrostatically coated aluminum, in white or black – they won't rust or rot. The walls and roof are XPV insulated panels, which provide thermal and acoustic insulation and keep out rain, dust and pests. The raised interior floor is made of plastic platforms (an Italian patent), and you can upgrade to WPC flooring."
+        },
+        {
+          "q": "Is it insulated? Is it comfortable in summer and winter?",
+          "a": "Yes. The XPV panels, with their insulating core, keep the inside more comfortable in summer and winter and also block noise. For an office, clinic or guest room you can add an inverter AC (together with an electrical panel), and if you want fresh air flowing through there's a ventilation grill.",
+          "media": [{ "alt": "Looking inside: insulated panel walls and high windows", "caption": "Inside: insulated panel walls and skylight windows" }]
+        },
+        {
+          "q": "Can I work, host guests or live in it?",
+          "a": "The units are insulated against heat and cold, and customers use them as offices, clinics, studios, home gyms and guest rooms. Water and sewage hookups are done by licensed professionals. Permanent use, as a home or a business, may require approval from your local authority: see the question about building permits."
+        },
+        {
+          "q": "How much maintenance does it need?",
+          "a": "Almost none. Aluminum and insulated panels don't rot or rust, and there's no need to paint or oil anything: just rinse it with water now and then. The WPC flooring also cleans with soap and water."
+        }
+      ]
+    },
+    {
+      "id": "sizes",
+      "title": "Sizes, doors & extras",
+      "image": { "alt": "A backyard unit with black profiles and a window", "caption": "A backyard unit with black profiles, at a customer's home" },
+      "items": [
+        {
+          "q": "What sizes are there? Can I get a custom size?",
+          "a": "The site offers 18 standard sizes, from 1×0.80 m up to 6×3 m, each at a fixed price. Beyond those, custom work is our specialty: half sizes, exact measurements for your yard, and larger structures. Custom sizes are planned with a representative in a personal consultation, where the price is set too."
+        },
+        {
+          "q": "What does “modular” mean?",
+          "a": "The structure is made of parts that connect to each other, so you can order it in a standard size or to exact measurements, put doors and windows wherever you like, and later even enlarge it, shrink it or move it – paying only for the materials and the work."
+        },
+        {
+          "q": "Where will the door be?",
+          "a": "On any side of the shed – your choice. You can swap it for a double door (1.80 m opening) and add another door, a sliding window or a glass wall. You choose all of these in the extras builder on each size's page, or in the 3D configurator.",
+          "media": [{ "alt": "An open white entry door with a metal handle, in a dark aluminum frame", "caption": "The entry door, in line with the profiles" }]
+        },
+        {
+          "q": "Can I add electricity and air conditioning?",
+          "a": "Yes. The shed's electrical panel is installed at the factory: a residual-current breaker, separate breakers for outlets and lighting, 4 outlets and LED lighting. A licensed electrician connects it to your home's power with a single cable. You can add an inverter AC as an extra (installation not included), and we recommend pairing it with the electrical panel."
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "title": "Price, delivery & installation",
+      "image": { "alt": "A white Modubox shed at the end of an installation, at dusk", "caption": "A Modubox shed, just installed" },
+      "items": [
+        {
+          "q": "What does the price include?",
+          "a": "The price on each page is for the structure in the size you chose, including VAT: the aluminum frame, insulated-panel walls and roof, the interior floor and an entry door. Delivery and installation are priced separately, by size, and the cost appears on each shed's card. Extras like another door, windows, power, AC and WPC flooring are up to you, and the price updates in the extras builder."
+        },
+        {
+          "q": "How much do delivery and installation cost?",
+          "a": "It depends on the size: the price appears on each shed's card and page, and you choose it in the cart. North of Akko and south of Be'er Sheva there's an extra ₪100, and south of Yeruham it's by arrangement. Under our terms, extra charges may apply if the installation spot is more than 100 m from where the truck can park, if parts must be carried up stairs, or if a crane is needed.",
+          "linkLabel": "Delivery and installation terms"
+        },
+        {
+          "q": "How soon do you install?",
+          "a": "Within 21 business days of receiving your order. The installer arranges an arrival window of up to 4 hours with you and calls about half an hour before arriving, and the assembly itself takes just a few hours."
+        },
+        {
+          "q": "How do I prepare the site?",
+          "a": "The shed stands on a flat, level, firm surface – tiles, concrete, decking and the like – not directly on soil or sand. Preparing the site, and clear, safe access to it, is the customer's responsibility. Don't have a suitable surface? Tell us and we'll advise you on what to prepare.",
+          "media": [{ "alt": "A shed with a window on paving in a yard", "caption": "On paving" }, { "alt": "A backyard unit on a wooden deck", "caption": "On a wooden deck" }]
+        },
+        {
+          "q": "Do I need a building permit?",
+          "a": "It depends on the structure's size, how you use it and where it stands, and the rules vary from one local authority to the next. Before ordering, it's worth checking with your local planning and building committee (va'ada mekomit). We can't give legal advice, but we're happy to give you the unit's dimensions and specifications to check."
+        },
+        {
+          "q": "Can I pick it up and assemble it myself?",
+          "a": "You can collect it yourself from the Radius warehouses on Kibbutz Ein Harod Meuhad, by prior arrangement. Please note: self-transport, self-assembly or dismantling voids the warranty, which is why we recommend installation by our team."
+        }
+      ]
+    },
+    {
+      "id": "payment",
+      "title": "Payment, warranty & cancellation",
+      "image": { "alt": "A brushed metal handle and cylinder lock on a white door", "caption": "Handle and lock in a brushed metal finish" },
+      "items": [
+        {
+          "q": "What warranty do I get?",
+          "a": "Modubox sheds come with a 10-year warranty from the date of purchase, covering manufacturing and material defects, as long as the unit was assembled by our installer and stays where it was installed. WPC flooring has a 5-year warranty.",
+          "linkLabel": "Full warranty terms"
+        },
+        {
+          "q": "How do I pay? Can I pay in installments?",
+          "a": "Yes, up to 12 payments. After you order on the site, a representative will contact you to coordinate and complete payment. You can also order directly on WhatsApp or by phone."
+        },
+        {
+          "q": "Can I cancel my order?",
+          "a": "Yes, under the Israeli Consumer Protection Law, with a cancellation fee of ₪100 or 5% of the product's value, whichever is lower. Cancelling or changing an order after the delivery date has been confirmed costs ₪300, paid to the installer.",
+          "linkLabel": "Cancellation in our terms"
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { dict } from "@/i18n";
 import { addonsFor } from "./catalog";
 import type { Addon, Product, Selections } from "./types";
 
@@ -18,12 +19,12 @@ export const PROFILE_ADDON = "profile-color";
  * The steps of the add-ons builder on a product page. The size is the page's
  * own and the profile colour is chosen above the steps, so the steps are only
  * add-ons, placed by their `group` in data/addons.json; a group that no step
- * names lands in "תוספות נוספות", so a new group always shows up.
+ * names lands in "more" ("תוספות נוספות"), so a new group always shows up.
  */
-const ADDON_STEPS: { id: string; title: string; subtitle: string; icon: StepIcon; groups: string[] }[] = [
-  { id: "openings", title: "דלתות וחלונות", subtitle: "פתחים, אור טבעי וגישה נוחה", icon: "door", groups: ["דלתות וחלונות"] },
-  { id: "power", title: "חשמל ומיזוג", subtitle: "להפוך את המחסן לחדר שאפשר לעבוד בו", icon: "bolt", groups: ["חשמל ומיזוג"] },
-  { id: "interior", title: "פנים ורצפה", subtitle: "רצפה, סדר בפנים ואוויר נקי", icon: "shelf", groups: ["רצפה", "אחסון פנימי", "אוורור"] },
+const ADDON_STEPS: { id: "openings" | "power" | "interior"; icon: StepIcon; groups: string[] }[] = [
+  { id: "openings", icon: "door", groups: ["דלתות וחלונות"] },
+  { id: "power", icon: "bolt", groups: ["חשמל ומיזוג"] },
+  { id: "interior", icon: "shelf", groups: ["רצפה", "אחסון פנימי", "אוורור"] },
 ];
 
 /** The profile-colour add-on, when the product offers it. */
@@ -33,17 +34,18 @@ export function profileAddon(product: Product): Addon | undefined {
 
 export function builderSteps(product: Product): BuilderStep[] {
   const all = addonsFor(product).filter((a) => a.id !== PROFILE_ADDON);
+  const t = dict(product.locale ?? "he").builder.stepTitles;
   const steps: BuilderStep[] = [];
   const placed = new Set<string>();
   for (const s of ADDON_STEPS) {
     // in the order of the step's groups (the floor before shelves), stable within a group
     const addons = s.groups.flatMap((g) => all.filter((a) => a.group === g));
     addons.forEach((a) => placed.add(a.id));
-    if (addons.length) steps.push({ id: s.id, title: s.title, subtitle: s.subtitle, icon: s.icon, addons });
+    if (addons.length) steps.push({ id: s.id, ...t[s.id], icon: s.icon, addons });
   }
   const rest = all.filter((a) => !placed.has(a.id));
-  if (rest.length) steps.push({ id: "more", title: "תוספות נוספות", subtitle: "עוד אפשרויות למחסן שלכם", icon: "plus", addons: rest });
-  steps.push({ id: "summary", title: "סיכום", subtitle: "כך נראה המחסן שבחרתם", icon: "check", addons: [] });
+  if (rest.length) steps.push({ id: "more", ...t.more, icon: "plus", addons: rest });
+  steps.push({ id: "summary", ...t.summary, icon: "check", addons: [] });
   return steps;
 }
 

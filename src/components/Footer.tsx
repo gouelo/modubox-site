@@ -1,22 +1,31 @@
 import Link from "next/link";
-import { categories, site } from "@/lib/catalog";
+import { dict, lp, type Locale } from "@/i18n";
+import { catalog } from "@/lib/catalog";
 import { waLink } from "@/lib/whatsapp";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 
-export function Footer() {
+export function Footer({ locale }: { locale: Locale }) {
+  const { site, categories } = catalog(locale);
+  const t = dict(locale);
+  const f = t.footer;
+  const link = (path: string, label: string) => (
+    <li>
+      <Link href={lp(locale, path)} className="hover:text-white hover:underline">{label}</Link>
+    </li>
+  );
   return (
     <footer className="mt-16 bg-ink text-white/80 sm:mt-24">
       <div className="container-x grid grid-cols-2 gap-x-6 gap-y-8 py-10 sm:py-14 lg:grid-cols-4">
         <div className="col-span-2 space-y-4 lg:col-span-1">
-          <Logo white className="h-8 w-auto" />
-          <p className="leading-7 text-white/70">{site.tagline}. פיתוח וייצור ישראלי, {site.warrantyYears} שנות אחריות והתקנה עד הבית.</p>
+          <Logo white alt={t.logoAlt} className="h-8 w-auto" />
+          <p className="leading-7 text-white/70">{f.about(site.tagline, site.warrantyYears)}</p>
           <div className="flex gap-2">
             {(
               [
-                ["facebook", site.social.facebook, "פייסבוק"],
-                ["instagram", site.social.instagram, "אינסטגרם"],
-                ["youtube", site.social.youtube, "יוטיוב"],
+                ["facebook", site.social.facebook, f.social.facebook],
+                ["instagram", site.social.instagram, f.social.instagram],
+                ["youtube", site.social.youtube, f.social.youtube],
               ] as const
             ).map(([icon, href, label]) => (
               <a key={icon} href={href} target="_blank" rel="noopener" aria-label={label} className="grid size-10 place-items-center rounded-full bg-white/10 transition hover:bg-white/20">
@@ -26,55 +35,56 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <h3 className="mb-4 font-bold text-white">המוצרים שלנו</h3>
+          <h2 className="mb-4 text-base font-bold tracking-normal text-white">{f.products}</h2>
           <ul className="space-y-2.5">
             {categories.map((c) => (
               <li key={c.id}>
-                <Link href={`/shop/#${c.id}`} className="hover:text-white">{c.title}</Link>
+                <Link href={lp(locale, `/shop/#${c.id}`)} className="hover:text-white hover:underline">{c.title}</Link>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <h3 className="mb-4 font-bold text-white">מידע</h3>
+          <h2 className="mb-4 text-base font-bold tracking-normal text-white">{f.info}</h2>
           <ul className="space-y-2.5">
-            <li><Link href="/about/" className="hover:text-white">אודות מודובוקס</Link></li>
-            <li><Link href="/gallery/" className="hover:text-white">גלריה וסרטונים</Link></li>
-            <li><Link href="/warranty/" className="hover:text-white">אחריות ושירות</Link></li>
-            <li><Link href="/terms/" className="hover:text-white">תקנון האתר</Link></li>
-            <li><Link href="/faq/" className="hover:text-white">שאלות נפוצות</Link></li>
+            {link("/about/", f.links.about)}
+            {link("/gallery/", f.links.gallery)}
+            {link("/warranty/", f.links.warranty)}
+            {link("/terms/", f.links.terms)}
+            {link("/faq/", f.links.faq)}
+            {link("/accessibility/", f.links.accessibility)}
           </ul>
         </div>
         <div className="col-span-2 lg:col-span-1">
-          <h3 className="mb-4 font-bold text-white">דברו איתנו</h3>
+          <h2 className="mb-4 text-base font-bold tracking-normal text-white">{f.talk}</h2>
           <ul className="space-y-3">
             <li>
               <a href={waLink(site.whatsappGreeting)} target="_blank" rel="noopener" className="flex items-center gap-2 hover:text-white">
-                <Icon name="whatsapp" className="size-5 text-wa" /> וואטסאפ
+                <Icon name="whatsapp" className="size-5 text-wa" /> {t.common.whatsapp}
               </a>
             </li>
             <li>
               <a href={`tel:${site.phone}`} className="flex items-center gap-2 hover:text-white">
-                <Icon name="phone" className="size-5 text-brand" /> <span dir="ltr">{site.phone}</span>
+                <Icon name="phone" className="size-5 text-glow" /> <span dir="ltr">{site.phone}</span>
               </a>
             </li>
             <li>
               <a href={`mailto:${site.email}`} className="flex items-center gap-2 hover:text-white">
-                <Icon name="mail" className="size-5 text-brand" /> {site.email}
+                <Icon name="mail" className="size-5 text-glow" /> {site.email}
               </a>
             </li>
             <li className="flex items-start gap-2">
-              <Icon name="pin" className="mt-0.5 size-5 shrink-0 text-brand" />
-              <span>מפעל: {site.factory}<br />מפעל משני: {site.factory2}</span>
+              <Icon name="pin" className="mt-0.5 size-5 shrink-0 text-glow" />
+              <span>{f.factory}: {site.factory}<br />{f.factory2}: {site.factory2}</span>
             </li>
           </ul>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col items-center justify-between gap-3 py-6 text-sm text-white/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} Modubox מודובוקס. כל הזכויות שמורות.</p>
+          <p>{f.copyright(new Date().getFullYear())}</p>
           <p className="flex items-center gap-2">
-            <Icon name="shield" className="size-4" /> תשלום מאובטח · עד {site.maxPayments} תשלומים
+            <Icon name="shield" className="size-4" /> {f.secure(site.maxPayments)}
           </p>
         </div>
       </div>

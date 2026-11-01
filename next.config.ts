@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   trailingSlash: true,
   basePath,
+  // two root layouts (Hebrew at /, English at /en/), so the 404 page is app/global-not-found.tsx
+  experimental: { globalNotFound: true },
   images: {
     loader: "custom",
     loaderFile: "./src/lib/image-loader.ts",

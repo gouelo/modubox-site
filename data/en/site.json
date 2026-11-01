@@ -1,0 +1,12 @@
+{
+  "_readme": "English text for data/site.json (the business details that are words, not numbers). Phone, WhatsApp, email and prices come from data/site.json.",
+  "name": "Modubox",
+  "tagline": "Modular structures from insulated panels – sheds, offices and backyard rooms",
+  "whatsappGreeting": "Hi Modubox! I'd love to get more details.",
+  "factory": "Kibbutz Ein Harod Meuhad",
+  "factory2": "Mevo Horon Industrial Zone",
+  "pickupLocation": "Radius warehouses, Kibbutz Ein Harod Meuhad",
+  "design3dLabel": "Want to design your shed in 3D?",
+  "factoryVideoCaption": "At work in our factory on Kibbutz Ein Harod Meuhad",
+  "hours": ""
+}

@@ -5,6 +5,16 @@ import reviewsFile from "../../data/reviews.json";
 import videosFile from "../../data/videos.json";
 import galleryFile from "../../data/gallery.json";
 import faqFile from "../../data/faq.json";
+import clientsFile from "../../data/clients.json";
+import productsEn from "../../data/en/products.json";
+import addonsEn from "../../data/en/addons.json";
+import siteEn from "../../data/en/site.json";
+import reviewsEn from "../../data/en/reviews.json";
+import videosEn from "../../data/en/videos.json";
+import galleryEn from "../../data/en/gallery.json";
+import faqEn from "../../data/en/faq.json";
+import clientsEn from "../../data/en/clients.json";
+import { dict, type Locale } from "@/i18n";
 import type { Addon, Category, Product } from "./types";
 
 /**
@@ -21,19 +31,9 @@ export function plain(text: string): string {
   return text.replace(/[\u2066-\u2069]/g, "");
 }
 
-export const products: Product[] = (productsFile.products as unknown as Product[]).map((p) => ({
-  ...p,
-  name: ltrSizes(p.name),
-  sizeLabel: ltrSizes(p.sizeLabel),
-}));
-export const addons: Addon[] = (addonsFile.addons as unknown as Addon[]).map((a) => ({
-  ...a,
-  description: a.description && ltrSizes(a.description),
-}));
-export const site = siteFile;
-export const reviews = reviewsFile.reviews;
-export const videos = videosFile.videos.map((v) => ({ ...v, title: ltrSizes(v.title) }));
-export const gallery = galleryFile.images;
+/** ltrSizes in Hebrew; English needs no marks. */
+const sizes = (locale: Locale, text: string) => (locale === "he" ? ltrSizes(text) : text);
+
 export interface FaqImage {
   src: string;
   alt: string;
@@ -55,41 +55,161 @@ export interface FaqGroup {
   image?: FaqImage;
   items: FaqItem[];
 }
-export const faqGroups = faqFile.groups as FaqGroup[];
-/** every question, in order */
-export const faq: FaqItem[] = faqGroups.flatMap((g) => g.items);
+export interface Review {
+  name: string;
+  text: string;
+  date: string;
+  rating: number;
+}
 
-/** Every product category, hidden ones included (their products and pages stay). */
-export const allCategories: { id: Category; title: string; subtitle: string; intro?: string }[] = [
-  { id: "modubox", title: "מחסני מודובוקס", subtitle: "פנל מבודד ושלדת אלומיניום · 10 שנות אחריות" },
-  { id: "gilboa", title: "מחסני גלבוע", subtitle: "מחסני פלסטיק איכותיים · 5 שנות אחריות" },
-  {
-    id: "special",
-    title: "מבנים מיוחדים ושירותים",
-    subtitle: "מבני שירותים, מקלחת ועמדות שמירה",
-    intro:
-      "לצד המחסנים, אנחנו מייצרים במפעל יחידות מודולריות לשימושים מיוחדים: מבני שירותים, שירותים ומקלחת ועמדות שמירה. הן בנויות מאותה שלדת אלומיניום ומאותו פאנל מבודד כמו מחסני מודובוקס, ומגיעות מוכנות להצבה. כל יחידה מיוצרת לפי הזמנה, ואפשר להתאים מידה, פתחים והכנות לחשמל ולאינסטלציה. מתאים לבתים פרטיים, לאתרי עבודה, לחניונים, לשטחים ציבוריים ולעסקים.",
-  },
-];
+type EnProduct = { name?: string; shortDescription?: string; badge?: string; todo?: string; note?: string; pickupNote?: string; deliveryNote?: string };
+type EnAddon = { name: string; description?: string; note?: string; choices?: Record<string, string> };
+type EnFaqImage = { alt: string; caption?: string };
+type EnFaq = { groups: { id: string; title: string; image?: EnFaqImage; items: { q: string; a: string; linkLabel?: string; media?: EnFaqImage[] }[] }[] };
+
+const enProducts = productsEn.products as Record<string, EnProduct>;
+const enAddons = addonsEn.addons as Record<string, EnAddon>;
+
+function localizeProduct(p: Product, locale: Locale): Product {
+  if (locale === "he") return { ...p, locale, name: ltrSizes(p.name), sizeLabel: ltrSizes(p.sizeLabel) };
+  const e = enProducts[p.slug] ?? {};
+  return {
+    ...p,
+    locale,
+    name: e.name ?? p.name,
+    badge: p.badge ? (e.badge ?? p.badge) : null,
+    shortDescription: e.shortDescription ?? p.shortDescription,
+    todo: p.todo ? (e.todo ?? p.todo) : undefined,
+    fulfillment: {
+      ...p.fulfillment,
+      note: p.fulfillment.note ? (e.note ?? p.fulfillment.note) : p.fulfillment.note,
+      pickupNote: p.fulfillment.pickupNote ? (e.pickupNote ?? p.fulfillment.pickupNote) : undefined,
+      deliveryNote: p.fulfillment.deliveryNote ? (e.deliveryNote ?? p.fulfillment.deliveryNote) : undefined,
+    },
+  };
+}
+
+function localizeAddon(a: Addon, locale: Locale): Addon {
+  if (locale === "he") return { ...a, description: a.description && ltrSizes(a.description) };
+  const e = enAddons[a.id];
+  if (!e) return a;
+  return {
+    ...a,
+    name: e.name,
+    description: e.description ?? a.description,
+    note: a.note ? (e.note ?? a.note) : undefined,
+    choices: a.choices?.map((c) => ({ ...c, label: e.choices?.[c.id] ?? c.label })),
+  };
+}
+
+function localizeFaq(locale: Locale): FaqGroup[] {
+  const groups = faqFile.groups as FaqGroup[];
+  if (locale === "he") return groups;
+  const en = (faqEn as EnFaq).groups;
+  const img = (m: FaqImage, e?: EnFaqImage): FaqImage => ({ ...m, alt: e?.alt ?? m.alt, caption: m.caption ? (e?.caption ?? m.caption) : undefined });
+  return groups.map((g, gi) => {
+    const eg = en[gi];
+    return {
+      ...g,
+      title: eg?.title ?? g.title,
+      image: g.image && img(g.image, eg?.image),
+      items: g.items.map((it, ii) => {
+        const ei = eg?.items[ii];
+        return {
+          ...it,
+          q: ei?.q ?? it.q,
+          a: ei?.a ?? it.a,
+          link: it.link && { ...it.link, label: ei?.linkLabel ?? it.link.label },
+          media: Array.isArray(it.media) ? it.media.map((m, mi) => img(m, ei?.media?.[mi])) : it.media,
+        };
+      }),
+    };
+  });
+}
+
+function localizeSite(locale: Locale) {
+  if (locale === "he") return siteFile;
+  return {
+    ...siteFile,
+    name: siteEn.name,
+    tagline: siteEn.tagline,
+    whatsappGreeting: siteEn.whatsappGreeting,
+    factory: siteEn.factory,
+    factory2: siteEn.factory2,
+    pickupLocation: siteEn.pickupLocation,
+    hours: siteEn.hours || siteFile.hours,
+    design3d: { ...siteFile.design3d, label: siteEn.design3dLabel },
+    factoryVideo: { ...siteFile.factoryVideo, caption: siteEn.factoryVideoCaption },
+  };
+}
+
+export type Site = typeof siteFile;
+export type CategoryInfo = { id: Category; title: string; subtitle: string; intro?: string };
 
 /** Categories hidden from the catalog and menus (site.json → hiddenCategories). */
 export const hiddenCategories = new Set<string>(siteFile.hiddenCategories ?? []);
 
-/** The categories the site shows. */
-export const categories = allCategories.filter((c) => !hiddenCategories.has(c.id));
-
-export function getProduct(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug);
+function build(locale: Locale) {
+  const products = (productsFile.products as unknown as Product[]).map((p) => localizeProduct(p, locale));
+  const addons = (addonsFile.addons as unknown as Addon[]).map((a) => localizeAddon(a, locale));
+  const t = dict(locale).categories;
+  const allCategories: CategoryInfo[] = (["modubox", "gilboa", "special"] as const).map((id) => ({ id, title: t[id].title, subtitle: t[id].subtitle, ...(t[id].intro ? { intro: t[id].intro } : {}) }));
+  const faqGroups = localizeFaq(locale);
+  const enReviews = reviewsEn.reviews;
+  const enVideos = videosEn.videos as Record<string, string>;
+  const enGallery = galleryEn.images as Record<string, string>;
+  const enClients = clientsEn.clients as Record<string, string>;
+  return {
+    locale,
+    products,
+    addons,
+    addonById: new Map(addons.map((a) => [a.id, a])),
+    site: localizeSite(locale) as Site,
+    reviews: reviewsFile.reviews.map((r, i): Review => (locale === "he" ? r : { ...r, name: enReviews[i]?.name ?? r.name, text: enReviews[i]?.text ?? r.text })),
+    videos: videosFile.videos.map((v) => ({ ...v, title: locale === "he" ? ltrSizes(v.title) : (enVideos[v.youtubeId] ?? v.title) })),
+    gallery: galleryFile.images.map((g) => (locale === "he" ? g : { ...g, alt: enGallery[g.src] ?? g.alt })),
+    clients: clientsFile.clients.map((c) => (locale === "he" ? c : { ...c, name: enClients[c.file] ?? c.name })),
+    faqGroups,
+    /** every question, in order */
+    faq: faqGroups.flatMap((g) => g.items),
+    /** Every product category, hidden ones included (their products and pages stay). */
+    allCategories,
+    /** The categories the site shows. */
+    categories: allCategories.filter((c) => !hiddenCategories.has(c.id)),
+  };
 }
 
-export function productsIn(category: Category): Product[] {
-  return products.filter((p) => p.category === category);
+export type Catalog = ReturnType<typeof build>;
+const catalogs: Partial<Record<Locale, Catalog>> = {};
+
+/** The catalog and site content in a language. */
+export function catalog(locale: Locale = "he"): Catalog {
+  return (catalogs[locale] ??= build(locale));
 }
 
-const addonById = new Map(addons.map((a) => [a.id, a]));
+// Hebrew, the default, as plain exports (tests and Hebrew-only code)
+const he = catalog("he");
+export const products = he.products;
+export const addons = he.addons;
+export const site = he.site;
+export const reviews = he.reviews;
+export const videos = he.videos;
+export const gallery = he.gallery;
+export const faqGroups = he.faqGroups;
+export const faq = he.faq;
+export const allCategories = he.allCategories;
+export const categories = he.categories;
 
-export function getAddon(id: string): Addon | undefined {
-  return addonById.get(id);
+export function getProduct(slug: string, locale: Locale = "he"): Product | undefined {
+  return catalog(locale).products.find((p) => p.slug === slug);
+}
+
+export function productsIn(category: Category, locale: Locale = "he"): Product[] {
+  return catalog(locale).products.filter((p) => p.category === category);
+}
+
+export function getAddon(id: string, locale: Locale = "he"): Addon | undefined {
+  return catalog(locale).addonById.get(id);
 }
 
 /** The floor area a per-m² add-on is priced on: width × length, to 2 decimals. */
@@ -105,10 +225,11 @@ function priceByArea(a: Addon, product: Product): Addon {
   return { ...a, areaM2, choices: a.choices?.map((c) => (c.id === a.default ? c : { ...c, price })) };
 }
 
-/** The add-ons a product offers, with its price overrides applied. */
+/** The add-ons a product offers, in the product's language, with its price overrides applied. */
 export function addonsFor(product: Product): Addon[] {
+  const byId = catalog(product.locale ?? "he").addonById;
   return product.addons
-    .map((id) => addonById.get(id))
+    .map((id) => byId.get(id))
     .filter((a): a is Addon => !!a)
     .filter((a) => !a.minWidthM || Math.max(product.widthM, product.depthM) >= a.minWidthM)
     .map((a) =>
@@ -122,3 +243,5 @@ export function addonsFor(product: Product): Addon[] {
 export function lowestPrice(category: Category): number {
   return Math.min(...productsIn(category).map((p) => p.price));
 }
+
+export { sizes as localSizes };

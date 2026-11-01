@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/config";
+
 export type Category = "modubox" | "gilboa" | "special";
 
 export interface Size3 {
@@ -53,6 +55,8 @@ export interface Product {
   configuratorModel?: string | null;
   oldUrl?: string | null;
   todo?: string;
+  /** the language its text is in (set by catalog()) */
+  locale?: Locale;
 }
 
 export interface AddonChoice {

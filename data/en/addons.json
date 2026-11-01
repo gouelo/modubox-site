@@ -1,0 +1,63 @@
+{
+  "_readme": "English text for data/addons.json, by add-on id: name, description, note and each choice's label (by choice id). Prices and images come from data/addons.json.",
+  "addons": {
+    "profile-color": {
+      "name": "Aluminum frame color",
+      "description": "The color of the frame and profiles. No extra charge.",
+      "choices": { "white": "White", "black": "Black" }
+    },
+    "double-door": {
+      "name": "Double door (1.80 m opening)",
+      "description": "Replaces the main door with a double door – an extra-wide opening for large equipment, motorcycles, furniture and machinery."
+    },
+    "extra-door": {
+      "name": "Additional door",
+      "description": "A second designer door with a lock, on any wall you choose – access from any side."
+    },
+    "sliding-window": {
+      "name": "Sliding window with screen",
+      "description": "Finally – a sliding window with a screen, made for Modubox sheds. Natural light and fresh air."
+    },
+    "glass-wall": {
+      "name": "Glass wall",
+      "description": "A double-glazed, tempered, insulated glass wall. Also available with a built-in Venetian blind that tilts and lifts magnetically.",
+      "choices": { "none": "None", "glass": "Glass wall – insulated double glazing", "glass-shutter": "Glass wall + built-in Venetian blind" }
+    },
+    "electric-panel": {
+      "name": "Electrical panel for the shed",
+      "description": "A compact electrical panel installed in your shed at the factory. One cable connects it to your home's power, and the shed gets outlets and lighting – safe and protected, with no electrical work on site.",
+      "note": "Includes: a residual-current breaker against electric shock, separate breakers for outlets and lighting, 4 outlets (2 placed high – ready for an AC and internet), an LED light with a switch, and a waterproof single-phase connection. Needed if you want an AC."
+    },
+    "ac": {
+      "name": "Inverter air conditioner",
+      "description": "A quiet, energy-efficient wall-mounted inverter AC, available only as an add-on to a shed.",
+      "note": "Installation not included. Best paired with the electrical panel.",
+      "choices": {
+        "none": "None",
+        "iska-1": "Iska Inverter 1 HP (special offer with a shed)",
+        "tornado-12": "Tornado 1 HP INV-12 WiFi",
+        "tornado-16": "Tornado 1.25 HP INV-16 WiFi",
+        "tornado-18": "Tornado 1.5 HP INV-18 WiFi",
+        "tornado-22": "Tornado 2 HP INV-22 WiFi"
+      }
+    },
+    "vent-grill": {
+      "name": "Ventilation grill",
+      "description": "For anyone who'd rather not have a fully sealed unit and wants fresh air flowing through."
+    },
+    "wpc-floor": {
+      "name": "Premium WPC flooring",
+      "description": "A wood-polymer composite: the natural look of wood with high durability. 37 mm thick, with an insulating, sound-absorbing layer. Water-resistant – clean it with soap and water.",
+      "note": "₪120 per m² including installation, by your shed's floor area · 5-year warranty",
+      "choices": { "none": "None", "grey": "Gray", "teak": "Teak brown", "light": "Light gray" }
+    },
+    "shelf-4": {
+      "name": "Everest 4-shelf unit",
+      "description": "A metal frame with laminated wood shelves. Up to 120 kg per shelf. 96×40×183 cm."
+    },
+    "shelf-5": {
+      "name": "Everest 5-shelf unit",
+      "description": "A metal frame with laminated wood shelves. Up to 120 kg per shelf. 96×40×190.5 cm."
+    }
+  }
+}
