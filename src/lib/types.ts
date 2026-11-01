@@ -87,10 +87,30 @@ export type Selections = Record<string, number | string>;
 
 export type FulfillmentId = "pickup" | "delivery" | "installation" | "deliveryAndInstallation";
 
+/** A priced (or on-request) line from the 3D configurator that the builder's add-ons can't hold. */
+export interface DesignExtra {
+  id: string;
+  label: string;
+  qty: number;
+  /** null = price on request */
+  unitPrice: number | null;
+}
+
+/** A cart item designed in the 3D configurator (src/lib/configurator.ts). */
+export interface CartDesign {
+  source: "configurator";
+  /** opens the design in the configurator */
+  link: string;
+  /** true: the configurator sent the whole design; false: only the size and colour are known */
+  exact: boolean;
+  extras?: DesignExtra[];
+}
+
 export interface CartItem {
   id: string;
   slug: string;
   qty: number;
   selections: Selections;
   fulfillment: FulfillmentId;
+  design?: CartDesign;
 }

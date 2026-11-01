@@ -10,9 +10,8 @@
   "whatsapp": "972529555057",
   "whatsappGreeting": "היי מודובוקס! אשמח לקבל פרטים נוספים",
   "design3d": {
-    "_readme": "כפתור 'עיצוב בתלת־ממד': נפתח בחלונית צד מעל הדף (embed.js שבכתובת script). {model} יוחלף בדגם של המוצר (3x2, 4x1...), שנגזר מהמידות שלו או מהשדה configuratorModel ב-products.json. בדפים בלי מוצר (בית, קטלוג) הכפתור פותח את הקונפיגורטור בלי דגם. url ריק = הכפתור לא מוצג.",
+    "_readme": "כפתור 'עיצוב בתלת־ממד': הקונפיגורטור נפתח בחלונית צד מעל הדף, עם כפתור 'הוספה לסל' שמכניס את העיצוב לסל (ראו docs/configurator-cart.md). {model} יוחלף בדגם של המוצר (3x2, 4x1...), שנגזר מהמידות שלו או מהשדה configuratorModel ב-products.json. בדפים בלי מוצר (בית, קטלוג) הכפתור פותח את הקונפיגורטור בלי דגם. url ריק = הכפתור לא מוצג.",
     "url": "https://web-production-950b8.up.railway.app/il?model={model}",
-    "script": "https://web-production-950b8.up.railway.app/embed.js",
     "market": "il",
     "label": "רוצים לעצב את המחסן שלכם בתלת־ממד?"
   },

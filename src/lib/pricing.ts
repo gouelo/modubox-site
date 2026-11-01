@@ -1,5 +1,5 @@
 import { addonsFor, getProduct } from "./catalog";
-import type { Addon, CartItem, FulfillmentId, Product, Selections } from "./types";
+import type { Addon, CartItem, DesignExtra, FulfillmentId, Product, Selections } from "./types";
 
 export interface PriceLine {
   id: string;
@@ -40,13 +40,17 @@ function addonLine(a: Addon, value: number | string | undefined): PriceLine | nu
   return { id: a.id, label: a.name, qty, unitPrice: unit, total: unit === null ? null : unit * qty };
 }
 
-export function quote(product: Product, selections: Selections): Quote {
+/** The price of a product with the builder's selections, plus any lines the 3D configurator added. */
+export function quote(product: Product, selections: Selections, extras: DesignExtra[] = []): Quote {
   const lines: PriceLine[] = [
     { id: "base", label: product.name, qty: 1, unitPrice: product.price, total: product.price },
   ];
   for (const a of addonsFor(product)) {
     const line = addonLine(a, selections[a.id]);
     if (line) lines.push(line);
+  }
+  for (const x of extras) {
+    if (x.qty > 0) lines.push({ id: x.id, label: x.label, qty: x.qty, unitPrice: x.unitPrice, total: x.unitPrice === null ? null : x.unitPrice * x.qty });
   }
   return {
     lines,
@@ -128,7 +132,7 @@ export function summarizeCart(items: CartItem[]): CartSummary {
   for (const item of items) {
     const product = getProduct(item.slug);
     if (!product) continue;
-    const q = quote(product, item.selections);
+    const q = quote(product, item.selections, item.design?.extras);
     const options = fulfillmentOptions(product);
     const f = options.find((o) => o.id === item.fulfillment) ?? options[0];
     const fPrice = (f.price ?? 0) * item.qty;

@@ -135,6 +135,7 @@ export function CheckoutFlow() {
                     <div key={l.item.id} className="p-4">
                       <div className="flex justify-between gap-3 font-bold"><span>{l.product.name}{l.item.qty > 1 ? ` ×${l.item.qty}` : ""}</span><span>{formatILS(l.itemsTotal)}</span></div>
                       {l.quote.lines.slice(1).map((x) => <p key={x.id} className="text-sm text-ink-soft">+ {x.label}{x.qty > 1 ? ` ×${x.qty}` : ""}</p>)}
+                      {l.item.design && <p className="text-sm text-ink-soft">🧊 עוצב בתלת־ממד{l.item.design.exact ? "" : " · הפתחים והתוספות לתיאום מול נציג"}</p>}
                       <p className="mt-1 text-sm text-ink-soft">🚚 {l.fulfillment.label}: {l.fulfillment.price === null ? "בתיאום" : l.fulfillment.price === 0 ? "ללא עלות" : formatILS(l.fulfillment.price * l.item.qty)}</p>
                     </div>
                   ))}

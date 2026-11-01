@@ -1,13 +1,13 @@
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { CartItem, FulfillmentId, Selections } from "./types";
+import type { CartDesign, CartItem, FulfillmentId, Selections } from "./types";
 
 interface CartState {
   items: CartItem[];
   /** bumps when something is added, so the header can animate */
   lastAdded: number;
-  add: (slug: string, selections: Selections, fulfillment: FulfillmentId) => void;
+  add: (slug: string, selections: Selections, fulfillment: FulfillmentId, design?: CartDesign) => void;
   update: (id: string, patch: Partial<Omit<CartItem, "id">>) => void;
   remove: (id: string) => void;
   clear: () => void;
@@ -18,9 +18,9 @@ export const useCart = create<CartState>()(
     (set) => ({
       items: [],
       lastAdded: 0,
-      add: (slug, selections, fulfillment) =>
+      add: (slug, selections, fulfillment, design) =>
         set((s) => ({
-          items: [...s.items, { id: Math.random().toString(36).slice(2, 10), slug, qty: 1, selections, fulfillment }],
+          items: [...s.items, { id: Math.random().toString(36).slice(2, 10), slug, qty: 1, selections, fulfillment, ...(design ? { design } : {}) }],
           lastAdded: Date.now(),
         })),
       update: (id, patch) => set((s) => ({ items: s.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) })),

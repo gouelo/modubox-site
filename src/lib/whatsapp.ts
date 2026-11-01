@@ -1,7 +1,7 @@
 import { site } from "./catalog";
 import { formatILS } from "./format";
 import type { CartSummary, Quote } from "./pricing";
-import type { Product } from "./types";
+import type { CartDesign, Product } from "./types";
 
 export function waLink(text: string): string {
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
@@ -24,6 +24,11 @@ export function configMessage(product: Product, q: Quote): string {
   return out.join("\n");
 }
 
+/** A cart item from the 3D configurator: the link to its design, and what is still to agree on. */
+export function designLines(d: CartDesign): string[] {
+  return [`🧊 עיצוב מהקונפיגורטור: ${d.link}`, ...(d.exact ? [] : ["(הפתחים והתוספות מהעיצוב – לתיאום מול נציג)"])];
+}
+
 export function productMessage(product: Product): string {
   return [`היי מודובוקס! אשמח לפרטים על ${product.name}`, `מחיר בסיס: ${formatILS(product.price)}`].join("\n");
 }
@@ -42,6 +47,7 @@ export function orderMessage(cart: CartSummary, customer?: Customer, orderId?: s
   cart.lines.forEach((l, i) => {
     out.push(`${i + 1}. ${l.product.name}${l.item.qty > 1 ? ` ×${l.item.qty}` : ""} – ${formatILS(l.itemsTotal)}`);
     out.push(...quoteLines(l.quote).map((s) => `   ${s}`));
+    if (l.item.design) out.push(...designLines(l.item.design).map((s) => `   ${s}`));
     const fp = l.fulfillment.price;
     out.push(`   🚚 ${l.fulfillment.label}: ${fp === null ? "בתיאום" : fp === 0 ? "ללא עלות" : formatILS(fp * l.item.qty)}${l.fulfillment.payToInstaller ? " (תשלום למתקין)" : ""}`);
   });

@@ -92,6 +92,16 @@ export function CartView() {
                     ))}
                   </ul>
                 )}
+                {l.item.design && (
+                  <div className="mt-3 flex items-start gap-3 rounded-2xl border border-brand/25 bg-brand/5 p-3 text-[13px] leading-5">
+                    <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-petrol to-brand text-white"><Icon name="cube" className="size-4" /></span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-bold text-ink">עוצב בקונפיגורטור התלת־ממדי</p>
+                      <p className="text-ink-soft">{l.item.design.exact ? "הדלתות, החלונות והתוספות מהעיצוב שלכם כלולים כאן." : "את הדלתות, החלונות והתוספות שעיצבתם נעבור איתכם לפני ההזמנה."}</p>
+                    </div>
+                    <a href={l.item.design.link} target="_blank" rel="noopener" className="shrink-0 self-center font-bold text-brand-dark underline-offset-2 hover:underline">לעיצוב</a>
+                  </div>
+                )}
                 <fieldset className="mt-4 border-t border-line pt-4">
                   <legend className="sr-only">הובלה והתקנה ל{l.product.name}</legend>
                   <p className="mb-2 flex items-center gap-2 text-sm font-bold"><Icon name="truck" className="size-4 text-brand-dark" /> הובלה והתקנה</p>
