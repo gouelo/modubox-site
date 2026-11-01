@@ -37,7 +37,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
               <span className="h-px w-8 bg-glow/70" /> שלדת אלומיניום · פאנל מבודד XPV · ייצור ישראלי
             </p>
             <div className="mt-3">
-              <HeroTitle lines={["החצר שלכם."]} accent="עוד חדר." oneLine size="text-[3.2rem] sm:text-7xl xl:text-[5.25rem]" />
+              <HeroTitle lines={["מחסן או חדר נוסף"]} accent="בחצר שלכם." size="text-[2.75rem] sm:text-7xl xl:text-[5.25rem]" />
             </div>
           </div>
           <Reveal delay={0.45} className="lg:justify-self-end lg:pb-3">
@@ -53,7 +53,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
           </Reveal>
         </div>
 
-        <div className="relative mx-auto mt-8 aspect-[4/3] w-full sm:aspect-[16/9] lg:mt-6 lg:aspect-[2.1/1] lg:max-w-[max(56rem,calc((100svh-18rem)*2.1))] lg:[mask-image:linear-gradient(to_right,transparent,black_2%,black_98%,transparent)]">
+        <div className="relative mx-auto mt-8 aspect-[4/3] w-full sm:aspect-[16/9] lg:mt-6 lg:aspect-[2.1/1] lg:max-w-[max(56rem,calc((100svh-24rem)*2.1))] lg:[mask-image:linear-gradient(to_right,transparent,black_2%,black_98%,transparent)]">
           <motion.div style={{ y }} className="absolute inset-0">
             <Image
               src={PHOTO.src}

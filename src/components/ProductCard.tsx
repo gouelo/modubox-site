@@ -5,8 +5,8 @@ import { formatILS } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
 /**
- * A size in the catalog, centred: the size once, big, then its kind, price,
- * area and delivery. The photo keeps its own 16:9 frame, so the whole shed shows.
+ * A size in the catalog, centred: its kind ("מחסן מודובוקס"), then the size
+ * once, big, then price, area and delivery. The photo keeps its own 16:9 frame, so the whole shed shows.
  */
 export function ProductCard({ product, priority = false, sizes = "(min-width:1024px) 25vw, (min-width:640px) 45vw, 85vw" }: { product: Product; priority?: boolean; sizes?: string }) {
   const delivery = product.fulfillment.deliveryAndInstallation;
@@ -28,11 +28,11 @@ export function ProductCard({ product, priority = false, sizes = "(min-width:102
         )}
       </div>
       <div className="px-1 pt-4 text-center">
-        <h3 className="relative font-display text-3xl font-extrabold leading-none sm:text-[2.1rem]">
+        <h3 className="relative">
           <span className="sr-only">{product.name}</span>
-          <span aria-hidden="true" dir="ltr" className="inline-block">{product.sizeLabel}</span>
+          {kind && <span aria-hidden="true" className="block text-sm font-bold text-ink-soft">{kind}</span>}
+          <span aria-hidden="true" dir="ltr" className="mt-1 inline-block font-display text-3xl font-extrabold leading-none sm:text-[2.1rem]">{product.sizeLabel}</span>
         </h3>
-        {kind && <p className="mt-1.5 text-sm font-semibold text-ink-soft">{kind}</p>}
         <p className="mt-2 text-xl font-black tabular-nums sm:text-2xl">{formatILS(product.price)}</p>
         <p className="mt-0.5 text-xs text-ink-soft">
           {product.areaM2} מ&quot;ר · {delivery === null ? "הובלה והתקנה בתיאום" : delivery === 0 ? "כולל הובלה והתקנה" : `+ הובלה והתקנה ${formatILS(delivery)}`}
