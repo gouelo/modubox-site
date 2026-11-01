@@ -1,157 +1,450 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 <url>
 <loc>https://www.modubox.com/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/" />
+<changefreq>weekly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/" />
 <changefreq>weekly</changefreq>
 <priority>1</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/shop/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/shop/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/shop/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/shop/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/shop/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/shop/" />
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/gallery/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/gallery/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/gallery/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/gallery/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/gallery/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/gallery/" />
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/faq/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/faq/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/faq/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/faq/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/faq/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/faq/" />
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/about/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/about/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/about/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/about/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/about/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/about/" />
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/contact/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/contact/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/contact/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/contact/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/contact/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/contact/" />
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/terms/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/terms/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/terms/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/terms/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/terms/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/terms/" />
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/warranty/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/warranty/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/warranty/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/warranty/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/warranty/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/warranty/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/accessibility/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/accessibility/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/accessibility/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/accessibility/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/accessibility/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/accessibility/" />
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-1x0-8/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-1x0-8/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-1x0-8/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-1x0-8/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-1x0-8/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-1x0-8/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-1x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-1x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-1x1/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-1x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-1x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-1x1/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-2x0-8/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x0-8/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x0-8/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-2x0-8/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x0-8/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x0-8/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-2x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x1/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-2x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x1/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-2x1-6/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x1-6/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x1-6/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-2x1-6/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x1-6/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x1-6/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-3x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x1/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-3x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x1/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-2x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x2/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-2x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x2/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-4x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x1/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-4x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x1/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-3x1-6/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x1-6/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x1-6/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-3x1-6/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x1-6/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x1-6/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-4x1-6/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x1-6/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x1-6/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-4x1-6/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x1-6/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x1-6/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-3x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x2/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-3x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x2/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-4x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x2/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-4x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x2/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-3x3/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x3/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x3/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-3x3/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x3/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x3/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-5x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-5x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-5x2/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-5x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-5x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-5x2/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-4x3/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x3/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x3/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-4x3/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x3/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x3/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-6x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-6x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-6x2/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-6x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-6x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-6x2/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-5x3/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-5x3/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-5x3/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-5x3/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-5x3/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-5x3/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/modubox-6x3/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-6x3/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-6x3/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/modubox-6x3/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-6x3/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-6x3/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/toilet-1x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-1x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-1x1/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/toilet-1x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-1x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-1x1/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/toilet-1-6x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-1-6x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-1-6x1/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/toilet-1-6x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-1-6x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-1-6x1/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/toilet-2x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-2x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-2x1/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/toilet-2x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-2x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-2x1/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/toilet-shower-3x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-shower-3x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-shower-3x1/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/toilet-shower-3x1/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-shower-3x1/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-shower-3x1/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 <url>
 <loc>https://www.modubox.com/product/guard-booth-2x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/guard-booth-2x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/guard-booth-2x2/" />
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/guard-booth-2x2/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/guard-booth-2x2/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/guard-booth-2x2/" />
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>

@@ -2,5 +2,7 @@ User-Agent: *
 Allow: /
 Disallow: /cart/
 Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
 
 Sitemap: https://www.modubox.com/sitemap.xml
