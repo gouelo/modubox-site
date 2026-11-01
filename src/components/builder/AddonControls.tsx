@@ -96,7 +96,8 @@ export function QtyCard({ addon, qty, onChange }: { addon: Addon; qty: number; o
       <Thumb addon={addon} on={on} />
       <div className="flex min-w-0 flex-1 flex-col">
         <p className="font-bold leading-snug">{addon.name}</p>
-        {addon.description && <p className="mt-1 line-clamp-2 text-sm leading-6 text-ink-soft">{addon.description}</p>}
+        {addon.description && <p className={`mt-1 text-sm leading-6 text-ink-soft ${addon.note ? "" : "line-clamp-2"}`}>{addon.description}</p>}
+        {addon.note && <p className="mt-2 rounded-xl bg-sand px-3 py-2 text-[13px] leading-5 text-ink-soft">{addon.note}</p>}
         <div className="mt-auto flex items-center justify-between gap-2 pt-2">
           <PriceTag price={addon.price} per={on} />
           <AnimatePresence mode="popLayout" initial={false}>

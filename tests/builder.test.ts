@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { builderSteps, chosenIn, PROFILE_ADDON, profileAddon } from "../src/lib/builder";
 import { addonsFor, getProduct, plain } from "../src/lib/catalog";
-import { defaultSelections, quote } from "../src/lib/pricing";
-import { configMessage } from "../src/lib/whatsapp";
+import { defaultSelections, quote, summarizeCart } from "../src/lib/pricing";
+import { configMessage, orderMessage } from "../src/lib/whatsapp";
 
 const p32 = getProduct("modubox-3x2")!;
 
@@ -71,5 +71,34 @@ describe("WPC parquet floor", () => {
     expect(q.total).toBe(7800 + 720);
     expect(plain(configMessage(p32, q))).toContain('רצפת WPC איכותית: חום טיק (6 מ"ר) – 720');
     expect(quote(p32, defaultSelections(p32)).lines.map((l) => l.id)).not.toContain("wpc-floor");
+  });
+});
+
+describe("doors and windows step (round 7)", () => {
+  it("puts the sliding window first, before the doors", () => {
+    const openings = builderSteps(p32).find((s) => s.id === "openings")!;
+    expect(openings.addons.map((a) => a.id).slice(0, 3)).toEqual(["sliding-window", "extra-door", "double-door"]);
+  });
+});
+
+describe("electrical panel quantity (round 7)", () => {
+  const panel = () => addonsFor(p32).find((a) => a.id === "electric-panel")!;
+
+  it("is a counted add-on, not an on/off toggle", () => {
+    expect(panel().kind).toBe("qty");
+    expect(panel().maxQty ?? 10).toBeGreaterThan(1);
+  });
+
+  it("multiplies into the total and the WhatsApp message", () => {
+    const q = quote(p32, { ...defaultSelections(p32), "electric-panel": 3 });
+    expect(q.total).toBe(7800 + 3 * 1790);
+    expect(q.lines.find((l) => l.id === "electric-panel")).toMatchObject({ qty: 3, unitPrice: 1790, total: 5370 });
+    expect(plain(configMessage(p32, q))).toContain("פאנל חשמל למחסן ×3 – 5,370");
+  });
+
+  it("carries the quantity through the cart and the order message", () => {
+    const cart = summarizeCart([{ id: "a", slug: "modubox-3x2", qty: 1, selections: { "electric-panel": 2 }, fulfillment: "deliveryAndInstallation" }]);
+    expect(cart.itemsTotal).toBe(7800 + 2 * 1790);
+    expect(plain(orderMessage(cart))).toContain("פאנל חשמל למחסן ×2 – 3,580");
   });
 });
