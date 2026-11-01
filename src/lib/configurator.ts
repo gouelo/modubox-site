@@ -152,23 +152,24 @@ export function designToCartItem(design: ConfiguratorDesign, link: string): Conf
   const selections: Selections = { ...defaultSelections(product) };
   const extras: DesignExtra[] = [];
 
-  const qty = (id: string, n: number) => {
-    if (n > 0 && offered.has(id)) selections[id] = n;
-  };
-  /** a toggle add-on: the first one in it, any more as an extra line at its price */
-  const toggle = (id: string, n: number) => {
+  /** n of an add-on: a counted one takes n; a toggle takes one, any more as an extra line at its price */
+  const take = (id: string, n: number) => {
     const a = offered.get(id);
     if (n <= 0 || !a) return;
+    if (a.kind === "qty") {
+      selections[id] = n;
+      return;
+    }
     selections[id] = 1;
     if (n > 1) extras.push({ id: `${id}+`, label: a.name, qty: n - 1, unitPrice: a.price ?? null });
   };
 
   if (offered.has("profile-color")) selections["profile-color"] = design.frame === "dark" ? "black" : "white";
-  toggle("double-door", design.doubleDoors);
-  qty("extra-door", Math.max(0, design.doors - 1));
-  qty("sliding-window", design.windows);
-  qty("vent-grill", design.vents);
-  toggle("electric-panel", design.electric);
+  take("double-door", design.doubleDoors);
+  take("extra-door", Math.max(0, design.doors - 1));
+  take("sliding-window", design.windows);
+  take("vent-grill", design.vents);
+  take("electric-panel", design.electric);
 
   const glassWall = offered.get("glass-wall");
   if (glassWall && design.glass + design.shutters > 0) {

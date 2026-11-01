@@ -85,6 +85,13 @@ describe("designToCartItem", () => {
     expect(q.onRequest.map((l) => l.id)).toEqual(["cfg-kipp"]);
   });
 
+  it("counts electrical panels, and prices a second double door as an extra line", () => {
+    const item = designToCartItem(parseDesign("m=4x2&p=bcbce.e....."), "")!;
+    expect(item.selections).toMatchObject({ "double-door": 1, "electric-panel": 2 });
+    expect(item.selections["extra-door"]).toBeUndefined();
+    expect(item.design.extras).toEqual([{ id: "double-door+", label: "דלת כפולה (פתח 1.80 מ')", qty: 1, unitPrice: 1190 }]);
+  });
+
   it("keeps the first door in the price, like the configurator", () => {
     const item = designToCartItem(parseDesign("m=2x2&p=.d......"), "")!;
     expect(item.selections["extra-door"]).toBeUndefined();
