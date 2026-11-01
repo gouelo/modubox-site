@@ -29,7 +29,7 @@ function Answer({ item }: { item: FaqItem }) {
       )}
       {item.cta === "custom-size" && <CustomSizeNote className="mt-4" />}
       {item.media === "materials" && (
-        <div className="mt-5">
+        <div className="-mx-3 mt-5 sm:mx-0">
           <MaterialsPhoto sizes="(min-width:768px) 42rem, 100vw" />
         </div>
       )}

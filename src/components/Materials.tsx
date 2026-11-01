@@ -55,7 +55,7 @@ export function MaterialsPhoto({ sizes = "(min-width:1024px) 55vw, 100vw" }: { s
               <span className="relative size-3 rounded-full bg-brand ring-2 ring-white" />
             </span>
           </span>
-          <span className={`absolute top-0 -translate-y-1/2 whitespace-nowrap ${s.side === "left" ? "right-3" : "left-3"} rounded-full bg-night/80 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur sm:text-xs`}>{s.label}</span>
+          <span className={`absolute top-0 -translate-y-1/2 whitespace-nowrap ${s.side === "left" ? "right-3" : "left-3"} rounded-full bg-night/80 px-2 py-1 text-[10px] font-bold text-white backdrop-blur min-[400px]:px-2.5 min-[400px]:text-[11px] sm:text-xs`}>{s.label}</span>
         </span>
       ))}
     </div>
