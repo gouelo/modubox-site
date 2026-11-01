@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Heebo } from "next/font/google";
-import Script from "next/script";
+import { ConfiguratorPanel } from "@/components/ConfiguratorPanel";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
@@ -58,8 +58,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <main id="main">{children}</main>
         <Footer />
         <WhatsAppFab />
-        {/* the 3D configurator: opens links to it in a side panel (see Design3DButton) */}
-        {site.design3d.url && site.design3d.script && <Script src={site.design3d.script} data-market={site.design3d.market} strategy="lazyOnload" />}
+        {/* the 3D configurator: opens links to it in a side panel, with "add to cart" */}
+        <ConfiguratorPanel />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
       </body>
     </html>

@@ -5,9 +5,9 @@ import { Icon } from "./Icon";
 
 /**
  * "Design your shed in 3D": a plain link to the configurator (data/site.json →
- * design3d.url). The configurator's embed script, loaded in the root layout,
- * catches the click and opens it in a side panel over the page; without the
- * script the link opens it in a new tab. `tile` is the quieter variant.
+ * design3d.url). ConfiguratorPanel, in the root layout, catches the click and
+ * opens it in a side panel over the page with "add to cart"; without
+ * JavaScript the link opens it in a new tab. `tile` is the quieter variant.
  */
 export function Design3DButton({ product, className = "", variant = "solid" }: { product?: Product; className?: string; variant?: "solid" | "tile" }) {
   if (!hasDesign3d(product)) return null;
