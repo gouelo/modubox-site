@@ -34,7 +34,30 @@ export const site = siteFile;
 export const reviews = reviewsFile.reviews;
 export const videos = videosFile.videos.map((v) => ({ ...v, title: ltrSizes(v.title) }));
 export const gallery = galleryFile.images;
-export const faq = faqFile.faq;
+export interface FaqImage {
+  src: string;
+  alt: string;
+  caption?: string;
+  /** the photo's own ratio ("16/9", "4/3"), so its frame shows it whole */
+  ratio?: string;
+}
+export interface FaqItem {
+  q: string;
+  a: string;
+  link?: { href: string; label: string };
+  cta?: "custom-size";
+  open?: boolean;
+  media?: "materials" | FaqImage[];
+}
+export interface FaqGroup {
+  id: string;
+  title: string;
+  image?: FaqImage;
+  items: FaqItem[];
+}
+export const faqGroups = faqFile.groups as FaqGroup[];
+/** every question, in order */
+export const faq: FaqItem[] = faqGroups.flatMap((g) => g.items);
 
 /** Every product category, hidden ones included (their products and pages stay). */
 export const allCategories: { id: Category; title: string; subtitle: string; intro?: string }[] = [

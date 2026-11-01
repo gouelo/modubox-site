@@ -34,6 +34,13 @@
   },
   "hiddenCategories": ["gilboa"],
   "_hiddenCategories": "קטגוריות שמוסתרות מהקטלוג ומהתפריטים (המוצרים נשארים בקובץ). כדי להחזיר את מחסני גלבוע: מחקו את \"gilboa\" מהרשימה.",
+  "factoryVideo": {
+    "_readme": "סרטון אנכי (9:16) מהמפעל בעין חרוד, בדף 'קצת עלינו'. כל עוד youtubeId ו-file ריקים, המקום לא מוצג. אפשר אחד מהשניים: youtubeId = המזהה של סרטון/Short ביוטיוב, או file = קובץ mp4 בתיקייה public/videos (למשל \"videos/factory.mp4\"), ואז poster = תמונת פתיחה (לא חובה).",
+    "youtubeId": "",
+    "file": "",
+    "poster": "",
+    "caption": "עבודה במפעל שלנו בקיבוץ עין חרוד מאוחד"
+  },
   "installationDays": 21,
   "warrantyYears": 10,
   "maxPayments": 12,

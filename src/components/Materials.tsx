@@ -36,6 +36,32 @@ const SPOTS: { x: number; y: number; label: string; side: "left" | "right" }[] =
   { x: 63.5, y: 80.5, label: "רצפה פנימית מוגבהת", side: "right" },
 ];
 
+/** The render with its callouts (on home, product pages and the FAQ), shown whole at 16:9. */
+export function MaterialsPhoto({ sizes = "(min-width:1024px) 55vw, 100vw" }: { sizes?: string }) {
+  return (
+    <div className="relative aspect-video overflow-hidden rounded-[1.75rem] bg-sand shadow-soft">
+      <Image
+        src="renders/garden-unit-courtyard.webp"
+        alt="יחידת מודובוקס עם פרופילי אלומיניום כהים, קירות פאנל לבנים, חלון הזזה וקיר זכוכית עם תריס"
+        fill
+        sizes={sizes}
+        className="object-cover"
+      />
+      {SPOTS.map((s) => (
+        <span key={s.label} className="absolute" style={{ left: `${s.x}%`, top: `${s.y}%` }}>
+          <span className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2">
+            <span className="relative grid size-4 place-items-center">
+              <span className="absolute inset-0 animate-ping rounded-full bg-glow/70" />
+              <span className="relative size-3 rounded-full bg-brand ring-2 ring-white" />
+            </span>
+          </span>
+          <span className={`absolute top-0 -translate-y-1/2 whitespace-nowrap ${s.side === "left" ? "right-3" : "left-3"} rounded-full bg-night/80 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur sm:text-xs`}>{s.label}</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 /** What a Modubox shed is made of: aluminium profiles and insulated XPV panels. */
 export function Materials({ compact = false }: { compact?: boolean }) {
   return (
@@ -49,26 +75,7 @@ export function Materials({ compact = false }: { compact?: boolean }) {
       </Reveal>
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-10">
         <Reveal>
-          <div className="relative aspect-video overflow-hidden rounded-[1.75rem] bg-sand shadow-soft">
-            <Image
-              src="renders/garden-unit-courtyard.webp"
-              alt="יחידת מודובוקס עם פרופילי אלומיניום כהים, קירות פאנל לבנים, חלון הזזה וקיר זכוכית עם תריס"
-              fill
-              sizes="(min-width:1024px) 55vw, 100vw"
-              className="object-cover"
-            />
-            {SPOTS.map((s) => (
-              <span key={s.label} className="absolute" style={{ left: `${s.x}%`, top: `${s.y}%` }}>
-                <span className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2">
-                  <span className="relative grid size-4 place-items-center">
-                    <span className="absolute inset-0 animate-ping rounded-full bg-glow/70" />
-                    <span className="relative size-3 rounded-full bg-brand ring-2 ring-white" />
-                  </span>
-                </span>
-                <span className={`absolute top-0 -translate-y-1/2 whitespace-nowrap ${s.side === "left" ? "right-3" : "left-3"} rounded-full bg-night/80 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur sm:text-xs`}>{s.label}</span>
-              </span>
-            ))}
-          </div>
+          <MaterialsPhoto />
         </Reveal>
         <div className="grid gap-3">
           {PARTS.map((p, i) => (
