@@ -15,6 +15,8 @@
     "market": "il",
     "label": "רוצים לעצב את המחסן שלכם בתלת־ממד?"
   },
+  "floatingConfiguratorCta": true,
+  "_floatingConfiguratorCta": "ניסוי (נובמבר 2026): מחסן קטן שמרחף בפינת המסך ומזמין לעצב מחסן ב־3D (src/components/FloatingConfiguratorCta.tsx). false = מוסתר מכל האתר. הטקסטים במילון (floatingCta ב-src/i18n/he.ts ו-en.ts).",
   "email": "sales@modubox.com",
   "factory": "קיבוץ עין חרוד מאוחד",
   "factory2": "אזור תעשייה מבוא חורון",

@@ -62,7 +62,8 @@ for (const width of WIDTHS) {
         }
         window.scrollTo(0, 0);
       });
-      await page.waitForTimeout(700);
+      // 1.5s: the floating 3D button comes in 1.2s after load
+      await page.waitForTimeout(1500);
       const { violations } = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
       const label = `${width}px ${url.replace(origin, "") || "/"}`;
       if (!violations.length) {

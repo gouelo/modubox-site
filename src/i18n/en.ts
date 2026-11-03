@@ -532,6 +532,7 @@ export const en: Dict = {
   gallery: { view: "Photo viewer", enlarge: (alt: string) => `Enlarge: ${alt}`, prev: "Previous photo", next: "Next photo" },
 
   fab: { aria: "Message us on WhatsApp", label: "Ask us on WhatsApp" },
+  floatingCta: { label: "Design your shed in 3D", sub: "New: interactive 3D builder", dismiss: "Hide this button" },
 
   accessibility: { coordinatorRole: "Modubox customer service team" },
 

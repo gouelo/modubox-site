@@ -6,6 +6,7 @@ import { LocaleProvider } from "@/i18n/client";
 import { catalog, site } from "@/lib/catalog";
 import { asset } from "@/lib/paths";
 import { ConfiguratorPanel } from "./ConfiguratorPanel";
+import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { WhatsAppFab } from "./WhatsAppFab";
@@ -65,6 +66,8 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
           </main>
           <Footer locale={locale} />
           <WhatsAppFab />
+          {/* experiment: a floating shed inviting people to the 3D configurator (site.json → floatingConfiguratorCta) */}
+          <FloatingConfiguratorCta />
           {/* the 3D configurator: opens links to it in a side panel, with "add to cart" */}
           <ConfiguratorPanel />
         </LocaleProvider>

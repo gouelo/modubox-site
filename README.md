@@ -71,6 +71,7 @@
 
 - **לוגואים של לקוחות:** קובץ PNG שקוף (באפור כהה, גובה 160 פיקסלים) בתיקייה `public/clients/`, ושורה בקובץ `data/clients.json` עם השם, שם הקובץ והמידות שלו.
 - **דירוג גוגל:** `rating` ו־`reviewCount` בקובץ `data/site.json` (של הכרטיס "Modubox - מודובוקס" בגוגל). מעדכנים מדי פעם לפי מה שגוגל מציג.
+- **המחסן המרחף ("עצבו את המחסן שלכם ב־3D"):** ניסוי – כפתור קטן בפינה התחתונה שמוביל לקונפיגורטור. כדי לכבות: `"floatingConfiguratorCta": false` בקובץ `data/site.json`. הטקסטים: `floatingCta` ב־`src/i18n/he.ts` ו־`en.ts`. התמונה: `public/images/cta/shed-3d.webp`.
 - **הסתרת קטגוריה:** `hiddenCategories` בקובץ `data/site.json`. כרגע `["gilboa"]` – מחסני גלבוע לא מופיעים בקטלוג, אבל הנתונים שלהם נשארים. כדי להחזיר אותם: `"hiddenCategories": []`.
 - **תגית "הנמכר ביותר":** השדה `badge` של המוצר בקובץ `data/products.json` (כרגע על 3×2, 4×3 ו־5×3).
 

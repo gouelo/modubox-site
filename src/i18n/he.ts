@@ -541,6 +541,7 @@ export const he = {
   gallery: { view: "צפייה בתמונה", enlarge: (alt: string) => `הגדלת ${alt}`, prev: "הקודמת", next: "הבאה" },
 
   fab: { aria: "שלחו לנו הודעה בוואטסאפ", label: "שאלו אותנו בוואטסאפ" },
+  floatingCta: { label: "עצבו את המחסן שלכם ב־3D", sub: "חדש: הדמיה תלת־ממדית", dismiss: "הסתרת הכפתור" },
 
   accessibility: { coordinatorRole: "צוות השירות של מודובוקס" },
 
