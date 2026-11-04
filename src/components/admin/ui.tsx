@@ -69,7 +69,6 @@ export function OrderCard({ o, followUp }: { o: Order; followUp?: string }) {
           #{o.id} · <bdi>{formatDateTime(o.createdAt)}</bdi>
           {o.city ? ` · ${o.city}` : ""}
         </div>
-        {o.scheduledFor && o.status === "scheduled" ? <div className="mt-1 text-sm font-semibold text-brand-dark">אספקה: {o.scheduledFor.split("-").reverse().join(".")}</div> : null}
       </div>
       <div className="flex flex-col items-end gap-1.5">
         <span className="text-[15px] font-extrabold" dir="ltr">

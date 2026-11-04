@@ -4,7 +4,7 @@ import type { Db } from "../src/db";
 import { orderEvents, orders } from "../src/db/schema";
 import { priceCart, priceCheckout, paymentItems } from "../src/lib/checkout";
 import { parseCoupons } from "../src/lib/coupons";
-import { changeStatus, getOrder, recordPayment, setSchedule } from "../src/lib/orders";
+import { changeStatus, getOrder, recordPayment } from "../src/lib/orders";
 import { markManualPaid, priceManualOrder, saveManualOrder, type ManualOrderInput } from "../src/lib/admin/manual-order";
 import { dashboard } from "../src/lib/admin/queries";
 import { ordersCsv } from "../src/lib/admin/csv";
@@ -61,9 +61,9 @@ describe("a manual (phone) order", () => {
     expect(full.events[0].text).toContain("הזמנה ידנית בטלפון");
     expect((await dashboard(db)).today.orders).toBe(0);
 
-    // unpaid, but a confirmed sale: it moves on and gets a date
-    expect(await changeStatus(db, id, "confirmed")).toEqual({ ok: true });
-    expect(await setSchedule(db, id, "2026-12-01", "")).toEqual({ ok: true });
+    // unpaid, but a committed sale: it can be cancelled and brought back
+    expect(await changeStatus(db, id, "cancelled")).toEqual({ ok: true });
+    expect(await changeStatus(db, id, "new")).toEqual({ ok: true });
     expect(await changeStatus(db, id, "refunded")).toMatchObject({ ok: false });
 
     expect(await markManualPaid(db, id, "cash")).toBe(true);

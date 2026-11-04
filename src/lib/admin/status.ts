@@ -1,20 +1,28 @@
 import type { OrderSource, OrderStatus } from "@/db/schema";
 
 /**
- * An order's statuses and the moves between them.
+ * An order's statuses and the moves between them. The business uses only two:
  *
  *   pending_payment → (paid, by Z-Credit's verified callback) → new
- *   new → confirmed → in_production → scheduled → completed
- *   any → cancelled; a paid order → refunded (final)
+ *   new ⇄ cancelled
  *
- * Along the main line any move is allowed, forwards or back (a mistake is
- * corrected by moving back), and every move is kept in the order's history.
- * Only a payment moves an order out of "waiting for payment".
+ * Orders from before (confirmed, in production, scheduled, completed) show and
+ * count as "new"; a refunded one shows as "cancelled" and stays final. Every
+ * move is kept in the order's history. Only a payment moves an order out of
+ * "waiting for payment".
  */
-export const FLOW: OrderStatus[] = ["new", "confirmed", "in_production", "scheduled", "completed"];
-export const OPEN: OrderStatus[] = ["new", "confirmed", "in_production", "scheduled"];
+export const LEGACY_OPEN: OrderStatus[] = ["confirmed", "in_production", "scheduled", "completed"];
+/** Everything that reads as "new": open orders, and the ones that count as sales once paid. */
+export const OPEN: OrderStatus[] = ["new", ...LEGACY_OPEN];
+export const CANCELLED: OrderStatus[] = ["cancelled", "refunded"];
 
-export const STATUS_LABEL: Record<OrderStatus, string> = {
+/** The status as the admin shows it: one of pending_payment, new, cancelled. */
+export function shownStatus(s: OrderStatus): OrderStatus {
+  return OPEN.includes(s) ? "new" : CANCELLED.includes(s) ? "cancelled" : s;
+}
+
+/** The statuses' own names, for the history of older orders. */
+export const STATUS_NAME: Record<OrderStatus, string> = {
   pending_payment: "ממתינה לתשלום",
   new: "חדשה",
   confirmed: "אושרה",
@@ -25,48 +33,35 @@ export const STATUS_LABEL: Record<OrderStatus, string> = {
   refunded: "זוכתה",
 };
 
-/** Tailwind classes of a status badge */
-export const STATUS_TONE: Record<OrderStatus, string> = {
+const SHOWN_LABEL: Partial<Record<OrderStatus, string>> = { pending_payment: "ממתינה לתשלום", new: "חדשה", cancelled: "בוטלה" };
+export const STATUS_LABEL = Object.fromEntries(Object.keys(STATUS_NAME).map((s) => [s, SHOWN_LABEL[shownStatus(s as OrderStatus)]])) as Record<OrderStatus, string>;
+
+const SHOWN_TONE: Partial<Record<OrderStatus, string>> = {
   pending_payment: "bg-slate-100 text-slate-600 ring-slate-200",
   new: "bg-copper-tint text-copper-deep ring-copper/30",
-  confirmed: "bg-sky-50 text-sky-800 ring-sky-200",
-  in_production: "bg-violet-50 text-violet-800 ring-violet-200",
-  scheduled: "bg-brand-tint text-brand-dark ring-brand/30",
-  completed: "bg-emerald-50 text-emerald-800 ring-emerald-200",
   cancelled: "bg-rose-50 text-rose-700 ring-rose-200",
-  refunded: "bg-rose-50 text-rose-700 ring-rose-200",
 };
-
-/** The one next step of an order, as the big button on its page. */
-export const NEXT_STEP: Partial<Record<OrderStatus, { to: OrderStatus; label: string }>> = {
-  new: { to: "confirmed", label: "אישור ההזמנה" },
-  confirmed: { to: "in_production", label: "העברה לייצור" },
-  in_production: { to: "scheduled", label: "קביעת מועד אספקה" },
-  scheduled: { to: "completed", label: "סימון: הותקנה" },
-};
+/** Tailwind classes of a status badge */
+export const STATUS_TONE = Object.fromEntries(Object.keys(STATUS_NAME).map((s) => [s, SHOWN_TONE[shownStatus(s as OrderStatus)]])) as Record<OrderStatus, string>;
 
 export function isStatus(x: unknown): x is OrderStatus {
-  return typeof x === "string" && x in STATUS_LABEL;
+  return typeof x === "string" && x in STATUS_NAME;
 }
 
 export function canTransition(from: OrderStatus, to: OrderStatus, paid: boolean): boolean {
-  if (from === to || to === "pending_payment" || from === "refunded") return false;
-  if (to === "refunded") return paid;
+  if (from === to || from === "refunded") return false;
   if (to === "cancelled") return true;
-  if (FLOW.includes(to)) return paid && (FLOW.includes(from) || from === "cancelled");
+  if (to === "new") return paid && from === "cancelled";
   return false;
 }
 
 /** The statuses an order may move to from where it is. */
 export function allowedMoves(from: OrderStatus, paid: boolean): OrderStatus[] {
-  // forwards first, then back along the line, then cancelled and refunded
-  const at = FLOW.indexOf(from);
-  const order: OrderStatus[] = [...FLOW.slice(at + 1), ...FLOW.slice(0, Math.max(at, 0)).reverse(), "cancelled", "refunded"];
-  return order.filter((to) => canTransition(from, to, paid));
+  return (["new", "cancelled"] as OrderStatus[]).filter((to) => canTransition(from, to, paid));
 }
 
 /** Orders that count as sales: paid, and not cancelled or refunded. */
-export const SALE_STATUSES: OrderStatus[] = FLOW;
+export const SALE_STATUSES: OrderStatus[] = OPEN;
 
 /** Where an order came from: the site's checkout (null), or entered in the admin. */
 export const SOURCE_LABEL: Record<OrderSource, string> = { phone: "טלפון", whatsapp: "וואטסאפ", other: "אחר" };

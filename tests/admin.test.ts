@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { can, checkPassword, createSessionToken, readSessionToken, safeNext, sessionSecret } from "../src/lib/admin/auth";
-import { allowedMoves, canTransition } from "../src/lib/admin/status";
+import { allowedMoves, canTransition, STATUS_LABEL } from "../src/lib/admin/status";
 import { israelDayStart, israelDate } from "../src/lib/admin/time";
 import { csvCell } from "../src/lib/admin/csv";
 import { emailConfig } from "../src/lib/notify";
@@ -59,7 +59,12 @@ describe("status rules", () => {
     expect(canTransition("cancelled", "new", false)).toBe(false);
     expect(canTransition("cancelled", "new", true)).toBe(true);
     expect(allowedMoves("refunded", true)).toEqual([]);
-    expect(canTransition("completed", "refunded", true)).toBe(true);
+    expect(canTransition("completed", "refunded", true)).toBe(false);
+    expect(canTransition("scheduled", "cancelled", true)).toBe(true);
+    expect(allowedMoves("new", true)).toEqual(["cancelled"]);
+    expect(allowedMoves("cancelled", true)).toEqual(["new"]);
+    expect(STATUS_LABEL.scheduled).toBe("חדשה");
+    expect(STATUS_LABEL.refunded).toBe("בוטלה");
     expect(canTransition("new", "new", true)).toBe(false);
   });
 });

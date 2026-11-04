@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/db";
-import { addNote, changeStatus, setSchedule, type ChangeResult } from "../orders";
+import { addNote, changeStatus, type ChangeResult } from "../orders";
 import { ADMIN_COOKIE, checkPassword, createSessionToken, safeNext, SESSION_DAYS, sessionSecret } from "./auth";
 import { requireAdmin } from "./session";
 import { isStatus } from "./status";
@@ -45,7 +45,6 @@ export async function logoutAction(): Promise<void> {
 const MESSAGES: Record<Exclude<ChangeResult, { ok: true }>["error"], string> = {
   not_found: "ההזמנה לא נמצאה.",
   not_allowed: "אי אפשר לבצע את השינוי הזה בהזמנה במצב הנוכחי שלה.",
-  needs_date: "קודם קובעים מועד אספקה (למטה, ב'אספקה והתקנה').",
   invalid: "משהו בפרטים לא תקין. בדקו ונסו שוב.",
 };
 
@@ -73,13 +72,4 @@ export async function addNoteAction(_: ActionState, form: FormData): Promise<Act
   const session = await requireAdmin("orders");
   const id = String(form.get("id") ?? "");
   return run(id, () => addNote(dbOrError(), id, String(form.get("text") ?? ""), session.user));
-}
-
-export async function scheduleAction(_: ActionState, form: FormData): Promise<ActionState> {
-  const session = await requireAdmin("orders");
-  const id = String(form.get("id") ?? "");
-  const clear = form.get("clear") === "1";
-  const date = clear ? null : String(form.get("date") ?? "");
-  if (!clear && !date) return { error: "בחרו תאריך." };
-  return run(id, () => setSchedule(dbOrError(), id, date, String(form.get("note") ?? ""), session.user));
 }

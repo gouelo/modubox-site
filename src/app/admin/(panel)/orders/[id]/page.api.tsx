@@ -4,10 +4,10 @@ import { notFound } from "next/navigation";
 import { getDb } from "@/db";
 import { requireAdmin } from "@/lib/admin/session";
 import type { OrderEvent } from "@/db/schema";
-import { NextStepButton, NoteForm, ScheduleForm, StatusSelect } from "@/components/admin/OrderForms";
+import { NoteForm, StatusSelect } from "@/components/admin/OrderForms";
 import { ContactButtons, ils, NoDatabase, Row, Section, StatusBadge } from "@/components/admin/ui";
-import { allowedMoves, NEXT_STEP, STATUS_LABEL } from "@/lib/admin/status";
-import { formatDateTime, formatDay } from "@/lib/admin/time";
+import { allowedMoves, CANCELLED, STATUS_NAME } from "@/lib/admin/status";
+import { formatDateTime } from "@/lib/admin/time";
 import { committed, getOrder, paymentMethodLabel } from "@/lib/orders";
 import { ConfirmForm } from "@/components/admin/ContentForms";
 import { CopyButton } from "@/components/admin/CopyButton";
@@ -25,8 +25,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 function eventText(e: OrderEvent): string {
-  if (e.kind === "status") return `סטטוס: ${e.fromStatus ? STATUS_LABEL[e.fromStatus] : ""} ← ${e.toStatus ? STATUS_LABEL[e.toStatus] : ""}`;
-  if (e.kind === "schedule" && e.toStatus) return `${e.text} · הסטטוס עבר ל"${STATUS_LABEL[e.toStatus]}"`;
+  // the history keeps older orders' statuses by their own names
+  if (e.kind === "status") return `סטטוס: ${e.fromStatus ? STATUS_NAME[e.fromStatus] : ""} ← ${e.toStatus ? STATUS_NAME[e.toStatus] : ""}`;
+  if (e.kind === "schedule" && e.toStatus) return `${e.text} · הסטטוס עבר ל"${STATUS_NAME[e.toStatus]}"`;
   return e.text ?? "";
 }
 
@@ -42,9 +43,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
   if (!full) notFound();
   const { order: o, items, events } = full;
   const paid = !!o.paidAt;
-  const next = NEXT_STEP[o.status];
-  const moves = allowedMoves(o.status, committed(o)).filter((s) => s !== next?.to && (s !== "refunded" || paid));
-  const canSchedule = committed(o) && o.status !== "cancelled" && o.status !== "refunded";
+  const moves = allowedMoves(o.status, committed(o));
   const followUp = o.status === "pending_payment" && !o.isTest && items[0] ? followUpLink(o, { slug: items[0].productSlug, name: items[0].productName, more: items.length - 1 }, await requestOrigin()) : null;
 
   return (
@@ -92,7 +91,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
             <p className="mt-2 text-xs text-ink-soft">כשהלקוח ישלם, ההזמנה תסומן כשולמה לבד (כמו בקופה באתר).</p>
           </div>
         ) : null}
-        {o.source && !paid && !o.paymentLink && o.status !== "cancelled" && o.status !== "refunded" ? (
+        {o.source && !paid && !o.paymentLink && !CANCELLED.includes(o.status) ? (
           <ConfirmForm action={markPaidAction} confirm="לסמן שההזמנה שולמה?" className="mt-3 flex flex-wrap items-end gap-2">
             <input type="hidden" name="id" value={o.id} />
             <label className="text-sm">
@@ -113,13 +112,6 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
         {o.isTest ? <p className="mt-3 rounded-lg bg-sand p-3 text-sm text-ink-soft">הזמנת בדיקה (מוצר הבדיקה ב־1 ₪): לא נספרת במכירות.</p> : null}
         {o.partial ? <p className="mt-3 rounded-lg bg-copper-tint p-3 text-sm text-copper-deep">ההזמנה נשמרה מפרטי התשלום בלבד, בלי פרטי המוצרים. את הפרטים אפשר לראות בפאנל של Z-Credit.</p> : null}
         <div className="mt-4 space-y-2">
-          {next ? next.to === "scheduled" ? (
-            <a href="#schedule" className="btn-brand min-h-12 w-full justify-center text-base">
-              {next.label} ←
-            </a>
-          ) : (
-            <NextStepButton id={o.id} to={next.to} label={next.label} />
-          ) : null}
           <ContactButtons phone={o.customerPhone} email={o.customerEmail} name={o.customerName} />
         </div>
       </div>
@@ -201,24 +193,10 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
         )}
       </Section>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <Section title="אספקה והתקנה">
-          <div id="schedule" className="scroll-mt-20">
-            {o.scheduledFor ? (
-              <p className="mb-3 rounded-lg bg-brand-tint p-3 font-bold text-brand-dark">
-                📅 {formatDay(o.scheduledFor)}
-                {o.scheduleNote ? <> · <bdi>{o.scheduleNote}</bdi></> : null}
-              </p>
-            ) : null}
-            {canSchedule ? <ScheduleForm id={o.id} date={o.scheduledFor} note={o.scheduleNote} /> : <p className="text-sm text-ink-soft">אפשר לקבוע מועד רק להזמנה ששולמה ולא בוטלה.</p>}
-          </div>
-        </Section>
-
-        <Section title="שינוי סטטוס">
-          <StatusSelect id={o.id} moves={moves} />
-          {paid && (o.status === "cancelled" || o.status === "refunded") ? <p className="mt-2 text-sm text-ink-soft">את הזיכוי עצמו (החזר הכסף) עושים בפאנל של Z-Credit. כאן רק מסמנים אותו.</p> : null}
-        </Section>
-      </div>
+      <Section title="שינוי סטטוס">
+        <StatusSelect id={o.id} moves={moves} />
+        {paid && CANCELLED.includes(o.status) ? <p className="mt-2 text-sm text-ink-soft">את הזיכוי עצמו (החזר הכסף) עושים בפאנל של Z-Credit. כאן רק מסמנים אותו.</p> : null}
+      </Section>
 
       <Section title="הערות והיסטוריה">
         <NoteForm id={o.id} />
