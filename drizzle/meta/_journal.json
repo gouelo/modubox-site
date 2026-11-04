@@ -15,6 +15,13 @@
       "when": 1793792247646,
       "tag": "0001_seo_content",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793794831191,
+      "tag": "0002_catalog",
+      "breakpoints": true
     }
   ]
 }

@@ -12,7 +12,7 @@ import { Stars } from "@/components/Stars";
 import { AddonBuilder } from "@/components/builder/AddonBuilder";
 import { dict, lp, type Locale } from "@/i18n";
 import { pageMeta } from "@/i18n/meta";
-import { addonsFor, catalog, getProduct, plain, products, productsIn } from "@/lib/catalog";
+import { addonsFor, catalog, getProduct, photoUrl, plain, products, productsIn } from "@/lib/catalog";
 import { formatCm, formatILS } from "@/lib/format";
 import { fulfillmentOptions } from "@/lib/pricing";
 import { business } from "@/lib/seo/settings";
@@ -29,7 +29,7 @@ export function productMeta(locale: Locale, slug: string): Metadata {
   return pageMeta(locale, `/product/${slug}/`, {
     title: m.title(plain(p.name), formatILS(p.price, locale)),
     description: m.description(plain(p.name), p.shortDescription, p.warrantyYears),
-    openGraph: { images: [{ url: `/_img/${p.images[0].replace(/\.\w+$/, "")}-1600.webp` }] },
+    openGraph: { images: [{ url: photoUrl(p.images[0]) }] },
   });
 }
 
@@ -55,7 +55,7 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
     name: plain(product.name),
     description: product.shortDescription,
     brand: { "@type": "Brand", name: product.category === "gilboa" ? "Gilboa" : "Modubox" },
-    image: product.images.map((i) => `${site.url}/_img/${i.replace(/\.\w+$/, "")}-1600.webp`),
+    image: product.images.map((i) => (/^https?:/.test(i) ? i : `${site.url}${photoUrl(i)}`)),
     offers: { "@type": "Offer", priceCurrency: "ILS", price: product.price, availability: "https://schema.org/InStock", url: `${site.url}${lp(locale, `/product/${product.slug}/`)}` },
     aggregateRating: { "@type": "AggregateRating", ratingValue: biz.rating, reviewCount: biz.reviewCount },
     ...(facts.length ? { additionalProperty: facts.map((f) => ({ "@type": "PropertyValue", name: f.label, value: f.value })) } : {}),

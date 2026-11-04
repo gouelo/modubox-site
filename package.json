@@ -7,7 +7,7 @@
     "predev": "npm run images",
     "dev": "next dev",
     "prebuild": "npm run images",
-    "build": "node scripts/migrate.mjs && next build",
+    "build": "node scripts/migrate.mjs && node scripts/catalog-sync.mjs && next build",
     "preview": "npx serve@latest out",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",

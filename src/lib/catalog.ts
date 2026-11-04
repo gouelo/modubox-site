@@ -15,6 +15,8 @@ import galleryEn from "../../data/en/gallery.json";
 import faqEn from "../../data/en/faq.json";
 import clientsEn from "../../data/en/clients.json";
 import testFile from "../../data/test-product.json";
+import overridesFile from "../../data/catalog-overrides.json";
+import { applyAddonOverrides, applyProductOverrides, enAddonTexts, enProductTexts, type CatalogOverrides } from "./catalog-overrides";
 import { dict, type Locale } from "@/i18n";
 import type { Addon, Category, Product } from "./types";
 
@@ -68,8 +70,10 @@ type EnAddon = { name: string; description?: string; note?: string; choices?: Re
 type EnFaqImage = { alt: string; caption?: string };
 type EnFaq = { groups: { id: string; title: string; image?: EnFaqImage; items: { q: string; a: string; linkLabel?: string; media?: EnFaqImage[] }[] }[] };
 
-const enProducts = productsEn.products as Record<string, EnProduct>;
-const enAddons = addonsEn.addons as Record<string, EnAddon>;
+// the changes published in the admin, baked in at build time (scripts/catalog-sync.mjs)
+const overrides = overridesFile as unknown as CatalogOverrides;
+const enProducts = enProductTexts(productsEn.products as Record<string, EnProduct>, overrides);
+const enAddons = enAddonTexts(addonsEn.addons as Record<string, EnAddon>, overrides);
 
 function localizeProduct(p: Product, locale: Locale): Product {
   if (locale === "he") return { ...p, locale, name: ltrSizes(p.name), sizeLabel: ltrSizes(p.sizeLabel) };
@@ -151,8 +155,8 @@ export type CategoryInfo = { id: Category; title: string; subtitle: string; intr
 export const hiddenCategories = new Set<string>(siteFile.hiddenCategories ?? []);
 
 function build(locale: Locale) {
-  const products = (productsFile.products as unknown as Product[]).map((p) => localizeProduct(p, locale));
-  const addons = (addonsFile.addons as unknown as Addon[]).map((a) => localizeAddon(a, locale));
+  const products = applyProductOverrides(productsFile.products as unknown as Product[], overrides).map((p) => localizeProduct(p, locale));
+  const addons = applyAddonOverrides(addonsFile.addons as unknown as Addon[], overrides).map((a) => localizeAddon(a, locale));
   const t = dict(locale).categories;
   const allCategories: CategoryInfo[] = (["modubox", "gilboa", "special"] as const).map((id) => ({ id, title: t[id].title, subtitle: t[id].subtitle, ...(t[id].intro ? { intro: t[id].intro } : {}) }));
   const faqGroups = localizeFaq(locale);
@@ -258,6 +262,11 @@ export function addonsFor(product: Product): Addon[] {
         : a,
     )
     .map((a) => priceByArea(a, product));
+}
+
+/** A product photo's large copy, for metadata and JSON-LD: the optimized /_img/…-1600.webp, or an uploaded image's own address. */
+export function photoUrl(src: string): string {
+  return /^https?:\/\//.test(src) ? src : `/_img/${src.replace(/\.\w+$/, "")}-1600.webp`;
 }
 
 export function lowestPrice(category: Category): number {

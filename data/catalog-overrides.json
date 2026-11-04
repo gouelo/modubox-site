@@ -1,0 +1,6 @@
+{
+  "_readme": "Written by scripts/catalog-sync.mjs in each Vercel build: the catalog changes published in the admin (/admin/catalog). Empty here; never edit by hand (edit data/products.json and data/addons.json).",
+  "generatedAt": null,
+  "products": {},
+  "addons": {}
+}
