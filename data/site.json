@@ -50,10 +50,18 @@
   "paymentProvider": "TODO: Cardcom / Tranzila / Grow",
   "logo": "/brand/logo.svg",
   "logoWhite": "/brand/logo-white.svg",
+  "legal": {
+    "_readme": "הישות המשפטית שמפעילה את האתר (מודובוקס היא מותג שלה): מופיעה בתקנון, במדיניות הפרטיות ובתחתית האתר.",
+    "name": "אוורבוקס אגש\"ח בע\"מ",
+    "nameEn": "Everbox Ltd.",
+    "companyId": "570067264"
+  },
   "accessibility": {
-    "_readme": "הצהרת הנגישות (/accessibility/): שם רכז/ת הנגישות (coordinator בעברית, coordinatorEn באנגלית) ותאריך העדכון האחרון של ההצהרה (updated, בפורמט YYYY-MM-DD). כל עוד השם מתחיל ב-TODO, בדף מופיע רק התפקיד. הטלפון, הוואטסאפ והמייל נלקחים מהפרטים למעלה.",
-    "coordinator": "TODO: שם רכז/ת הנגישות",
-    "coordinatorEn": "TODO: accessibility coordinator name",
-    "updated": "2026-11-01"
+    "_readme": "הצהרת הנגישות (/accessibility/): שם רכז/ת הנגישות (coordinator בעברית, coordinatorEn באנגלית), הטלפון והמייל שלו/ה, ותאריך העדכון האחרון של ההצהרה (updated, בפורמט YYYY-MM-DD). כל עוד השם מתחיל ב-TODO, בדף מופיע רק התפקיד. הוואטסאפ נלקח מהפרטים למעלה.",
+    "coordinator": "יואל אודי",
+    "coordinatorEn": "Yoel Ouday",
+    "coordinatorPhone": "052-525-3723",
+    "coordinatorEmail": "yoel@everbox.co.il",
+    "updated": "2026-11-04"
   }
 }

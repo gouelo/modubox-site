@@ -109,7 +109,7 @@ export const he = {
     talk: "דברו איתנו",
     factory: "מפעל",
     factory2: "מפעל משני",
-    copyright: (year: number) => `© ${year} Modubox מודובוקס. כל הזכויות שמורות.`,
+    copyright: (year: number, legal: string) => `© ${year} מודובוקס, מותג של ${legal}. כל הזכויות שמורות.`,
     secure: (n: number) => `תשלום מאובטח · עד ${n} תשלומים`,
   },
 
