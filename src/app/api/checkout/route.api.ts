@@ -1,4 +1,5 @@
 import { newOrderId, priceCheckout, type PricedOrder } from "@/lib/checkout";
+import { persistNewOrder } from "@/lib/order-events";
 import { parseCoupons } from "@/lib/coupons";
 import { buildCreateSession, createSession, signReceipt, zcreditConfig } from "@/lib/zcredit";
 
@@ -45,9 +46,8 @@ export async function POST(req: Request) {
     // safe to show: Z-Credit's status and error, never the key or the request
     return json({ error: "payment_unavailable", zcreditError: { status: session.status, ReturnCode: session.code, ReturnMessage: session.message.slice(0, 300) } }, 502);
   }
-  // TODO(order notification): no email service yet. Until one is added (e.g. Resend),
-  // the order lives in the Vercel logs (Project → Logs) and in Z-Credit's panel
-  // (AdditionalText carries the customer and address).
+  // saved in the database (waiting for payment) when one is connected; the log stays as a backup
+  await persistNewOrder(orderId, session.sessionId, order);
   console.info("[checkout] order created, waiting for payment", JSON.stringify(orderLog(orderId, session.sessionId, order)));
   // the success page's receipt: it asks /api/checkout/status/ with it whether the order was paid
   const receipt = { session: session.sessionId, total: order.total, sig: signReceipt(config.key, orderId, order.total, session.sessionId) };

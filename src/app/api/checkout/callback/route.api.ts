@@ -1,3 +1,4 @@
+import { orderPaid } from "@/lib/order-events";
 import { verifyOrder, verifyPayment, zcreditConfig, type CallbackData } from "@/lib/zcredit";
 
 // Z-Credit's callback (CallbackUrl): posted server to server after a successful
@@ -48,8 +49,6 @@ export async function POST(req: Request) {
   }
 
   const d = result.data;
-  // TODO(order notification): send this to the business (email / WhatsApp) once a
-  // notification service is chosen. For now: the Vercel logs and Z-Credit's panel.
   console.info(
     "[checkout] ORDER PAID",
     JSON.stringify({
@@ -64,5 +63,13 @@ export async function POST(req: Request) {
       customer: { name: d.CustomerName, phone: d.CustomerPhone, email: d.CustomerEmail },
     }),
   );
+  // the order in the database marked paid, and the email to the business
+  try {
+    await orderPaid({ orderId: order, total, sessionId, data: d }, new URL(req.url).origin);
+  } catch (e) {
+    // the database failed: answer an error, so Z-Credit posts the callback again
+    console.error("[orders] marking the order paid failed", { order, error: String(e) });
+    return text("try again", 502);
+  }
   return text("OK");
 }
