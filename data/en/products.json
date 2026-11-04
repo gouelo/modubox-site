@@ -1,5 +1,5 @@
 {
-  "_readme": "English text for data/products.json, by product slug (name, shortDescription, badge, todo and the delivery notes). Prices, sizes and photos come from data/products.json. Add a product there → add its English here (a test checks).",
+  "_readme": "English text for data/products.json, by product slug (name, shortDescription, badge and the delivery notes). Prices, sizes and photos come from data/products.json. Add a product there → add its English here (a test checks).",
   "products": {
     "modubox-1x0-8": {
       "name": "Modubox Shed 1×0.80",
@@ -92,8 +92,7 @@
     "modubox-6x3": {
       "name": "Modubox Shed 6×3",
       "shortDescription": "An insulated-panel backyard unit on an aluminum frame, with a wide lockable door and a skylight window – a shed, an office or a workroom.",
-      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement.",
-      "todo": "TODO: no product page on the old site – ₪17,900 appears in the catalog. Missing: delivery + installation price, exact dimensions, photos."
+      "note": "North of Akko and south of Be'er Sheva: add ₪100. South of Yeruham: by arrangement."
     },
     "gilboa-s": {
       "name": "Gilboa Garden Shed S",

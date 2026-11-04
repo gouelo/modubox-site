@@ -46,7 +46,8 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
   const r = tp.rows;
   const ils = (n: number) => formatILS(n, locale);
   const cm = (n: number) => formatCm(n, locale);
-  const d = product.dimensions;
+  // dimensions only the factory can confirm stay off the page (the admin lists them as missing)
+  const d = product.dimensions?.approximate ? null : product.dimensions;
   const delivery = fulfillmentOptions(product)[0];
   const sizes = productsIn(product.category, locale);
   const jsonLd = {
@@ -118,7 +119,6 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
               {tp.payments(site.maxPayments)}
             </p>
           </div>
-          {product.todo && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 ring-1 ring-amber-200"><span aria-hidden="true">⚠️</span> {product.todo}</p>}
           <p className="mt-4 leading-7 text-ink-soft">{product.shortDescription}</p>
           {facts.length > 0 && (
             <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2">
@@ -182,7 +182,6 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
               </div>
             ))}
           </dl>
-          {d?.approximate && <p className="mt-2 text-xs text-ink-soft">{tp.approx}</p>}
         </div>
       </section>
 

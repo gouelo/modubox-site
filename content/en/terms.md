@@ -1,7 +1,5 @@
 # Terms & Conditions
 
-> Based on the terms on Modubox's previous website. We recommend having a lawyer review them before launch (TODO).
-
 > This English version is provided for convenience. If there is any difference between it and the [Hebrew terms](he:/terms), the Hebrew version applies.
 
 ## General

@@ -3,6 +3,7 @@ import { Heebo } from "next/font/google";
 import type { ReactNode } from "react";
 import { dict, dirOf, type Locale } from "@/i18n";
 import { LocaleProvider } from "@/i18n/client";
+import { ogDefaults } from "@/i18n/meta";
 import { site } from "@/lib/catalog";
 import { asset } from "@/lib/paths";
 import { gtmId } from "@/lib/analytics";
@@ -27,13 +28,7 @@ export function rootMetadata(locale: Locale): Metadata {
     title: { default: m.defaultTitle, template: m.titleTemplate },
     description: m.description,
     keywords: m.keywords,
-    openGraph: {
-      type: "website",
-      locale: m.ogLocale,
-      alternateLocale: locale === "he" ? "en_US" : "he_IL",
-      siteName: m.siteName,
-      images: [{ url: "/_img/photos/2c981b23-1600.webp", width: 1600, height: 900, alt: m.ogImageAlt }],
-    },
+    openGraph: ogDefaults(locale),
     icons: { icon: asset("/brand/favicon.svg"), apple: asset("/brand/apple-touch-icon.png") },
     formatDetection: { telephone: false },
   };
