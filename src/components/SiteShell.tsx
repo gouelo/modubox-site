@@ -5,6 +5,8 @@ import { dict, dirOf, type Locale } from "@/i18n";
 import { LocaleProvider } from "@/i18n/client";
 import { catalog, site } from "@/lib/catalog";
 import { asset } from "@/lib/paths";
+import { gtmId } from "@/lib/analytics";
+import { GoogleTagManager, GoogleTagManagerNoScript } from "./Analytics";
 import { ConfiguratorPanel } from "./ConfiguratorPanel";
 import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
 import { Footer } from "./Footer";
@@ -53,9 +55,12 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
     aggregateRating: { "@type": "AggregateRating", ratingValue: s.rating, reviewCount: s.reviewCount },
     sameAs: Object.values(s.social),
   };
+  // Google Tag Manager: production only (src/lib/analytics.ts)
+  const gtm = gtmId();
   return (
     <html lang={locale} dir={dirOf(locale)} className={heebo.variable}>
       <body className="min-h-dvh font-sans antialiased">
+        {gtm && <GoogleTagManagerNoScript id={gtm} />}
         <LocaleProvider locale={locale}>
           <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[80] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
             {t.common.skip}
@@ -72,6 +77,7 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
           <ConfiguratorPanel />
         </LocaleProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+        {gtm && <GoogleTagManager id={gtm} />}
       </body>
     </html>
   );

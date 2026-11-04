@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useLocale, useT } from "@/i18n/client";
+import { track } from "@/lib/analytics";
 import { catalog } from "@/lib/catalog";
 import { waLink } from "@/lib/whatsapp";
 import { Icon } from "./Icon";
@@ -30,6 +31,7 @@ export function LeadForm({ product, dark = false }: { product?: string; dark?: b
       return;
     }
     setError("");
+    track({ event: "generate_lead", form_name: "contact", ...(product ? { item_name: product } : {}) });
     const text = [w.title, `${w.name}: ${data.name}`, `${w.phone}: ${data.phone}`, data.city && `${w.city}: ${data.city}`, product && `${w.product}: ${product}`, data.message && `${w.message}: ${data.message}`]
       .filter(Boolean)
       .join("\n");

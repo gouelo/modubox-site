@@ -49,6 +49,18 @@ export function verifyOrder(key: string, order: string, total: number, sig: stri
   return want.length === got.length && timingSafeEqual(want, got);
 }
 
+/**
+ * The browser's receipt for a session (the success page asks the server with
+ * it whether the order was paid). Its own signature, not the callback's.
+ */
+export function signReceipt(key: string, order: string, total: number, session: string): string {
+  return signOrder(key, `receipt:${order}:${session}`, total);
+}
+
+export function verifyReceipt(key: string, order: string, total: number, session: string, sig: string): boolean {
+  return verifyOrder(key, `receipt:${order}:${session}`, total, sig);
+}
+
 /** The CreateSession request body (POST {ZCREDIT_API}/CreateSession). */
 export interface CreateSessionRequest {
   Key: string;

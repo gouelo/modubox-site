@@ -5,7 +5,9 @@ import { useEffect } from "react";
 import { Icon } from "@/components/Icon";
 import { lp } from "@/i18n";
 import { useLocale, useT } from "@/i18n/client";
+import { CURRENCY, markPurchaseSent, purchaseSent, readPending, track } from "@/lib/analytics";
 import { useCart } from "@/lib/cart-store";
+import { asset } from "@/lib/paths";
 import { useHydrated } from "@/lib/use-hydrated";
 import { waLink } from "@/lib/whatsapp";
 
@@ -29,6 +31,44 @@ export function PaymentResult({ result }: { result: "success" | "failed" }) {
   useEffect(() => {
     if (result === "success") clear();
   }, [result, clear]);
+
+  // purchase: only once the server has confirmed with Z-Credit that this order
+  // was paid, and once per order (src/lib/analytics.ts)
+  useEffect(() => {
+    if (result !== "success" || !order || purchaseSent(order)) return;
+    const pending = readPending(order);
+    if (!pending) return;
+    let live = true;
+    (async () => {
+      // the callback may still be on its way: ask a few times
+      for (let i = 0; i < 4 && live; i++) {
+        try {
+          const res = await fetch(asset("/api/checkout/status/"), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ order, session: pending.session, total: pending.total, sig: pending.sig }),
+          });
+          const j = (await res.json().catch(() => ({}))) as { paid?: boolean };
+          if (j.paid) {
+            if (!live || purchaseSent(order)) return;
+            markPurchaseSent(order);
+            track({
+              event: "purchase",
+              ecommerce: { transaction_id: order, currency: CURRENCY, value: pending.total, ...(pending.coupon ? { coupon: pending.coupon } : {}), items: pending.items },
+            });
+            return;
+          }
+          if (res.status === 400) return;
+        } catch {
+          /* try again */
+        }
+        await new Promise((r) => setTimeout(r, 2500));
+      }
+    })();
+    return () => {
+      live = false;
+    };
+  }, [result, order]);
 
   const ok = result === "success";
   const title = ok ? t.successTitle : cancelled ? t.cancelledTitle : t.failedTitle;
