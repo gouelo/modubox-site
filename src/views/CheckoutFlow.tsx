@@ -8,11 +8,11 @@ import { lp } from "@/i18n";
 import { useLocale, useT } from "@/i18n/client";
 import { CURRENCY, ecommerce, gaItems, savePending, track } from "@/lib/analytics";
 import { useCart } from "@/lib/cart-store";
-import { catalog } from "@/lib/catalog";
 import { checkoutRequest, MAX_INSTALLMENTS } from "@/lib/checkout";
 import { formatILS } from "@/lib/format";
 import { summarizeCart } from "@/lib/pricing";
 import { asset } from "@/lib/paths";
+import { sendLead } from "@/lib/attribution";
 import { useCoupon } from "@/lib/use-coupon";
 import { useHydrated } from "@/lib/use-hydrated";
 import { orderMessage, waLink, type Customer } from "@/lib/whatsapp";
@@ -56,7 +56,6 @@ export function CheckoutFlow() {
   const locale = useLocale();
   const t = useT();
   const k = t.checkout;
-  const site = catalog(locale).site;
   const ils = (n: number) => formatILS(n, locale);
   const cart = summarizeCart(items, locale);
   const couponCheck = useCoupon(items, locale);
@@ -66,7 +65,8 @@ export function CheckoutFlow() {
   const [customer, setCustomer] = useState<Customer>({ name: "", phone: "", email: "", city: "", address: "", notes: "", marketing: false });
   const [agree, setAgree] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [done, setDone] = useState<{ id: string; message: string } | null>(null);
+  const [done, setDone] = useState<{ id: string; message: string; sent: boolean } | null>(null);
+  const [placing, setPlacing] = useState(false);
   const [installments, setInstallments] = useState(1);
   // online payment (Z-Credit) is on when the server says so; on GitHub Pages there is no server
   const [payment, setPayment] = useState<"checking" | "online" | "offline">("checking");
@@ -101,8 +101,9 @@ export function CheckoutFlow() {
         <span className="mx-auto grid size-16 place-items-center rounded-full bg-brand text-white" aria-hidden="true"><Icon name="check" className="size-8" /></span>
         <h1 className="mt-4 text-3xl font-extrabold">{k.done}</h1>
         <p className="mt-2 text-ink-soft">
-          {k.orderNo} <strong className="text-ink">#{done.id}</strong>. {k.doneText}
+          {k.orderNo} <strong className="text-ink">#{done.id}</strong>. {done.sent ? k.doneText : ""}
         </p>
+        {!done.sent && <p className="mt-3 rounded-2xl bg-white p-4 text-sm font-semibold text-red-700" role="alert">{k.doneNotSent}</p>}
         <a href={waLink(done.message)} target="_blank" rel="noopener" className="btn-wa mt-6 w-full py-4 text-base"><Icon name="whatsapp" /> {k.sendWhatsapp}</a>
         <Link href={lp(locale, "/")} className="btn-ghost mt-3 w-full">{k.home}</Link>
       </motion.div>
@@ -136,18 +137,26 @@ export function CheckoutFlow() {
 
   const placeOrder = async () => {
     const id = newOrderId();
-    // an order without online payment: a lead for the business (no customer details here)
-    track({ event: "generate_lead", form_name: "order", currency: CURRENCY, value: toPay });
     const message = orderMessage(cart, customer, id, locale);
-    if (site.leadFormEndpoint) {
-      try {
-        await fetch(site.leadFormEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type: "order", id, customer, message }) });
-      } catch {
-        /* the WhatsApp button on the next screen is the fallback */
-      }
-    }
+    // an order without online payment: a lead for the business (POST /api/lead)
+    setPlacing(true);
+    const result = await sendLead({
+      kind: "order",
+      locale,
+      orderId: id,
+      name: customer.name,
+      phone: customer.phone,
+      email: customer.email,
+      city: customer.city,
+      product: cart.lines.map((l) => l.product.name).join(", "),
+      message,
+    });
+    setPlacing(false);
+    // only an order that reached us counts (no customer details in the event)
+    if (result === "ok") track({ event: "generate_lead", form_name: "order", currency: CURRENCY, value: toPay });
     clear();
-    setDone({ id, message });
+    // if it didn't reach us, the WhatsApp button on the next screen is the way
+    setDone({ id, message, sent: result === "ok" });
     window.scrollTo({ top: 0 });
   };
 
@@ -304,7 +313,7 @@ export function CheckoutFlow() {
                   {payment === "online" && !cart.hasOnRequest ? (
                     <button type="button" onClick={pay} disabled={paying || couponCheck === "checking"} aria-busy={paying || undefined} className="btn-brand flex-1 py-4 text-base">{paying ? k.paying : k.pay(ils(toPay))}</button>
                   ) : (
-                    <button type="button" onClick={placeOrder} disabled={payment === "checking"} className="btn-brand flex-1 py-4 text-base">{k.confirm(ils(toPay))}</button>
+                    <button type="button" onClick={placeOrder} disabled={payment === "checking" || placing} aria-busy={placing || undefined} className="btn-brand flex-1 py-4 text-base">{k.confirm(ils(toPay))}</button>
                   )}
                 </div>
                 <a href={waLink(orderMessage(cart, customer, undefined, locale))} target="_blank" rel="noopener" className="btn-wa w-full"><Icon name="whatsapp" /> {k.orWhatsapp}</a>

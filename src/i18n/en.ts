@@ -353,6 +353,12 @@ export const en: Dict = {
 
   lead: {
     badPhone: "Please enter a valid phone number",
+    badName: "Please enter your name",
+    badEmail: "That email address isn't valid",
+    email: "Email (optional)",
+    failed: "We couldn't send your details. You can send them to us on WhatsApp in one tap:",
+    rateLimited: "Several requests were already sent from this device. You can send us your details on WhatsApp:",
+    whatsappInstead: "Send the details on WhatsApp",
     thanks: "Thank you! We've got your details",
     soon: "A Modubox representative will be in touch shortly.",
     name: "Full name",
@@ -414,6 +420,7 @@ export const en: Dict = {
     done: "Your order is in!",
     orderNo: "Order number",
     doneText: "A Modubox representative will contact you to schedule installation and complete payment.",
+    doneNotSent: "We couldn't pass your order on to us. Please send it on WhatsApp with the button below, so we can get back to you.",
     sendWhatsapp: "Send the order on WhatsApp for a quick confirmation",
     home: "Back to the home page",
     errors: {
