@@ -4,5 +4,142 @@ Disallow: /cart/
 Disallow: /checkout/
 Disallow: /en/cart/
 Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: GPTBot
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: OAI-SearchBot
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: ChatGPT-User
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: ClaudeBot
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: Claude-SearchBot
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: Claude-User
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: PerplexityBot
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: Perplexity-User
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: Google-Extended
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: Applebot-Extended
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: meta-externalagent
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: Amazonbot
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: Bytespider
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: CCBot
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
+
+User-Agent: Bingbot
+Allow: /
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /en/cart/
+Disallow: /en/checkout/
+Disallow: /admin/
+Disallow: /api/
 
 Sitemap: https://www.modubox.com/sitemap.xml
