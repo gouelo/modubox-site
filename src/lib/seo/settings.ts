@@ -104,7 +104,7 @@ export interface LlmsSettings {
   extra: string;
 }
 
-/** AI crawlers, by user agent: "block" keeps it off the whole site (robots.txt). Anything not here is allowed. */
+/** AI crawlers, by user agent: "block" keeps it off the whole site (robots.txt). Anything not here is allowed, by a group of its own. */
 export type AiCrawlers = Record<string, "allow" | "block">;
 
 export const AI_CRAWLERS: { agent: string; owner: string; use: string }[] = [
@@ -122,6 +122,7 @@ export const AI_CRAWLERS: { agent: string; owner: string; use: string }[] = [
   { agent: "Amazonbot", owner: "Amazon", use: "Alexa ואימון" },
   { agent: "Bytespider", owner: "ByteDance", use: "אימון מודלים" },
   { agent: "CCBot", owner: "Common Crawl", use: "מאגר פתוח לאימון" },
+  { agent: "Bingbot", owner: "Microsoft", use: "חיפוש Bing ו-Copilot (חסימה מוציאה גם מ-Bing)" },
 ];
 
 export const blockedCrawlers = (c: AiCrawlers) => Object.entries(c).filter(([, v]) => v === "block").map(([k]) => k);
