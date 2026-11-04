@@ -102,7 +102,8 @@ export async function handleLead(db: Db | null, lead: NewLead, origin: string, n
   const config = leadsEmailConfig();
   if (config) {
     try {
-      await sendEmail(config, { ...leadEmail({ ...lead, id, createdAt: now }, origin), replyTo: lead.email ?? undefined });
+      const resendId = await sendEmail(config, { ...leadEmail({ ...lead, id, createdAt: now }, origin), replyTo: lead.email ?? undefined });
+      console.info("[leads] lead email sent", { id, to: config.to, resendId });
       emailed = true;
     } catch (e) {
       console.error("[leads] lead email failed", { id, error: String(e) });

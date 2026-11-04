@@ -300,8 +300,8 @@ ${ads.length ? `<div style="border-top:1px solid #dbe3e2;margin:16px 0 8px"></di
   return { subject, html, text };
 }
 
-/** Sends it with Resend's API. Throws when Resend doesn't take it. */
-export async function sendEmail(config: EmailConfig, msg: { subject: string; html: string; text: string; replyTo?: string }, fetcher: typeof fetch = fetch): Promise<void> {
+/** Sends it with Resend's API and answers Resend's id for it (findable under Emails in Resend). Throws when Resend doesn't take it. */
+export async function sendEmail(config: EmailConfig, msg: { subject: string; html: string; text: string; replyTo?: string }, fetcher: typeof fetch = fetch): Promise<string | undefined> {
   const res = await fetcher("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${config.apiKey}`, "Content-Type": "application/json" },
@@ -309,4 +309,6 @@ export async function sendEmail(config: EmailConfig, msg: { subject: string; htm
     signal: AbortSignal.timeout(15_000),
   });
   if (!res.ok) throw new Error(`Resend: HTTP ${res.status} ${(await res.text()).slice(0, 300)}`);
+  const j = (await res.json().catch(() => ({}))) as { id?: unknown };
+  return typeof j.id === "string" ? j.id : undefined;
 }

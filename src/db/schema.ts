@@ -326,7 +326,7 @@ export interface LeadAttribution {
 /**
  * Every lead from the site's forms (POST /api/lead): the contact form, and an
  * order sent without online payment. The business is emailed about each one
- * (src/lib/leads.ts); /admin/leads lists them.
+ * (src/lib/leads.ts); /admin/leads lists them. `status` and `notes` are for the admin.
  */
 export const leads = pgTable(
   "leads",
@@ -348,6 +348,10 @@ export const leads = pgTable(
     attribution: jsonb("attribution").$type<LeadAttribution>().notNull().default(sql`'{}'::jsonb`),
     /** when the business was emailed about it; null: not (yet) */
     emailedAt: timestamp("emailed_at", { withTimezone: true }),
+    /** for the admin's leads tab: "new" until someone handles it (the values are the admin's to define) */
+    status: text("status").notNull().default("new"),
+    /** the admin's internal notes (never shown to the customer) */
+    notes: text("notes"),
   },
   (t) => [index("leads_created_at_idx").on(t.createdAt)],
 );
