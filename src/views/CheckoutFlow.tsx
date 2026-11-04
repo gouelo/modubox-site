@@ -2,6 +2,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { CouponBox } from "@/components/CouponBox";
 import { Icon } from "@/components/Icon";
 import { lp } from "@/i18n";
 import { useLocale, useT } from "@/i18n/client";
@@ -11,9 +12,10 @@ import { checkoutRequest, MAX_INSTALLMENTS } from "@/lib/checkout";
 import { formatILS } from "@/lib/format";
 import { summarizeCart } from "@/lib/pricing";
 import { asset } from "@/lib/paths";
+import { useCoupon } from "@/lib/use-coupon";
 import { useHydrated } from "@/lib/use-hydrated";
 import { orderMessage, waLink, type Customer } from "@/lib/whatsapp";
-import { Totals } from "./CartView";
+import { couponDiscount, Totals } from "./CartView";
 
 function Steps({ step }: { step: number }) {
   const t = useT().checkout;
@@ -56,6 +58,9 @@ export function CheckoutFlow() {
   const site = catalog(locale).site;
   const ils = (n: number) => formatILS(n, locale);
   const cart = summarizeCart(items, locale);
+  const couponCheck = useCoupon(items, locale);
+  const discount = couponDiscount(couponCheck);
+  const toPay = cart.total - (discount?.amount ?? 0);
   const [step, setStep] = useState(0);
   const [customer, setCustomer] = useState<Customer>({ name: "", phone: "", email: "", city: "", address: "", notes: "" });
   const [agree, setAgree] = useState(false);
@@ -143,14 +148,15 @@ export function CheckoutFlow() {
       const res = await fetch(asset("/api/checkout/"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(checkoutRequest(items, customer, installments, locale)),
+        body: JSON.stringify(checkoutRequest(items, customer, installments, locale, discount?.code)),
       });
-      const j = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+      const j = (await res.json().catch(() => ({}))) as { url?: string; error?: string; coupon?: { error: string } };
       if (res.ok && j.url) {
         window.location.assign(j.url);
         return;
       }
       if (j.error === "not_configured") setPayment("offline");
+      else if (j.error === "invalid_coupon") setPayError(j.coupon?.error === "expired" ? t.cart.coupon.expired : t.cart.coupon.unknown);
       else setPayError(j.error === "price_on_request" ? k.onRequest : k.payFailed);
     } catch {
       setPayError(k.payFailed);
@@ -258,7 +264,7 @@ export function CheckoutFlow() {
                         <span className="mb-1.5 block text-sm font-bold">{k.installments}</span>
                         <select id="co-installments" value={installments} onChange={(e) => setInstallments(Number(e.target.value))} className="field">
                           {Array.from({ length: MAX_INSTALLMENTS }, (_, i) => i + 1).map((n) => (
-                            <option key={n} value={n}>{k.installmentsOption(n, ils(Math.round(cart.total / n)))}</option>
+                            <option key={n} value={n}>{k.installmentsOption(n, ils(Math.round(toPay / n)))}</option>
                           ))}
                         </select>
                       </label>
@@ -272,9 +278,9 @@ export function CheckoutFlow() {
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setStep(1)} className="btn-ghost">{t.common.back}</button>
                   {payment === "online" && !cart.hasOnRequest ? (
-                    <button type="button" onClick={pay} disabled={paying} aria-busy={paying || undefined} className="btn-brand flex-1 py-4 text-base">{paying ? k.paying : k.pay(ils(cart.total))}</button>
+                    <button type="button" onClick={pay} disabled={paying || couponCheck === "checking"} aria-busy={paying || undefined} className="btn-brand flex-1 py-4 text-base">{paying ? k.paying : k.pay(ils(toPay))}</button>
                   ) : (
-                    <button type="button" onClick={placeOrder} disabled={payment === "checking"} className="btn-brand flex-1 py-4 text-base">{k.confirm(ils(cart.total))}</button>
+                    <button type="button" onClick={placeOrder} disabled={payment === "checking"} className="btn-brand flex-1 py-4 text-base">{k.confirm(ils(toPay))}</button>
                   )}
                 </div>
                 <a href={waLink(orderMessage(cart, customer, undefined, locale))} target="_blank" rel="noopener" className="btn-wa w-full"><Icon name="whatsapp" /> {k.orWhatsapp}</a>
@@ -286,7 +292,10 @@ export function CheckoutFlow() {
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <div className="card p-5">
           <h2 className="mb-4 text-lg font-extrabold">{k.yourOrder(cart.count)}</h2>
-          <Totals cart={cart} />
+          <Totals cart={cart} discount={discount} />
+          <div className="mt-4">
+            <CouponBox check={couponCheck} />
+          </div>
         </div>
         <p className="mt-4 flex items-center justify-center gap-2 text-sm text-ink-soft"><Icon name="shield" className="size-4" /> {k.protected}</p>
       </aside>

@@ -376,6 +376,19 @@ export const he = {
   },
 
   cart: {
+    coupon: {
+      label: "קוד קופון",
+      placeholder: "יש לכם קוד הנחה?",
+      apply: "הפעלה",
+      checking: "בודקים…",
+      remove: "הסרת הקופון",
+      applied: (code: string) => `הקופון ${code} הופעל`,
+      line: (code: string) => `הנחת קופון (${code})`,
+      unknown: "הקוד הזה לא קיים. בדקו שהקלדתם נכון ונסו שוב.",
+      expired: "תוקף הקופון הזה הסתיים.",
+      minOrder: (min: string) => `הקופון תקף בהזמנה של ${min} ומעלה.`,
+      unavailable: "לא הצלחנו לבדוק את הקוד כרגע. נסו שוב בעוד רגע, או שלחו לנו את ההזמנה בוואטסאפ.",
+    },
     products: "מוצרים",
     delivery: "הובלה והתקנה",
     total: 'סה"כ לתשלום',

@@ -1,0 +1,25 @@
+{
+  "_comment": "מוצר בדיקה נסתר ב־1 ₪ לבדיקת תשלום אמיתי. לא מופיע בקטלוג, בחיפוש, במפת האתר או בקונפיגורטור; נפתח רק בכתובת /p/<slug>/. לכיבוי: enabled=false.",
+  "enabled": true,
+  "product": {
+    "slug": "test-nhsxjlenh4",
+    "category": "special",
+    "name": "מוצר בדיקה – תשלום 1 ₪",
+    "sizeLabel": "בדיקה",
+    "widthM": 0,
+    "depthM": 0,
+    "areaM2": 0,
+    "price": 1,
+    "badge": null,
+    "shortDescription": "מוצר לבדיקת תשלום בכרטיס אשראי. לא נשלח ולא מותקן דבר.",
+    "dimensions": null,
+    "fulfillment": { "pickup": null, "delivery": null, "installation": null, "deliveryAndInstallation": 0, "note": null },
+    "warrantyYears": 0,
+    "configurable": false,
+    "addons": [],
+    "addonPriceOverrides": {},
+    "images": ["photos/d77c1b81.webp"],
+    "configuratorModel": null
+  },
+  "en": { "name": "Test product – 1 ₪ payment", "shortDescription": "A product for testing card payments. Nothing is delivered or installed." }
+}

@@ -14,6 +14,7 @@ import videosEn from "../../data/en/videos.json";
 import galleryEn from "../../data/en/gallery.json";
 import faqEn from "../../data/en/faq.json";
 import clientsEn from "../../data/en/clients.json";
+import testFile from "../../data/test-product.json";
 import { dict, type Locale } from "@/i18n";
 import type { Addon, Category, Product } from "./types";
 
@@ -201,7 +202,26 @@ export const allCategories = he.allCategories;
 export const categories = he.categories;
 
 export function getProduct(slug: string, locale: Locale = "he"): Product | undefined {
-  return catalog(locale).products.find((p) => p.slug === slug);
+  return catalog(locale).products.find((p) => p.slug === slug) ?? (slug === TEST_SLUG ? testProduct(locale) : undefined);
+}
+
+/**
+ * The hidden 1 ₪ test product (data/test-product.json), for a real card charge
+ * from a phone. It is not in catalog().products, so no list, sitemap, search or
+ * configurator shows it: only getProduct finds it (the cart, the server's
+ * pricing), and only its own page /p/<slug>/ links to it. enabled: false hides it.
+ */
+export const TEST_SLUG = testFile.enabled ? testFile.product.slug : "";
+
+export function testProduct(locale: Locale = "he"): Product | undefined {
+  if (!testFile.enabled) return undefined;
+  const p = { ...(testFile.product as unknown as Product), locale };
+  return locale === "he" ? p : { ...p, name: testFile.en.name, shortDescription: testFile.en.shortDescription };
+}
+
+/** A product's page: the test product's hidden one, or /product/<slug>/. */
+export function productPath(p: Product): string {
+  return p.slug === TEST_SLUG ? `/p/${p.slug}/` : `/product/${p.slug}/`;
 }
 
 export function productsIn(category: Category, locale: Locale = "he"): Product[] {

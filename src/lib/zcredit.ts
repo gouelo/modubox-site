@@ -96,7 +96,8 @@ export function buildCreateSession(config: ZCreditConfig, order: PricedOrder, or
   const https = origin.startsWith("https://");
   // product photos in Z-Credit's cart, which shows only https images
   const image = (p: Product) => (https && p.images[0] ? origin + imageLoader({ src: p.images[0], width: 480 }) : undefined);
-  const note = [`#${orderId}`, c.name, c.phone, `${c.address}, ${c.city}`, c.notes].filter(Boolean).join(" | ");
+  const coupon = order.coupon ? `coupon ${order.coupon.code} -${order.coupon.amount}` : "";
+  const note = [`#${orderId}`, c.name, c.phone, `${c.address}, ${c.city}`, coupon, c.notes].filter(Boolean).join(" | ");
   return {
     Key: config.key,
     TerminalNumber: config.terminal,
