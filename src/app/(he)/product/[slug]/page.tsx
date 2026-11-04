@@ -1,3 +1,6 @@
+import { lp } from "@/i18n";
+import { PageFaq } from "@/components/PageFaq";
+import { withSeo } from "@/lib/seo/meta";
 import { ProductPage, productMeta, productParams } from "@/views/ProductPage";
 
 export const dynamicParams = false;
@@ -6,9 +9,14 @@ export const generateStaticParams = productParams;
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props) {
-  return productMeta("he", (await params).slug);
+  return withSeo(await productMeta("he", (await params).slug));
 }
 
 export default async function Page({ params }: Props) {
-  return <ProductPage locale="he" slug={(await params).slug} />;
+  return (
+    <>
+      <ProductPage locale="he" slug={(await params).slug} />
+      <PageFaq path={lp("he", `/product/${(await params).slug}/`)} locale="he" />
+    </>
+  );
 }

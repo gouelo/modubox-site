@@ -1,7 +1,14 @@
+import { PageFaq } from "@/components/PageFaq";
+import { withSeo } from "@/lib/seo/meta";
 import { ShopPage, shopMeta } from "@/views/ShopPage";
 
-export const metadata = shopMeta("he");
+export const generateMetadata = () => withSeo(shopMeta("he"));
 
 export default function Page() {
-  return <ShopPage locale="he" />;
+  return (
+    <>
+      <ShopPage locale="he" />
+      <PageFaq path="/shop/" locale="he" />
+    </>
+  );
 }

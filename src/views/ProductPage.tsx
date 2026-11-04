@@ -15,6 +15,8 @@ import { pageMeta } from "@/i18n/meta";
 import { addonsFor, catalog, getProduct, plain, products, productsIn } from "@/lib/catalog";
 import { formatCm, formatILS } from "@/lib/format";
 import { fulfillmentOptions } from "@/lib/pricing";
+import { business } from "@/lib/seo/settings";
+import { loadSeo } from "@/lib/seo/store";
 
 export function productParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -31,9 +33,13 @@ export function productMeta(locale: Locale, slug: string): Metadata {
   });
 }
 
-export function ProductPage({ locale, slug }: { locale: Locale; slug: string }) {
+export async function ProductPage({ locale, slug }: { locale: Locale; slug: string }) {
   const product = getProduct(slug, locale);
   if (!product) notFound();
+  // the admin's key facts for this page, and the business's rating (Content in the admin)
+  const seo = await loadSeo();
+  const facts = (seo.pages.get(lp(locale, `/product/${slug}/`))?.keyFacts ?? []).filter((f) => f.label && f.value);
+  const biz = business(seo.business, locale);
   const { site, allCategories } = catalog(locale);
   const t = dict(locale);
   const tp = t.product;
@@ -51,7 +57,8 @@ export function ProductPage({ locale, slug }: { locale: Locale; slug: string }) 
     brand: { "@type": "Brand", name: product.category === "gilboa" ? "Gilboa" : "Modubox" },
     image: product.images.map((i) => `${site.url}/_img/${i.replace(/\.\w+$/, "")}-1600.webp`),
     offers: { "@type": "Offer", priceCurrency: "ILS", price: product.price, availability: "https://schema.org/InStock", url: `${site.url}${lp(locale, `/product/${product.slug}/`)}` },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: site.rating, reviewCount: site.reviewCount },
+    aggregateRating: { "@type": "AggregateRating", ratingValue: biz.rating, reviewCount: biz.reviewCount },
+    ...(facts.length ? { additionalProperty: facts.map((f) => ({ "@type": "PropertyValue", name: f.label, value: f.value })) } : {}),
   };
   const spec: [string, string][] = [
     [r.size, product.sizeLabel],
@@ -101,7 +108,7 @@ export function ProductPage({ locale, slug }: { locale: Locale; slug: string }) 
           <p className="eyebrow">{range?.subtitle}</p>
           <h1 className="mt-2 text-[2.4rem] font-extrabold leading-[1.05] sm:text-5xl">{product.name}</h1>
           <a href={site.googleReviewsUrl} target="_blank" rel="noopener" className="mt-2 inline-flex items-center gap-1.5 text-sm text-ink-soft">
-            <Stars locale={locale} value={5} className="size-3.5" /> {site.rating} · {t.common.reviewsOnGoogle(site.reviewCount)}
+            <Stars locale={locale} value={5} className="size-3.5" /> {biz.rating} · {t.common.reviewsOnGoogle(biz.reviewCount)}
           </a>
           <div className="mt-5 flex items-end gap-3">
             <p className="font-display text-5xl font-extrabold leading-none tabular-nums">{ils(product.price)}</p>
@@ -113,6 +120,16 @@ export function ProductPage({ locale, slug }: { locale: Locale; slug: string }) 
           </div>
           {product.todo && <p className="mt-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-900 ring-1 ring-amber-200"><span aria-hidden="true">⚠️</span> {product.todo}</p>}
           <p className="mt-4 leading-7 text-ink-soft">{product.shortDescription}</p>
+          {facts.length > 0 && (
+            <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2">
+              {facts.map((f) => (
+                <div key={f.label} className="flex gap-2">
+                  <dt className="font-bold">{f.label}:</dt>
+                  <dd className="text-ink-soft">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
 
           <ul className="no-scrollbar -mx-5 mt-5 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:px-0">
             {chips.map(([k, v]) => (

@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { boolean, index, integer, jsonb, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, index, integer, jsonb, pgTable, serial, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 
 /**
  * The store's database (Postgres: Neon from the Vercel Marketplace).
@@ -145,3 +145,92 @@ export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;
 export type OrderItem = typeof orderItems.$inferSelect;
 export type OrderEvent = typeof orderEvents.$inferSelect;
+
+/*
+ * The SEO and content module (/admin/content). Every table here is an
+ * override: with no rows, the site shows exactly what the code and data/
+ * give it. A row changes only what it sets (an empty field keeps the default).
+ */
+
+/** One page's search and sharing settings, by its address ("/", "/en/shop/", "/product/modubox-3x3/", "/blog/<slug>/"). */
+export const pageSeo = pgTable("page_seo", {
+  path: text("path").primaryKey(),
+  title: text("title"),
+  description: text("description"),
+  ogImage: text("og_image"),
+  /** another address as the page's canonical one */
+  canonical: text("canonical"),
+  noindex: boolean("noindex").notNull().default(false),
+  /** short facts shown on the page and in its JSON-LD, e.g. {label: "מידות", value: "3×3 מ'"} */
+  keyFacts: jsonb("key_facts").$type<KeyFact[]>().notNull().default(sql`'[]'::jsonb`),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export interface KeyFact {
+  label: string;
+  value: string;
+}
+
+/** Questions and answers shown at the bottom of a page, with FAQPage JSON-LD. */
+export const faqBlocks = pgTable(
+  "faq_blocks",
+  {
+    id: serial("id").primaryKey(),
+    path: text("path").notNull(),
+    position: integer("position").notNull().default(0),
+    q: text("q").notNull(),
+    a: text("a").notNull(),
+  },
+  (t) => [index("faq_blocks_path_idx").on(t.path, t.position)],
+);
+
+export const POST_STATUSES = ["published", "draft", "hidden"] as const;
+export type PostStatus = (typeof POST_STATUSES)[number];
+
+/** Blog posts. A row with the slug of a file in content/blog replaces that file; "hidden" takes a post off the site. */
+export const posts = pgTable("posts", {
+  slug: text("slug").primaryKey(),
+  title: text("title").notNull(),
+  seoTitle: text("seo_title"),
+  description: text("description").notNull().default(""),
+  /** YYYY-MM-DD */
+  date: text("date").notNull(),
+  updated: text("updated"),
+  cover: text("cover"),
+  coverAlt: text("cover_alt"),
+  categories: jsonb("categories").$type<string[]>().notNull().default(sql`'[]'::jsonb`),
+  body: text("body").notNull().default(""),
+  status: text("status").$type<PostStatus>().notNull().default("published"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+/** 301 redirects. A row with the source of one in data/redirects.json replaces it; enabled=false turns it off. */
+export const redirects = pgTable(
+  "redirects",
+  {
+    id: serial("id").primaryKey(),
+    /** decoded, no trailing slash: "/product-page/מחסן", "/post/:slug*" */
+    source: text("source").notNull(),
+    destination: text("destination").notNull(),
+    statusCode: integer("status_code").notNull().default(301),
+    enabled: boolean("enabled").notNull().default(true),
+    note: text("note"),
+    kind: text("kind"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("redirects_source_idx").on(t.source)],
+);
+
+/** Site-wide settings by key: "business", "llms", "crawlers". */
+export const siteSettings = pgTable("site_settings", {
+  key: text("key").primaryKey(),
+  value: jsonb("value").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type PageSeo = typeof pageSeo.$inferSelect;
+export type FaqBlock = typeof faqBlocks.$inferSelect;
+export type PostRow = typeof posts.$inferSelect;
+export type RedirectRow = typeof redirects.$inferSelect;

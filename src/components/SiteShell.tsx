@@ -3,7 +3,7 @@ import { Heebo } from "next/font/google";
 import type { ReactNode } from "react";
 import { dict, dirOf, type Locale } from "@/i18n";
 import { LocaleProvider } from "@/i18n/client";
-import { catalog, site } from "@/lib/catalog";
+import { site } from "@/lib/catalog";
 import { asset } from "@/lib/paths";
 import { gtmId } from "@/lib/analytics";
 import { GoogleTagManager, GoogleTagManagerNoScript } from "./Analytics";
@@ -12,6 +12,8 @@ import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { WhatsAppFab } from "./WhatsAppFab";
+import { business, orgJsonLd as businessJsonLd } from "@/lib/seo/settings";
+import { loadSeo } from "@/lib/seo/store";
 import { CallFab } from "./CallFab";
 import { CookieConsent } from "./CookieConsent";
 
@@ -43,20 +45,10 @@ export const viewport: Viewport = {
 };
 
 /** The <html> of every page, in one language: lang and dir, header, footer and the site-wide pieces. */
-export function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
+export async function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
   const t = dict(locale);
-  const s = catalog(locale).site;
-  const orgJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    name: t.meta.siteName,
-    url: site.url,
-    telephone: s.phone,
-    email: s.email,
-    address: { "@type": "PostalAddress", streetAddress: s.factory, addressCountry: "IL" },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: s.rating, reviewCount: s.reviewCount },
-    sameAs: Object.values(s.social),
-  };
+  // the business as search engines read it: data/site.json, with what the admin saved (Content → business)
+  const orgJsonLd = businessJsonLd(business((await loadSeo()).business, locale), locale);
   // Google Tag Manager: production only (src/lib/analytics.ts)
   const gtm = gtmId();
   return (
