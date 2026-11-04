@@ -268,6 +268,7 @@ export const he = {
     chooseAddons: "בחירת תוספות והוספה לסל",
     spec: "מפרט",
     specNote: "הובלה והתקנה נבחרות בסל",
+    invoiceNote: "חשבונית המס נמסרת ביום ההתקנה",
     terms: "תנאים",
     warranty: "אחריות",
     approx: "* מידות משוערות – TODO לאמת מול המפעל",
@@ -435,7 +436,7 @@ export const he = {
     fields: {
       name: "שם מלא *",
       phone: "טלפון *",
-      email: "אימייל (לקבלת חשבונית)",
+      email: "אימייל (לקבלת אישור ההזמנה)",
       city: "יישוב *",
       address: "רחוב ומספר *",
       notes: "הערות להתקנה",
@@ -456,6 +457,7 @@ export const he = {
     installments: "מספר תשלומים",
     installmentsOption: (n: number, amount: string) => (n === 1 ? `תשלום אחד · ${amount}` : `${n} תשלומים של כ־${amount}`),
     secureNote: "התשלום מתבצע בעמוד המאובטח של Z-Credit, ופרטי הכרטיס לא עוברים דרכנו.",
+    invoiceNote: "חשבונית המס תימסר לכם בעותק פיזי ביום ההתקנה.",
     pay: (price: string) => `לתשלום מאובטח · ${price}`,
     paying: "מעבירים לעמוד התשלום…",
     checking: "טוענים את אפשרויות התשלום…",
@@ -470,7 +472,10 @@ export const he = {
 
   payment: {
     successTitle: "התשלום התקבל, תודה!",
-    successText: "ההזמנה שלכם אושרה. נציג של מודובוקס יחזור אליכם בקרוב לתיאום ההובלה וההתקנה.",
+    successText: "קיבלנו את ההזמנה שלכם, תודה!",
+    // the same steps as the customer's confirmation email (src/lib/notify.ts)
+    nextTitle: "מה קורה עכשיו?",
+    next: ["בימים הקרובים ניצור איתכם קשר לתיאום ההובלה וההתקנה.", "חשבונית המס תימסר לכם בעותק פיזי ביום ההתקנה."],
     orderNo: "מספר הזמנה",
     failedTitle: "התשלום לא הושלם",
     cancelledTitle: "התשלום בוטל",

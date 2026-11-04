@@ -86,6 +86,16 @@ export function PaymentResult({ result }: { result: "success" | "failed" }) {
           </p>
         )}
         <p className="mt-2 text-ink-soft">{ok ? t.successText : t.failedText}</p>
+        {ok && (
+          <div className="mt-5 rounded-2xl bg-white p-5 text-start">
+            <h2 className="font-bold">{t.nextTitle}</h2>
+            <ul className="mt-2 space-y-1.5 text-[15px] text-ink-soft">
+              {t.next.map((s) => (
+                <li key={s} className="flex items-start gap-2"><Icon name="check" className="mt-1 size-4 shrink-0 text-brand-dark" /> {s}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         {!ok && <Link href={lp(locale, "/checkout/")} className="btn-brand mt-6 w-full py-4 text-base">{t.retry}</Link>}
         <a href={waLink(ok ? t.waPaid(order) : t.waFailed(order))} target="_blank" rel="noopener" className={`btn-wa w-full ${ok ? "mt-6 py-4 text-base" : "mt-3"}`}>
           <Icon name="whatsapp" /> {t.whatsapp}
