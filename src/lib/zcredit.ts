@@ -96,8 +96,9 @@ export function buildCreateSession(config: ZCreditConfig, order: PricedOrder, or
   const https = origin.startsWith("https://");
   // product photos in Z-Credit's cart, which shows only https images
   const image = (p: Product) => (https && p.images[0] ? origin + imageLoader({ src: p.images[0], width: 480 }) : undefined);
-  const coupon = order.coupon ? `coupon ${order.coupon.code} -${order.coupon.amount}` : "";
-  const note = [`#${orderId}`, c.name, c.phone, `${c.address}, ${c.city}`, coupon, c.notes].filter(Boolean).join(" | ");
+  // Z-Credit takes only letters and digits here ("-97 Input Error ... non AlphaNumeric
+  // characters"): the order number, and the coupon code. The customer is in Customer.
+  const note = [`Order ${orderId}`, order.coupon ? `coupon ${order.coupon.code} minus ${order.coupon.amount}` : ""].filter(Boolean).join(" ");
   return {
     Key: config.key,
     TerminalNumber: config.terminal,
@@ -106,7 +107,7 @@ export function buildCreateSession(config: ZCreditConfig, order: PricedOrder, or
     ...returnUrls(origin, order, orderId, signOrder(config.key, orderId, order.total)),
     PaymentType: "regular",
     CreateInvoice: false,
-    AdditionalText: note.slice(0, 250),
+    AdditionalText: note.replace(/[^A-Za-z0-9 ]/g, "").slice(0, 250),
     ShowCart: true,
     ThemeColor: "029f9f",
     FocusType: "None",
