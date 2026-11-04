@@ -180,3 +180,21 @@ describe("health check", () => {
     expect(h.score).toBeGreaterThan(50);
   });
 });
+
+describe("robots.txt", () => {
+  it("keeps the cart, checkout, admin and API out, for everyone and in each AI crawler's own group", async () => {
+    const { default: robots, DISALLOW } = await import("@/app/robots");
+    const { AI_CRAWLERS } = await import("@/lib/seo/settings");
+    expect(DISALLOW).toEqual(expect.arrayContaining(["/admin/", "/api/", "/cart/", "/checkout/", "/en/cart/", "/en/checkout/"]));
+    let rules = [(await robots()).rules].flat();
+    expect(rules[0]).toEqual({ userAgent: "*", allow: "/", disallow: DISALLOW });
+    for (const a of ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "CCBot"])
+      expect(rules).toContainEqual({ userAgent: a, allow: "/", disallow: DISALLOW });
+    expect(rules).toHaveLength(1 + AI_CRAWLERS.length);
+
+    await saveSetting(db!, "crawlers", { CCBot: "block", GPTBot: "allow" });
+    rules = [(await robots()).rules].flat();
+    expect(rules).toContainEqual({ userAgent: "CCBot", disallow: "/" });
+    expect(rules).toContainEqual({ userAgent: "GPTBot", allow: "/", disallow: DISALLOW });
+  });
+});
