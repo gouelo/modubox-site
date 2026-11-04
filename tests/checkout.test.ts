@@ -206,7 +206,16 @@ describe("Z-Credit calls (mocked, never the live terminal)", () => {
 
   it("createSession reports Z-Credit's error", async () => {
     const r = await createSession({} as never, ok({ HasError: true, Data: { HasError: true, ReturnCode: -98001, ReturnMessage: "Key is not valid", SessionUrl: "" } }));
-    expect(r).toEqual({ ok: false, code: -98001, message: "Key is not valid" });
+    expect(r).toMatchObject({ ok: false, status: 200, code: -98001, message: "Key is not valid" });
+  });
+
+  it("createSession never returns or logs the key", async () => {
+    const order = priced(body([{ slug: "modubox-2x2", qty: 1, selections: {}, fulfillment: "deliveryAndInstallation" }]));
+    const req = buildCreateSession(config, order, "1", "https://x.co");
+    const r = await createSession(req, ok({ HasError: true, Data: { HasError: true, ReturnCode: -97, ReturnMessage: "bad test-key", RequestData: { Key: "test-key" } } }));
+    expect(JSON.stringify(r)).not.toContain("test-key");
+    const down = await createSession(req, (async () => new Response("oops", { status: 500 })) as unknown as typeof fetch);
+    expect(down).toMatchObject({ ok: false, status: 500, message: "not JSON", body: "oops" });
   });
 
   const status = (cb: Record<string, unknown>, extra: Record<string, unknown> = {}) => ({
