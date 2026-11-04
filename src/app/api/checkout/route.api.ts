@@ -1,6 +1,6 @@
 import { newOrderId, priceCheckout, type PricedOrder } from "@/lib/checkout";
 import { parseCoupons } from "@/lib/coupons";
-import { buildCreateSession, createSession, zcreditConfig } from "@/lib/zcredit";
+import { buildCreateSession, createSession, signReceipt, zcreditConfig } from "@/lib/zcredit";
 
 // Z-Credit checkout: GET says whether online payment is on, POST starts a payment.
 // Only on a server build (Vercel); the GitHub Pages export leaves route.api.ts out.
@@ -49,7 +49,9 @@ export async function POST(req: Request) {
   // the order lives in the Vercel logs (Project → Logs) and in Z-Credit's panel
   // (AdditionalText carries the customer and address).
   console.info("[checkout] order created, waiting for payment", JSON.stringify(orderLog(orderId, session.sessionId, order)));
-  return json({ url: session.url, orderId });
+  // the success page's receipt: it asks /api/checkout/status/ with it whether the order was paid
+  const receipt = { session: session.sessionId, total: order.total, sig: signReceipt(config.key, orderId, order.total, session.sessionId) };
+  return json({ url: session.url, orderId, receipt });
 }
 
 function orderLog(orderId: string, sessionId: string, order: PricedOrder) {

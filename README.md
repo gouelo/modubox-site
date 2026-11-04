@@ -250,6 +250,23 @@ PINUK10=10%;SALE500=500
 
 ---
 
+## Google Tag Manager ואירועים
+
+‏מכולת GTM: `GTM-MB2W45D` (בקובץ `src/lib/analytics.ts`). היא נטענת **רק באתר הייצור ב־Vercel** (`VERCEL_ENV=production`), לא בתצוגות מקדימות ולא ב־GitHub Pages. משתנה הסביבה `NEXT_PUBLIC_GTM_ID` גובר עליה: מזהה מכולה אחר, או `off` כדי לכבות.
+
+‏האירועים שנשלחים ל־dataLayer (בשמות של GA4, בלי שם, טלפון או מייל של לקוח):
+
+| אירוע | מתי | פרמטרים |
+|---|---|---|
+| `whatsapp_click` | לחיצה על כל קישור וואטסאפ | `link_url` (בלי טקסט ההודעה), `link_text` |
+| `phone_click` | לחיצה על כל קישור טלפון | `link_url` (`tel:…`), `link_text` |
+| `generate_lead` | שליחת טופס יצירת קשר, או הזמנה בלי תשלום אונליין | `form_name` (`contact` / `order`), `item_name` (מוצר, אם יש), `currency` ו־`value` (בהזמנה) |
+| `add_to_cart` | הוספה לסל | `ecommerce: {currency: "ILS", value, items}` |
+| `begin_checkout` | כניסה לקופה עם סל | `ecommerce: {currency: "ILS", value, items}` |
+| `purchase` | עמוד ההצלחה, רק אחרי שהשרת אימת מול Z-Credit שההזמנה שולמה; פעם אחת להזמנה | `ecommerce: {transaction_id, currency: "ILS", value, coupon?, items}` |
+
+‏`items`: ‏`item_id` (ה־slug), ‏`item_name`, ‏`item_category`, ‏`price` (מוצר + תוספות, ליחידה), ‏`quantity`. ‏`value` כולל הובלה והתקנה שמשולמות באתר, וברכישה הוא הסכום ששולם בפועל (אחרי קופון).
+
 ## אנגלית (/en/)
 
 האתר בעברית נשאר בכתובות הרגילות; האנגלית נמצאת תחת `/en/` עם אותם דפים בדיוק. הכפתור בכותרת (דגל) עובר לאותו דף בשפה השנייה.

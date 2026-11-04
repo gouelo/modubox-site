@@ -1,6 +1,7 @@
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { trackAddToCart } from "./analytics";
 import type { CartDesign, CartItem, FulfillmentId, Selections } from "./types";
 
 interface CartState {
@@ -22,11 +23,11 @@ export const useCart = create<CartState>()(
       items: [],
       lastAdded: 0,
       coupon: undefined,
-      add: (slug, selections, fulfillment, design) =>
-        set((s) => ({
-          items: [...s.items, { id: Math.random().toString(36).slice(2, 10), slug, qty: 1, selections, fulfillment, ...(design ? { design } : {}) }],
-          lastAdded: Date.now(),
-        })),
+      add: (slug, selections, fulfillment, design) => {
+        const item: CartItem = { id: Math.random().toString(36).slice(2, 10), slug, qty: 1, selections, fulfillment, ...(design ? { design } : {}) };
+        set((s) => ({ items: [...s.items, item], lastAdded: Date.now() }));
+        trackAddToCart(item);
+      },
       update: (id, patch) => set((s) => ({ items: s.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) })),
       remove: (id) => set((s) => ({ items: s.items.filter((i) => i.id !== id) })),
       clear: () => set({ items: [], coupon: undefined }),

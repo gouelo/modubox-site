@@ -1,11 +1,12 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CouponBox } from "@/components/CouponBox";
 import { Icon } from "@/components/Icon";
 import { lp } from "@/i18n";
 import { useLocale, useT } from "@/i18n/client";
+import { CURRENCY, ecommerce, gaItems, savePending, track } from "@/lib/analytics";
 import { useCart } from "@/lib/cart-store";
 import { catalog } from "@/lib/catalog";
 import { checkoutRequest, MAX_INSTALLMENTS } from "@/lib/checkout";
@@ -72,6 +73,14 @@ export function CheckoutFlow() {
   const [paying, setPaying] = useState(false);
   const [payError, setPayError] = useState("");
 
+  // begin_checkout: once per visit to the checkout, when the saved cart is loaded
+  const began = useRef(false);
+  useEffect(() => {
+    if (!hydrated || began.current || cart.lines.length === 0) return;
+    began.current = true;
+    track({ event: "begin_checkout", ecommerce: ecommerce(cart) });
+  }, [hydrated, cart]);
+
   useEffect(() => {
     if (step !== 2 || payment !== "checking") return;
     let live = true;
@@ -127,6 +136,8 @@ export function CheckoutFlow() {
 
   const placeOrder = async () => {
     const id = newOrderId();
+    // an order without online payment: a lead for the business (no customer details here)
+    track({ event: "generate_lead", form_name: "order", currency: CURRENCY, value: toPay });
     const message = orderMessage(cart, customer, id, locale);
     if (site.leadFormEndpoint) {
       try {
@@ -150,8 +161,10 @@ export function CheckoutFlow() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(checkoutRequest(items, customer, installments, locale, discount?.code)),
       });
-      const j = (await res.json().catch(() => ({}))) as { url?: string; error?: string; coupon?: { error: string } };
+      const j = (await res.json().catch(() => ({}))) as { url?: string; orderId?: string; receipt?: { session: string; total: number; sig: string }; error?: string; coupon?: { error: string } };
       if (res.ok && j.url) {
+        // for the purchase event on the success page, once the server confirms the payment
+        if (j.orderId && j.receipt) savePending({ order: j.orderId, ...j.receipt, coupon: discount?.code, items: gaItems(cart) });
         window.location.assign(j.url);
         return;
       }
