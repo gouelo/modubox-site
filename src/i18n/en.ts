@@ -259,6 +259,7 @@ export const en: Dict = {
     chooseAddons: "Choose extras and add to cart",
     spec: "Specifications",
     specNote: "Delivery & installation are chosen in the cart",
+    invoiceNote: "The tax invoice is handed over at installation",
     terms: "Terms",
     warranty: "Warranty",
     approx: "* Approximate dimensions – to be confirmed with the factory",
@@ -426,7 +427,7 @@ export const en: Dict = {
     fields: {
       name: "Full name *",
       phone: "Phone *",
-      email: "Email (for your invoice)",
+      email: "Email (for your order confirmation)",
       city: "City / town *",
       address: "Street and number *",
       notes: "Installation notes",
@@ -446,6 +447,7 @@ export const en: Dict = {
     installments: "Number of payments",
     installmentsOption: (n: number, amount: string) => (n === 1 ? `One payment · ${amount}` : `${n} payments of about ${amount}`),
     secureNote: "Payment is made on Z-Credit’s secure page; your card details never pass through us.",
+    invoiceNote: "The tax invoice will be handed to you as a paper copy on installation day.",
     pay: (price: string) => `Pay securely · ${price}`,
     paying: "Taking you to the payment page…",
     checking: "Loading payment options…",
@@ -460,7 +462,9 @@ export const en: Dict = {
 
   payment: {
     successTitle: "Payment received, thank you!",
-    successText: "Your order is confirmed. A Modubox representative will be in touch soon to arrange delivery and installation.",
+    successText: "We received your order, thank you!",
+    nextTitle: "What happens next?",
+    next: ["In the coming days we’ll contact you to coordinate delivery and installation.", "The tax invoice will be handed to you as a paper copy on installation day."],
     orderNo: "Order number",
     failedTitle: "Payment not completed",
     cancelledTitle: "Payment cancelled",

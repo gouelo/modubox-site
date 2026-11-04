@@ -55,7 +55,8 @@ Cancellations are handled under the Israeli Consumer Protection Law, 5741-1981, 
 ## Payment
 
 - You can pay in up to 12 installments.
-- Payment on the site goes through a secure payment provider (TODO: connect Cardcom / Tranzila / Grow). Until online payment is connected, a representative will get back to you to complete the payment.
+- Payment on the site is made on Z-Credit's secure payment page. We don't store card details.
+- After payment, an order confirmation is sent by email. The tax invoice is handed to the customer as a paper copy on installation day.
 
 ## Privacy
 

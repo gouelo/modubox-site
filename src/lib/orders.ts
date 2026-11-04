@@ -155,11 +155,12 @@ export async function getOrder(db: Db, id: string): Promise<FullOrder | null> {
 }
 
 /**
- * Emails the business about a paid order, once. The order is claimed first
+ * Sends the emails about a paid order, once. The order is claimed first
  * (notified_at), so a callback and the success page at the same moment send
- * one email; a failed send is released for the next try.
+ * one; when `send` throws, the claim is released for the next try. `send`
+ * answers what to write in the order's history (default: the business email).
  */
-export async function notifyPaidOrder(db: Db, id: string, send: (o: FullOrder) => Promise<void>, now = new Date()): Promise<"sent" | "already" | "failed"> {
+export async function notifyPaidOrder(db: Db, id: string, send: (o: FullOrder) => Promise<string[] | void>, now = new Date()): Promise<"sent" | "already" | "failed"> {
   const [claimed] = await db
     .update(orders)
     .set({ notifiedAt: now })
@@ -169,8 +170,8 @@ export async function notifyPaidOrder(db: Db, id: string, send: (o: FullOrder) =
   try {
     const full = await getOrder(db, id);
     if (!full) throw new Error("order not found");
-    await send(full);
-    await db.insert(orderEvents).values({ orderId: id, kind: "email", text: "נשלח מייל לעסק על ההזמנה", at: now });
+    const sent = (await send(full)) ?? ["נשלח מייל לעסק על ההזמנה"];
+    if (sent.length) await db.insert(orderEvents).values(sent.map((text) => ({ orderId: id, kind: "email" as const, text, at: now })));
     return "sent";
   } catch (e) {
     console.error("[orders] order email failed", { id, error: String(e) });

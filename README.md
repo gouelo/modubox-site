@@ -254,7 +254,7 @@ PINUK10=10%;SALE500=500
 
 הזמנות, לקוחות, סטטוסים, מועדי אספקה, הערות וייצוא לאקסל, בכתובת `/admin` באתר ב־Vercel (לא ב־GitHub Pages). כל הזמנה נשמרת במסד נתונים כשהלקוח עובר לתשלום, ומסומנת כשולמה רק אחרי אימות מול Z-Credit. על כל הזמנה ששולמה נשלח מייל לעסק.
 
-מה צריך ב־Vercel: מסד נתונים Neon (**Storage → Create Database → Neon**), ומשתני הסביבה `ADMIN_PASSWORD`, `RESEND_API_KEY` ו־`ORDER_EMAIL_TO`. בלי `ADMIN_PASSWORD` הממשק נעול. האפיון המלא וההוראות: [docs/admin-spec.md](docs/admin-spec.md).
+מה צריך ב־Vercel: מסד נתונים Neon (**Storage → Create Database → Neon**), ומשתני הסביבה `ADMIN_PASSWORD`, `RESEND_API_KEY` ו־`ORDER_EMAIL_TO`. מייל אישור הזמנה ללקוח יוצא רק אחרי אימות דומיין ב־Resend והגדרת `MAIL_FROM`. בלי `ADMIN_PASSWORD` הממשק נעול. האפיון המלא וההוראות: [docs/admin-spec.md](docs/admin-spec.md).
 
 ---
 
