@@ -150,7 +150,9 @@ export function QtyCard({ addon, qty, onChange }: { addon: Addon; qty: number; o
   );
 }
 
-function ChoicePrice({ c }: { c: AddonChoice }) {
+function ChoicePrice({ c, gift = false }: { c: AddonChoice; gift?: boolean }) {
+  const t = useT();
+  if (gift && c.price) return <span className="shrink-0 text-sm font-extrabold text-copper-deep">{t.gift.free}</span>;
   return <PriceTag price={c.price} className="shrink-0" />;
 }
 
@@ -182,8 +184,9 @@ function AreaPrice({ addon }: { addon: Addon }) {
   );
 }
 
-/** Pick one: colour swatches, or a list of options. */
-export function ChoiceGroup({ addon, value, onChange }: { addon: Addon; value: string; onChange: (id: string) => void }) {
+/** Pick one: colour swatches, or a list of options. `gift`: the promotion makes it free (the WPC floor from 6 m²). */
+export function ChoiceGroup({ addon, value, onChange, gift = false }: { addon: Addon; value: string; onChange: (id: string) => void; gift?: boolean }) {
+  const t = useT();
   const choices = addon.choices ?? [];
   const swatches = choices.some((c) => c.swatch) && choices.every((c) => c.swatch || c.id === addon.default);
   return (
@@ -193,7 +196,13 @@ export function ChoiceGroup({ addon, value, onChange }: { addon: Addon; value: s
         <div className="min-w-0 flex-1">
           <p className="font-bold leading-snug">{addon.name}</p>
           {addon.description && <p className="mt-1 text-sm leading-6 text-ink-soft">{addon.description}</p>}
-          <AreaPrice addon={addon} />
+          {gift ? (
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-copper-tint px-3 py-1 text-sm font-bold text-copper-deep ring-1 ring-copper/30">
+              <Icon name="gift" className="size-4 shrink-0" /> {t.gift.floorFree}
+            </p>
+          ) : (
+            <AreaPrice addon={addon} />
+          )}
         </div>
       </div>
       {swatches ? (
@@ -215,7 +224,7 @@ export function ChoiceGroup({ addon, value, onChange }: { addon: Addon; value: s
                 </span>
                 <span className="text-start">
                   <span className="block font-bold">{c.label}</span>
-                  <ChoicePrice c={c} />
+                  <ChoicePrice c={c} gift={gift} />
                 </span>
               </button>
             );
@@ -240,7 +249,7 @@ export function ChoiceGroup({ addon, value, onChange }: { addon: Addon; value: s
                 </span>
                 <span className={`relative flex-1 ${on ? "font-bold" : "font-medium"}`}>{c.label}</span>
                 <span className="relative">
-                  <ChoicePrice c={c} />
+                  <ChoicePrice c={c} gift={gift} />
                 </span>
               </button>
             );

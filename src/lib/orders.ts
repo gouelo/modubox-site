@@ -55,7 +55,7 @@ export function orderRows(orderId: string, sessionId: string, order: PricedOrder
       basePrice: l.product.price,
       unitTotal: l.quote.total,
       itemsTotal: l.itemsTotal,
-      addons: l.quote.lines.slice(1).map((x) => ({ label: plain(x.label), qty: x.qty, unitPrice: x.unitPrice, total: x.total })),
+      addons: l.quote.lines.slice(1).map((x) => ({ label: plain(x.label), qty: x.qty, unitPrice: x.unitPrice, total: x.total, ...(x.gift ? { gift: true } : {}) })),
       fulfillment: l.fulfillment.id,
       fulfillmentLabel: plain(l.fulfillment.label),
       fulfillmentPrice: l.fulfillment.price,

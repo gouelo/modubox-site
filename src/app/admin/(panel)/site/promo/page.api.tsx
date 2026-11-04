@@ -17,7 +17,7 @@ export default async function PromoPage() {
   const p = saved ?? filePromo();
   return (
     <>
-      <PageTitle title="מבצע החודש" sub="הפס בדף הבית מתחת לתמונה הראשית. אחרי תאריך הסיום הוא נעלם לבד." />
+      <PageTitle title="מבצע החודש" sub="הפס בדף הבית מתחת לתמונה הראשית. אחרי תאריך הסיום הוא נעלם לבד. מתנות המבצע בעגלה (כוננית / רצפת פרקט) מוגדרות בקובץ data/promo-gifts.json." />
       <div className="card p-4 sm:p-5">
         <ActionForm action={savePromoAction} submit="שמירה">
           <div className="grid gap-5">

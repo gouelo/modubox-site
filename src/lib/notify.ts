@@ -80,7 +80,7 @@ export function orderEmail({ order: o, items }: FullOrder, adminUrl: string) {
   const lines = items.map((i) => ({
     title: `${i.productName}${i.qty > 1 ? ` ×${i.qty}` : ""} – ${ils(i.itemsTotal)}`,
     details: [
-      ...i.addons.map((a) => `${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
+      ...i.addons.map((a) => `${a.gift ? "🎁 " : ""}${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
       `${i.fulfillmentLabel}${i.fulfillmentPrice ? `: ${ils(i.fulfillmentTotal)}${i.payToInstaller ? " (למתקין)" : ""}` : ""}`,
       ...(i.designLink ? [`עיצוב בקונפיגורטור: ${i.designLink}`] : []),
     ],
@@ -139,7 +139,7 @@ export function customerOrderEmail({ order: o, items }: FullOrder, origin: strin
     title: `${i.productName}${i.qty > 1 ? ` ×${i.qty}` : ""}`,
     price: ils(i.itemsTotal),
     details: [
-      ...i.addons.map((a) => `${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
+      ...i.addons.map((a) => `${a.gift ? "🎁 " : ""}${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
       ...(i.designLink ? ["עוצב בקונפיגורטור התלת־ממדי"] : []),
     ],
     fulfillment: `${i.fulfillmentLabel}: ${

@@ -175,7 +175,31 @@ export const en: Dict = {
     pauseMotion: "Stop the photo's motion",
   },
 
-  promo: { validUntil: (date: string) => `Valid until ${date}` },
+  promo: {
+    validUntil: (date: string) => `Valid until ${date}`,
+    gifts: {
+      below: (n: number) => `Under ${n} m²`,
+      upTo: (n: number) => `Up to ${n} m²`,
+      from: (n: number) => `${n} m² and up`,
+      above: (n: number) => `Over ${n} m²`,
+      gift: (name: string) => `Free ${name}`,
+      anyColour: "in the colour of your choice",
+      fine: (from: string, to: string) => `*Valid ${from}–${to}, while stocks last. Errors and omissions excepted.`,
+      imageAlt: "Two Modubox sheds in a garden: a room with a glass door beside parquet boards in three colours, and a tool shed with an Everest 5-shelf unit",
+    },
+  },
+
+  gift: {
+    line: (name: string) => `Gift: ${name}`,
+    pick: (name: string) => `Gift: ${name} – choose a colour`,
+    picked: (name: string, colour: string) => `Gift: ${name} – ${colour}`,
+    free: "Free",
+    colourFor: (product: string) => `Parquet floor colour (gift) – ${product}`,
+    chooseColour: "Choose your floor colour",
+    needColour: "Choose a colour for your free parquet floor, so we know what to prepare.",
+    floorFree: "On offer: the parquet floor is free with this shed. Just pick a colour.",
+    earned: (name: string) => `On offer: a free ${name} with this shed`,
+  },
 
   motion: { pause: "Pause motion", play: "Play motion" },
 

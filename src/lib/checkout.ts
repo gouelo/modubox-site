@@ -190,7 +190,7 @@ export function priceCart(body: unknown, { coupons = new Map(), today = israelTo
     items.push(item);
   }
 
-  const cart = summarizeCart(items, locale);
+  const cart = summarizeCart(items, locale, today);
   if (cart.lines.length === 0) return { ok: false, error: "empty_cart" };
   if (cart.hasOnRequest) return { ok: false, error: "price_on_request" };
   if (!(cart.total > 0)) return { ok: false, error: "empty_cart" };
@@ -227,7 +227,9 @@ export function paymentItems(order: PricedOrder, imageUrl?: (product: Product) =
   const out: PaymentItem[] = [];
   for (const l of order.cart.lines) {
     const name = plain(l.product.name);
-    const extras = l.quote.lines.slice(1).map((x) => plain(x.label) + (x.qty > 1 ? ` ×${x.qty}` : ""));
+    // the promotion's gift first, so the factory sees it even if the description is cut short
+    const rest = l.quote.lines.slice(1);
+    const extras = [...rest.filter((x) => x.gift), ...rest.filter((x) => !x.gift)].map((x) => plain(x.label) + (x.qty > 1 ? ` ×${x.qty}` : ""));
     const image = imageUrl?.(l.product);
     out.push({
       Amount: l.quote.total,

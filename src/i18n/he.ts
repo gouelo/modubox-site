@@ -184,7 +184,31 @@ export const he = {
     pauseMotion: "עצירת התנועה של התמונה",
   },
 
-  promo: { validUntil: (date: string) => `בתוקף עד ${date}` },
+  promo: {
+    validUntil: (date: string) => `בתוקף עד ${date}`,
+    gifts: {
+      below: (n: number) => `מתחת ל־${n} מ"ר`,
+      upTo: (n: number) => `עד ${n} מ"ר`,
+      from: (n: number) => `מ־${n} מ"ר ומעלה`,
+      above: (n: number) => `מעל ${n} מ"ר`,
+      gift: (name: string) => `${name} מתנה`,
+      anyColour: "בצבע לבחירתכם",
+      fine: (from: string, to: string) => `*המבצע תקף בתאריכים ${from}–${to} | ט.ל.ח`,
+      imageAlt: "שני מחסני מודובוקס בחצר: חדר עם דלת זכוכית ולידו לוחות פרקט בשלושה צבעים, ומחסן כלים עם כוננית אוורסט 5 מדפים",
+    },
+  },
+
+  gift: {
+    line: (name: string) => `מתנה: ${name}`,
+    pick: (name: string) => `מתנה: ${name} – בחרו צבע`,
+    picked: (name: string, colour: string) => `מתנה: ${name} – ${colour}`,
+    free: "מתנה",
+    colourFor: (product: string) => `צבע רצפת הפרקט (מתנה) – ${product}`,
+    chooseColour: "בחרו את צבע הרצפה",
+    needColour: "בחרו צבע לרצפת הפרקט שבמתנה, כדי שנדע מה להכין.",
+    floorFree: "במבצע: רצפת הפרקט מתנה למחסן הזה. בוחרים רק צבע.",
+    earned: (name: string) => `במבצע: ${name} מתנה עם המחסן הזה`,
+  },
 
   motion: { pause: "עצירת התנועה", play: "הפעלת התנועה" },
 

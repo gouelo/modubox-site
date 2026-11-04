@@ -100,6 +100,8 @@ export interface ItemAddon {
   /** null: price on request */
   unitPrice: number | null;
   total: number | null;
+  /** the promotion's gift (₪0), e.g. "מתנה: רצפת פרקט WPC – אפור (6 מ"ר)" */
+  gift?: boolean;
 }
 
 export const orderItems = pgTable(

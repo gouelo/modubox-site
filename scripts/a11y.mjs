@@ -13,7 +13,9 @@ import { chromium } from "playwright-core";
 
 const OUT = path.resolve("out");
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const PAGES = ["/", "/shop/", "/product/modubox-3x2/", "/product/modubox-6x3/", "/product/toilet-1x1/", "/gallery/", "/faq/", "/about/", "/contact/", "/terms/", "/warranty/", "/accessibility/", "/cart/", "/checkout/", "/no-such-page/"];
+const PAGES = ["/", "/shop/", "/product/modubox-3x2/", "/product/modubox-6x3/", "/product/toilet-1x1/", "/gallery/", "/faq/", "/about/", "/contact/", "/terms/", "/warranty/", "/accessibility/", "/cart/", "/cart/?filled", "/checkout/", "/no-such-page/"];
+// "?filled": the cart with sheds in it (a small and a large one, so the promotion's gifts and the floor colour picker show while they run)
+const FILLED = { state: { items: [{ id: "a11y1", slug: "modubox-2x2", qty: 1, selections: {}, fulfillment: "deliveryAndInstallation" }, { id: "a11y2", slug: "modubox-3x2", qty: 1, selections: { "wpc-floor": "teak" }, fulfillment: "deliveryAndInstallation" }, { id: "a11y3", slug: "modubox-4x3", qty: 1, selections: {}, fulfillment: "deliveryAndInstallation" }], coupon: undefined }, version: 3 };
 const WIDTHS = [390, 1440];
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".json": "application/json", ".txt": "text/plain", ".woff2": "font/woff2", ".mp4": "video/mp4", ".xml": "application/xml" };
 
@@ -54,6 +56,10 @@ for (const width of WIDTHS) {
     for (const p of PAGES) {
       const url = `${origin}${locale === "en" ? (p === "/" ? "/en/" : `/en${p}`) : p}`;
       await page.goto(url, { waitUntil: "networkidle" });
+      if (p.endsWith("?filled")) {
+        await page.evaluate((cart) => localStorage.setItem("modubox-cart", JSON.stringify(cart)), FILLED);
+        await page.reload({ waitUntil: "networkidle" });
+      }
       // scroll through, so everything that fades in on scroll is in
       await page.evaluate(async () => {
         for (let y = 0; y < document.body.scrollHeight; y += 500) {
@@ -65,6 +71,7 @@ for (const width of WIDTHS) {
       // 1.5s: the floating 3D button comes in 1.2s after load
       await page.waitForTimeout(1500);
       const { violations } = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+      if (p.endsWith("?filled")) await page.evaluate(() => localStorage.removeItem("modubox-cart"));
       const label = `${width}px ${url.replace(origin, "") || "/"}`;
       if (!violations.length) {
         console.log(`ok    ${label}`);

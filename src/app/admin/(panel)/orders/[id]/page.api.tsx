@@ -169,9 +169,10 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
                 <ul className="mt-1 space-y-0.5 text-sm text-ink-soft">
                   <li>מחיר בסיס: {ils(i.basePrice)}</li>
                   {i.addons.map((a, n) => (
-                    <li key={n}>
-                      + {a.label}
-                      {a.qty > 1 ? ` ×${a.qty}` : ""}: {a.total === null ? <span className="text-copper-deep">מחיר בתיאום</span> : ils(a.total)}
+                    <li key={n} className={a.gift ? "font-bold text-brand-dark" : undefined}>
+                      {a.gift ? "🎁 " : "+ "}
+                      {a.label}
+                      {a.qty > 1 ? ` ×${a.qty}` : ""}: {a.gift ? "מתנת המבצע (₪0)" : a.total === null ? <span className="text-copper-deep">מחיר בתיאום</span> : ils(a.total)}
                     </li>
                   ))}
                   <li>
