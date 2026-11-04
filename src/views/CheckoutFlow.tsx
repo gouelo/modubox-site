@@ -291,6 +291,7 @@ export function CheckoutFlow() {
                   )}
                   {payment === "online" && cart.hasOnRequest && <p className="mt-5 rounded-2xl bg-white p-4 text-sm font-semibold text-brand-dark" role="status">{k.onRequest}</p>}
                   {payment === "offline" && <p className="mt-5 rounded-2xl bg-white p-4 text-sm text-ink-soft" role="status">{k.unavailable}</p>}
+                  <p className="mt-3 text-sm text-ink-soft">{k.invoiceNote}</p>
                 </div>
                 {payError && <p className="rounded-2xl bg-red-50 p-4 text-sm font-semibold text-red-700" role="alert">{payError}</p>}
                 <div className="flex gap-3">

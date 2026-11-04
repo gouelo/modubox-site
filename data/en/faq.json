@@ -94,7 +94,11 @@
         },
         {
           "q": "How do I pay? Can I pay in installments?",
-          "a": "Yes, up to 12 payments. After you order on the site, a representative will contact you to coordinate and complete payment. You can also order directly on WhatsApp or by phone."
+          "a": "Yes, up to 12 payments. You pay on the site by credit card, Apple Pay or Google Pay, on Z-Credit's secure page. You can also order directly on WhatsApp or by phone."
+        },
+        {
+          "q": "When do I get the invoice?",
+          "a": "After you pay, we email you an order confirmation. The tax invoice is handed to you as a paper copy on installation day."
         },
         {
           "q": "Can I cancel my order?",

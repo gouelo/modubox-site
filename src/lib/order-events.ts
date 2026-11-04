@@ -1,7 +1,7 @@
 import { getDb } from "@/db";
 import type { PricedOrder } from "./checkout";
-import { emailConfig, orderEmail, sendEmail } from "./notify";
-import { notifyPaidOrder, recordPayment, saveNewOrder, type Payment } from "./orders";
+import { customerEmailConfig, customerOrderEmail, emailConfig, orderEmail, sendEmail } from "./notify";
+import { notifyPaidOrder, recordPayment, saveNewOrder, type FullOrder, type Payment } from "./orders";
 
 /**
  * What the checkout routes do with orders, in one place: save the new order,
@@ -31,9 +31,32 @@ export async function orderPaid(p: Payment, origin: string): Promise<void> {
   const { newlyPaid } = await recordPayment(db, p);
   if (newlyPaid) console.info("[orders] order marked paid", { orderId: p.orderId });
   const email = emailConfig();
-  if (!email) return;
+  if (!email && !process.env.RESEND_API_KEY?.trim()) return;
   await notifyPaidOrder(db, p.orderId, async (full) => {
-    const msg = orderEmail(full, `${origin}/admin/orders/${encodeURIComponent(p.orderId)}/`);
-    await sendEmail(email, { ...msg, replyTo: full.order.customerEmail ?? undefined });
+    const sent: string[] = [];
+    // the business first: if it fails, the claim is released and both go on the next try
+    if (email) {
+      const msg = orderEmail(full, `${origin}/admin/orders/${encodeURIComponent(p.orderId)}/`);
+      await sendEmail(email, { ...msg, replyTo: full.order.customerEmail ?? undefined });
+      sent.push("נשלח מייל לעסק על ההזמנה");
+    }
+    if (await sendCustomerEmail(full, origin)) sent.push("נשלח מייל אישור הזמנה ללקוח");
+    return sent;
   });
+}
+
+/** The customer's confirmation: never throws, so it never holds up the callback or resends the business email. */
+async function sendCustomerEmail(full: FullOrder, origin: string): Promise<boolean> {
+  const c = customerEmailConfig(full);
+  if (!c.ok) {
+    console.info("[orders] customer email skipped", { orderId: full.order.id, reason: c.reason });
+    return false;
+  }
+  try {
+    await sendEmail(c.config, { ...customerOrderEmail(full, origin), replyTo: c.replyTo });
+    return true;
+  } catch (e) {
+    console.error("[orders] customer email failed", { orderId: full.order.id, error: String(e) });
+    return false;
+  }
 }

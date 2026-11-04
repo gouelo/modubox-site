@@ -146,7 +146,7 @@ export function ProductPage({ locale, slug }: { locale: Locale; slug: string }) 
         <div>
           <h2 className="text-3xl font-extrabold">{tp.spec}</h2>
           <p className="mt-2 text-ink-soft">
-            <Icon name="truck" className="me-1 inline size-4 align-[-2px] text-brand-dark" /> {tp.specNote} ·{" "}
+            <Icon name="truck" className="me-1 inline size-4 align-[-2px] text-brand-dark" /> {tp.specNote} · {tp.invoiceNote} ·{" "}
             <Link href={lp(locale, "/terms/")} className="underline">
               {tp.terms}
             </Link>{" "}
