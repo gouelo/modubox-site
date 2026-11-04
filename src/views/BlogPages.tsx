@@ -3,7 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { dict } from "@/i18n";
-import { allPosts, getPost, hebrewDate, imageSize, readingMinutes, type PostMeta } from "@/lib/blog";
+import { notFound } from "next/navigation";
+import { coverUrl, findPost, hebrewDate, imageSize, listPosts, readingMinutes, type PostMeta } from "@/lib/blog";
 import { catalog, site } from "@/lib/catalog";
 import { Markdown } from "@/lib/markdown";
 import { waLink } from "@/lib/whatsapp";
@@ -24,10 +25,10 @@ export function blogIndexMeta(): Metadata {
   };
 }
 
-export function postMeta(slug: string): Metadata {
-  const p = getPost(slug);
+export async function postMeta(slug: string): Promise<Metadata> {
+  const p = await findPost(slug);
   if (!p) return {};
-  const image = p.cover ? url(`/_img/${p.cover.replace(/\.\w+$/, "")}-1600.webp`) : undefined;
+  const image = p.cover ? coverUrl(p.cover, site.url) : undefined;
   return {
     title: p.seoTitle,
     description: p.description,
@@ -45,7 +46,7 @@ export function postMeta(slug: string): Metadata {
   };
 }
 
-export const postParams = () => allPosts().map((p) => ({ slug: p.slug }));
+export const postParams = async () => (await listPosts()).map((p) => ({ slug: p.slug }));
 
 function PostCard({ p, small = false }: { p: PostMeta; small?: boolean }) {
   return (
@@ -64,9 +65,9 @@ function PostCard({ p, small = false }: { p: PostMeta; small?: boolean }) {
   );
 }
 
-export function BlogIndex() {
+export async function BlogIndex() {
   const b = t();
-  const posts = allPosts();
+  const posts = await listPosts();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",
@@ -95,11 +96,12 @@ export function BlogIndex() {
   );
 }
 
-export function BlogPost({ slug }: { slug: string }) {
+export async function BlogPost({ slug }: { slug: string }) {
   const b = t();
-  const p = getPost(slug)!;
+  const p = await findPost(slug);
+  if (!p) notFound();
   const s = catalog("he").site;
-  const more = allPosts().filter((x) => x.slug !== p.slug).slice(0, 3);
+  const more = (await listPosts()).filter((x) => x.slug !== p.slug).slice(0, 3);
   const minutes = readingMinutes(p.body);
   const org = { "@type": "Organization", name: dict("he").meta.siteName, url: site.url };
   const jsonLd = [
@@ -113,7 +115,7 @@ export function BlogPost({ slug }: { slug: string }) {
       inLanguage: "he",
       mainEntityOfPage: url(postPath(p.slug)),
       url: url(postPath(p.slug)),
-      ...(p.cover ? { image: url(`/_img/${p.cover.replace(/\.\w+$/, "")}-1600.webp`) } : {}),
+      ...(p.cover ? { image: coverUrl(p.cover, site.url) } : {}),
       author: org,
       publisher: { ...org, logo: { "@type": "ImageObject", url: url("/brand/apple-touch-icon.png") } },
       articleSection: p.categories,
@@ -180,9 +182,9 @@ export function BlogPost({ slug }: { slug: string }) {
 }
 
 /** A small "from the blog" strip: three recent posts, text only. */
-export function BlogStrip() {
+export async function BlogStrip() {
   const b = t();
-  const posts = allPosts().slice(0, 3);
+  const posts = (await listPosts()).slice(0, 3);
   return (
     <section className="container-x mt-16 sm:mt-24" aria-labelledby="from-blog">
       <div className="flex items-end justify-between gap-4 border-t border-line pt-8">

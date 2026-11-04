@@ -138,8 +138,8 @@ describe("the hidden test product", () => {
     expect(productPath(getProduct(TEST_SLUG)!)).toBe(`/p/${TEST_SLUG}/`);
   });
 
-  it("is in no list: catalog, sitemap or configurator", () => {
+  it("is in no list: catalog, sitemap or configurator", async () => {
     for (const locale of ["he", "en"] as const) expect(catalog(locale).products.some((p) => p.slug === TEST_SLUG)).toBe(false);
-    expect(sitemap().some((e) => e.url.includes(TEST_SLUG))).toBe(false);
+    expect((await sitemap()).some((e) => e.url.includes(TEST_SLUG))).toBe(false);
   });
 });

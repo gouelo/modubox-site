@@ -16,6 +16,7 @@ export async function getSession(): Promise<AdminSession | null> {
 export async function requireAdmin(permission?: Permission): Promise<AdminSession> {
   const s = await getSession();
   if (!s) redirect("/admin/login/");
-  if (permission && !can(s, permission)) redirect("/admin/");
+  // someone without it goes to their own start page (the content role: the content module)
+  if (permission && !can(s, permission)) redirect(can(s, "orders") ? "/admin/" : "/admin/content/");
   return s;
 }

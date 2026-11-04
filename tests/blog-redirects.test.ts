@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import { describe, expect, it } from "vitest";
 import redirects from "../data/redirects.json";
-import { allPosts, imageSize, parsePost } from "@/lib/blog";
+import { filePosts, imageSize, parsePost } from "@/lib/blog";
 import { products } from "@/lib/catalog";
 import { consentState } from "@/lib/consent";
 
 describe("blog", () => {
-  const posts = allPosts();
+  const posts = filePosts();
   it("has all 22 migrated posts, newest first, each complete", () => {
     expect(posts).toHaveLength(22);
     for (const p of posts) {
@@ -35,7 +35,7 @@ describe("blog", () => {
 describe("redirects from the old site", () => {
   const sources = redirects.map((r) => r.source);
   const pages = new Set(["/", "/shop/", "/gallery/", "/faq/", "/about/", "/contact/", "/terms/", "/warranty/", "/accessibility/", "/privacy/", "/cart/", "/blog/"]);
-  const slugs = new Set(allPosts().map((p) => p.slug));
+  const slugs = new Set(filePosts().map((p) => p.slug));
   it("no source twice, every one permanent to a page that exists", () => {
     expect(new Set(sources).size).toBe(sources.length);
     for (const r of redirects) {

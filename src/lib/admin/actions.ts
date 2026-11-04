@@ -14,6 +14,8 @@ import { isStatus } from "./status";
 export interface ActionState {
   ok?: boolean;
   error?: string;
+  /** shown on success */
+  message?: string;
 }
 
 export async function loginAction(_: ActionState, form: FormData): Promise<ActionState> {
