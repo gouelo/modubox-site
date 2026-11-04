@@ -122,7 +122,7 @@ describe("coupons in the server's pricing", () => {
     const req = buildCreateSession({ key: "k", terminal: "t" }, r.order, "1", "https://x.co");
     expect(req.CartItems.reduce((s, x) => s + x.Amount * x.Quantity, 0)).toBe(6390);
     expect(new URL(req.CallbackUrl).searchParams.get("total")).toBe("6390");
-    expect(req.AdditionalText).toContain("SALE500");
+    expect(req.AdditionalText).toBe("Order 1 coupon SALE500 minus 500");
   });
 });
 

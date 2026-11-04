@@ -167,7 +167,7 @@ describe("buildCreateSession", () => {
   it("charges the server's total and passes the customer", () => {
     expect(req.CartItems.reduce((s, x) => s + x.Amount * x.Quantity, 0)).toBe(5990 + 900);
     expect(req.Customer).toEqual({ Name: customer.name, PhoneNumber: customer.phone, Email: customer.email });
-    expect(req.AdditionalText).toContain("#261104123456");
+    expect(req.AdditionalText).toBe("Order 261104123456");
     expect(req.CartItems[0].Image).toMatch(/^https:\/\/modubox\.com\/_img\/.+-480\.webp$/);
   });
 });
