@@ -8,6 +8,7 @@ const LINKS: { href: string; label: string; icon: string; perm: Permission }[] =
   { href: "/admin/", perm: "orders", label: "ראשי", icon: "M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-8.5Z" },
   { href: "/admin/orders/", perm: "orders", label: "הזמנות", icon: "M6 3h12a1 1 0 0 1 1 1v17l-3-2-3 2-3-2-3 2-3-2V4a1 1 0 0 1 1-1Zm3 5h6m-6 4h6m-6 4h4" },
   { href: "/admin/customers/", perm: "customers", label: "לקוחות", icon: "M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1m6.5-9a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM21 19v-1a4 4 0 0 0-3-3.87M15 3.13a3.5 3.5 0 0 1 0 6.74" },
+  { href: "/admin/catalog/", perm: "catalog", label: "קטלוג", icon: "M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Zm0 0 8 4.5m0 0 8-4.5M12 12v9" },
   { href: "/admin/content/", perm: "content", label: "תוכן", icon: "M4 5h16M4 10h16M4 15h10M4 20h7m9-4-4 4-2-2" },
 ];
 

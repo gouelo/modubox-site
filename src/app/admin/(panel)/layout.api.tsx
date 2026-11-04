@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 /** Every admin page but the sign-in: the session checked again here, the top bar and the navigation. */
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const session = await requireAdmin();
-  const perms = (["orders", "customers", "export", "content"] as Permission[]).filter((p) => can(session, p));
+  const perms = (["orders", "customers", "export", "content", "catalog"] as Permission[]).filter((p) => can(session, p));
   return (
     <div className="min-h-dvh pb-24 md:pb-10">
       <header className="sticky top-0 z-30 bg-petrol text-white shadow-soft">

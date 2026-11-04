@@ -234,3 +234,32 @@ export type PageSeo = typeof pageSeo.$inferSelect;
 export type FaqBlock = typeof faqBlocks.$inferSelect;
 export type PostRow = typeof posts.$inferSelect;
 export type RedirectRow = typeof redirects.$inferSelect;
+
+/*
+ * Catalog editing (/admin/catalog). Each row is a change to a product or an
+ * add-on in data/ (or a new product), kept as a draft until it is published:
+ * the build reads only `published` (scripts/catalog-sync.mjs) and bakes it
+ * into the site, so the cart, the pages and the server's checkout pricing all
+ * use the same prices. A row's JSON holds only the fields it changes.
+ */
+export const catalogProducts = pgTable("catalog_products", {
+  slug: text("slug").primaryKey(),
+  /** a new product: the product it was copied from (it is listed after it) */
+  copiedFrom: text("copied_from"),
+  draft: jsonb("draft").$type<Record<string, unknown>>().notNull(),
+  /** null: never published */
+  published: jsonb("published").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  publishedAt: timestamp("published_at", { withTimezone: true }),
+});
+
+export const catalogAddons = pgTable("catalog_addons", {
+  id: text("id").primaryKey(),
+  draft: jsonb("draft").$type<Record<string, unknown>>().notNull(),
+  published: jsonb("published").$type<Record<string, unknown>>(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  publishedAt: timestamp("published_at", { withTimezone: true }),
+});
+
+export type CatalogProductRow = typeof catalogProducts.$inferSelect;
+export type CatalogAddonRow = typeof catalogAddons.$inferSelect;
