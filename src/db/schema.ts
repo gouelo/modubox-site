@@ -350,12 +350,37 @@ export const leads = pgTable(
     attribution: jsonb("attribution").$type<LeadAttribution>().notNull().default(sql`'{}'::jsonb`),
     /** when the business was emailed about it; null: not (yet) */
     emailedAt: timestamp("emailed_at", { withTimezone: true }),
-    /** for the admin's leads tab: "new" until someone handles it (the values are the admin's to define) */
-    status: text("status").notNull().default("new"),
-    /** the admin's internal notes (never shown to the customer) */
+    /** for the admin's leads tab: "new" until someone handles it (LEAD_STATUSES) */
+    status: text("status").$type<LeadStatus>().notNull().default("new"),
+    /** the latest internal note (never shown to the customer); every note is in lead_events */
     notes: text("notes"),
   },
   (t) => [index("leads_created_at_idx").on(t.createdAt)],
 );
 
 export type Lead = typeof leads.$inferSelect;
+
+/** Where the admin is with a lead (src/lib/admin/leads.ts). */
+export const LEAD_STATUSES = ["new", "in_progress", "handled", "not_relevant"] as const;
+export type LeadStatus = (typeof LEAD_STATUSES)[number];
+
+/** A lead's history in the admin: status changes and internal notes. */
+export const leadEvents = pgTable(
+  "lead_events",
+  {
+    id: serial("id").primaryKey(),
+    leadId: integer("lead_id")
+      .notNull()
+      .references(() => leads.id, { onDelete: "cascade" }),
+    at: timestamp("at", { withTimezone: true }).notNull().defaultNow(),
+    kind: text("kind").$type<"status" | "note">().notNull(),
+    fromStatus: text("from_status").$type<LeadStatus>(),
+    toStatus: text("to_status").$type<LeadStatus>(),
+    text: text("text"),
+    /** "admin", later a user's name */
+    actor: text("actor").notNull().default("admin"),
+  },
+  (t) => [index("lead_events_lead_id_idx").on(t.leadId, t.at)],
+);
+
+export type LeadEvent = typeof leadEvents.$inferSelect;

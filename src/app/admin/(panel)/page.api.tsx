@@ -5,6 +5,8 @@ import { Empty, ils, NoDatabase, OrderCard, PageTitle } from "@/components/admin
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
 import { dashboard, firstProducts } from "@/lib/admin/queries";
+import { countNewLeads } from "@/lib/admin/leads";
+import { can } from "@/lib/admin/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -28,19 +30,20 @@ function Stat({ label, value, sub, href, tone = "" }: { label: string; value: st
 }
 
 export default async function DashboardPage() {
-  await requireAdmin("orders");
+  const session = await requireAdmin("orders");
   const db = getDb();
   if (!db) return <NoDatabase />;
   const d = await dashboard(db);
-  const [products, origin] = await Promise.all([firstProducts(db, d.abandonedRecent.map((o) => o.id)), requestOrigin()]);
+  const [products, origin, newLeads] = await Promise.all([firstProducts(db, d.abandonedRecent.map((o) => o.id)), requestOrigin(), can(session, "leads") ? countNewLeads(db) : null]);
   const orders = (n: number) => (n === 1 ? "הזמנה אחת" : `${n} הזמנות`);
   return (
     <>
       <PageTitle title="שלום 👋" sub="מה קורה בחנות היום" />
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="מכירות היום" value={ils(d.today.amount)} sub={orders(d.today.orders)} />
         <Stat label="מכירות החודש" value={ils(d.month.amount)} sub={orders(d.month.orders)} />
         <Stat label="הזמנות חדשות" value={String(d.newOrders)} sub="ב־7 הימים האחרונים" href="/admin/orders/?view=new" tone={d.newOrders ? "text-copper-deep" : ""} />
+        {newLeads !== null ? <Stat label="לידים חדשים" value={String(newLeads)} sub="עוד לא טופלו" href="/admin/leads/?status=new" tone={newLeads ? "text-copper-deep" : ""} /> : null}
       </div>
 
       {d.abandoned > 0 ? (
