@@ -17,6 +17,9 @@ import type { CartSummary } from "./pricing";
  *                     (without it: the products only)
  *
  * Codes are not case sensitive. An entry that can't be read is skipped.
+ *
+ * The admin's coupons (/admin/coupons, table coupons) come on top of these:
+ * src/lib/coupon-store.ts merges both, and a code in the admin wins.
  */
 
 export interface Coupon {
@@ -30,6 +33,8 @@ export interface Coupon {
   until?: string;
   /** also discounts delivery and installation */
   delivery: boolean;
+  /** reached its number of uses (an admin coupon with a limit): no longer valid */
+  usedUp?: boolean;
 }
 
 export type CouponMap = Map<string, Coupon>;
@@ -85,7 +90,8 @@ export type CouponResult = { ok: true; coupon: AppliedCoupon } | { ok: false; er
 export function applyCoupon(code: string, coupons: CouponMap, cart: CartSummary, today = israelToday()): CouponResult {
   const c = coupons.get(normalizeCode(code));
   if (!c) return { ok: false, error: "unknown" };
-  if (c.until && today > c.until) return { ok: false, error: "expired" };
+  // a coupon used up reads as expired to the customer
+  if ((c.until && today > c.until) || c.usedUp) return { ok: false, error: "expired" };
   if (c.min && cart.total < c.min) return { ok: false, error: "min_order", min: c.min };
   const base = c.delivery ? cart.total : cart.itemsTotal;
   const raw = c.kind === "percent" ? Math.round((base * c.value) / 100) : Math.round(c.value);

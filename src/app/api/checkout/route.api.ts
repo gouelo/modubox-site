@@ -1,6 +1,6 @@
 import { newOrderId, priceCheckout, type PricedOrder } from "@/lib/checkout";
 import { persistNewOrder } from "@/lib/order-events";
-import { parseCoupons } from "@/lib/coupons";
+import { activeCoupons } from "@/lib/coupon-store";
 import { buildCreateSession, createSession, signReceipt, zcreditConfig } from "@/lib/zcredit";
 
 // Z-Credit checkout: GET says whether online payment is on, POST starts a payment.
@@ -33,8 +33,8 @@ export async function POST(req: Request) {
     return json({ error: "invalid_request" }, 400);
   }
 
-  // coupon codes live in the MODUBOX_COUPONS env var, never in the (public) repo
-  const priced = priceCheckout(body, { coupons: parseCoupons(process.env.MODUBOX_COUPONS) });
+  // coupon codes live in the admin (table coupons) and the MODUBOX_COUPONS env var, never in the (public) repo
+  const priced = priceCheckout(body, { coupons: await activeCoupons() });
   if (!priced.ok) return json({ error: priced.error, ...(priced.coupon ? { coupon: priced.coupon } : {}) }, 400);
   const order = priced.order;
   const orderId = newOrderId();

@@ -3,7 +3,7 @@ import type { Db } from "@/db";
 import { orderEvents, orderItems, orders, type NewOrder, type Order, type OrderEvent, type OrderItem, type OrderStatus } from "@/db/schema";
 import { canTransition } from "./admin/status";
 import { validDate } from "./admin/time";
-import { plain } from "./catalog";
+import { plain, TEST_SLUG } from "./catalog";
 import type { PricedOrder } from "./checkout";
 import type { CallbackData } from "./zcredit";
 
@@ -44,6 +44,8 @@ export function orderRows(orderId: string, sessionId: string, order: PricedOrder
       total: order.total,
       installments: order.installments,
       zcreditSessionId: sessionId || null,
+      marketingConsent: c.marketing === true,
+      isTest: !!TEST_SLUG && order.cart.lines.some((l) => l.product.slug === TEST_SLUG),
     },
     items: order.cart.lines.map((l, i) => ({
       orderId,

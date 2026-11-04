@@ -2,7 +2,9 @@ import Link from "next/link";
 import { getDb } from "@/db";
 import { requireAdmin } from "@/lib/admin/session";
 import { Empty, ils, NoDatabase, OrderCard, PageTitle, Section } from "@/components/admin/ui";
-import { dashboard } from "@/lib/admin/queries";
+import { followUpLink } from "@/lib/admin/follow-up";
+import { requestOrigin } from "@/lib/admin/origin";
+import { dashboard, firstProducts } from "@/lib/admin/queries";
 import { formatDay } from "@/lib/admin/time";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +33,7 @@ export default async function DashboardPage() {
   const db = getDb();
   if (!db) return <NoDatabase />;
   const d = await dashboard(db);
+  const [products, origin] = await Promise.all([firstProducts(db, d.abandonedRecent.map((o) => o.id)), requestOrigin()]);
   const orders = (n: number) => (n === 1 ? "הזמנה אחת" : `${n} הזמנות`);
   return (
     <>
@@ -43,12 +46,19 @@ export default async function DashboardPage() {
       </div>
 
       {d.abandoned > 0 ? (
-        <Link href="/admin/orders/?view=pending_payment" className="mt-3 flex items-center justify-between gap-3 rounded-xl2 border border-copper/30 bg-copper-tint p-4 text-copper-deep">
-          <span className="text-[15px] font-semibold">
-            {d.abandoned === 1 ? "לקוח אחד התחיל לשלם ולא סיים" : `${d.abandoned} לקוחות התחילו לשלם ולא סיימו`} השבוע. שווה להתקשר.
-          </span>
-          <span aria-hidden>←</span>
-        </Link>
+        <section className="mt-3 rounded-xl2 border border-copper/30 bg-copper-tint p-4">
+          <Link href="/admin/orders/?view=pending_payment" className="flex items-center justify-between gap-3 text-copper-deep">
+            <span className="text-[15px] font-semibold">
+              {d.abandoned === 1 ? "לקוח אחד התחיל לשלם ולא סיים" : `${d.abandoned} לקוחות התחילו לשלם ולא סיימו`} השבוע. שווה לפנות.
+            </span>
+            <span aria-hidden>←</span>
+          </Link>
+          <ul className="mt-3 space-y-2">
+            {d.abandonedRecent.map((o) => (
+              <OrderCard key={o.id} o={o} followUp={followUpLink(o, products.get(o.id), origin)} />
+            ))}
+          </ul>
+        </section>
       ) : null}
 
       <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">

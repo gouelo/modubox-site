@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { AdminNav } from "@/components/admin/AdminNav";
 import { logoutAction } from "@/lib/admin/actions";
-import { can, type Permission } from "@/lib/admin/auth";
+import { ALL_PERMISSIONS, can } from "@/lib/admin/auth";
 import { requireAdmin } from "@/lib/admin/session";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 /** Every admin page but the sign-in: the session checked again here, the top bar and the navigation. */
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const session = await requireAdmin();
-  const perms = (["orders", "customers", "export", "content", "catalog"] as Permission[]).filter((p) => can(session, p));
+  const perms = ALL_PERMISSIONS.filter((p) => can(session, p));
   return (
     <div className="min-h-dvh pb-24 md:pb-10">
       <header className="sticky top-0 z-30 bg-petrol text-white shadow-soft">

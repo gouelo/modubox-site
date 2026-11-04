@@ -15,6 +15,9 @@ import { boolean, index, integer, jsonb, pgTable, serial, text, timestamp, uniqu
  * Money is whole shekels, as everywhere on the site.
  */
 
+export const ORDER_SOURCES = ["phone", "whatsapp", "other"] as const;
+export type OrderSource = (typeof ORDER_SOURCES)[number];
+
 /** An order's line of work, from "waiting for payment" to completed (src/lib/admin/status.ts). */
 export const ORDER_STATUSES = ["pending_payment", "new", "confirmed", "in_production", "scheduled", "completed", "cancelled", "refunded"] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
@@ -71,6 +74,15 @@ export const orders = pgTable(
     notifiedAt: timestamp("notified_at", { withTimezone: true }),
     /** made from the payment alone (the order wasn't saved at checkout): no cart details */
     partial: boolean("partial").notNull().default(false),
+
+    /** where the order came from: null the site's checkout; "phone", "whatsapp" or "other" for one entered in the admin */
+    source: text("source").$type<OrderSource>(),
+    /** how a manual order is paid: "transfer", "cash", "zcredit_link", "other" (null: online at checkout) */
+    payment: text("payment"),
+    /** the customer agreed to get marketing messages (the checkout's checkbox); null: not asked (older orders) */
+    marketingConsent: boolean("marketing_consent"),
+    /** a payment test (the hidden 1 ₪ product): never counted in sales */
+    isTest: boolean("is_test").notNull().default(false),
   },
   (t) => [
     index("orders_created_at_idx").on(t.createdAt),
@@ -263,3 +275,32 @@ export const catalogAddons = pgTable("catalog_addons", {
 
 export type CatalogProductRow = typeof catalogProducts.$inferSelect;
 export type CatalogAddonRow = typeof catalogAddons.$inferSelect;
+
+/**
+ * Coupon codes (/admin/coupons). A row with the code of one in the
+ * MODUBOX_COUPONS env var replaces it (enabled=false turns it off); the env
+ * var's other codes keep working, as before the admin had coupons. Read on
+ * the server at checkout only, never baked into the site.
+ */
+export const coupons = pgTable("coupons", {
+  /** upper case, as normalizeCode() makes it */
+  code: text("code").primaryKey(),
+  /** "percent" | "fixed" */
+  kind: text("kind").$type<"percent" | "fixed">().notNull(),
+  /** percent (1–100) or shekels */
+  value: integer("value").notNull(),
+  /** order total it needs, in shekels */
+  minTotal: integer("min_total"),
+  /** last valid day, YYYY-MM-DD, Israel time */
+  until: text("until"),
+  /** also discounts delivery and installation */
+  delivery: boolean("delivery").notNull().default(false),
+  /** paid orders it can be used on; null: no limit */
+  maxUses: integer("max_uses"),
+  enabled: boolean("enabled").notNull().default(true),
+  note: text("note"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type CouponRow = typeof coupons.$inferSelect;

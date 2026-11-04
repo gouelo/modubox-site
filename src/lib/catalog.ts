@@ -213,12 +213,14 @@ export function getProduct(slug: string, locale: Locale = "he"): Product | undef
  * The hidden 1 ₪ test product (data/test-product.json), for a real card charge
  * from a phone. It is not in catalog().products, so no list, sitemap, search or
  * configurator shows it: only getProduct finds it (the cart, the server's
- * pricing), and only its own page /p/<slug>/ links to it. enabled: false hides it.
+ * pricing), and only its own page /p/<slug>/ links to it. enabled: false hides
+ * it; the admin's switch (/admin/catalog/test/) is baked in over that.
  */
-export const TEST_SLUG = testFile.enabled ? testFile.product.slug : "";
+export const TEST_ENABLED = overrides.testProduct?.enabled ?? testFile.enabled;
+export const TEST_SLUG = TEST_ENABLED ? testFile.product.slug : "";
 
 export function testProduct(locale: Locale = "he"): Product | undefined {
-  if (!testFile.enabled) return undefined;
+  if (!TEST_ENABLED) return undefined;
   const p = { ...(testFile.product as unknown as Product), locale };
   return locale === "he" ? p : { ...p, name: testFile.en.name, shortDescription: testFile.en.shortDescription };
 }

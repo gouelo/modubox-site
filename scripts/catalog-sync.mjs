@@ -3,7 +3,8 @@
 // data/catalog-overrides.json before `next build`, so the pages, the cart in
 // the browser and the server's checkout pricing all read the same prices
 // (src/lib/catalog.ts applies the file on top of data/products.json and
-// data/addons.json).
+// data/addons.json), and the admin's test-product switch (site_settings
+// "test_product").
 //
 // On Vercel with a database only (after scripts/migrate.mjs). If the database
 // can't be read, the build fails and Vercel keeps the previous deployment live:
@@ -27,14 +28,18 @@ if (!url || !enabled) {
   try {
     const products = await client.query("select slug, copied_from, published from catalog_products where published is not null order by slug");
     const addons = await client.query("select id, published from catalog_addons where published is not null order by id");
+    // the admin's switch for the hidden 1 ₪ test product
+    const test = await client.query("select value from site_settings where key = 'test_product'");
+    const testProduct = test.rows[0] && typeof test.rows[0].value?.enabled === "boolean" ? { enabled: test.rows[0].value.enabled } : undefined;
     const out = {
       _readme: JSON.parse(fs.readFileSync(FILE, "utf8"))._readme,
       generatedAt: new Date().toISOString(),
       products: Object.fromEntries(products.rows.map((r) => [r.slug, { ...r.published, ...(r.copied_from ? { copiedFrom: r.copied_from } : {}) }])),
       addons: Object.fromEntries(addons.rows.map((r) => [r.id, r.published])),
+      ...(testProduct ? { testProduct } : {}),
     };
     fs.writeFileSync(FILE, JSON.stringify(out, null, 2) + "\n");
-    console.log(`[catalog] ${products.rows.length} product and ${addons.rows.length} add-on changes baked in`);
+    console.log(`[catalog] ${products.rows.length} product and ${addons.rows.length} add-on changes baked in${testProduct ? `; test product ${testProduct.enabled ? "on" : "off"}` : ""}`);
   } finally {
     await client.end();
   }

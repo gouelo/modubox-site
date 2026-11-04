@@ -6,6 +6,7 @@ import { getDb } from "@/db";
 import type { AddonPatch, ProductPatch } from "../catalog-overrides";
 import type { ActionState } from "./actions";
 import { copyProduct, discardAddonDraft, discardProductDraft, fileAddons, publishDrafts, saveAddonDraft, saveProductDraft, triggerDeploy } from "./catalog";
+import { saveSetting } from "./content";
 import { requireAdmin } from "./session";
 
 /** The catalog's server actions (owner only). Saving keeps a draft; publishing builds the site with the drafts. */
@@ -129,5 +130,19 @@ export async function publishAction(_: ActionState): Promise<ActionState> {
     if (deploy === "started") return { ok: true, message: `${what}האתר נבנה עכשיו עם השינויים: בעוד 2–3 דקות הם באוויר.` };
     if (deploy === "no_hook") return { ok: true, message: `${what}הם יעלו לאתר בפריסה הבאה. כדי שזה יקרה מיד בלחיצה: צריך להגדיר Deploy Hook ב־Vercel (VERCEL_DEPLOY_HOOK_URL).` };
     return { error: `${what}השינויים נשמרו לפרסום, אבל הפעלת הבנייה ב־Vercel נכשלה. נסו שוב, או Redeploy ב־Vercel.` };
+  });
+}
+
+/** The hidden 1 ₪ test product, on or off: saved, then the site is built with it (it is in the cart's code). */
+export async function testProductAction(_: ActionState, form: FormData): Promise<ActionState> {
+  return guarded(async (db) => {
+    const enabled = str(form, "enabled") === "on";
+    await saveSetting(db, "test_product", { enabled });
+    const deploy = await triggerDeploy();
+    revalidatePath("/admin/catalog", "layout");
+    const what = enabled ? "מוצר הבדיקה יופעל" : "מוצר הבדיקה ייכבה";
+    if (deploy === "started") return { ok: true, message: `${what} בעוד 2–3 דקות, כשהאתר ייבנה מחדש.` };
+    if (deploy === "no_hook") return { ok: true, message: `נשמר. ${what} בפריסה הבאה (אין עדיין Deploy Hook, VERCEL_DEPLOY_HOOK_URL).` };
+    return { error: "נשמר, אבל הפעלת הבנייה ב־Vercel נכשלה. נסו שוב, או Redeploy ב־Vercel." };
   });
 }

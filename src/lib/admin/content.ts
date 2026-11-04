@@ -210,7 +210,7 @@ export async function importRedirects(db: Db): Promise<number> {
   return added.length;
 }
 
-export async function saveSetting(db: Db, key: "business" | "llms" | "crawlers", value: unknown): Promise<void> {
+export async function saveSetting(db: Db, key: "business" | "llms" | "crawlers" | "test_product", value: unknown): Promise<void> {
   await db
     .insert(siteSettings)
     .values({ key, value })

@@ -105,6 +105,8 @@ export interface Dashboard {
   inProgress: number;
   /** started paying in the last 7 days and didn't finish: worth a call */
   abandoned: number;
+  /** the latest of them, with what they ordered (the WhatsApp follow-up) */
+  abandonedRecent: Order[];
   upcoming: Order[];
   recent: Order[];
 }
@@ -113,7 +115,7 @@ async function sales(db: Db, since: Date) {
   const [r] = await db
     .select({ amount: sum(orders.total), orders: count() })
     .from(orders)
-    .where(and(isNotNull(orders.paidAt), gte(orders.paidAt, since), inArray(orders.status, SALE_STATUSES)));
+    .where(and(isNotNull(orders.paidAt), gte(orders.paidAt, since), inArray(orders.status, SALE_STATUSES), eq(orders.isTest, false)));
   return { amount: Number(r?.amount ?? 0), orders: Number(r?.orders ?? 0) };
 }
 
@@ -121,12 +123,14 @@ export async function dashboard(db: Db, now = new Date()): Promise<Dashboard> {
   const today = israelDate(now);
   const weekAgo = new Date(now.getTime() - 7 * 86_400_000);
   const countWhere = async (w: SQL | undefined) => Number((await db.select({ n: count() }).from(orders).where(w))[0]?.n ?? 0);
-  const [t, m, newOrders, inProgress, abandoned, upcoming, recent] = await Promise.all([
+  const abandonedWhere = and(eq(orders.status, "pending_payment"), gte(orders.createdAt, weekAgo), eq(orders.isTest, false));
+  const [t, m, newOrders, inProgress, abandoned, abandonedRecent, upcoming, recent] = await Promise.all([
     sales(db, israelDayStart(today)),
     sales(db, israelDayStart(`${today.slice(0, 8)}01`)),
     countWhere(eq(orders.status, "new")),
     countWhere(inArray(orders.status, ["confirmed", "in_production", "scheduled"])),
-    countWhere(and(eq(orders.status, "pending_payment"), gte(orders.createdAt, weekAgo))),
+    countWhere(abandonedWhere),
+    db.select().from(orders).where(abandonedWhere).orderBy(desc(orders.createdAt)).limit(3),
     db
       .select()
       .from(orders)
@@ -135,7 +139,7 @@ export async function dashboard(db: Db, now = new Date()): Promise<Dashboard> {
       .limit(5),
     db.select().from(orders).where(ne(orders.status, "pending_payment")).orderBy(desc(orders.createdAt)).limit(6),
   ]);
-  return { today: t, month: m, newOrders, inProgress, abandoned, upcoming, recent };
+  return { today: t, month: m, newOrders, inProgress, abandoned, abandonedRecent, upcoming, recent };
 }
 
 export interface Customer {
@@ -160,8 +164,9 @@ export async function listCustomers(db: Db, q = "", limit = 200): Promise<Custom
   const search = q
     ? or(ilike(orders.customerName, like), ilike(orders.customerEmail, like), ilike(orders.city, like), ...(digits.length >= 3 ? [ilike(orders.customerKey, `%${digits}%`)] : []))
     : undefined;
-  const paid = sql<number>`count(*) filter (where ${inArray(orders.status, SALE_STATUSES)})`;
-  const spent = sql<number>`coalesce(sum(${orders.total}) filter (where ${inArray(orders.status, SALE_STATUSES)}), 0)`;
+  const sale = and(inArray(orders.status, SALE_STATUSES), eq(orders.isTest, false));
+  const paid = sql<number>`count(*) filter (where ${sale})`;
+  const spent = sql<number>`coalesce(sum(${orders.total}) filter (where ${sale}), 0)`;
   const groups = await db
     .select({ key: orders.customerKey, orders: paid, spent, lastOrderAt: max(orders.createdAt) })
     .from(orders)
@@ -201,4 +206,21 @@ export async function getCustomer(db: Db, key: string): Promise<{ customer: Cust
     },
     orders: rows,
   };
+}
+
+/** Each order's first product (slug and name), for the abandoned-checkout follow-up. */
+export async function firstProducts(db: Db, ids: string[]): Promise<Map<string, { slug: string; name: string; more: number }>> {
+  if (!ids.length) return new Map();
+  const items = await db
+    .select({ orderId: orderItems.orderId, slug: orderItems.productSlug, name: orderItems.productName })
+    .from(orderItems)
+    .where(inArray(orderItems.orderId, ids))
+    .orderBy(asc(orderItems.orderId), asc(orderItems.position));
+  const out = new Map<string, { slug: string; name: string; more: number }>();
+  for (const i of items) {
+    const had = out.get(i.orderId);
+    if (had) had.more++;
+    else out.set(i.orderId, { slug: i.slug, name: i.name, more: 0 });
+  }
+  return out;
 }

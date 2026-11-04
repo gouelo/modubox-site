@@ -25,6 +25,9 @@ export default async function CatalogLayout({ children }: { children: React.Reac
         <Link href="/admin/catalog/addons/" className="rounded-full bg-white px-4 py-2 text-sm font-bold ring-1 ring-line hover:ring-ink/40">
           תוספות
         </Link>
+        <Link href="/admin/catalog/test/" className="rounded-full bg-white px-4 py-2 text-sm font-bold ring-1 ring-line hover:ring-ink/40">
+          מוצר בדיקה
+        </Link>
       </nav>
       {drafts || building ? (
         <section className="card mb-5 border-amber-300 bg-amber-50/60 p-4">

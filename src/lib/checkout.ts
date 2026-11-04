@@ -107,6 +107,7 @@ function readCustomer(x: unknown, locale: Locale): Customer | null {
     city: str(x.city, 60),
     address: str(x.address, 120),
     notes: str(x.notes, 500),
+    marketing: x.marketing === true,
   };
   if (c.name.length < 2 || !validPhone(c.phone, locale) || !c.city || !c.address) return null;
   if (c.email && !/^\S+@\S+\.\S+$/.test(c.email)) return null;

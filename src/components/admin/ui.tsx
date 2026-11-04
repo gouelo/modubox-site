@@ -54,29 +54,37 @@ export function Empty({ children }: { children: ReactNode }) {
   return <div className="rounded-xl2 border border-dashed border-line bg-white/60 p-8 text-center text-ink-soft">{children}</div>;
 }
 
-/** An order in a list: who, how much, what state. The whole card opens it. */
-export function OrderCard({ o }: { o: Order }) {
+/** An order in a list: who, how much, what state. The whole card opens it; `followUp` (a wa.me link) adds a WhatsApp button under it. */
+export function OrderCard({ o, followUp }: { o: Order; followUp?: string }) {
+  const card = (
+    <Link href={`/admin/orders/${o.id}/`} className={`card flex items-center gap-3 p-4 transition hover:border-brand/40 hover:shadow-lift active:scale-[0.99] ${followUp ? "rounded-b-none" : ""}`}>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <span className="truncate text-[15px] font-bold">{o.customerName}</span>
+          {o.partial ? <span className="text-xs text-copper-deep">(פרטים חלקיים)</span> : null}
+          {o.isTest ? <span className="rounded-full bg-sand px-2 py-0.5 text-xs font-bold text-ink-soft">בדיקה</span> : null}
+        </div>
+        <div className="mt-0.5 truncate text-sm text-ink-soft">
+          #{o.id} · <bdi>{formatDateTime(o.createdAt)}</bdi>
+          {o.city ? ` · ${o.city}` : ""}
+        </div>
+        {o.scheduledFor && o.status === "scheduled" ? <div className="mt-1 text-sm font-semibold text-brand-dark">אספקה: {o.scheduledFor.split("-").reverse().join(".")}</div> : null}
+      </div>
+      <div className="flex flex-col items-end gap-1.5">
+        <span className="text-[15px] font-extrabold" dir="ltr">
+          {ils(o.total)}
+        </span>
+        <StatusBadge status={o.status} />
+      </div>
+    </Link>
+  );
+  if (!followUp) return <li>{card}</li>;
   return (
     <li>
-      <Link href={`/admin/orders/${o.id}/`} className="card flex items-center gap-3 p-4 transition hover:border-brand/40 hover:shadow-lift active:scale-[0.99]">
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <span className="truncate text-[15px] font-bold">{o.customerName}</span>
-            {o.partial ? <span className="text-xs text-copper-deep">(פרטים חלקיים)</span> : null}
-          </div>
-          <div className="mt-0.5 truncate text-sm text-ink-soft">
-            #{o.id} · <bdi>{formatDateTime(o.createdAt)}</bdi>
-            {o.city ? ` · ${o.city}` : ""}
-          </div>
-          {o.scheduledFor && o.status === "scheduled" ? <div className="mt-1 text-sm font-semibold text-brand-dark">אספקה: {o.scheduledFor.split("-").reverse().join(".")}</div> : null}
-        </div>
-        <div className="flex flex-col items-end gap-1.5">
-          <span className="text-[15px] font-extrabold" dir="ltr">
-            {ils(o.total)}
-          </span>
-          <StatusBadge status={o.status} />
-        </div>
-      </Link>
+      {card}
+      <a href={followUp} target="_blank" rel="noopener" className="btn-wa min-h-11 w-full justify-center rounded-t-none text-sm">
+        <span aria-hidden>💬</span> הודעת המשך בוואטסאפ
+      </a>
     </li>
   );
 }
