@@ -155,6 +155,21 @@ export const orderEvents = pgTable(
   (t) => [index("order_events_order_id_idx").on(t.orderId, t.at)],
 );
 
+/**
+ * Orders deleted in the admin, by id: a late Z-Credit callback for one of them
+ * is acknowledged and never makes it again (src/lib/orders.ts recordPayment).
+ */
+export const deletedOrders = pgTable("deleted_orders", {
+  id: text("id").primaryKey(),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).notNull().defaultNow(),
+  actor: text("actor").notNull().default("admin"),
+  /** what it was, for the record */
+  customerName: text("customer_name"),
+  total: integer("total"),
+  status: text("status"),
+  paid: boolean("paid").notNull().default(false),
+});
+
 export type Order = typeof orders.$inferSelect;
 export type NewOrder = typeof orders.$inferInsert;
 export type OrderItem = typeof orderItems.$inferSelect;
