@@ -2,55 +2,57 @@
 import { useState } from "react";
 import { useLocale, useT } from "@/i18n/client";
 import { track } from "@/lib/analytics";
-import { catalog } from "@/lib/catalog";
+import { sendLead } from "@/lib/attribution";
+import { validPhone } from "@/lib/phone";
 import { waLink } from "@/lib/whatsapp";
 import { Icon } from "./Icon";
 
 /**
- * Contact form. If data/site.json has a "leadFormEndpoint" (e.g. Formspree, Make, Zapier),
- * the lead is sent there. Otherwise it opens WhatsApp with the details filled in.
+ * Contact form: POST /api/lead saves the lead and emails it to the business.
+ * If that fails (or on the GitHub Pages copy, which has no server), the
+ * customer gets a WhatsApp button with the details filled in.
  */
 export function LeadForm({ product, dark = false }: { product?: string; dark?: boolean }) {
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [fallback, setFallback] = useState("");
   const locale = useLocale();
   const t = useT();
   const l = t.lead;
   const w = t.whatsapp.lead;
-  const site = catalog(locale).site;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
-    const phone = data.phone.replace(/[\s()-]/g, "");
-    // an Israeli number; on the English site also a number from abroad (+44…)
-    const ok = /^0\d{1,2}\d{7}$/.test(phone.replace(/^\+?972/, "0")) || (locale === "en" && /^\+\d{8,15}$/.test(phone));
-    if (!ok) {
+    if (data.name.trim().length < 2) {
+      setError(l.badName);
+      return;
+    }
+    if (!validPhone(data.phone, locale)) {
       setError(l.badPhone);
       return;
     }
+    if (data.email && !/^\S+@\S+\.\S+$/.test(data.email.trim())) {
+      setError(l.badEmail);
+      return;
+    }
     setError("");
-    track({ event: "generate_lead", form_name: "contact", ...(product ? { item_name: product } : {}) });
+    setFallback("");
+    setBusy(true);
+    const result = await sendLead({ ...data, kind: product ? "product" : "contact", locale, product });
+    setBusy(false);
+    if (result === "ok") {
+      // only a lead that reached us counts
+      track({ event: "generate_lead", form_name: "contact", ...(product ? { item_name: product } : {}) });
+      setSent(true);
+      return;
+    }
     const text = [w.title, `${w.name}: ${data.name}`, `${w.phone}: ${data.phone}`, data.city && `${w.city}: ${data.city}`, product && `${w.product}: ${product}`, data.message && `${w.message}: ${data.message}`]
       .filter(Boolean)
       .join("\n");
-    if (site.leadFormEndpoint) {
-      setBusy(true);
-      try {
-        const res = await fetch(site.leadFormEndpoint, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ ...data, product }) });
-        if (!res.ok) throw new Error(String(res.status));
-        setSent(true);
-      } catch {
-        window.open(waLink(text), "_blank", "noopener");
-        setSent(true);
-      } finally {
-        setBusy(false);
-      }
-    } else {
-      window.open(waLink(text), "_blank", "noopener");
-      setSent(true);
-    }
+    setError(result === "rate_limited" ? l.rateLimited : l.failed);
+    setFallback(waLink(text));
   }
 
   if (sent)
@@ -64,7 +66,7 @@ export function LeadForm({ product, dark = false }: { product?: string; dark?: b
 
   const label = `mb-1.5 block text-sm font-bold ${dark ? "text-white/80" : ""}`;
   return (
-    <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2" noValidate>
+    <form onSubmit={onSubmit} className="relative grid gap-4 sm:grid-cols-2" noValidate>
       <label className="sm:col-span-1">
         <span className={label}>{l.name} <span aria-hidden="true">*</span></span>
         <input name="name" required autoComplete="name" className="field" placeholder={l.namePh} />
@@ -73,15 +75,31 @@ export function LeadForm({ product, dark = false }: { product?: string; dark?: b
         <span className={label}>{l.phone} <span aria-hidden="true">*</span></span>
         <input name="phone" required type="tel" inputMode="tel" autoComplete="tel" className="field" placeholder="050-0000000" dir="ltr" aria-invalid={!!error || undefined} aria-describedby={error ? "lead-error" : undefined} />
       </label>
-      <label className="sm:col-span-2">
+      <label>
+        <span className={label}>{l.email}</span>
+        <input name="email" type="email" autoComplete="email" className="field" placeholder="name@example.com" dir="ltr" />
+      </label>
+      <label>
         <span className={label}>{l.city}</span>
         <input name="city" autoComplete="address-level2" className="field" placeholder={l.cityPh} />
       </label>
+      {/* honeypot: hidden from people, filled in by bots */}
+      <div aria-hidden="true" className="absolute -start-[9999px] h-px w-px overflow-hidden">
+        <label>
+          Website
+          <input name="website" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
       <label className="sm:col-span-2">
         <span className={label}>{l.message}</span>
         <textarea name="message" rows={3} className="field resize-none" placeholder={l.messagePh} />
       </label>
       {error && <p id="lead-error" className={`text-sm font-bold sm:col-span-2 ${dark ? "text-red-300" : "text-red-700"}`} role="alert">{error}</p>}
+      {fallback && (
+        <a href={fallback} target="_blank" rel="noopener" className="btn-wa w-full sm:col-span-2">
+          <Icon name="whatsapp" /> {l.whatsappInstead}
+        </a>
+      )}
       <button type="submit" disabled={busy} className="btn-brand w-full py-3.5 text-base sm:col-span-2">
         {busy ? l.sending : l.submit}
       </button>

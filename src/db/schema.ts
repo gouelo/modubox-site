@@ -304,3 +304,52 @@ export const coupons = pgTable("coupons", {
 });
 
 export type CouponRow = typeof coupons.$inferSelect;
+/** Where a lead came from: the contact form, a product page, or an order sent without paying online. */
+export const LEAD_KINDS = ["contact", "product", "order"] as const;
+export type LeadKind = (typeof LEAD_KINDS)[number];
+
+/** Ad attribution captured from the landing URL (src/lib/attribution.ts). */
+export interface LeadAttribution {
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
+  gclid?: string;
+  fbclid?: string;
+  /** the first page of the visit, with its query */
+  landing?: string;
+  /** the site the visitor came from */
+  referrer?: string;
+}
+
+/**
+ * Every lead from the site's forms (POST /api/lead): the contact form, and an
+ * order sent without online payment. The business is emailed about each one
+ * (src/lib/leads.ts); /admin/leads lists them.
+ */
+export const leads = pgTable(
+  "leads",
+  {
+    id: serial("id").primaryKey(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    kind: text("kind").$type<LeadKind>().notNull(),
+    locale: text("locale").notNull().default("he"),
+    name: text("name").notNull(),
+    phone: text("phone").notNull(),
+    email: text("email"),
+    city: text("city"),
+    message: text("message"),
+    /** the page the form was sent from, e.g. /contact/ */
+    page: text("page"),
+    product: text("product"),
+    /** an order without online payment: its number */
+    orderId: text("order_id"),
+    attribution: jsonb("attribution").$type<LeadAttribution>().notNull().default(sql`'{}'::jsonb`),
+    /** when the business was emailed about it; null: not (yet) */
+    emailedAt: timestamp("emailed_at", { withTimezone: true }),
+  },
+  (t) => [index("leads_created_at_idx").on(t.createdAt)],
+);
+
+export type Lead = typeof leads.$inferSelect;

@@ -1,5 +1,6 @@
 import site from "../../data/site.json";
 import { he } from "@/i18n/he";
+import type { LeadAttribution } from "@/db/schema";
 import { formatILS } from "./format";
 import { paymentMethodLabel, type FullOrder } from "./orders";
 import { formatDateTime } from "./admin/time";
@@ -222,6 +223,79 @@ ${next.map((s) => `<div style="font-size:15px;line-height:1.6">✓ ${esc(s)}</di
     `טלפון: ${site.phone}`,
     `וואטסאפ: ${whatsapp}`,
     `באתר: ${origin}/`,
+  ].join("\n");
+  return { subject, html, text };
+}
+
+/** Where leads are emailed: LEADS_EMAIL_TO, or else ORDER_EMAIL_TO. */
+export function leadsEmailConfig(env: Record<string, string | undefined> = process.env): EmailConfig | null {
+  const to = env.LEADS_EMAIL_TO?.trim();
+  return emailConfig(to ? { ...env, ORDER_EMAIL_TO: to } : env);
+}
+
+export const LEAD_SOURCES = { contact: "טופס יצירת קשר", product: "שאלה על מוצר", order: "הזמנה בלי תשלום באתר" } as const;
+
+/** The email to the business about a lead: who, what they asked, where from, and buttons to call or WhatsApp them back. */
+export function leadEmail(
+  l: { id: number | null; createdAt: Date; kind: keyof typeof LEAD_SOURCES; name: string; phone: string; email: string | null; city: string | null; message: string | null; page: string | null; product: string | null; orderId: string | null; locale: string; attribution: LeadAttribution },
+  origin: string,
+) {
+  const about = l.product || l.page || LEAD_SOURCES[l.kind];
+  const subject = `ליד חדש מהאתר: ${l.name} · ${about}`;
+  // the number in international form, for tel: and wa.me (an Israeli 05… becomes 9725…)
+  const digits = l.phone.replace(/\D/g, "");
+  const phoneLinks = l.phone.trim().startsWith("+") || digits.startsWith("972") ? digits : `972${digits.replace(/^0/, "")}`;
+  const a = l.attribution;
+  const ads = [
+    a.utm_source && `מקור: ${a.utm_source}${a.utm_medium ? ` / ${a.utm_medium}` : ""}`,
+    a.utm_campaign && `קמפיין: ${a.utm_campaign}`,
+    a.utm_term && `מילת מפתח: ${a.utm_term}`,
+    a.utm_content && `מודעה: ${a.utm_content}`,
+    a.gclid && "Google Ads (gclid)",
+    a.fbclid && "Facebook / Instagram (fbclid)",
+    a.referrer && `הגיע מ: ${a.referrer}`,
+    a.landing && `דף נחיתה: ${a.landing}`,
+  ].filter(Boolean) as string[];
+  const rows: [string, string][] = [
+    ["שם", l.name],
+    ["טלפון", l.phone],
+    ["מייל", l.email ?? ""],
+    ["יישוב", l.city ?? ""],
+    ["מוצר", l.product ?? ""],
+    ["מספר הזמנה", l.orderId ?? ""],
+    ["סוג", LEAD_SOURCES[l.kind] + (l.locale === "en" ? " (האתר באנגלית)" : "")],
+    ["נשלח מהדף", l.page ?? ""],
+    ["תאריך", formatDateTime(l.createdAt)],
+  ];
+  const btn = (href: string, label: string, bg: string, color = "#fff") =>
+    `<a href="${esc(href)}" style="display:inline-block;background:${bg};color:${color};text-decoration:none;font-weight:bold;font-size:16px;padding:12px 22px;border-radius:12px;margin:4px">${esc(label)}</a>`;
+
+  const html = `<!doctype html><html lang="he" dir="rtl"><body style="margin:0;background:#eef3f2;font-family:Arial,Helvetica,sans-serif;color:#0a1517">
+<div style="max-width:560px;margin:0 auto;padding:24px 16px" dir="rtl">
+<div style="background:#0c3036;color:#fff;border-radius:16px 16px 0 0;padding:20px 24px">
+<div style="font-size:13px;color:#5ee3da">Modubox · ${esc(LEAD_SOURCES[l.kind])}</div>
+<div style="font-size:22px;font-weight:bold;margin-top:4px">ליד חדש: ${esc(l.name)}</div></div>
+<div style="background:#fff;border-radius:0 0 16px 16px;padding:20px 24px">
+<div style="text-align:center;margin-bottom:12px">${btn(`tel:+${phoneLinks}`, `התקשרו: ${l.phone}`, "#029f9f")}${btn(`https://wa.me/${phoneLinks}`, "וואטסאפ", "#25d366", "#0a1517")}</div>
+<table style="width:100%;border-collapse:collapse;font-size:15px">${rows
+    .filter(([, v]) => v)
+    .map(([k, v]) => `<tr><td style="padding:6px 0;color:#46575b;white-space:nowrap;vertical-align:top;padding-left:12px">${esc(k)}</td><td style="padding:6px 0;font-weight:bold">${esc(v)}</td></tr>`)
+    .join("")}</table>
+${l.message ? `<div style="border-top:1px solid #dbe3e2;margin:16px 0 8px"></div><div style="font-size:13px;color:#46575b">הודעה</div><div style="font-size:15px;line-height:1.6;white-space:pre-wrap">${esc(l.message)}</div>` : ""}
+${ads.length ? `<div style="border-top:1px solid #dbe3e2;margin:16px 0 8px"></div><div style="font-size:13px;color:#46575b">פרסום ומקור</div>${ads.map((x) => `<div style="font-size:14px;color:#46575b">• ${esc(x)}</div>`).join("")}` : ""}
+<a href="${esc(origin)}/admin/leads/" style="display:block;text-align:center;color:#027a7a;font-size:14px;margin-top:16px">כל הלידים בממשק הניהול</a>
+</div></div></body></html>`;
+
+  const text = [
+    subject,
+    "",
+    ...rows.filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`),
+    ...(l.message ? ["", "הודעה:", l.message] : []),
+    ...(ads.length ? ["", "פרסום ומקור:", ...ads.map((x) => `- ${x}`)] : []),
+    "",
+    `התקשרו: tel:+${phoneLinks}`,
+    `וואטסאפ: https://wa.me/${phoneLinks}`,
+    `כל הלידים: ${origin}/admin/leads/`,
   ].join("\n");
   return { subject, html, text };
 }

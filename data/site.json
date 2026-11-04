@@ -46,7 +46,6 @@
   "installationDays": 21,
   "warrantyYears": 10,
   "maxPayments": 12,
-  "leadFormEndpoint": "",
   "paymentProvider": "TODO: Cardcom / Tranzila / Grow",
   "logo": "/brand/logo.svg",
   "logoWhite": "/brand/logo-white.svg",
