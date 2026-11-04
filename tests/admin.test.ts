@@ -83,3 +83,13 @@ describe("helpers", () => {
     expect(emailConfig({ RESEND_API_KEY: "re_x", ORDER_EMAIL_TO: "a@b.co, c@d.co" })).toEqual({ apiKey: "re_x", to: ["a@b.co", "c@d.co"], from: "Modubox <onboarding@resend.dev>" });
   });
 });
+
+describe("database address", async () => {
+  const { databaseUrl } = await import("../src/db");
+  it("reads Neon's names, with the DATABASE prefix too", () => {
+    expect(databaseUrl({ DATABASE_URL: " postgres://a " })).toBe("postgres://a");
+    expect(databaseUrl({ DATABASE_POSTGRES_URL: "postgres://b" })).toBe("postgres://b");
+    expect(databaseUrl({ POSTGRES_URL: "postgres://c" })).toBe("postgres://c");
+    expect(databaseUrl({})).toBe("");
+  });
+});

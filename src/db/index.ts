@@ -6,13 +6,14 @@ import * as schema from "./schema";
 
 /**
  * The database connection, server code only. Neon from the Vercel Marketplace
- * puts DATABASE_URL (pooled) into the project's environment by itself; the
- * older Vercel Postgres name POSTGRES_URL works too.
+ * puts DATABASE_URL (pooled) into the project's environment by itself. With a
+ * custom prefix the names change (prefix DATABASE: DATABASE_URL stays,
+ * POSTGRES_URL becomes DATABASE_POSTGRES_URL), so those are read too.
  */
 export type Db = PgDatabase<PgQueryResultHKT, typeof schema>;
 
 export function databaseUrl(env: Record<string, string | undefined> = process.env): string {
-  return (env.DATABASE_URL || env.POSTGRES_URL || "").trim();
+  return (env.DATABASE_URL || env.DATABASE_POSTGRES_URL || env.POSTGRES_URL || "").trim();
 }
 
 let cached: Db | null | undefined;

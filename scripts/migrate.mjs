@@ -11,7 +11,9 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import pg from "pg";
 
-const url = (process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL || process.env.POSTGRES_URL || "").trim();
+// the direct (unpooled) connection first; Neon's names, with or without the DATABASE prefix
+const e = process.env;
+const url = (e.DATABASE_URL_UNPOOLED || e.DATABASE_POSTGRES_URL_NON_POOLING || e.POSTGRES_URL_NON_POOLING || e.DATABASE_URL || e.DATABASE_POSTGRES_URL || e.POSTGRES_URL || "").trim();
 const enabled = process.env.VERCEL === "1" || process.env.MIGRATE === "1";
 
 if (!url || !enabled) {
