@@ -2,7 +2,6 @@ import { and, asc, eq, isNull } from "drizzle-orm";
 import type { Db } from "@/db";
 import { orderEvents, orderItems, orders, type NewOrder, type Order, type OrderEvent, type OrderItem, type OrderStatus } from "@/db/schema";
 import { canTransition } from "./admin/status";
-import { validDate } from "./admin/time";
 import { plain, TEST_SLUG } from "./catalog";
 import type { PricedOrder } from "./checkout";
 import type { CallbackData } from "./zcredit";
@@ -188,15 +187,14 @@ export async function notifyPaidOrder(db: Db, id: string, send: (o: FullOrder) =
  */
 export const committed = (o: { paidAt: Date | null; source: string | null }) => !!o.paidAt || !!o.source;
 
-export type ChangeResult = { ok: true } | { ok: false; error: "not_found" | "not_allowed" | "needs_date" | "invalid" };
+export type ChangeResult = { ok: true } | { ok: false; error: "not_found" | "not_allowed" | "invalid" };
 
 /** Moves an order to another status, if the rules allow it (src/lib/admin/status.ts), and keeps it in its history. */
 export async function changeStatus(db: Db, id: string, to: OrderStatus, actor = "admin", now = new Date()): Promise<ChangeResult> {
   return db.transaction(async (tx) => {
     const [row] = await tx.select().from(orders).where(eq(orders.id, id)).for("update");
     if (!row) return { ok: false, error: "not_found" } as const;
-    if (!canTransition(row.status, to, committed(row)) || (to === "refunded" && !row.paidAt)) return { ok: false, error: "not_allowed" } as const;
-    if (to === "scheduled" && !row.scheduledFor) return { ok: false, error: "needs_date" } as const;
+    if (!canTransition(row.status, to, committed(row))) return { ok: false, error: "not_allowed" } as const;
     await tx.update(orders).set({ status: to, updatedAt: now }).where(eq(orders.id, id));
     await tx.insert(orderEvents).values({ orderId: id, kind: "status", fromStatus: row.status, toStatus: to, actor, at: now });
     return { ok: true } as const;
@@ -213,25 +211,3 @@ export async function addNote(db: Db, id: string, text: string, actor = "admin",
   return { ok: true };
 }
 
-/**
- * Sets (or clears) the delivery or installation day. Setting a day on an
- * order still before it moves it to "scheduled", in its history too.
- */
-export async function setSchedule(db: Db, id: string, date: string | null, note: string, actor = "admin", now = new Date()): Promise<ChangeResult> {
-  if (date !== null && !validDate(date)) return { ok: false, error: "invalid" };
-  const scheduleNote = note.trim().slice(0, 200) || null;
-  return db.transaction(async (tx) => {
-    const [row] = await tx.select().from(orders).where(eq(orders.id, id)).for("update");
-    if (!row) return { ok: false, error: "not_found" } as const;
-    if (!committed(row) || row.status === "cancelled" || row.status === "refunded") return { ok: false, error: "not_allowed" } as const;
-    const moveTo: OrderStatus | null = date && ["new", "confirmed", "in_production"].includes(row.status) ? "scheduled" : null;
-    await tx
-      .update(orders)
-      .set({ scheduledFor: date, scheduleNote: date ? scheduleNote : null, updatedAt: now, ...(moveTo ? { status: moveTo } : {}) })
-      .where(eq(orders.id, id));
-    // \u2068…\u2069 keep a time like 08:00–12:00 in its own order inside the Hebrew
-    const text = date ? `נקבע מועד: \u2068${date.split("-").reverse().join(".")}\u2069${scheduleNote ? ` (\u2068${scheduleNote}\u2069)` : ""}` : "המועד בוטל";
-    await tx.insert(orderEvents).values({ orderId: id, kind: "schedule", text, actor, at: now, ...(moveTo ? { fromStatus: row.status, toStatus: moveTo } : {}) });
-    return { ok: true } as const;
-  });
-}

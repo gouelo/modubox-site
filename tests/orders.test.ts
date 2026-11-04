@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import type { Db } from "../src/db";
 import { orders } from "../src/db/schema";
 import { priceCheckout, type PricedOrder } from "../src/lib/checkout";
-import { addNote, changeStatus, customerKey, getOrder, notifyPaidOrder, recordPayment, saveNewOrder, setSchedule } from "../src/lib/orders";
+import { addNote, changeStatus, customerKey, getOrder, notifyPaidOrder, recordPayment, saveNewOrder } from "../src/lib/orders";
 import { dashboard, exportOrders, getCustomer, listCustomers, listOrders, readFilters } from "../src/lib/admin/queries";
 import { ordersCsv } from "../src/lib/admin/csv";
 import { orderEmail } from "../src/lib/notify";
@@ -124,39 +124,33 @@ async function paidOrder(id: string, at = new Date()) {
 }
 
 describe("statuses", () => {
-  it("moves along the line and keeps each move in the history", async () => {
+  it("only new and cancelled, back and forth, each move in the history", async () => {
     await paidOrder("1");
-    expect(await changeStatus(db, "1", "confirmed")).toEqual({ ok: true });
-    expect(await changeStatus(db, "1", "in_production")).toEqual({ ok: true });
-    // back one step, to fix a mistake
-    expect(await changeStatus(db, "1", "confirmed")).toEqual({ ok: true });
+    for (const to of ["confirmed", "in_production", "scheduled", "completed", "refunded"] as const) expect(await changeStatus(db, "1", to)).toEqual({ ok: false, error: "not_allowed" });
+    expect(await changeStatus(db, "1", "cancelled")).toEqual({ ok: true });
+    expect(await changeStatus(db, "1", "new")).toEqual({ ok: true });
     const { order, events } = (await getOrder(db, "1"))!;
-    expect(order.status).toBe("confirmed");
-    expect(events.filter((e) => e.kind === "status").map((e) => `${e.fromStatus}>${e.toStatus}`)).toEqual(["new>confirmed", "confirmed>in_production", "in_production>confirmed"]);
+    expect(order.status).toBe("new");
+    expect(events.filter((e) => e.kind === "status").map((e) => `${e.fromStatus}>${e.toStatus}`)).toEqual(["new>cancelled", "cancelled>new"]);
   });
 
-  it("an unpaid order can't be confirmed, only cancelled", async () => {
+  it("an unpaid order can only be cancelled, and stays cancelled", async () => {
     await saveNewOrder(db, "2", "s", priced());
-    expect(await changeStatus(db, "2", "confirmed")).toEqual({ ok: false, error: "not_allowed" });
-    expect(await changeStatus(db, "2", "refunded")).toEqual({ ok: false, error: "not_allowed" });
+    expect(await changeStatus(db, "2", "new")).toEqual({ ok: false, error: "not_allowed" });
     expect(await changeStatus(db, "2", "cancelled")).toEqual({ ok: true });
+    expect(await changeStatus(db, "2", "new")).toEqual({ ok: false, error: "not_allowed" });
   });
 
-  it("scheduled needs a date; setting a date schedules it", async () => {
+  it("an order left in an old status reads as new and can be cancelled; a refunded one stays final", async () => {
     await paidOrder("3");
-    await changeStatus(db, "3", "confirmed");
-    expect(await changeStatus(db, "3", "scheduled")).toEqual({ ok: false, error: "needs_date" });
-    expect(await setSchedule(db, "3", "2026-11-20", "08:00–12:00")).toEqual({ ok: true });
-    const { order, events } = (await getOrder(db, "3"))!;
-    expect(order).toMatchObject({ status: "scheduled", scheduledFor: "2026-11-20", scheduleNote: "08:00–12:00" });
-    expect(events.at(-1)).toMatchObject({ kind: "schedule", fromStatus: "confirmed", toStatus: "scheduled", text: "נקבע מועד: \u206820.11.2026\u2069 (\u206808:00–12:00\u2069)" });
-    expect(await setSchedule(db, "3", "20/11/2026", "")).toEqual({ ok: false, error: "invalid" });
-  });
-
-  it("refunded is final", async () => {
     await paidOrder("4");
-    await changeStatus(db, "4", "cancelled");
-    expect(await changeStatus(db, "4", "refunded")).toEqual({ ok: true });
+    await db.update(orders).set({ status: "scheduled" }).where(eq(orders.id, "3"));
+    await db.update(orders).set({ status: "refunded" }).where(eq(orders.id, "4"));
+    expect((await listOrders(db, readFilters({ view: "new" }))).rows.map((r) => r.id)).toEqual(["3"]);
+    expect((await listOrders(db, readFilters({ view: "scheduled" }))).rows.map((r) => r.id)).toEqual(["3"]);
+    expect((await listOrders(db, readFilters({ view: "cancelled" }))).rows.map((r) => r.id)).toEqual(["4"]);
+    expect((await dashboard(db)).today.orders).toBe(1);
+    expect(await changeStatus(db, "3", "cancelled")).toEqual({ ok: true });
     expect(await changeStatus(db, "4", "new")).toEqual({ ok: false, error: "not_allowed" });
   });
 
@@ -170,7 +164,7 @@ describe("statuses", () => {
 });
 
 describe("the admin's lists", () => {
-  it("dashboard: today's and this month's sales in Israel, new, in progress and abandoned", async () => {
+  it("dashboard: today's and this month's sales in Israel, new this week and abandoned", async () => {
     const now = new Date("2026-11-04T10:00:00Z");
     await paidOrder("a", new Date("2026-11-04T08:00:00Z"));
     // 23:30 on the 3rd in Israel: this month, not today
@@ -179,13 +173,13 @@ describe("the admin's lists", () => {
     await paidOrder("d", new Date("2026-11-04T09:00:00Z"));
     await changeStatus(db, "d", "cancelled");
     await saveNewOrder(db, "e", "s", priced());
-    await changeStatus(db, "b", "confirmed");
     const t = priced().total;
     const d = await dashboard(db, now);
     expect(d.today).toEqual({ amount: t, orders: 1 });
     expect(d.month).toEqual({ amount: 2 * t, orders: 2 });
-    expect(d.newOrders).toBe(2);
-    expect(d.inProgress).toBe(1);
+    // a, b, c (paid 5 days ago); d was cancelled, e isn't paid
+    expect(d.newOrders).toBe(3);
+    expect((await dashboard(db, new Date("2026-11-08T10:00:00Z"))).newOrders).toBe(2);
     expect(d.abandoned).toBe(1);
     expect(d.recent.map((o) => o.id)).not.toContain("e");
   });

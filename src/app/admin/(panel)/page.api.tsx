@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { getDb } from "@/db";
 import { requireAdmin } from "@/lib/admin/session";
-import { Empty, ils, NoDatabase, OrderCard, PageTitle, Section } from "@/components/admin/ui";
+import { Empty, ils, NoDatabase, OrderCard, PageTitle } from "@/components/admin/ui";
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
 import { dashboard, firstProducts } from "@/lib/admin/queries";
-import { formatDay } from "@/lib/admin/time";
 
 export const dynamic = "force-dynamic";
 
@@ -38,11 +37,10 @@ export default async function DashboardPage() {
   return (
     <>
       <PageTitle title="שלום 👋" sub="מה קורה בחנות היום" />
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
         <Stat label="מכירות היום" value={ils(d.today.amount)} sub={orders(d.today.orders)} />
         <Stat label="מכירות החודש" value={ils(d.month.amount)} sub={orders(d.month.orders)} />
-        <Stat label="הזמנות חדשות" value={String(d.newOrders)} sub="ממתינות לאישור" href="/admin/orders/?view=new" tone={d.newOrders ? "text-copper-deep" : ""} />
-        <Stat label="בטיפול" value={String(d.inProgress)} sub="אושרו, בייצור או מתוזמנות" href="/admin/orders/?view=open" />
+        <Stat label="הזמנות חדשות" value={String(d.newOrders)} sub="ב־7 הימים האחרונים" href="/admin/orders/?view=new" tone={d.newOrders ? "text-copper-deep" : ""} />
       </div>
 
       {d.abandoned > 0 ? (
@@ -61,28 +59,7 @@ export default async function DashboardPage() {
         </section>
       ) : null}
 
-      <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
-        <Section title="אספקות קרובות" action={<Link href="/admin/orders/?view=scheduled" className="text-sm font-semibold text-brand-dark">הכל</Link>}>
-          {d.upcoming.length ? (
-            <ul className="divide-y divide-line">
-              {d.upcoming.map((o) => (
-                <li key={o.id}>
-                  <Link href={`/admin/orders/${o.id}/`} className="flex items-center justify-between gap-3 py-3">
-                    <span className="min-w-0">
-                      <span className="block truncate font-bold">{o.customerName}</span>
-                      <span className="block truncate text-sm text-ink-soft">{o.city}
-                        {o.scheduleNote ? <> · <bdi>{o.scheduleNote}</bdi></> : null}</span>
-                    </span>
-                    <span className="shrink-0 rounded-lg bg-brand-tint px-2.5 py-1 text-sm font-bold text-brand-dark">{formatDay(o.scheduledFor)}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-ink-soft">אין אספקות מתוזמנות.</p>
-          )}
-        </Section>
-
+      <div className="mt-5">
         <div>
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-base font-extrabold tracking-normal">הזמנות אחרונות</h2>

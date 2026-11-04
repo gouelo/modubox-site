@@ -12,14 +12,8 @@ export const metadata: Metadata = { title: "הזמנות" };
 
 const VIEWS: { view: OrderView; label: string }[] = [
   { view: "paid", label: "כל ההזמנות" },
-  { view: "open", label: "פתוחות" },
   { view: "new", label: "חדשות" },
-  { view: "confirmed", label: "אושרו" },
-  { view: "in_production", label: "בייצור" },
-  { view: "scheduled", label: "מתוזמנות" },
-  { view: "completed", label: "הושלמו" },
   { view: "cancelled", label: "בוטלו" },
-  { view: "refunded", label: "זוכו" },
   { view: "pending_payment", label: "לא שולמו" },
 ];
 

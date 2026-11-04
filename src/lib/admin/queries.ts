@@ -1,16 +1,16 @@
 import { and, asc, count, desc, eq, gte, ilike, inArray, isNotNull, lt, max, ne, or, sql, sum, type SQL } from "drizzle-orm";
 import type { Db } from "@/db";
-import { orderItems, orders, type Order, type OrderStatus } from "@/db/schema";
+import { orderItems, orders, type Order } from "@/db/schema";
 import { customerKey } from "../orders";
-import { isStatus, OPEN, SALE_STATUSES } from "./status";
+import { CANCELLED, isStatus, OPEN, SALE_STATUSES, shownStatus } from "./status";
 import { israelDate, israelDayStart, nextDay, validDate } from "./time";
 
 /** The admin panel's reads. Server code only. */
 
 export const PAGE_SIZE = 50;
 
-/** Which orders a list shows: paid ones (the default), open ones, one status, unpaid ones, or all. */
-export type OrderView = "paid" | "open" | "all" | OrderStatus;
+/** Which orders a list shows: paid ones (the default), new, cancelled, unpaid ones, or all. */
+export type OrderView = "paid" | "all" | "new" | "cancelled" | "pending_payment";
 
 export interface OrderFilters {
   view: OrderView;
@@ -27,7 +27,8 @@ const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) 
 /** The filters from a page's address (?view=open&q=…&from=…&to=…&page=2). */
 export function readFilters(p: Params): OrderFilters {
   const v = one(p.view);
-  const view: OrderView = v === "open" || v === "all" || isStatus(v) ? v : "paid";
+  // old addresses (?view=open, ?view=scheduled, …) land on what the status now shows as
+  const view: OrderView = v === "all" ? v : v === "open" ? "new" : isStatus(v) ? (shownStatus(v) as OrderView) : "paid";
   const page = Math.max(1, Math.min(1000, Number.parseInt(one(p.page), 10) || 1));
   const from = one(p.from);
   const to = one(p.to);
@@ -49,7 +50,8 @@ export function filtersQuery(f: Partial<OrderFilters>): string {
 function where(f: OrderFilters): SQL | undefined {
   const conds: (SQL | undefined)[] = [];
   if (f.view === "paid") conds.push(ne(orders.status, "pending_payment"));
-  else if (f.view === "open") conds.push(inArray(orders.status, OPEN));
+  else if (f.view === "new") conds.push(inArray(orders.status, OPEN));
+  else if (f.view === "cancelled") conds.push(inArray(orders.status, CANCELLED));
   else if (f.view !== "all") conds.push(eq(orders.status, f.view));
   if (f.from) conds.push(gte(orders.createdAt, israelDayStart(f.from)));
   if (f.to) conds.push(lt(orders.createdAt, israelDayStart(nextDay(f.to))));
@@ -99,15 +101,12 @@ export async function exportOrders(db: Db, f: OrderFilters) {
 export interface Dashboard {
   today: { amount: number; orders: number };
   month: { amount: number; orders: number };
-  /** paid, waiting to be confirmed */
+  /** paid (or, a manual sale, entered) in the last 7 days, not cancelled */
   newOrders: number;
-  /** confirmed, in production or scheduled */
-  inProgress: number;
   /** started paying in the last 7 days and didn't finish: worth a call */
   abandoned: number;
   /** the latest of them, with what they ordered (the WhatsApp follow-up) */
   abandonedRecent: Order[];
-  upcoming: Order[];
   recent: Order[];
 }
 
@@ -124,22 +123,15 @@ export async function dashboard(db: Db, now = new Date()): Promise<Dashboard> {
   const weekAgo = new Date(now.getTime() - 7 * 86_400_000);
   const countWhere = async (w: SQL | undefined) => Number((await db.select({ n: count() }).from(orders).where(w))[0]?.n ?? 0);
   const abandonedWhere = and(eq(orders.status, "pending_payment"), gte(orders.createdAt, weekAgo), eq(orders.isTest, false));
-  const [t, m, newOrders, inProgress, abandoned, abandonedRecent, upcoming, recent] = await Promise.all([
+  const [t, m, newOrders, abandoned, abandonedRecent, recent] = await Promise.all([
     sales(db, israelDayStart(today)),
     sales(db, israelDayStart(`${today.slice(0, 8)}01`)),
-    countWhere(eq(orders.status, "new")),
-    countWhere(inArray(orders.status, ["confirmed", "in_production", "scheduled"])),
+    countWhere(and(inArray(orders.status, OPEN), eq(orders.isTest, false), gte(sql`coalesce(${orders.paidAt}, ${orders.createdAt})`, weekAgo))),
     countWhere(abandonedWhere),
     db.select().from(orders).where(abandonedWhere).orderBy(desc(orders.createdAt)).limit(3),
-    db
-      .select()
-      .from(orders)
-      .where(and(isNotNull(orders.scheduledFor), gte(orders.scheduledFor, today), inArray(orders.status, OPEN)))
-      .orderBy(asc(orders.scheduledFor))
-      .limit(5),
     db.select().from(orders).where(ne(orders.status, "pending_payment")).orderBy(desc(orders.createdAt)).limit(6),
   ]);
-  return { today: t, month: m, newOrders, inProgress, abandoned, abandonedRecent, upcoming, recent };
+  return { today: t, month: m, newOrders, abandoned, abandonedRecent, recent };
 }
 
 export interface Customer {
