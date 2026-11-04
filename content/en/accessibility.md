@@ -39,9 +39,9 @@ Showroom visits are by appointment. For details about accessibility arrangements
 If you've had trouble using the site, or have a suggestion for improving it, we'd love to hear from you and fix it. To help us look into it, please tell us which page the problem was on and what you were trying to do.
 
 - Accessibility coordinator: {{coordinator}}
-- Phone: [{{phone}}](tel:{{phone}})
+- Phone: [{{a11yPhone}}](tel:{{a11yPhone}})
 - WhatsApp: [Send us a message]({{whatsappLink}})
-- Email: [{{email}}](mailto:{{email}})
+- Email: [{{a11yEmail}}](mailto:{{a11yEmail}})
 
 We aim to get back to you within a few business days.
 

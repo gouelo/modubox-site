@@ -25,10 +25,9 @@ export function CallFab() {
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 0.95, type: "spring", stiffness: 260, damping: 18 }}
-      className={`group fixed end-4 z-40 flex items-center gap-2 rounded-full bg-ink p-3.5 text-white shadow-lift sm:end-6 ${place}`}
+      className={`fixed end-4 z-40 grid place-items-center rounded-full bg-brand p-3.5 text-white shadow-lift transition hover:bg-brand-dark sm:end-6 ${place}`}
     >
       <Icon name="phone" className="size-7" />
-      <span className="hidden pe-1 text-[15px] font-bold text-white sm:inline" dir="ltr">{site.phone}</span>
     </motion.a>
   );
 }

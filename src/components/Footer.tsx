@@ -89,7 +89,7 @@ export function Footer({ locale }: { locale: Locale }) {
       </div>
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col items-center justify-between gap-3 py-6 text-sm text-white/50 sm:flex-row">
-          <p>{f.copyright(new Date().getFullYear())}</p>
+          <p>{f.copyright(new Date().getFullYear(), locale === "he" ? site.legal.name : `${site.legal.nameEn} (${site.legal.companyId})`)}</p>
           <p className="flex items-center gap-2">
             <Icon name="shield" className="size-4" /> {f.secure(site.maxPayments)}
           </p>

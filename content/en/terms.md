@@ -6,7 +6,7 @@
 
 ## General
 
-- This website is operated by Modubox. Placing an order on the site means you accept these terms.
+- This website is operated by Modubox, a brand of {{legalName}} (company no. {{companyId}}). Placing an order on the site means you accept these terms.
 - Prices on the site are in New Israeli Shekels (₪) and include VAT, unless stated otherwise.
 - Product photos, renderings and the 3D configurator are for illustration only. The actual product may differ slightly from the rendering.
 - An order placed on the site is confirmed once a Modubox representative has contacted you to go over the details.
