@@ -1,6 +1,6 @@
 import type { Order, OrderItem } from "@/db/schema";
 import { paymentMethodLabel } from "../orders";
-import { consentLabel, sourceLabel, STATUS_LABEL } from "./status";
+import { consentLabel, paymentLabel, sourceLabel, STATUS_LABEL } from "./status";
 import { formatDateTime } from "./time";
 
 /**
@@ -68,7 +68,7 @@ export function ordersCsv(rows: { order: Order; items: OrderItem[] }[]): string 
         o.total,
         o.paidInstallments ?? o.installments,
         o.payLater || "",
-        [paymentMethodLabel(o.paymentMethod), o.card].filter(Boolean).join(" "),
+        [paymentMethodLabel(o.paymentMethod), o.card, o.paymentMethod === null ? paymentLabel(o.payment) : ""].filter(Boolean).join(" "),
         o.zcreditReference,
         o.approvalNumber,
         o.scheduledFor,

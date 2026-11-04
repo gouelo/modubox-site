@@ -8,7 +8,13 @@ import { NextStepButton, NoteForm, ScheduleForm, StatusSelect } from "@/componen
 import { ContactButtons, ils, NoDatabase, Row, Section, StatusBadge } from "@/components/admin/ui";
 import { allowedMoves, NEXT_STEP, STATUS_LABEL } from "@/lib/admin/status";
 import { formatDateTime, formatDay } from "@/lib/admin/time";
-import { getOrder, paymentMethodLabel } from "@/lib/orders";
+import { committed, getOrder, paymentMethodLabel } from "@/lib/orders";
+import { ConfirmForm } from "@/components/admin/ContentForms";
+import { CopyButton } from "@/components/admin/CopyButton";
+import { markPaidAction } from "@/lib/admin/manual-order-actions";
+import { MANUAL_PAYMENTS, PAYMENT_LABEL, paymentLabel } from "@/lib/admin/manual-order";
+import { sourceLabel } from "@/lib/admin/status";
+import { waNumber } from "@/lib/admin/follow-up";
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
 
@@ -26,18 +32,19 @@ function eventText(e: OrderEvent): string {
 
 const EVENT_ICON: Record<string, string> = { created: "🛒", paid: "💳", status: "🔄", schedule: "📅", note: "📝", email: "✉️" };
 
-export default async function OrderPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function OrderPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
   await requireAdmin("orders");
   const db = getDb();
   if (!db) return <NoDatabase />;
   const { id } = await params;
+  const { created } = await searchParams;
   const full = await getOrder(db, decodeURIComponent(id));
   if (!full) notFound();
   const { order: o, items, events } = full;
   const paid = !!o.paidAt;
   const next = NEXT_STEP[o.status];
-  const moves = allowedMoves(o.status, paid).filter((s) => s !== next?.to);
-  const canSchedule = paid && o.status !== "cancelled" && o.status !== "refunded";
+  const moves = allowedMoves(o.status, committed(o)).filter((s) => s !== next?.to && (s !== "refunded" || paid));
+  const canSchedule = committed(o) && o.status !== "cancelled" && o.status !== "refunded";
   const followUp = o.status === "pending_payment" && !o.isTest && items[0] ? followUpLink(o, { slug: items[0].productSlug, name: items[0].productName, more: items.length - 1 }, await requestOrigin()) : null;
 
   return (
@@ -66,6 +73,42 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
           <a href={followUp} target="_blank" rel="noopener" className="btn-wa mt-2 min-h-11 w-full justify-center text-sm">
             <span aria-hidden>💬</span> הודעת המשך בוואטסאפ (נפתחת לעריכה, לא נשלחת לבד)
           </a>
+        ) : null}
+        {created ? <p role="status" className="mt-3 text-sm font-semibold text-emerald-700">✓ ההזמנה נשמרה.</p> : null}
+        {o.source ? (
+          <p className="mt-3 text-sm text-ink-soft">
+            הזמנה ידנית ({sourceLabel(o.source)}) · {paymentLabel(o.payment)} · {paid ? "שולם" : "עוד לא שולם"}
+          </p>
+        ) : null}
+        {o.paymentLink && !paid ? (
+          <div className="mt-3 rounded-lg bg-sky-50 p-3">
+            <p className="text-sm font-bold">קישור התשלום ללקוח</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <a href={`https://wa.me/${waNumber(o.customerPhone)}?text=${encodeURIComponent(`שלום ${o.customerName.split(" ")[0]}, כאן מודובוקס. מצרפים קישור לתשלום מאובטח על ההזמנה (${ils(o.total)}):\n${o.paymentLink}`)}`} target="_blank" rel="noopener" className="btn-wa min-h-11 px-4 text-sm">
+                <span aria-hidden>💬</span> שליחה בוואטסאפ
+              </a>
+              <CopyButton text={o.paymentLink} label="העתקת הקישור" />
+            </div>
+            <p className="mt-2 text-xs text-ink-soft">כשהלקוח ישלם, ההזמנה תסומן כשולמה לבד (כמו בקופה באתר).</p>
+          </div>
+        ) : null}
+        {o.source && !paid && !o.paymentLink && o.status !== "cancelled" && o.status !== "refunded" ? (
+          <ConfirmForm action={markPaidAction} confirm="לסמן שההזמנה שולמה?" className="mt-3 flex flex-wrap items-end gap-2">
+            <input type="hidden" name="id" value={o.id} />
+            <label className="text-sm">
+              <span className="mb-1 block font-semibold">שולם ב־</span>
+              <select name="payment" defaultValue={o.payment ?? "transfer"} className="field min-h-11">
+                {MANUAL_PAYMENTS.filter((p) => p !== "zcredit_link").map((p) => (
+                  <option key={p} value={p}>
+                    {PAYMENT_LABEL[p]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button type="submit" className="btn-primary min-h-11 px-4 text-sm">
+              סימון כשולם
+            </button>
+          </ConfirmForm>
         ) : null}
         {o.isTest ? <p className="mt-3 rounded-lg bg-sand p-3 text-sm text-ink-soft">הזמנת בדיקה (מוצר הבדיקה ב־1 ₪): לא נספרת במכירות.</p> : null}
         {o.partial ? <p className="mt-3 rounded-lg bg-copper-tint p-3 text-sm text-copper-deep">ההזמנה נשמרה מפרטי התשלום בלבד, בלי פרטי המוצרים. את הפרטים אפשר לראות בפאנל של Z-Credit.</p> : null}
@@ -110,7 +153,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
             <Row label="שולם">{paid ? <>{ils(o.total)} · <bdi>{formatDateTime(o.paidAt)}</bdi></> : "עוד לא"}</Row>
             <Row label="תשלומים">{(o.paidInstallments ?? o.installments) > 1 ? `${o.paidInstallments ?? o.installments} תשלומים` : "תשלום אחד"}</Row>
             <Row label="למתקין ביום ההתקנה">{o.payLater ? ils(o.payLater) : null}</Row>
-            <Row label="אמצעי תשלום">{[paymentMethodLabel(o.paymentMethod), o.card].filter(Boolean).join(" · ")}</Row>
+            <Row label="אמצעי תשלום">{[paymentMethodLabel(o.paymentMethod), o.card, o.paymentMethod === null ? paymentLabel(o.payment) : ""].filter(Boolean).join(" · ")}</Row>
             <Row label="אסמכתא Z-Credit">{o.zcreditReference ? <span dir="ltr">{o.zcreditReference}</span> : null}</Row>
             <Row label="מספר אישור">{o.approvalNumber ? <span dir="ltr">{o.approvalNumber}</span> : null}</Row>
           </dl>

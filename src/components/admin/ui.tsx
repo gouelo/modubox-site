@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Order, OrderStatus } from "@/db/schema";
 import { formatILS } from "@/lib/format";
-import { STATUS_LABEL, STATUS_TONE } from "@/lib/admin/status";
+import { sourceLabel, STATUS_LABEL, STATUS_TONE } from "@/lib/admin/status";
 import { formatDateTime } from "@/lib/admin/time";
 
 /** The admin's small building blocks (server components). */
@@ -63,6 +63,7 @@ export function OrderCard({ o, followUp }: { o: Order; followUp?: string }) {
           <span className="truncate text-[15px] font-bold">{o.customerName}</span>
           {o.partial ? <span className="text-xs text-copper-deep">(פרטים חלקיים)</span> : null}
           {o.isTest ? <span className="rounded-full bg-sand px-2 py-0.5 text-xs font-bold text-ink-soft">בדיקה</span> : null}
+          {o.source ? <span className="rounded-full bg-sky-50 px-2 py-0.5 text-xs font-bold text-sky-800">{sourceLabel(o.source)}</span> : null}
         </div>
         <div className="mt-0.5 truncate text-sm text-ink-soft">
           #{o.id} · <bdi>{formatDateTime(o.createdAt)}</bdi>

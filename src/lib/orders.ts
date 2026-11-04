@@ -182,6 +182,12 @@ export async function notifyPaidOrder(db: Db, id: string, send: (o: FullOrder) =
   }
 }
 
+/**
+ * An order the business works on: paid online, or a sale entered in the
+ * admin (phone, WhatsApp), which may be paid later, by transfer or cash.
+ */
+export const committed = (o: { paidAt: Date | null; source: string | null }) => !!o.paidAt || !!o.source;
+
 export type ChangeResult = { ok: true } | { ok: false; error: "not_found" | "not_allowed" | "needs_date" | "invalid" };
 
 /** Moves an order to another status, if the rules allow it (src/lib/admin/status.ts), and keeps it in its history. */
@@ -189,7 +195,7 @@ export async function changeStatus(db: Db, id: string, to: OrderStatus, actor = 
   return db.transaction(async (tx) => {
     const [row] = await tx.select().from(orders).where(eq(orders.id, id)).for("update");
     if (!row) return { ok: false, error: "not_found" } as const;
-    if (!canTransition(row.status, to, !!row.paidAt)) return { ok: false, error: "not_allowed" } as const;
+    if (!canTransition(row.status, to, committed(row)) || (to === "refunded" && !row.paidAt)) return { ok: false, error: "not_allowed" } as const;
     if (to === "scheduled" && !row.scheduledFor) return { ok: false, error: "needs_date" } as const;
     await tx.update(orders).set({ status: to, updatedAt: now }).where(eq(orders.id, id));
     await tx.insert(orderEvents).values({ orderId: id, kind: "status", fromStatus: row.status, toStatus: to, actor, at: now });
@@ -217,7 +223,7 @@ export async function setSchedule(db: Db, id: string, date: string | null, note:
   return db.transaction(async (tx) => {
     const [row] = await tx.select().from(orders).where(eq(orders.id, id)).for("update");
     if (!row) return { ok: false, error: "not_found" } as const;
-    if (!row.paidAt || row.status === "cancelled" || row.status === "refunded") return { ok: false, error: "not_allowed" } as const;
+    if (!committed(row) || row.status === "cancelled" || row.status === "refunded") return { ok: false, error: "not_allowed" } as const;
     const moveTo: OrderStatus | null = date && ["new", "confirmed", "in_production"].includes(row.status) ? "scheduled" : null;
     await tx
       .update(orders)
