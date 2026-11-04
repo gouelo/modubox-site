@@ -37,26 +37,33 @@ export async function orderPaid(p: Payment, origin: string): Promise<void> {
     // the business first: if it fails, the claim is released and both go on the next try
     if (email) {
       const msg = orderEmail(full, `${origin}/admin/orders/${encodeURIComponent(p.orderId)}/`);
-      await sendEmail(email, { ...msg, replyTo: full.order.customerEmail ?? undefined });
-      sent.push("נשלח מייל לעסק על ההזמנה");
+      const id = await sendEmail(email, { ...msg, replyTo: full.order.customerEmail ?? undefined });
+      console.info("[orders] business email sent", { orderId: p.orderId, to: email.to, from: email.from, resendId: id });
+      sent.push(`נשלח מייל לעסק על ההזמנה (אל ${email.to.join(", ")})`);
+    } else {
+      // never silent: the order's history and the logs say why the business wasn't emailed
+      console.warn("[orders] business email skipped: ORDER_EMAIL_TO is missing or invalid", { orderId: p.orderId });
+      sent.push("לא נשלח מייל לעסק: ORDER_EMAIL_TO לא מוגדר ב־Vercel");
     }
-    if (await sendCustomerEmail(full, origin)) sent.push("נשלח מייל אישור הזמנה ללקוח");
+    const customer = await sendCustomerEmail(full, origin);
+    if (customer) sent.push(`נשלח מייל אישור הזמנה ללקוח (אל ${customer})`);
     return sent;
   });
 }
 
-/** The customer's confirmation: never throws, so it never holds up the callback or resends the business email. */
-async function sendCustomerEmail(full: FullOrder, origin: string): Promise<boolean> {
+/** The customer's confirmation, answering the address it went to: never throws, so it never holds up the callback or resends the business email. */
+async function sendCustomerEmail(full: FullOrder, origin: string): Promise<string | null> {
   const c = customerEmailConfig(full);
   if (!c.ok) {
     console.info("[orders] customer email skipped", { orderId: full.order.id, reason: c.reason });
-    return false;
+    return null;
   }
   try {
-    await sendEmail(c.config, { ...customerOrderEmail(full, origin), replyTo: c.replyTo });
-    return true;
+    const id = await sendEmail(c.config, { ...customerOrderEmail(full, origin), replyTo: c.replyTo });
+    console.info("[orders] customer email sent", { orderId: full.order.id, resendId: id });
+    return c.config.to[0];
   } catch (e) {
     console.error("[orders] customer email failed", { orderId: full.order.id, error: String(e) });
-    return false;
+    return null;
   }
 }

@@ -57,6 +57,7 @@ beforeEach(async () => {
   for (const [k, v] of Object.entries(env)) vi.stubEnv(k, v);
   vi.spyOn(console, "info").mockImplementation(() => {});
   vi.spyOn(console, "error").mockImplementation(() => {});
+  vi.spyOn(console, "warn").mockImplementation(() => {});
 });
 afterEach(() => {
   vi.unstubAllEnvs();
@@ -108,7 +109,7 @@ describe("the customer's confirmation email", () => {
     expect(sent.map((e) => e.to)).toEqual([["sales@example.com"], ["dana@example.com"]]);
     expect(sent[1]).toMatchObject({ from: "Modubox <orders@send.modubox.test>", reply_to: "sales@example.com" });
     const { events } = (await getOrder(db, "261104000103"))!;
-    expect(events.filter((e) => e.kind === "email").map((e) => e.text)).toEqual(["נשלח מייל לעסק על ההזמנה", "נשלח מייל אישור הזמנה ללקוח"]);
+    expect(events.filter((e) => e.kind === "email").map((e) => e.text)).toEqual(["נשלח מייל לעסק על ההזמנה (אל sales@example.com)", "נשלח מייל אישור הזמנה ללקוח (אל dana@example.com)"]);
   });
 
   it("a refused customer email is logged and never fails the payment or resends the business email", async () => {
@@ -140,6 +141,17 @@ describe("the customer's confirmation email", () => {
     await orderPaid({ orderId: "261104000106", total: priced().total, sessionId: "s", data: paidData }, "https://x.test");
     await orderPaid({ orderId: "261104000106", total: priced().total, sessionId: "s", data: paidData }, "https://x.test");
     expect(sent.map((e) => e.to)).toEqual([["sales@example.com"], ["dana@example.com"]]);
+  });
+
+  it("without ORDER_EMAIL_TO the customer still gets it, and the order's history and the logs say the business wasn't emailed", async () => {
+    vi.stubEnv("ORDER_EMAIL_TO", "");
+    const sent = stubResend();
+    await paidOrder("261104000108");
+    await orderPaid({ orderId: "261104000108", total: priced().total, sessionId: "s", data: paidData }, "https://x.test");
+    expect(sent.map((e) => e.to)).toEqual([["dana@example.com"]]);
+    expect(console.warn).toHaveBeenCalledWith("[orders] business email skipped: ORDER_EMAIL_TO is missing or invalid", expect.objectContaining({ orderId: "261104000108" }));
+    const { events } = (await getOrder(db, "261104000108"))!;
+    expect(events.filter((e) => e.kind === "email").map((e) => e.text)).toEqual(["לא נשלח מייל לעסק: ORDER_EMAIL_TO לא מוגדר ב־Vercel", "נשלח מייל אישור הזמנה ללקוח (אל dana@example.com)"]);
   });
 
   it("goes without the business address set, and not without an email or for a partial order", async () => {
