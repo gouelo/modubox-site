@@ -36,6 +36,7 @@ function FlagIL({ className = "" }: { className?: string }) {
  * "EN" with a US flag on the Hebrew site, "עב" with an Israeli flag on the
  * English site: the same page in the other language. A plain link, since the
  * two languages are separate root layouts (a full page load either way).
+ * The blog (Hebrew only) and the 404 page switch to the other home page.
  */
 export function LangSwitch({ className = "", big = false }: { className?: string; big?: boolean }) {
   const locale = useLocale();
@@ -45,7 +46,7 @@ export function LangSwitch({ className = "", big = false }: { className?: string
   const flag = "h-3.5 w-auto rounded-[2px] shadow-[0_0_0_1px_rgb(0_0_0/0.12)]";
   return (
     <a
-      href={asset(/^\/blog(\/|$)/.test(pathname) ? lp(to, "/") : switchPath(pathname, to))}
+      href={asset(/^\/blog(\/|$)|_not-found/.test(pathname) ? lp(to, "/") : switchPath(pathname, to))}
       hrefLang={to}
       lang={t.switchLang}
       aria-label={t.switchAria}

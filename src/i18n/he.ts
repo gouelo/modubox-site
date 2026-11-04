@@ -295,7 +295,6 @@ export const he = {
     invoiceNote: "חשבונית המס נמסרת ביום ההתקנה",
     terms: "תנאים",
     warranty: "אחריות",
-    approx: "* מידות משוערות – TODO לאמת מול המפעל",
     moreSizes: "מידות נוספות",
     rows: { size: "מידה (מטר)", area: "שטח", outer: "מידות חוץ", height: "גובה", door: "פתח דלת", warranty: "אחריות", delivery: "הובלה והתקנה", sizeShort: "מידה" },
     askWhatsapp: "שאלו על המוצר בוואטסאפ",
@@ -350,7 +349,7 @@ export const he = {
     delivery: "הובלה והתקנה מקצועית",
     deliveryOnly: "הובלה בלבד",
     pickup: "איסוף עצמי",
-    deliveryOnRequest: "הובלה והתקנה (מחיר בתיאום)",
+    deliveryOnRequest: "הובלה והתקנה",
     areaSuffix: (n: number) => ` (${n} מ"ר)`,
   },
 

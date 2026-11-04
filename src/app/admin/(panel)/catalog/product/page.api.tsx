@@ -6,6 +6,7 @@ import { SubmitButton } from "@/components/admin/SubmitButton";
 import { PageTitle, Section } from "@/components/admin/ui";
 import { catalogRows, fileAddons, fileEnProduct, fileProducts, overridesOf, productsWith } from "@/lib/admin/catalog";
 import { copyProductAction, discardProductAction, saveProductAction } from "@/lib/admin/catalog-actions";
+import { missingInfo } from "@/lib/admin/missing-info";
 import { requireAdmin } from "@/lib/admin/session";
 import { uploadsEnabled } from "@/lib/admin/uploads";
 import { ltrSizes, plain } from "@/lib/catalog";
@@ -20,13 +21,15 @@ export default async function ProductEditor({ searchParams }: { searchParams: Pr
   await requireAdmin("catalog");
   const slug = (await searchParams).slug ?? "";
   const rows = await catalogRows(getDb()!);
-  const p = productsWith(overridesOf(rows, "draft")).find((x) => x.slug === slug);
+  const all = productsWith(overridesOf(rows, "draft"));
+  const p = all.find((x) => x.slug === slug);
   if (!p) return <PageTitle title="המוצר לא נמצא" sub={<Link href="/admin/catalog/">חזרה לקטלוג</Link>} />;
   const row = rows.products.find((r) => r.slug === slug);
   const draft = (row?.draft ?? {}) as ProductPatch;
   const base = fileProducts().find((x) => x.slug === (p.copiedFrom ?? slug))!;
   const en = { ...fileEnProduct(p.copiedFrom ? "" : slug), ...(draft.en ?? {}) };
   const f = p.fulfillment;
+  const missing = missingInfo(p, all);
   const addons = fileAddons();
   const fulfillment: [string, string, number | null, string][] = [
     ["f_deliveryAndInstallation", "הובלה + התקנה", f.deliveryAndInstallation, `ברירת מחדל: ${money(base.fulfillment.deliveryAndInstallation) || "לא מוצע"}`],
@@ -48,6 +51,16 @@ export default async function ProductEditor({ searchParams }: { searchParams: Pr
           )
         }
       />
+      {missing.length ? (
+        <div className="mb-4 rounded-xl bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-amber-200">
+          <p className="font-bold">חסר מידע (מופיע רק כאן, לא באתר)</p>
+          <ul className="mt-1 list-disc ps-5">
+            {missing.map((m) => (
+              <li key={m}>{m}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       <div className="card p-4 sm:p-5">
         <ActionForm action={saveProductAction} submit="שמירת טיוטה" okText="נשמר כטיוטה.">
           <input type="hidden" name="slug" value={slug} />

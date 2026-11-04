@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getDb } from "@/db";
 import { PageTitle, ils } from "@/components/admin/ui";
 import { catalogRows, changeState, liveOverrides, overridesOf, productsWith, stripCopied } from "@/lib/admin/catalog";
+import { missingInfo } from "@/lib/admin/missing-info";
 import { requireAdmin } from "@/lib/admin/session";
 import { ltrSizes, plain } from "@/lib/catalog";
 
@@ -18,7 +19,7 @@ export default async function CatalogPage() {
   const liveProducts = new Map(productsWith(live).map((p) => [p.slug, p]));
   return (
     <>
-      <PageTitle title="קטלוג" sub="מחירים, תוספות, הובלה והתקנה ותמונות. שינוי נשמר כטיוטה, ועולה לאתר בלחיצה על “פרסום לאתר”." />
+      <PageTitle title="קטלוג" sub="מחירים, תוספות, הובלה והתקנה ותמונות. שינוי נשמר כטיוטה, ועולה לאתר בלחיצה על “פרסום לאתר”. “חסר מידע” = פרטים שעוד חסרים למוצר (רק כאן, לא באתר)." />
       {(["modubox", "gilboa", "special"] as const).map((cat) => {
         const list = products.filter((p) => p.category === cat);
         if (!list.length) return null;
@@ -30,6 +31,7 @@ export default async function CatalogPage() {
                 const row = rows.products.find((r) => r.slug === p.slug);
                 const state = row ? changeState(row.draft, row.published, live.products[p.slug] && stripCopied(live.products[p.slug])) : null;
                 const was = liveProducts.get(p.slug);
+                const missing = missingInfo(p, products);
                 return (
                   <li key={p.slug}>
                     <Link href={`/admin/catalog/product/?slug=${p.slug}`} className={`flex items-center gap-3 px-4 py-3 hover:bg-sand/50 ${p.hidden ? "opacity-50" : ""}`}>
@@ -45,6 +47,7 @@ export default async function CatalogPage() {
                           {ils(p.price)}
                         </span>
                         <span className="flex gap-1">
+                          {missing.length ? <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-900" title={missing.join(" · ")}>חסר מידע</span> : null}
                           {p.hidden ? <span className="rounded-full bg-line px-2 py-0.5 text-xs font-bold">מוסתר</span> : null}
                           {!was ? <span className="rounded-full bg-sky-50 px-2 py-0.5 text-xs font-bold text-sky-800">חדש</span> : null}
                           {state === "draft" ? <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-900">טיוטה</span> : state === "publishing" ? <span className="rounded-full bg-sky-50 px-2 py-0.5 text-xs font-bold text-sky-800">בפרסום</span> : null}

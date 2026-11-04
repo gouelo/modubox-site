@@ -42,8 +42,10 @@ const nudge = {
  * invites people to design theirs in the 3D configurator. It sits opposite
  * the WhatsApp button, links to the configurator (ConfiguratorPanel opens it
  * in the side panel; on a product page, on that product's size), and stays
- * off the cart and checkout, and away from the footer. ✕ hides it for the
- * session, which is also what stops its motion (WCAG 2.2.2); with reduced
+ * off the cart and checkout, and away from the footer. On a product page it
+ * sits above the phone's "add to cart" bar, level with the call button.
+ * ✕ hides it for the session, which is also what stops its motion
+ * (WCAG 2.2.2); with reduced
  * motion it does not move at all. To remove it: data/site.json →
  * floatingConfiguratorCta: false, or delete this file and its line in SiteShell.
  */
@@ -92,7 +94,7 @@ export function FloatingConfiguratorCta() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, ...(still ? {} : { y: 30, scale: 0.9 }), transition: { duration: 0.25 } }}
           transition={{ delay: footer ? 0 : 1.2, type: "spring", stiffness: 220, damping: 22 }}
-          className="fixed start-2 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-40 sm:start-5 sm:bottom-5"
+          className={`fixed start-2 z-40 sm:start-5 ${slug ? "bottom-24 lg:bottom-5" : "bottom-[max(0.75rem,env(safe-area-inset-bottom))] sm:bottom-5"}`}
         >
           <motion.a
             href={design3dLink(product)}
