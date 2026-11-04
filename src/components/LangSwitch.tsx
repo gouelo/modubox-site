@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { switchPath } from "@/i18n/config";
+import { lp, switchPath } from "@/i18n/config";
 import { useLocale, useT } from "@/i18n/client";
 import { asset } from "@/lib/paths";
 
@@ -45,7 +45,7 @@ export function LangSwitch({ className = "", big = false }: { className?: string
   const flag = "h-3.5 w-auto rounded-[2px] shadow-[0_0_0_1px_rgb(0_0_0/0.12)]";
   return (
     <a
-      href={asset(switchPath(pathname, to))}
+      href={asset(/^\/blog(\/|$)/.test(pathname) ? lp(to, "/") : switchPath(pathname, to))}
       hrefLang={to}
       lang={t.switchLang}
       aria-label={t.switchAria}

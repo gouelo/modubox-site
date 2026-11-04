@@ -253,6 +253,11 @@ export function CheckoutFlow() {
                     {k.agree.after}
                   </span>
                 </label>
+                <p className="text-sm text-ink-soft">
+                  {k.privacy.before}
+                  <Link href={lp(locale, "/privacy/")} target="_blank" className="font-bold underline">{k.privacy.link}</Link>
+                  {k.privacy.after}
+                </p>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setStep(0)} className="btn-ghost">{t.common.back}</button>
                   <button type="button" disabled={!agree} onClick={() => setStep(2)} className="btn-primary flex-1 py-4 text-base">{k.toPayment}</button>

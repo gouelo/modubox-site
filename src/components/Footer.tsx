@@ -2,6 +2,7 @@ import Link from "next/link";
 import { dict, lp, type Locale } from "@/i18n";
 import { catalog } from "@/lib/catalog";
 import { waLink } from "@/lib/whatsapp";
+import { CookieSettingsLink } from "./CookieConsent";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 
@@ -53,6 +54,12 @@ export function Footer({ locale }: { locale: Locale }) {
             {link("/terms/", f.links.terms)}
             {link("/faq/", f.links.faq)}
             {link("/accessibility/", f.links.accessibility)}
+            {link("/privacy/", f.links.privacy)}
+            <li><CookieSettingsLink label={f.links.cookies} /></li>
+            {/* the blog is in Hebrew only */}
+            <li>
+              <Link href="/blog/" hrefLang={locale === "he" ? undefined : "he"} className="hover:text-white hover:underline">{f.links.blog}</Link>
+            </li>
           </ul>
         </div>
         <div className="col-span-2 lg:col-span-1">

@@ -4,7 +4,7 @@ At Modubox, we want everyone – including people with disabilities – to be ab
 
 ## Accessibility level
 
-This website has been adapted to meet the requirements of the Israeli Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations, 5773-2013 (Regulation 35), and Israeli Standard **IS 5568** for web content accessibility, at level **AA**. The standard is based on the W3C's **WCAG 2.0** guidelines.
+We have worked to adapt this website to the requirements of the Israeli Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations, 5773-2013 (Regulation 35), and Israeli Standard **IS 5568** for web content accessibility, at level **AA**. The standard is based on the W3C's **WCAG 2.0** guidelines. We keep checking and improving the site's accessibility.
 
 ## What we've done
 

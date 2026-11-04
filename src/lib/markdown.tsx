@@ -1,4 +1,5 @@
 // A tiny Markdown renderer for the terms / warranty pages (headings, lists, quotes, bold, links).
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { lp, type Locale } from "@/i18n/config";
@@ -26,8 +27,11 @@ function inline(text: string, key: string, locale: Locale): ReactNode[] {
   return out;
 }
 
-/** `{{name}}` in the source is replaced by vars.name (site details in the accessibility statement). */
-export function Markdown({ source, locale = "he", vars = {} }: { source: string; locale?: Locale; vars?: Record<string, string> }) {
+/**
+ * `{{name}}` in the source is replaced by vars.name. An image is a line of its
+ * own, `![alt](blog/x.webp)`, under public/images, sized by imageSize.
+ */
+export function Markdown({ source, locale = "he", vars = {}, imageSize, className = "prose-he" }: { source: string; locale?: Locale; vars?: Record<string, string>; imageSize?: (src: string) => [number, number] | undefined; className?: string }) {
   const blocks: ReactNode[] = [];
   const lines = source.replace(/\{\{(\w+)\}\}/g, (m, k: string) => vars[k] ?? m).split("\n");
   let list: { ordered: boolean; items: string[] } | null = null;
@@ -53,12 +57,20 @@ export function Markdown({ source, locale = "he", vars = {} }: { source: string;
     flush();
     if (!line) continue;
     const k = blocks.length;
-    if (line.startsWith("### ")) blocks.push(<h3 key={k}>{inline(line.slice(4), `h${k}`, locale)}</h3>);
+    const img = line.match(/^!\[(.*?)\]\((\S+?)\)$/);
+    if (img) {
+      const [w, h] = imageSize?.(img[2]) ?? [1600, 1067];
+      blocks.push(
+        <figure key={k} className="my-8 overflow-hidden rounded-2xl bg-sand">
+          <Image src={img[2]} alt={img[1]} width={w} height={h} sizes="(min-width:768px) 720px, 100vw" className="h-auto w-full" />
+        </figure>,
+      );
+    } else if (line.startsWith("### ")) blocks.push(<h3 key={k}>{inline(line.slice(4), `h${k}`, locale)}</h3>);
     else if (line.startsWith("## ")) blocks.push(<h2 key={k}>{inline(line.slice(3), `h${k}`, locale)}</h2>);
     else if (line.startsWith("# ")) blocks.push(<h1 key={k}>{inline(line.slice(2), `h${k}`, locale)}</h1>);
     else if (line.startsWith("> ")) blocks.push(<blockquote key={k}>{inline(line.slice(2), `q${k}`, locale)}</blockquote>);
     else blocks.push(<p key={k}>{inline(line, `p${k}`, locale)}</p>);
   }
   flush();
-  return <div className="prose-he">{blocks}</div>;
+  return <div className={className}>{blocks}</div>;
 }

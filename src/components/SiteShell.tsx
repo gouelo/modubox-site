@@ -12,6 +12,8 @@ import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { WhatsAppFab } from "./WhatsAppFab";
+import { CallFab } from "./CallFab";
+import { CookieConsent } from "./CookieConsent";
 
 const heebo = Heebo({ subsets: ["hebrew", "latin"], variable: "--font-heebo", display: "swap" });
 
@@ -71,10 +73,13 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
           </main>
           <Footer locale={locale} />
           <WhatsAppFab />
+          <CallFab />
           {/* experiment: a floating shed inviting people to the 3D configurator (site.json → floatingConfiguratorCta) */}
           <FloatingConfiguratorCta />
           {/* the 3D configurator: opens links to it in a side panel, with "add to cart" */}
           <ConfiguratorPanel />
+          {/* cookie consent (Google Consent Mode v2) */}
+          <CookieConsent />
         </LocaleProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
         {gtm && <GoogleTagManager id={gtm} />}

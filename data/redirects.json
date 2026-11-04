@@ -1,0 +1,1124 @@
+[
+ {
+  "source": "/product-page/מבנה-שירותים-2x1",
+  "destination": "/product/toilet-2x1/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-2-3-1",
+  "destination": "/product/modubox-3x2/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס",
+  "destination": "/product/modubox-3x3/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/4-3-מחסן-מודובוקס",
+  "destination": "/product/modubox-4x3/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-3-5",
+  "destination": "/product/modubox-5x3/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-גינה-גלבוע-s",
+  "destination": "/product/gilboa-s/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-4x1-60",
+  "destination": "/product/modubox-4x1-6/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/חיוב-לקוח-עבור-קיצור-רוחב-עומק-גובה",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מזגן-איסקה-אינוורטר-מבית-טורנדו-1-כ-ס-במבצע-רק-לרוכשי-מחסן-אוורסט",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/פאנל-הכנה-לחשמל-למחסני-מודובוקס",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-גינה-מודובוקס-6x2",
+  "destination": "/product/modubox-6x2/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/קיר-זכוכית-ויטרינה",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-גינה-גלבוע-מידה-l-2-10-2-10",
+  "destination": "/product/gilboa-l/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודולרי-1-1",
+  "destination": "/product/modubox-1x1/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מבנה-שירותים-ומקלחת-3x1",
+  "destination": "/product/toilet-shower-3x1/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-2-3",
+  "destination": "/product/modubox-2x2/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-גינה-גלבוע-מידה-m-2-10-1-65",
+  "destination": "/product/gilboa-m/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-1-3",
+  "destination": "/product/modubox-3x1/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-5x2",
+  "destination": "/product/modubox-5x2/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/עמדת-שמירה-2x2",
+  "destination": "/product/guard-booth-2x2/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-6x3",
+  "destination": "/product/modubox-6x3/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/כוננית-אוורסט-5-מדפים",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-2x1-60",
+  "destination": "/product/modubox-2x1-6/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/חלון-הזזה-למחסן-מודובוקס-כולל-רשת",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/master-inv-12-x-wifi-eu",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מבנה-שירותים-1-6x1",
+  "destination": "/product/toilet-1-6x1/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/tornado-master-inv-22-x-wifi-eu",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/tornado-master-inv-16-x-wifi-eu",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-1-2",
+  "destination": "/product/modubox-2x1/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/כוננית-אוורסט-4-מדפים",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/רשת-גריל-לאוורור",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-1x0-80",
+  "destination": "/product/modubox-1x0-8/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/tornado-master-inv-18-x-wifi-eu",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/הובלה-והרכבה",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-3x1-60",
+  "destination": "/product/modubox-3x1-6/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/דלת-נוספת-כפולה",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-גינה-גלבוע-מידה-xl-2-10-2-60",
+  "destination": "/product/gilboa-xl/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-4-2",
+  "destination": "/product/modubox-4x2/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/קיר-זכוכית-ויטרינה-עם-תריס-מובנה",
+  "destination": "/shop/",
+  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-2x0-80",
+  "destination": "/product/modubox-2x0-8/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מחסן-מודובוקס-4x1",
+  "destination": "/product/modubox-4x1/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/product-page/מבנה-שירותים-1x1",
+  "destination": "/product/toilet-1x1/",
+  "note": "product",
+  "kind": "product"
+ },
+ {
+  "source": "/post/סוגי-מחסנים-לגינה-המדריך-המלא",
+  "destination": "/blog/סוגי-מחסנים-לגינה-המדריך-המלא/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מחסן-מודל-2024-פתרונות-אחסנה-מתקדמים-לגינה",
+  "destination": "/blog/מחסן-מודל-2024-פתרונות-אחסנה-מתקדמים-לגינה/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/טיפים-לבחירת-מחסן-אופניים",
+  "destination": "/blog/טיפים-לבחירת-מחסן-אופניים/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מחסן-למכונת-כביסה-ומייבש",
+  "destination": "/blog/מחסן-למכונת-כביסה-ומייבש/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/איך-לבחור-מחסן-לגינה",
+  "destination": "/blog/איך-לבחור-מחסן-לגינה/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/האם-צריך-אישור-למחסן-גינה",
+  "destination": "/blog/האם-צריך-אישור-למחסן-גינה/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מהן-הבדיקות-הבסיסיות-שכדאי-לכם-לערוך-לפני-קניית-מחסן-גינה",
+  "destination": "/blog/מהן-הבדיקות-הבסיסיות-שכדאי-לכם-לערוך-לפני-קניית-מחסן-גינה/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/6-סיבות-למה-כדאי-לכם-להשתמש-במבנים-מפנל-מבודד",
+  "destination": "/blog/6-סיבות-למה-כדאי-לכם-להשתמש-במבנים-מפנל-מבודד/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/חשיבותו-של-מחסן-גינה-עמיד-לחורף-הישראלי-2025",
+  "destination": "/blog/חשיבותו-של-מחסן-גינה-עמיד-לחורף-הישראלי-2025/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מחסן-פלסטיק-או-פנל-מבודד-מהם-ההבדלים-וכיצד-לבחור-ביניהם",
+  "destination": "/blog/מחסן-פלסטיק-או-פנל-מבודד-מהם-ההבדלים-וכיצד-לבחור-ביניהם/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/כיצד-לבחור-מחסן-למרפסת",
+  "destination": "/blog/כיצד-לבחור-מחסן-למרפסת/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מחסן-חניה-לרכב-הפתרון-האולטימטיבי",
+  "destination": "/blog/מחסן-חניה-לרכב-הפתרון-האולטימטיבי/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/יחידת-חצר-למה-צריך-את-זה-ואיפה-מתחילים",
+  "destination": "/blog/יחידת-חצר-למה-צריך-את-זה-ואיפה-מתחילים/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מחסן-לגינה-בדירת-גן-modubox-הפתרון-המושלם",
+  "destination": "/blog/מחסן-לגינה-בדירת-גן-modubox-הפתרון-המושלם/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מחסן-מודובוקס-נותן-שואו",
+  "destination": "/blog/מחסן-מודובוקס-נותן-שואו/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/טיפים-להקמת-משרד-בחצר",
+  "destination": "/blog/טיפים-להקמת-משרד-בחצר/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מדריך-מפורט-לבחירת-גודל-מחסן-הגינה",
+  "destination": "/blog/מדריך-מפורט-לבחירת-גודל-מחסן-הגינה/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/כיצד-ניתן-לשדרג-את-מחסן-הגינה",
+  "destination": "/blog/כיצד-ניתן-לשדרג-את-מחסן-הגינה/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מבנה-שירותים-נייד-כל-מה-שצריך-לדעת",
+  "destination": "/blog/מבנה-שירותים-נייד-כל-מה-שצריך-לדעת/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מחפשים-פתרונות-אחסון-חכמים-לפני-החגים-מחסן-מודובוקס-לחצר-ולמרפסת",
+  "destination": "/blog/מחפשים-פתרונות-אחסון-חכמים-לפני-החגים-מחסן-מודובוקס-לחצר-ולמרפסת/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/מהי-החשיבות-בבחירת-מחסן-איכותי-לגינה",
+  "destination": "/blog/מהי-החשיבות-בבחירת-מחסן-איכותי-לגינה/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/post/5-טיפים-להתקנה-מוצלחת-של-מחסן-גינה",
+  "destination": "/blog/5-טיפים-להתקנה-מוצלחת-של-מחסן-גינה/",
+  "note": "blog post",
+  "kind": "blog"
+ },
+ {
+  "source": "/booking",
+  "destination": "/contact/",
+  "note": "factory visit booking → contact",
+  "kind": "page"
+ },
+ {
+  "source": "/nitzan",
+  "destination": "/",
+  "note": "landing page → home",
+  "kind": "page"
+ },
+ {
+  "source": "/סרטונים-מובחרים",
+  "destination": "/gallery/",
+  "note": "videos → gallery",
+  "kind": "page"
+ },
+ {
+  "source": "/מבנים-מיוחדים-ושירותים",
+  "destination": "/shop/",
+  "note": "special structures & toilets → catalog",
+  "kind": "page"
+ },
+ {
+  "source": "/garden-sheds",
+  "destination": "/shop/",
+  "note": "category → catalog",
+  "kind": "page"
+ },
+ {
+  "source": "/insulated-panel-sheds",
+  "destination": "/shop/",
+  "note": "category → catalog",
+  "kind": "page"
+ },
+ {
+  "source": "/takanon",
+  "destination": "/terms/",
+  "note": "terms",
+  "kind": "page"
+ },
+ {
+  "source": "/aboutus",
+  "destination": "/about/",
+  "note": "about",
+  "kind": "page"
+ },
+ {
+  "source": "/services",
+  "destination": "/warranty/",
+  "note": "after-sale service → warranty and service",
+  "kind": "page"
+ },
+ {
+  "source": "/shed-accessories",
+  "destination": "/shop/",
+  "note": "accessories → catalog (add-ons are on each shed's page)",
+  "kind": "page"
+ },
+ {
+  "source": "/outdoor-sheds",
+  "destination": "/shop/",
+  "note": "category → catalog",
+  "kind": "page"
+ },
+ {
+  "source": "/everest",
+  "destination": "/shop/",
+  "note": "Everest sheds → catalog",
+  "kind": "page"
+ },
+ {
+  "source": "/copy-of-אודות",
+  "destination": "/about/",
+  "note": "old copy of about",
+  "kind": "page"
+ },
+ {
+  "source": "/booking1111",
+  "destination": "/contact/",
+  "note": "booking (old copy) → contact",
+  "kind": "page"
+ },
+ {
+  "source": "/קונפיגורטור",
+  "destination": "/shop/",
+  "note": "3D configurator → catalog (the configurator opens from each shed)",
+  "kind": "page"
+ },
+ {
+  "source": "/easy-construction-sheds",
+  "destination": "/shop/",
+  "note": "category → catalog",
+  "kind": "page"
+ },
+ {
+  "source": "/gilboa",
+  "destination": "/product/gilboa-m/",
+  "note": "Gilboa sheds → Gilboa M (the category is hidden in the new catalog)",
+  "kind": "page"
+ },
+ {
+  "source": "/blog/categories/מחסני-גינה",
+  "destination": "/blog/",
+  "note": "blog category → blog",
+  "kind": "page"
+ },
+ {
+  "source": "/blog/categories/אחסון",
+  "destination": "/blog/",
+  "note": "blog category → blog",
+  "kind": "page"
+ },
+ {
+  "source": "/service-page/ביקור-במפעל-סיור-במחסן-בתצוגה",
+  "destination": "/contact/",
+  "note": "factory tour booking → contact",
+  "kind": "page"
+ },
+ {
+  "source": "/cart-page",
+  "destination": "/cart/",
+  "note": "Wix cart → cart",
+  "kind": "page"
+ },
+ {
+  "source": "/en/product-page/מבנה-שירותים-2x1",
+  "destination": "/en/product/toilet-2x1/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-2-3-1",
+  "destination": "/en/product/modubox-3x2/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס",
+  "destination": "/en/product/modubox-3x3/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/4-3-מחסן-מודובוקס",
+  "destination": "/en/product/modubox-4x3/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-3-5",
+  "destination": "/en/product/modubox-5x3/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-גינה-גלבוע-s",
+  "destination": "/en/product/gilboa-s/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-4x1-60",
+  "destination": "/en/product/modubox-4x1-6/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/חיוב-לקוח-עבור-קיצור-רוחב-עומק-גובה",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מזגן-איסקה-אינוורטר-מבית-טורנדו-1-כ-ס-במבצע-רק-לרוכשי-מחסן-אוורסט",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/פאנל-הכנה-לחשמל-למחסני-מודובוקס",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-גינה-מודובוקס-6x2",
+  "destination": "/en/product/modubox-6x2/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/קיר-זכוכית-ויטרינה",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-גינה-גלבוע-מידה-l-2-10-2-10",
+  "destination": "/en/product/gilboa-l/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודולרי-1-1",
+  "destination": "/en/product/modubox-1x1/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מבנה-שירותים-ומקלחת-3x1",
+  "destination": "/en/product/toilet-shower-3x1/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-2-3",
+  "destination": "/en/product/modubox-2x2/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-גינה-גלבוע-מידה-m-2-10-1-65",
+  "destination": "/en/product/gilboa-m/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-1-3",
+  "destination": "/en/product/modubox-3x1/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-5x2",
+  "destination": "/en/product/modubox-5x2/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/עמדת-שמירה-2x2",
+  "destination": "/en/product/guard-booth-2x2/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-6x3",
+  "destination": "/en/product/modubox-6x3/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/כוננית-אוורסט-5-מדפים",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-2x1-60",
+  "destination": "/en/product/modubox-2x1-6/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/חלון-הזזה-למחסן-מודובוקס-כולל-רשת",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/master-inv-12-x-wifi-eu",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מבנה-שירותים-1-6x1",
+  "destination": "/en/product/toilet-1-6x1/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/tornado-master-inv-22-x-wifi-eu",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/tornado-master-inv-16-x-wifi-eu",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-1-2",
+  "destination": "/en/product/modubox-2x1/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/כוננית-אוורסט-4-מדפים",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/רשת-גריל-לאוורור",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-1x0-80",
+  "destination": "/en/product/modubox-1x0-8/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/tornado-master-inv-18-x-wifi-eu",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/הובלה-והרכבה",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-3x1-60",
+  "destination": "/en/product/modubox-3x1-6/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/דלת-נוספת-כפולה",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-גינה-גלבוע-מידה-xl-2-10-2-60",
+  "destination": "/en/product/gilboa-xl/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-4-2",
+  "destination": "/en/product/modubox-4x2/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/קיר-זכוכית-ויטרינה-עם-תריס-מובנה",
+  "destination": "/en/shop/",
+  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-2x0-80",
+  "destination": "/en/product/modubox-2x0-8/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מחסן-מודובוקס-4x1",
+  "destination": "/en/product/modubox-4x1/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/product-page/מבנה-שירותים-1x1",
+  "destination": "/en/product/toilet-1x1/",
+  "note": "English copy: product",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/סוגי-מחסנים-לגינה-המדריך-המלא",
+  "destination": "/blog/סוגי-מחסנים-לגינה-המדריך-המלא/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מחסן-מודל-2024-פתרונות-אחסנה-מתקדמים-לגינה",
+  "destination": "/blog/מחסן-מודל-2024-פתרונות-אחסנה-מתקדמים-לגינה/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/טיפים-לבחירת-מחסן-אופניים",
+  "destination": "/blog/טיפים-לבחירת-מחסן-אופניים/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מחסן-למכונת-כביסה-ומייבש",
+  "destination": "/blog/מחסן-למכונת-כביסה-ומייבש/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/איך-לבחור-מחסן-לגינה",
+  "destination": "/blog/איך-לבחור-מחסן-לגינה/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/האם-צריך-אישור-למחסן-גינה",
+  "destination": "/blog/האם-צריך-אישור-למחסן-גינה/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מהן-הבדיקות-הבסיסיות-שכדאי-לכם-לערוך-לפני-קניית-מחסן-גינה",
+  "destination": "/blog/מהן-הבדיקות-הבסיסיות-שכדאי-לכם-לערוך-לפני-קניית-מחסן-גינה/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/6-סיבות-למה-כדאי-לכם-להשתמש-במבנים-מפנל-מבודד",
+  "destination": "/blog/6-סיבות-למה-כדאי-לכם-להשתמש-במבנים-מפנל-מבודד/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/חשיבותו-של-מחסן-גינה-עמיד-לחורף-הישראלי-2025",
+  "destination": "/blog/חשיבותו-של-מחסן-גינה-עמיד-לחורף-הישראלי-2025/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מחסן-פלסטיק-או-פנל-מבודד-מהם-ההבדלים-וכיצד-לבחור-ביניהם",
+  "destination": "/blog/מחסן-פלסטיק-או-פנל-מבודד-מהם-ההבדלים-וכיצד-לבחור-ביניהם/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/כיצד-לבחור-מחסן-למרפסת",
+  "destination": "/blog/כיצד-לבחור-מחסן-למרפסת/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מחסן-חניה-לרכב-הפתרון-האולטימטיבי",
+  "destination": "/blog/מחסן-חניה-לרכב-הפתרון-האולטימטיבי/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/יחידת-חצר-למה-צריך-את-זה-ואיפה-מתחילים",
+  "destination": "/blog/יחידת-חצר-למה-צריך-את-זה-ואיפה-מתחילים/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מחסן-לגינה-בדירת-גן-modubox-הפתרון-המושלם",
+  "destination": "/blog/מחסן-לגינה-בדירת-גן-modubox-הפתרון-המושלם/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מחסן-מודובוקס-נותן-שואו",
+  "destination": "/blog/מחסן-מודובוקס-נותן-שואו/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/טיפים-להקמת-משרד-בחצר",
+  "destination": "/blog/טיפים-להקמת-משרד-בחצר/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מדריך-מפורט-לבחירת-גודל-מחסן-הגינה",
+  "destination": "/blog/מדריך-מפורט-לבחירת-גודל-מחסן-הגינה/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/כיצד-ניתן-לשדרג-את-מחסן-הגינה",
+  "destination": "/blog/כיצד-ניתן-לשדרג-את-מחסן-הגינה/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מבנה-שירותים-נייד-כל-מה-שצריך-לדעת",
+  "destination": "/blog/מבנה-שירותים-נייד-כל-מה-שצריך-לדעת/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מחפשים-פתרונות-אחסון-חכמים-לפני-החגים-מחסן-מודובוקס-לחצר-ולמרפסת",
+  "destination": "/blog/מחפשים-פתרונות-אחסון-חכמים-לפני-החגים-מחסן-מודובוקס-לחצר-ולמרפסת/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/מהי-החשיבות-בבחירת-מחסן-איכותי-לגינה",
+  "destination": "/blog/מהי-החשיבות-בבחירת-מחסן-איכותי-לגינה/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/post/5-טיפים-להתקנה-מוצלחת-של-מחסן-גינה",
+  "destination": "/blog/5-טיפים-להתקנה-מוצלחת-של-מחסן-גינה/",
+  "note": "English copy: blog post",
+  "kind": "en"
+ },
+ {
+  "source": "/en/booking",
+  "destination": "/en/contact/",
+  "note": "English copy: factory visit booking → contact",
+  "kind": "en"
+ },
+ {
+  "source": "/en/nitzan",
+  "destination": "/en/",
+  "note": "English copy: landing page → home",
+  "kind": "en"
+ },
+ {
+  "source": "/en/סרטונים-מובחרים",
+  "destination": "/en/gallery/",
+  "note": "English copy: videos → gallery",
+  "kind": "en"
+ },
+ {
+  "source": "/en/מבנים-מיוחדים-ושירותים",
+  "destination": "/en/shop/",
+  "note": "English copy: special structures & toilets → catalog",
+  "kind": "en"
+ },
+ {
+  "source": "/en/garden-sheds",
+  "destination": "/en/shop/",
+  "note": "English copy: category → catalog",
+  "kind": "en"
+ },
+ {
+  "source": "/en/insulated-panel-sheds",
+  "destination": "/en/shop/",
+  "note": "English copy: category → catalog",
+  "kind": "en"
+ },
+ {
+  "source": "/en/takanon",
+  "destination": "/en/terms/",
+  "note": "English copy: terms",
+  "kind": "en"
+ },
+ {
+  "source": "/en/aboutus",
+  "destination": "/en/about/",
+  "note": "English copy: about",
+  "kind": "en"
+ },
+ {
+  "source": "/en/services",
+  "destination": "/en/warranty/",
+  "note": "English copy: after-sale service → warranty and service",
+  "kind": "en"
+ },
+ {
+  "source": "/en/shed-accessories",
+  "destination": "/en/shop/",
+  "note": "English copy: accessories → catalog (add-ons are on each shed's page)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/outdoor-sheds",
+  "destination": "/en/shop/",
+  "note": "English copy: category → catalog",
+  "kind": "en"
+ },
+ {
+  "source": "/en/everest",
+  "destination": "/en/shop/",
+  "note": "English copy: Everest sheds → catalog",
+  "kind": "en"
+ },
+ {
+  "source": "/en/copy-of-אודות",
+  "destination": "/en/about/",
+  "note": "English copy: old copy of about",
+  "kind": "en"
+ },
+ {
+  "source": "/en/booking1111",
+  "destination": "/en/contact/",
+  "note": "English copy: booking (old copy) → contact",
+  "kind": "en"
+ },
+ {
+  "source": "/en/קונפיגורטור",
+  "destination": "/en/shop/",
+  "note": "English copy: 3D configurator → catalog (the configurator opens from each shed)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/easy-construction-sheds",
+  "destination": "/en/shop/",
+  "note": "English copy: category → catalog",
+  "kind": "en"
+ },
+ {
+  "source": "/en/gilboa",
+  "destination": "/en/product/gilboa-m/",
+  "note": "English copy: Gilboa sheds → Gilboa M (the category is hidden in the new catalog)",
+  "kind": "en"
+ },
+ {
+  "source": "/en/blog/categories/מחסני-גינה",
+  "destination": "/blog/",
+  "note": "English copy: blog category → blog",
+  "kind": "en"
+ },
+ {
+  "source": "/en/blog/categories/אחסון",
+  "destination": "/blog/",
+  "note": "English copy: blog category → blog",
+  "kind": "en"
+ },
+ {
+  "source": "/en/service-page/ביקור-במפעל-סיור-במחסן-בתצוגה",
+  "destination": "/en/contact/",
+  "note": "English copy: factory tour booking → contact",
+  "kind": "en"
+ },
+ {
+  "source": "/en/cart-page",
+  "destination": "/en/cart/",
+  "note": "English copy: Wix cart → cart",
+  "kind": "en"
+ },
+ {
+  "source": "/product-page/:slug*",
+  "destination": "/shop/",
+  "note": "any other Wix product → catalog",
+  "kind": "pattern"
+ },
+ {
+  "source": "/en/product-page/:slug*",
+  "destination": "/en/shop/",
+  "note": "any other Wix product (English) → catalog",
+  "kind": "pattern"
+ },
+ {
+  "source": "/post/:slug*",
+  "destination": "/blog/",
+  "note": "any other Wix blog post → blog",
+  "kind": "pattern"
+ },
+ {
+  "source": "/en/post/:slug*",
+  "destination": "/blog/",
+  "note": "any other Wix blog post (English) → blog",
+  "kind": "pattern"
+ },
+ {
+  "source": "/blog/categories/:slug*",
+  "destination": "/blog/",
+  "note": "Wix blog categories",
+  "kind": "pattern"
+ },
+ {
+  "source": "/blog/hashtags/:slug*",
+  "destination": "/blog/",
+  "note": "Wix blog hashtags",
+  "kind": "pattern"
+ },
+ {
+  "source": "/blog/page/:n*",
+  "destination": "/blog/",
+  "note": "Wix blog pagination",
+  "kind": "pattern"
+ },
+ {
+  "source": "/blog/tags/:slug*",
+  "destination": "/blog/",
+  "note": "Wix blog tags",
+  "kind": "pattern"
+ },
+ {
+  "source": "/en/blog/:path*",
+  "destination": "/blog/",
+  "note": "English blog → blog",
+  "kind": "pattern"
+ },
+ {
+  "source": "/en/blog",
+  "destination": "/blog/",
+  "note": "English blog → blog",
+  "kind": "pattern"
+ },
+ {
+  "source": "/category/:slug*",
+  "destination": "/shop/",
+  "note": "Wix store categories",
+  "kind": "pattern"
+ },
+ {
+  "source": "/service-page/:slug*",
+  "destination": "/contact/",
+  "note": "Wix bookings",
+  "kind": "pattern"
+ },
+ {
+  "source": "/booking-calendar/:slug*",
+  "destination": "/contact/",
+  "note": "Wix bookings",
+  "kind": "pattern"
+ },
+ {
+  "source": "/book-online",
+  "destination": "/contact/",
+  "note": "Wix bookings",
+  "kind": "pattern"
+ },
+ {
+  "source": "/thank-you-page/:slug*",
+  "destination": "/",
+  "note": "Wix order confirmation",
+  "kind": "pattern"
+ },
+ {
+  "source": "/profile/:path*",
+  "destination": "/blog/",
+  "note": "Wix blog author profiles",
+  "kind": "pattern"
+ },
+ {
+  "source": "/home",
+  "destination": "/",
+  "note": "Wix default home address",
+  "kind": "pattern"
+ }
+]
