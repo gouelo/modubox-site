@@ -30,6 +30,10 @@ function vars(locale: Locale): Record<string, string> {
   return {
     phone: site.phone,
     email: site.email,
+    a11yPhone: a.coordinatorPhone,
+    a11yEmail: a.coordinatorEmail,
+    legalName: locale === "he" ? site.legal.name : site.legal.nameEn,
+    companyId: site.legal.companyId,
     whatsappLink: waLink(site.whatsappGreeting),
     // until Yoel names the coordinator, the role alone
     coordinator: name.startsWith("TODO") ? dict(locale).accessibility.coordinatorRole : name,

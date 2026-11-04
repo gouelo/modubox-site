@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Modubox ("we") respects your privacy. This policy explains what we collect when you browse the site, leave your details or order, what we use it for, who we share it with, and your rights. It follows Israel's Protection of Privacy Law, 5741-1981, including Amendment 13, and its regulations. The Hebrew version is the binding one.
+Modubox, a brand of {{legalName}} (company no. {{companyId}}) ("we"), respects your privacy. This policy explains what we collect when you browse the site, leave your details or order, what we use it for, who we share it with, and your rights. It follows Israel's Protection of Privacy Law, 5741-1981, including Amendment 13, and its regulations. The Hebrew version is the binding one.
 
 ## What we collect
 

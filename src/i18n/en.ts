@@ -100,7 +100,7 @@ export const en: Dict = {
     talk: "Get in Touch",
     factory: "Factory",
     factory2: "Second plant",
-    copyright: (year: number) => `© ${year} Modubox. All rights reserved.`,
+    copyright: (year: number, legal: string) => `© ${year} Modubox, a brand of ${legal}. All rights reserved.`,
     secure: (n: number) => `Secure checkout · Up to ${n} payments`,
   },
 
