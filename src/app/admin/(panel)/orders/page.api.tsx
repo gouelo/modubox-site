@@ -40,9 +40,14 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
         title="הזמנות"
         sub={total === 1 ? "הזמנה אחת" : `${total} הזמנות`}
         action={
-          <a href={`/admin/export/${filtersQuery({ ...f, page: 1 })}`} className="btn-ghost min-h-11 px-4 text-sm">
-            ⬇ ייצוא לאקסל (CSV)
-          </a>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/admin/orders/new/" className="btn-brand min-h-11 px-4 text-sm">
+              + הזמנה חדשה
+            </Link>
+            <a href={`/admin/export/${filtersQuery({ ...f, page: 1 })}`} className="btn-ghost min-h-11 px-4 text-sm">
+              ⬇ ייצוא לאקסל (CSV)
+            </a>
+          </div>
         }
       />
 

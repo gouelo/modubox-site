@@ -43,6 +43,13 @@
       "when": 1793798224995,
       "tag": "0005_leads_status",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793799320782,
+      "tag": "0006_manual_orders",
+      "breakpoints": true
     }
   ]
 }

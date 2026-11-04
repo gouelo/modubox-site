@@ -77,8 +77,10 @@ export const orders = pgTable(
 
     /** where the order came from: null the site's checkout; "phone", "whatsapp" or "other" for one entered in the admin */
     source: text("source").$type<OrderSource>(),
-    /** how a manual order is paid: "transfer", "cash", "zcredit_link", "other" (null: online at checkout) */
+    /** how a manual order is paid: "transfer", "cash", "check", "zcredit_link", "other" (null: online at checkout) */
     payment: text("payment"),
+    /** a manual order's Z-Credit payment page, sent to the customer */
+    paymentLink: text("payment_link"),
     /** the customer agreed to get marketing messages (the checkout's checkbox); null: not asked (older orders) */
     marketingConsent: boolean("marketing_consent"),
     /** a payment test (the hidden 1 ₪ product): never counted in sales */

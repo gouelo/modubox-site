@@ -74,3 +74,9 @@ export const sourceLabel = (s: OrderSource | null | undefined) => (s ? SOURCE_LA
 
 /** The marketing checkbox: yes, no, or not asked (orders from before it existed, manual orders). */
 export const consentLabel = (c: boolean | null | undefined) => (c === true ? "כן" : c === false ? "לא" : "");
+
+/** How a manual order (one entered in the admin) is paid. */
+export const MANUAL_PAYMENTS = ["transfer", "cash", "check", "zcredit_link", "other"] as const;
+export type ManualPayment = (typeof MANUAL_PAYMENTS)[number];
+export const PAYMENT_LABEL: Record<ManualPayment, string> = { transfer: "העברה בנקאית", cash: "מזומן", check: "צ׳ק", zcredit_link: "קישור תשלום Z-Credit", other: "אחר" };
+export const paymentLabel = (p: string | null | undefined) => (p ? (PAYMENT_LABEL[p as ManualPayment] ?? p) : "");
