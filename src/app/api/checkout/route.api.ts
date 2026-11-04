@@ -39,21 +39,17 @@ export async function POST(req: Request) {
   const orderId = newOrderId();
   const origin = new URL(req.url).origin;
 
-  try {
-    const session = await createSession(buildCreateSession(config, order, orderId, origin));
-    if (!session.ok) {
-      console.error("[checkout] CreateSession refused", { orderId, code: session.code, message: session.message });
-      return json({ error: "payment_unavailable" }, 502);
-    }
-    // TODO(order notification): no email service yet. Until one is added (e.g. Resend),
-    // the order lives in the Vercel logs (Project → Logs) and in Z-Credit's panel
-    // (AdditionalText carries the customer and address).
-    console.info("[checkout] order created, waiting for payment", JSON.stringify(orderLog(orderId, session.sessionId, order)));
-    return json({ url: session.url, orderId });
-  } catch (e) {
-    console.error("[checkout] CreateSession failed", { orderId, error: String(e) });
-    return json({ error: "payment_unavailable" }, 502);
+  const session = await createSession(buildCreateSession(config, order, orderId, origin));
+  if (!session.ok) {
+    console.error("[checkout] CreateSession failed", JSON.stringify({ orderId, status: session.status, code: session.code, message: session.message, body: session.body }));
+    // safe to show: Z-Credit's status and error, never the key or the request
+    return json({ error: "payment_unavailable", zcreditError: { status: session.status, ReturnCode: session.code, ReturnMessage: session.message.slice(0, 300) } }, 502);
   }
+  // TODO(order notification): no email service yet. Until one is added (e.g. Resend),
+  // the order lives in the Vercel logs (Project → Logs) and in Z-Credit's panel
+  // (AdditionalText carries the customer and address).
+  console.info("[checkout] order created, waiting for payment", JSON.stringify(orderLog(orderId, session.sessionId, order)));
+  return json({ url: session.url, orderId });
 }
 
 function orderLog(orderId: string, sessionId: string, order: PricedOrder) {

@@ -137,12 +137,42 @@ async function post(endpoint: string, body: unknown, fetcher: typeof fetch): Pro
   return unwrap(await res.json());
 }
 
-export type SessionResult = { ok: true; sessionId: string; url: string } | { ok: false; code: unknown; message: string };
+export type SessionResult =
+  | { ok: true; sessionId: string; url: string }
+  /** status: Z-Credit's HTTP status (0: no answer); body: its answer, the key redacted, cut short */
+  | { ok: false; status: number; code: unknown; message: string; body: string };
+
+/** The key never leaves the server: removed from anything logged or returned. */
+export function redact(text: string, key: string): string {
+  return key ? text.split(key).join("[KEY]") : text;
+}
 
 export async function createSession(request: CreateSessionRequest, fetcher: typeof fetch = fetch): Promise<SessionResult> {
-  const d = await post("CreateSession", request, fetcher);
+  let status = 0;
+  let text = "";
+  try {
+    const res = await fetcher(`${ZCREDIT_API}/CreateSession`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8", Accept: "application/json" },
+      body: JSON.stringify(request),
+      cache: "no-store",
+      signal: AbortSignal.timeout(20_000),
+    });
+    status = res.status;
+    text = await res.text();
+  } catch (e) {
+    return { ok: false, status, code: null, message: String(e), body: "" };
+  }
+  const body = redact(text, request.Key).slice(0, 2000);
+  let d: Record<string, unknown> = {};
+  try {
+    d = unwrap(JSON.parse(text));
+  } catch {
+    return { ok: false, status, code: null, message: "not JSON", body };
+  }
   const url = typeof d.SessionUrl === "string" ? d.SessionUrl : "";
-  if (d.HasError === true || !url.startsWith("https://")) return { ok: false, code: d.ReturnCode, message: String(d.ReturnMessage ?? "") };
+  if (status >= 400 || d.HasError === true || !url.startsWith("https://"))
+    return { ok: false, status, code: d.ReturnCode ?? null, message: redact(String(d.ReturnMessage ?? ""), request.Key), body };
   return { ok: true, sessionId: String(d.SessionId ?? ""), url };
 }
 
