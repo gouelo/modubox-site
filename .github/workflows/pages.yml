@@ -28,6 +28,7 @@ jobs:
       - run: npm run check
       - run: npm run build
         env:
+          GITHUB_PAGES: "true"
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
       # originals are only the source for public/_img sizes; the site never loads them
       - run: rm -rf out/images && touch out/.nojekyll
