@@ -1,4 +1,4 @@
-import site from "../../data/site.json";
+import { site } from "./catalog";
 import { he } from "@/i18n/he";
 import type { LeadAttribution } from "@/db/schema";
 import { formatILS } from "./format";

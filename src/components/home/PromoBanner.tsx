@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import promo from "../../../data/promo.json";
 import { lp } from "@/i18n";
+import { promo } from "@/lib/catalog";
 import { useLocale, useT } from "@/i18n/client";
 import { useHydrated } from "@/lib/use-hydrated";
 import { waLink } from "@/lib/whatsapp";
