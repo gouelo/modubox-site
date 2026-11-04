@@ -1,7 +1,9 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { lp } from "@/i18n";
-import { promo } from "@/lib/catalog";
+import { catalog, promo } from "@/lib/catalog";
+import { giftName, giftRules, giftsActive } from "@/lib/promo-gifts";
 import { useLocale, useT } from "@/i18n/client";
 import { useHydrated } from "@/lib/use-hydrated";
 import { waLink } from "@/lib/whatsapp";
@@ -31,9 +33,12 @@ export function PromoBanner() {
   const locale = useLocale();
   const t = useT();
   // the end date is checked in the visitor's browser (the page itself is built once)
-  const over = useHydrated() && ended(promo.endDate);
+  const hydrated = useHydrated();
+  const over = hydrated && ended(promo.endDate);
   const words = locale === "en" ? { ...promo.en, cta: { ...promo.cta, label: promo.en.ctaLabel, whatsappText: promo.en.whatsappText } } : promo;
   if (!promo.enabled || !words.enabled || over) return null;
+  // the gifts' days are checked in the browser too; before that, as the page was built
+  const gifts = giftRules.enabled && (!hydrated || giftsActive());
 
   const wa = promo.cta.href === "whatsapp";
   const cls = "btn shrink-0 whitespace-nowrap bg-white px-6 py-3 text-ink shadow-soft hover:bg-copper-tint";
@@ -46,6 +51,8 @@ export function PromoBanner() {
       {words.cta.label} <Icon name="arrow" className="size-4" />
     </Link>
   );
+
+  if (gifts) return <GiftPromo words={words} cta={cta} />;
 
   return (
     <section className="container-x mt-8 sm:mt-10" aria-label={words.eyebrow}>
@@ -65,6 +72,81 @@ export function PromoBanner() {
               {words.text && <p className="mt-1 text-sm leading-6 text-white/90 sm:text-base">{words.text}</p>}
             </div>
             {cta}
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+/** Swatches of the floor's colours (the WPC floor add-on's samples). */
+function FloorSwatches() {
+  const floor = catalog("he").addonById.get(giftRules.large.addon);
+  const swatches = (floor?.choices ?? []).map((c) => c.swatch).filter((x): x is string => !!x?.includes("/"));
+  return (
+    <span className="flex -space-x-3 rtl:space-x-reverse" aria-hidden="true">
+      {swatches.map((sw) => (
+        <span key={sw} className="relative size-11 overflow-hidden rounded-full shadow-soft ring-2 ring-white sm:size-12">
+          <Image src={sw} alt="" fill sizes="48px" className="object-cover" />
+        </span>
+      ))}
+    </span>
+  );
+}
+
+/**
+ * November 2026: a gift with every Modubox shed (data/promo-gifts.json), a
+ * shelving unit under the threshold and a parquet floor from it up, with the
+ * promotion's photo (cut from Yoel's artwork, without its baked-in text).
+ * The words above the gifts are the admin's promo banner; the gifts and the
+ * threshold come from the rules, so the banner and the cart always agree.
+ */
+function GiftPromo({ words, cta }: { words: { eyebrow: string; title: string; text: string }; cta: React.ReactNode }) {
+  const locale = useLocale();
+  const t = useT().promo;
+  const g = t.gifts;
+  const r = giftRules;
+  const n = r.thresholdM2;
+  const dates = [shortDate(r.advertisedStart || r.start), shortDate(r.end)] as const;
+  const shelf = catalog(locale).addonById.get(r.small.addon);
+  const tiles = [
+    { key: "small", when: r.atThreshold === "large" ? g.below(n) : g.upTo(n), what: g.gift(giftName(r.small, locale)), sub: "", art: shelf?.image ? <span className="relative block size-14 shrink-0 overflow-hidden rounded-xl bg-white sm:size-16" aria-hidden="true"><Image src={shelf.image} alt="" fill sizes="64px" className="object-contain p-1" /></span> : null },
+    { key: "large", when: r.atThreshold === "large" ? g.from(n) : g.above(n), what: g.gift(giftName(r.large, locale)), sub: g.anyColour, art: <FloorSwatches /> },
+  ];
+  return (
+    <section className="container-x mt-8 sm:mt-10" aria-labelledby="promo-title">
+      <Reveal>
+        <div className="relative isolate overflow-hidden rounded-[2rem] bg-petrol text-white shadow-lift lg:grid lg:grid-cols-[1fr_1.1fr]">
+          <div className="lg:order-2 lg:self-center lg:p-7 lg:ps-0">
+            <div className="relative aspect-[16/9] lg:overflow-hidden lg:rounded-3xl lg:shadow-lift lg:ring-1 lg:ring-white/15">
+              <Image src="promo/november-gifts.webp" alt={g.imageAlt} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
+              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-petrol to-transparent lg:hidden" aria-hidden="true" />
+            </div>
+          </div>
+          <div className="relative px-5 pb-6 pt-2 sm:px-8 sm:pb-8 lg:self-center lg:px-10 lg:py-9">
+            <div className="absolute -end-16 -top-20 -z-10 size-64 rounded-full bg-brand/30 blur-3xl" aria-hidden="true" />
+            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-bold tracking-wide text-white/90 sm:text-sm">
+              <span className="rounded-full bg-brand-dark px-3 py-1 text-white">{words.eyebrow}</span>
+              <span dir="ltr">{dates[0]}–{dates[1]}</span>
+            </p>
+            <h2 id="promo-title" className="mt-3 text-[1.75rem] font-extrabold leading-[1.15] tracking-tight sm:text-4xl lg:text-[2.1rem] xl:text-4xl">{words.title}</h2>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              {tiles.map((x) => (
+                <li key={x.key} className="flex items-center gap-3 rounded-2xl bg-white p-3 text-ink shadow-soft sm:p-4">
+                  {x.art}
+                  <span className="min-w-0">
+                    <span className="block text-sm font-bold text-brand-dark">{x.when}</span>
+                    <span className="block text-lg font-extrabold leading-snug">{x.what}</span>
+                    {x.sub && <span className="block text-sm text-ink-soft">{x.sub}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {words.text && <p className="mt-4 text-[15px] leading-6 text-white/85">{words.text}</p>}
+            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+              {cta}
+              <p className="text-xs text-white/70">{g.fine(...dates)}</p>
+            </div>
           </div>
         </div>
       </Reveal>

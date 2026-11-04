@@ -118,6 +118,7 @@ const paths: Record<string, React.ReactNode> = {
     </>
   ),
   sparkle: <path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2Z" />,
+  gift: <path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7Zm0 0h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7Z" />,
   facebook: <path fill="currentColor" stroke="none" d="M14 8h3V4h-3a5 5 0 0 0-5 5v2H7v4h2v8h4v-8h3l1-4h-4V9a1 1 0 0 1 1-1Z" />,
   instagram: (
     <>

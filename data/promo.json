@@ -1,21 +1,21 @@
 {
-  "_readme": "מבצע החודש – הפס שמופיע בדף הבית מתחת לתמונה הראשית. מחליפים כאן כל חודש: enabled (true = מוצג, false = מוסתר), eyebrow (התווית הקטנה), title (כותרת), text (שורת הסבר), endDate (תאריך סיום בפורמט YYYY-MM-DD; אחרי התאריך הפס נעלם לבד; ריק = בלי תאריך), cta.label (טקסט הכפתור), cta.href (קישור: whatsapp = וואטסאפ עם הודעה מוכנה, או דף באתר כמו /shop/ או /product/modubox-3x2/). ראו README.md. באתר באנגלית (/en/) מופיע הנוסח שב-en: אותם שדות באנגלית. כשמחליפים מבצע, עדכנו גם אותו (או כתבו enabled: false בתוכו כדי להסתיר את הפס באנגלית).",
+  "_readme": "מבצע החודש – הפס שמופיע בדף הבית מתחת לתמונה הראשית. מחליפים כאן כל חודש: enabled (true = מוצג, false = מוסתר), eyebrow (התווית הקטנה), title (כותרת), text (שורת הסבר), endDate (תאריך סיום בפורמט YYYY-MM-DD; אחרי התאריך הפס נעלם לבד; ריק = בלי תאריך), cta.label (טקסט הכפתור), cta.href (קישור: whatsapp = וואטסאפ עם הודעה מוכנה, או דף באתר כמו /shop/ או /product/modubox-3x2/). ראו README.md. באתר באנגלית (/en/) מופיע הנוסח שב-en: אותם שדות באנגלית. כשמחליפים מבצע, עדכנו גם אותו (או כתבו enabled: false בתוכו כדי להסתיר את הפס באנגלית). המתנות עצמן (כוננית / רצפת פרקט, גבול ה־6 מ\"ר והתאריכים) מוגדרות ב-data/promo-gifts.json; כל עוד הן בתוקף, הפס מציג אותן עם תמונת המבצע.",
   "enabled": true,
-  "eyebrow": "מבצע החודש",
-  "title": "כאן תופיע כותרת המבצע של החודש",
-  "text": "טקסט לדוגמה: כאן כותבים בשורה אחת מה המבצע ולמי הוא מתאים.",
-  "endDate": "2026-11-30",
+  "eyebrow": "מבצע נובמבר",
+  "title": "ברכישת מחסן מודובוקס – מתנה עלינו",
+  "text": "מתנה אחת לכל מחסן מודובוקס בהזמנה. היא מתווספת לעגלה לבד.",
+  "endDate": "2026-12-03",
   "cta": {
-    "label": "לפרטים בוואטסאפ",
-    "href": "whatsapp",
-    "whatsappText": "היי מודובוקס! אשמח לשמוע על מבצע החודש"
+    "label": "לבחירת מחסן",
+    "href": "/shop/",
+    "whatsappText": "היי מודובוקס! אשמח לשמוע על מבצע המתנות"
   },
   "en": {
     "enabled": true,
-    "eyebrow": "This month's offer",
-    "title": "This month's offer headline goes here",
-    "text": "Sample text: one line describing the offer and who it's for.",
-    "ctaLabel": "Details on WhatsApp",
-    "whatsappText": "Hi Modubox! I'd love to hear about this month's offer."
+    "eyebrow": "November offer",
+    "title": "Buy a Modubox shed, get a gift on us",
+    "text": "One gift with every Modubox shed you order, added to your cart automatically.",
+    "ctaLabel": "Choose your shed",
+    "whatsappText": "Hi Modubox! I'd love to hear about the gift offer."
   }
 }

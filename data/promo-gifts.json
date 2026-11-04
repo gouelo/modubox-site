@@ -1,0 +1,12 @@
+{
+  "_readme": "מתנות המבצע בעגלה (מבצע נובמבר 2026). enabled: true = פעיל. start / end: התאריכים (כולל, לפי שעון ישראל, YYYY-MM-DD); מחוץ להם אין מתנות. advertisedStart: התאריך שמופיע באותיות הקטנות בבאנר (המבצע עלה כבר בערב שלפניו). categories: על אילו מוצרים (modubox = מחסני מודובוקס). thresholdM2: גבול השטח במ\"ר; atThreshold: מה מקבל מחסן ששטחו בדיוק בגבול (large = המתנה הגדולה, small = הקטנה). small: המתנה למחסן קטן מהגבול; large: למחסן מעל הגבול. addon: התוספת שהיא המתנה (תוספת עם בחירה, כמו wpc-floor, הופכת לחינם והלקוח בוחר צבע). label / en: שם המתנה בעגלה בעברית ובאנגלית. הבאנר בדף הבית נערך בניהול (מבצע החודש); הכללים כאן. ראו README.md.",
+  "enabled": true,
+  "start": "2026-11-04",
+  "end": "2026-12-03",
+  "advertisedStart": "2026-11-05",
+  "categories": ["modubox"],
+  "thresholdM2": 6,
+  "atThreshold": "large",
+  "small": { "addon": "shelf-5", "label": "כוננית אוורסט 5 מדפים", "en": "Everest 5-shelf unit" },
+  "large": { "addon": "wpc-floor", "label": "רצפת פרקט WPC", "en": "WPC parquet floor" }
+}

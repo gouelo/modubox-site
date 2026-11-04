@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { CouponBox } from "@/components/CouponBox";
+import { GiftPicker } from "@/components/GiftPicker";
 import { Icon } from "@/components/Icon";
 import { lp } from "@/i18n";
 import { useLocale, useT } from "@/i18n/client";
@@ -96,6 +97,7 @@ export function CartView() {
           {cart.lines.map((l) => {
             const options = fulfillmentOptions(l.product);
             const editHref = lp(locale, productPath(l.product));
+            const extras = l.quote.lines.slice(1).filter((x) => !x.gift);
             return (
               <motion.li key={l.item.id} layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: locale === "he" ? 40 : -40 }} className="card p-4 sm:p-5">
                 <div className="flex gap-4">
@@ -123,13 +125,13 @@ export function CartView() {
                     </div>
                   </div>
                 </div>
-                {l.quote.lines.length > 1 && (
+                {extras.length > 0 && (
                   <ul className="mt-4 space-y-1.5 rounded-2xl bg-sand p-3 text-[13px] leading-5 text-ink-soft">
                     <li className="flex justify-between gap-3 text-ink">
                       <span className="font-bold">{t.common.basePrice}</span>
                       <span className="shrink-0 font-semibold tabular-nums">{ils(l.product.price)}</span>
                     </li>
-                    {l.quote.lines.slice(1).map((x) => (
+                    {extras.map((x) => (
                       <li key={x.id} className="flex justify-between gap-3">
                         <span>
                           {x.label}
@@ -141,6 +143,9 @@ export function CartView() {
                       </li>
                     ))}
                   </ul>
+                )}
+                {l.quote.gift && (
+                  <GiftPicker gift={l.quote.gift} product={l.product.name} id={l.item.id} onPick={(addon, choice) => update(l.item.id, { selections: { ...l.item.selections, [addon]: choice } })} />
                 )}
                 {l.item.design && (
                   <div className="mt-3 flex items-start gap-3 rounded-2xl border border-brand/25 bg-brand/5 p-3 text-[13px] leading-5">

@@ -12,7 +12,7 @@ function quoteLines(q: Quote, locale: Locale): string[] {
   const t = dict(locale).common;
   return q.lines.slice(1).map((l) => {
     const qty = l.qty > 1 ? ` ×${l.qty}` : "";
-    const price = l.total === null ? t.priceOnRequest : l.total === 0 ? t.noExtra : formatILS(l.total, locale);
+    const price = l.gift ? dict(locale).gift.free : l.total === null ? t.priceOnRequest : l.total === 0 ? t.noExtra : formatILS(l.total, locale);
     return `• ${l.label}${qty} – ${price}`;
   });
 }

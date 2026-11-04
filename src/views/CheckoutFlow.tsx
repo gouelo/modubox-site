@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CouponBox } from "@/components/CouponBox";
+import { GiftPicker } from "@/components/GiftPicker";
 import { Icon } from "@/components/Icon";
 import { lp } from "@/i18n";
 import { useLocale, useT } from "@/i18n/client";
@@ -52,12 +53,14 @@ export function CheckoutPage() {
 
 export function CheckoutFlow() {
   const hydrated = useHydrated();
-  const { items, clear } = useCart();
+  const { items, clear, update } = useCart();
   const locale = useLocale();
   const t = useT();
   const k = t.checkout;
   const ils = (n: number) => formatILS(n, locale);
   const cart = summarizeCart(items, locale);
+  // a free parquet floor needs its colour before payment, so the factory knows what to prepare
+  const colourMissing = cart.lines.some((l) => l.quote.gift?.choiceAddon && !l.quote.gift.choice);
   const couponCheck = useCoupon(items, locale);
   const discount = couponDiscount(couponCheck);
   const toPay = cart.total - (discount?.amount ?? 0);
@@ -245,7 +248,8 @@ export function CheckoutFlow() {
                   {cart.lines.map((l) => (
                     <div key={l.item.id} className="p-4">
                       <div className="flex justify-between gap-3 font-bold"><span>{l.product.name}{l.item.qty > 1 ? ` ×${l.item.qty}` : ""}</span><span>{ils(l.itemsTotal)}</span></div>
-                      {l.quote.lines.slice(1).map((x) => <p key={x.id} className="text-sm text-ink-soft">+ {x.label}{x.qty > 1 ? ` ×${x.qty}` : ""}</p>)}
+                      {l.quote.lines.slice(1).filter((x) => !x.gift).map((x) => <p key={x.id} className="text-sm text-ink-soft">+ {x.label}{x.qty > 1 ? ` ×${x.qty}` : ""}</p>)}
+                      {l.quote.gift && <GiftPicker gift={l.quote.gift} product={l.product.name} id={`co-${l.item.id}`} onPick={(addon, choice) => update(l.item.id, { selections: { ...l.item.selections, [addon]: choice } })} />}
                       {l.item.design && <p className="text-sm text-ink-soft">{k.designed}{l.item.design.exact ? "" : k.designedTodo}</p>}
                       <p className="mt-1 text-sm text-ink-soft"><span aria-hidden="true">🚚 </span>{l.fulfillment.label}: {l.fulfillment.price === null ? t.common.onRequest : l.fulfillment.price === 0 ? t.common.noCost : ils(l.fulfillment.price * l.item.qty)}</p>
                     </div>
@@ -272,9 +276,10 @@ export function CheckoutFlow() {
                   <Link href={lp(locale, "/privacy/")} target="_blank" className="font-bold underline">{k.privacy.link}</Link>
                   {k.privacy.after}
                 </p>
+                {colourMissing && <p className="rounded-2xl bg-copper-tint p-3 text-sm font-semibold text-copper-deep" role="status">{t.gift.needColour}</p>}
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setStep(0)} className="btn-ghost">{t.common.back}</button>
-                  <button type="button" disabled={!agree} onClick={() => setStep(2)} className="btn-primary flex-1 py-4 text-base">{k.toPayment}</button>
+                  <button type="button" disabled={!agree || colourMissing} onClick={() => setStep(2)} className="btn-primary flex-1 py-4 text-base">{k.toPayment}</button>
                 </div>
               </div>
             )}

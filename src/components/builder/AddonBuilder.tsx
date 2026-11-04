@@ -44,7 +44,7 @@ export function AddonBuilder({ product }: { product: Product }) {
   const fwd = locale === "he" ? 1 : -1;
 
   const q = quote(product, selections);
-  const extras = q.lines.length - 1;
+  const extras = q.lines.slice(1).filter((l) => !l.gift).length;
   const added = addedAs === JSON.stringify(selections);
   const delivery = fulfillmentOptions(product)[0];
   const current = steps[step];
@@ -105,7 +105,7 @@ export function AddonBuilder({ product }: { product: Product }) {
       {current.id === "summary" ? (
         <SummaryStep product={product} q={q} profile={profileLabel} goTo={goTo} stepOf={stepOf} cta={cta} />
       ) : (
-        <AddonStep step={current} product={product} selections={selections} set={set} />
+        <AddonStep step={current} product={product} selections={selections} set={set} giftAddon={q.gift?.choiceAddon?.id} />
       )}
     </motion.div>
   );
@@ -350,7 +350,7 @@ function ShedIcon({ frame, className = "" }: { frame: string; className?: string
   );
 }
 
-function AddonStep({ step, product, selections, set }: { step: BuilderStep; product: Product; selections: Selections; set: (id: string, v: number | string) => void }) {
+function AddonStep({ step, product, selections, set, giftAddon }: { step: BuilderStep; product: Product; selections: Selections; set: (id: string, v: number | string) => void; giftAddon?: string }) {
   const panel = addonsFor(product).find((a) => a.id === "electric-panel");
   const t = useT();
   const wantsPanel = step.addons.some((a) => a.id === "ac") && selections.ac !== undefined && selections.ac !== "none" && panel && !selections["electric-panel"];
@@ -359,7 +359,7 @@ function AddonStep({ step, product, selections, set }: { step: BuilderStep; prod
       {step.addons.map((a) => (
         <motion.div key={a.id} layout="position" className={a.kind === "choice" ? "md:col-span-2" : ""}>
           {a.kind === "choice" ? (
-            <ChoiceGroup addon={a} value={String(selections[a.id] ?? a.default ?? "")} onChange={(v) => set(a.id, v)} />
+            <ChoiceGroup addon={a} value={String(selections[a.id] ?? a.default ?? "")} onChange={(v) => set(a.id, v)} gift={giftAddon === a.id} />
           ) : a.kind === "qty" ? (
             <QtyCard addon={a} qty={Number(selections[a.id] ?? 0)} onChange={(v) => set(a.id, v)} />
           ) : (
@@ -406,7 +406,12 @@ function Lines({ q, profile, dark = false, onJump }: { q: Quote; profile?: strin
         </li>
       )}
       <AnimatePresence initial={false}>
-        {extras.map((l) => (
+        {extras.map((l) => l.gift ? (
+          <li key={l.id} className={`flex justify-between gap-3 py-1 font-semibold ${dark ? "text-copper" : "text-copper-deep"}`}>
+            <span className="flex items-start gap-1.5"><Icon name="gift" className="mt-0.5 size-4 shrink-0" />{l.label}</span>
+            <span className="shrink-0">{t.gift.free}</span>
+          </li>
+        ) : (
           <motion.li
             key={l.id}
             layout
@@ -428,7 +433,7 @@ function Lines({ q, profile, dark = false, onJump }: { q: Quote; profile?: strin
           </motion.li>
         ))}
       </AnimatePresence>
-      {extras.length === 0 && <li className={`py-1 ${dark ? "text-white/60" : "text-ink-soft"}`}>{t.builder.noAddons}</li>}
+      {extras.every((l) => l.gift) && <li className={`py-1 ${dark ? "text-white/60" : "text-ink-soft"}`}>{t.builder.noAddons}</li>}
     </ul>
   );
 }

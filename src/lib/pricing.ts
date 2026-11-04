@@ -1,5 +1,6 @@
 import { dict, type Locale } from "@/i18n";
 import { addonsFor, getProduct } from "./catalog";
+import { giftFor, giftName, type Gift } from "./promo-gifts";
 import type { Addon, CartItem, DesignExtra, FulfillmentId, Product, Selections } from "./types";
 
 export interface PriceLine {
@@ -9,6 +10,17 @@ export interface PriceLine {
   /** null = price on request */
   unitPrice: number | null;
   total: number | null;
+  /** the promotion's gift (₪0) */
+  gift?: true;
+}
+
+/** The gift a product earns in the cart: its ₪0 line, and for a choice gift (the WPC floor) the add-on and the choice made. */
+export interface QuoteGift extends Gift {
+  line: PriceLine;
+  /** a choice add-on: the customer picks its colour */
+  choiceAddon?: Addon;
+  /** the choice picked; undefined: not yet */
+  choice?: string;
 }
 
 export interface Quote {
@@ -17,6 +29,8 @@ export interface Quote {
   total: number;
   /** Add-ons whose price is set by phone. */
   onRequest: PriceLine[];
+  /** the promotion's gift, if this product earns one today */
+  gift: QuoteGift | null;
 }
 
 /** Starting selections: every choice at its default, everything else off. */
@@ -41,20 +55,44 @@ function addonLine(a: Addon, value: number | string | undefined, locale: Locale)
   return { id: a.id, label: a.name, qty, unitPrice: unit, total: unit === null ? null : unit * qty };
 }
 
-/** The price of a product with the builder's selections, plus any lines the 3D configurator added. */
-export function quote(product: Product, selections: Selections, extras: DesignExtra[] = []): Quote {
+/**
+ * The gift's ₪0 line. A choice add-on as the gift (the WPC floor) takes the
+ * customer's choice of it, at no charge, so a floor already added is not
+ * charged twice; until a colour is picked the line asks for one.
+ */
+function giftOf(g: Gift, product: Product, selections: Selections, locale: Locale): QuoteGift {
+  const t = dict(locale).gift;
+  const name = giftName(g, locale);
+  const choiceAddon = addonsFor(product).find((a) => a.id === g.addon && a.kind === "choice");
+  if (!choiceAddon) return { ...g, line: { id: "gift", label: t.line(name), qty: 1, unitPrice: 0, total: 0, gift: true } };
+  const choice = choiceAddon.choices?.find((c) => c.id === selections[choiceAddon.id] && c.id !== choiceAddon.default);
+  const area = choiceAddon.areaM2 ? dict(locale).pricing.areaSuffix(choiceAddon.areaM2) : "";
+  const label = choice ? t.picked(name, choice.label) + area : t.pick(name);
+  return { ...g, choiceAddon, choice: choice?.id, line: { id: "gift", label, qty: 1, unitPrice: 0, total: 0, gift: true } };
+}
+
+/**
+ * The price of a product with the builder's selections, plus any lines the 3D
+ * configurator added, and the promotion's gift on `today` (Israel, YYYY-MM-DD).
+ */
+export function quote(product: Product, selections: Selections, extras: DesignExtra[] = [], today?: string): Quote {
   const lines: PriceLine[] = [
     { id: "base", label: product.name, qty: 1, unitPrice: product.price, total: product.price },
   ];
   const locale = product.locale ?? "he";
+  const earned = giftFor(product, today);
+  const gift = earned ? giftOf(earned, product, selections, locale) : null;
   for (const a of addonsFor(product)) {
+    if (gift?.choiceAddon?.id === a.id) continue; // the gift's own line holds it, at ₪0
     const line = addonLine(a, selections[a.id], locale);
     if (line) lines.push(line);
   }
   for (const x of extras) {
     if (x.qty > 0) lines.push({ id: x.id, label: extraLabel(x, product), qty: x.qty, unitPrice: x.unitPrice, total: x.unitPrice === null ? null : x.unitPrice * x.qty });
   }
+  if (gift) lines.push(gift.line);
   return {
+    gift,
     lines,
     total: lines.reduce((sum, l) => sum + (l.total ?? 0), 0),
     onRequest: lines.filter((l) => l.total === null),
@@ -149,12 +187,12 @@ export interface CartSummary {
 }
 
 /** The cart, with names and labels in the page's language (the cart itself is shared by both). */
-export function summarizeCart(items: CartItem[], locale: Locale = "he"): CartSummary {
+export function summarizeCart(items: CartItem[], locale: Locale = "he", today?: string): CartSummary {
   const lines: CartLine[] = [];
   for (const item of items) {
     const product = getProduct(item.slug, locale);
     if (!product) continue;
-    const q = quote(product, item.selections, item.design?.extras);
+    const q = quote(product, item.selections, item.design?.extras, today);
     const options = fulfillmentOptions(product);
     const f = options.find((o) => o.id === item.fulfillment) ?? options[0];
     const fPrice = (f.price ?? 0) * item.qty;
