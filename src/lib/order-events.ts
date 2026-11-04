@@ -28,7 +28,11 @@ export async function persistNewOrder(orderId: string, sessionId: string, order:
 export async function orderPaid(p: Payment, origin: string): Promise<void> {
   const db = getDb();
   if (!db) return;
-  const { newlyPaid } = await recordPayment(db, p);
+  const { newlyPaid, deleted } = await recordPayment(db, p);
+  if (deleted) {
+    console.warn("[orders] payment for an order deleted in the admin: acknowledged, not recreated", { orderId: p.orderId, total: p.total });
+    return;
+  }
   if (newlyPaid) console.info("[orders] order marked paid", { orderId: p.orderId });
   const email = emailConfig();
   if (!email && !process.env.RESEND_API_KEY?.trim()) return;

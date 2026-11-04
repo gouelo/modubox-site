@@ -72,5 +72,8 @@ describe("who sees leads", () => {
     expect(can(s("manager"), "leads")).toBe(true);
     expect(can(s("manager"), "site")).toBe(false);
     expect(can(s("content"), "leads")).toBe(false);
+    // deleting orders: the owner only
+    expect(can(s("owner"), "delete_orders")).toBe(true);
+    expect(can(s("manager"), "delete_orders")).toBe(false);
   });
 });

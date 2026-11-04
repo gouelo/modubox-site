@@ -3,7 +3,9 @@ import { eq } from "drizzle-orm";
 import type { Db } from "../src/db";
 import { orders } from "../src/db/schema";
 import { priceCheckout, type PricedOrder } from "../src/lib/checkout";
-import { addNote, changeStatus, customerKey, getOrder, notifyPaidOrder, recordPayment, saveNewOrder } from "../src/lib/orders";
+import { addNote, changeStatus, customerKey, deleteOrders, getOrder, notifyPaidOrder, recordPayment, saveNewOrder } from "../src/lib/orders";
+import { couponUsage } from "../src/lib/coupon-store";
+import { deletedOrders, orderEvents, orderItems } from "../src/db/schema";
 import { dashboard, exportOrders, getCustomer, listCustomers, listOrders, readFilters } from "../src/lib/admin/queries";
 import { ordersCsv } from "../src/lib/admin/csv";
 import { orderEmail } from "../src/lib/notify";
@@ -214,5 +216,33 @@ describe("the admin's lists", () => {
     expect(csv.startsWith("\uFEFFמספר הזמנה,")).toBe(true);
     expect(csv).toContain(`"'=HYPERLINK(""x""), ""שחור"""`);
     expect(csv.split("\r\n")[1]).toMatch(/^c1,/);
+  });
+});
+
+describe("deleting orders", () => {
+  it("removes the order with its items and history, keeps a record, and coupon uses follow", async () => {
+    await saveNewOrder(db, "d1", "s", priced({ coupon: "SALE10" }));
+    await recordPayment(db, { orderId: "d1", total: priced({ coupon: "SALE10" }).total, sessionId: "s", data: paidData });
+    await addNote(db, "d1", "בדיקה");
+    await paidOrder("d2");
+    expect((await couponUsage(db)).get("SALE10")?.uses).toBe(1);
+
+    expect(await deleteOrders(db, ["d1", "d1", " ", "nope"], "admin")).toBe(1);
+    expect(await getOrder(db, "d1")).toBeNull();
+    expect(await db.select().from(orderItems).where(eq(orderItems.orderId, "d1"))).toEqual([]);
+    expect(await db.select().from(orderEvents).where(eq(orderEvents.orderId, "d1"))).toEqual([]);
+    expect(await db.select().from(deletedOrders)).toMatchObject([{ id: "d1", paid: true, customerName: customer.name }]);
+    expect((await couponUsage(db)).get("SALE10")).toBeUndefined();
+    expect(await getOrder(db, "d2")).not.toBeNull();
+    expect(await deleteOrders(db, [])).toBe(0);
+  });
+
+  it("a late payment for a deleted order is acknowledged and never makes it again", async () => {
+    await saveNewOrder(db, "d3", "s", priced());
+    expect(await deleteOrders(db, ["d3"])).toBe(1);
+    expect(await recordPayment(db, { orderId: "d3", total: 100, sessionId: "s", data: paidData })).toEqual({ newlyPaid: false, deleted: true });
+    expect(await getOrder(db, "d3")).toBeNull();
+    // one never saved at all is still made from the payment
+    expect(await recordPayment(db, { orderId: "d4", total: 100, sessionId: "s", data: paidData })).toEqual({ newlyPaid: true });
   });
 });

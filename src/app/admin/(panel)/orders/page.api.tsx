@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getDb } from "@/db";
 import { requireAdmin } from "@/lib/admin/session";
-import { Empty, NoDatabase, OrderCard, PageTitle } from "@/components/admin/ui";
+import { Empty, ils, NoDatabase, OrderCard, PageTitle, StatusBadge } from "@/components/admin/ui";
+import { ConfirmForm } from "@/components/admin/ContentForms";
+import { deleteOrdersAction } from "@/lib/admin/actions";
+import { can } from "@/lib/admin/auth";
+import { formatDateTime } from "@/lib/admin/time";
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
 import { filtersQuery, firstProducts, listOrders, PAGE_SIZE, readFilters, type OrderView } from "@/lib/admin/queries";
@@ -18,10 +22,17 @@ const VIEWS: { view: OrderView; label: string }[] = [
 ];
 
 export default async function OrdersPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  await requireAdmin("orders");
+  const session = await requireAdmin("orders");
   const db = getDb();
   if (!db) return <NoDatabase />;
-  const f = readFilters(await searchParams);
+  const params = await searchParams;
+  const f = readFilters(params);
+  // picking orders to delete (the owner only), and how many were just deleted
+  const canDelete = can(session, "delete_orders");
+  const selecting = canDelete && params.select === "1";
+  const deleted = Number(params.deleted);
+  const listHref = `/admin/orders/${filtersQuery(f)}`;
+  const selectHref = `${listHref}${listHref.includes("?") ? "&" : "?"}select=1`;
   const { rows, total } = await listOrders(db, f);
   // not paid yet: a WhatsApp follow-up under each one
   const unpaid = rows.filter((o) => o.status === "pending_payment" && !o.isTest);
@@ -98,9 +109,49 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
         </form>
       </details>
 
+      {deleted > 0 ? <p role="status" className="mb-3 rounded-lg bg-emerald-50 p-3 text-sm font-semibold text-emerald-800">✓ {deleted === 1 ? "ההזמנה נמחקה" : `${deleted} הזמנות נמחקו`}.</p> : null}
+
+      {canDelete && rows.length ? (
+        <div className="mb-3 flex justify-end">
+          <Link href={selecting ? listHref : selectHref} className="text-sm font-semibold text-brand-dark">
+            {selecting ? "ביטול הבחירה" : "בחירת הזמנות למחיקה"}
+          </Link>
+        </div>
+      ) : null}
+
       {f.view === "pending_payment" ? <p className="mb-3 text-sm text-ink-soft">לקוחות שעברו לדף התשלום ולא סיימו לשלם. אפשר להתקשר, או לשלוח הודעת המשך בוואטסאפ: הכפתור פותח וואטסאפ עם הודעה מוכנה, ושולחים רק אחרי שקוראים.</p> : null}
 
-      {rows.length ? (
+      {selecting && rows.length ? (
+        <ConfirmForm action={deleteOrdersAction} confirm="למחוק את ההזמנות שסימנת? לא ניתן לשחזר.">
+          <ul className="space-y-2">
+            {rows.map((o) => (
+              <li key={o.id}>
+                <label className="card flex cursor-pointer items-center gap-3 p-4 has-[:checked]:border-rose-300 has-[:checked]:bg-rose-50/50">
+                  <input type="checkbox" name="id" value={o.id} className="size-5 shrink-0 accent-rose-600" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[15px] font-bold">
+                      {o.customerName}
+                      {o.isTest ? <span className="ms-2 rounded-full bg-sand px-2 py-0.5 text-xs font-bold text-ink-soft">בדיקה</span> : null}
+                    </span>
+                    <span className="block truncate text-sm text-ink-soft">
+                      #{o.id} · <bdi>{formatDateTime(o.createdAt)}</bdi>
+                    </span>
+                  </span>
+                  <span className="shrink-0 text-[15px] font-extrabold" dir="ltr">
+                    {ils(o.total)}
+                  </span>
+                  <StatusBadge status={o.status} />
+                </label>
+              </li>
+            ))}
+          </ul>
+          <div className="sticky bottom-20 mt-3 md:bottom-4">
+            <button type="submit" className="min-h-12 w-full rounded-full bg-rose-600 px-5 font-bold text-white shadow-lift hover:bg-rose-700">
+              🗑 מחיקת ההזמנות שסומנו
+            </button>
+          </div>
+        </ConfirmForm>
+      ) : rows.length ? (
         <ul className="space-y-2">
           {rows.map((o) => (
             <OrderCard key={o.id} o={o} followUp={o.status === "pending_payment" && !o.isTest ? followUpLink(o, products.get(o.id), origin) : undefined} />

@@ -12,6 +12,8 @@ import { committed, getOrder, paymentMethodLabel } from "@/lib/orders";
 import { ConfirmForm } from "@/components/admin/ContentForms";
 import { CopyButton } from "@/components/admin/CopyButton";
 import { markPaidAction } from "@/lib/admin/manual-order-actions";
+import { deleteOrdersAction } from "@/lib/admin/actions";
+import { can } from "@/lib/admin/auth";
 import { MANUAL_PAYMENTS, PAYMENT_LABEL, paymentLabel } from "@/lib/admin/manual-order";
 import { sourceLabel } from "@/lib/admin/status";
 import { waNumber } from "@/lib/admin/follow-up";
@@ -34,7 +36,7 @@ function eventText(e: OrderEvent): string {
 const EVENT_ICON: Record<string, string> = { created: "🛒", paid: "💳", status: "🔄", schedule: "📅", note: "📝", email: "✉️" };
 
 export default async function OrderPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
-  await requireAdmin("orders");
+  const session = await requireAdmin("orders");
   const db = getDb();
   if (!db) return <NoDatabase />;
   const { id } = await params;
@@ -215,6 +217,16 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
           ))}
         </ol>
       </Section>
+
+      {can(session, "delete_orders") ? (
+        <ConfirmForm action={deleteOrdersAction} confirm={`למחוק את ההזמנה #${o.id} של ${o.customerName}? לא ניתן לשחזר.`} className="pt-2 text-center">
+          <input type="hidden" name="id" value={o.id} />
+          <button type="submit" className="min-h-11 rounded-full px-5 text-sm font-semibold text-rose-700 ring-1 ring-rose-200 hover:bg-rose-50">
+            🗑 מחיקת ההזמנה
+          </button>
+          <p className="mt-1 text-xs text-ink-soft">מוחק את ההזמנה, הפריטים וההיסטוריה שלה לצמיתות{paid ? ". את הכסף עצמו (אם צריך) מחזירים בפאנל של Z-Credit" : ""}.</p>
+        </ConfirmForm>
+      ) : null}
     </div>
   );
 }

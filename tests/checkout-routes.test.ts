@@ -70,6 +70,35 @@ describe("checkout → callback → admin", () => {
     expect(JSON.parse(emails[0].body).html).toContain(`https://modubox.test/admin/orders/${orderId}/`);
   });
 
+  it("a late callback for an order deleted in the admin answers 200, sends nothing and doesn't make it again", async () => {
+    const { deleteOrders } = await import("../src/lib/orders");
+    let createBody: { UniqueId: string; CallbackUrl: string } | undefined;
+    const emails: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string, init: RequestInit) => {
+        if (url.endsWith("/CreateSession")) {
+          createBody = JSON.parse(String(init.body));
+          return Response.json({ HasError: false, Data: { SessionId: "sess-2", SessionUrl: "https://pci.zcredit.co.il/pay/sess-2" } });
+        }
+        if (url.endsWith("/GetSessionStatus")) {
+          const total = Number(new URL(createBody!.CallbackUrl).searchParams.get("total"));
+          return Response.json({ HasError: false, TransactionSuccess: true, CallBackJSON: JSON.stringify({ UniqueID: createBody!.UniqueId, Total: total, J: 0, ReferenceNumber: "REF10", Installments: 1, PaymentMethod: 0 }) });
+        }
+        if (url === "https://api.resend.com/emails") return emails.push(String(init.body)), Response.json({ id: "email-2" });
+        throw new Error(`unexpected fetch ${url}`);
+      }),
+    );
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const res = await checkout(new Request("https://modubox.test/api/checkout/", { method: "POST", body: JSON.stringify({ locale: "he", items: [{ slug: "modubox-2x2", qty: 1, selections: {}, fulfillment: "pickup" }], customer, installments: 1 }) }));
+    const { orderId } = (await res.json()) as { orderId: string };
+    expect(await deleteOrders(db, [orderId])).toBe(1);
+    const late = await callback(new Request(createBody!.CallbackUrl, { method: "POST", body: JSON.stringify({ SessionId: "sess-2" }) }));
+    expect(late.status).toBe(200);
+    expect(await getOrder(db, orderId)).toBeNull();
+    expect(emails).toHaveLength(0);
+  });
+
   it("a callback with a bad signature changes nothing", async () => {
     vi.spyOn(console, "warn").mockImplementation(() => {});
     const res = await callback(new Request("https://modubox.test/api/checkout/callback/?order=1&total=1&sig=bad", { method: "POST", body: "{}" }));

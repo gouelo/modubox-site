@@ -1,6 +1,6 @@
-import { and, asc, eq, isNull } from "drizzle-orm";
+import { and, asc, eq, inArray, isNull } from "drizzle-orm";
 import type { Db } from "@/db";
-import { orderEvents, orderItems, orders, type NewOrder, type Order, type OrderEvent, type OrderItem, type OrderStatus } from "@/db/schema";
+import { deletedOrders, orderEvents, orderItems, orders, type NewOrder, type Order, type OrderEvent, type OrderItem, type OrderStatus } from "@/db/schema";
 import { canTransition } from "./admin/status";
 import { plain, TEST_SLUG } from "./catalog";
 import type { PricedOrder } from "./checkout";
@@ -94,10 +94,12 @@ export const paymentMethodLabel = (m: number | null | undefined) => (m === null 
  * An order that wasn't saved at checkout (no database then, or it failed) is
  * made from the payment alone. Answers whether this call marked it paid.
  */
-export async function recordPayment(db: Db, p: Payment, now = new Date()): Promise<{ newlyPaid: boolean }> {
+export async function recordPayment(db: Db, p: Payment, now = new Date()): Promise<{ newlyPaid: boolean; deleted?: true }> {
   const d = p.data;
   return db.transaction(async (tx) => {
     let [row] = await tx.select().from(orders).where(eq(orders.id, p.orderId)).for("update");
+    // deleted in the admin: acknowledged, never made again
+    if (!row && (await tx.select({ id: deletedOrders.id }).from(deletedOrders).where(eq(deletedOrders.id, p.orderId))).length) return { newlyPaid: false, deleted: true as const };
     if (!row) {
       const phone = String(d.CustomerPhone ?? "");
       [row] = await tx
@@ -198,6 +200,27 @@ export async function changeStatus(db: Db, id: string, to: OrderStatus, actor = 
     await tx.update(orders).set({ status: to, updatedAt: now }).where(eq(orders.id, id));
     await tx.insert(orderEvents).values({ orderId: id, kind: "status", fromStatus: row.status, toStatus: to, actor, at: now });
     return { ok: true } as const;
+  });
+}
+
+/**
+ * Deletes orders for good, with their items and history (the foreign keys
+ * cascade). Each id is kept in deleted_orders, so a late payment callback
+ * doesn't make it again. Coupon uses are counted from the orders, so a deleted
+ * order stops counting. Answers how many were deleted.
+ */
+export async function deleteOrders(db: Db, ids: string[], actor = "admin", now = new Date()): Promise<number> {
+  const unique = [...new Set(ids.map((id) => id.trim()).filter(Boolean))].slice(0, 200);
+  if (!unique.length) return 0;
+  return db.transaction(async (tx) => {
+    const rows = await tx.select().from(orders).where(inArray(orders.id, unique)).for("update");
+    if (!rows.length) return 0;
+    await tx
+      .insert(deletedOrders)
+      .values(rows.map((o) => ({ id: o.id, deletedAt: now, actor, customerName: o.customerName, total: o.total, status: o.status, paid: !!o.paidAt })))
+      .onConflictDoNothing();
+    await tx.delete(orders).where(inArray(orders.id, rows.map((o) => o.id)));
+    return rows.length;
   });
 }
 

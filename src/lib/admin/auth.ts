@@ -15,14 +15,14 @@ export const ADMIN_COOKIE = "mbx_admin";
 export const SESSION_DAYS = 30;
 
 /**
- * owner: everything. manager: the day-to-day work (orders, customers, leads,
+ * owner: everything, deleting orders included. manager: the day-to-day work (orders, customers, leads,
  * catalog, coupons, content), not the site's settings (docs/admin-spec.md).
  * content: SEO and content only, never orders, customers or leads.
  */
 export type Role = "owner" | "manager" | "content";
-export type Permission = "orders" | "customers" | "leads" | "export" | "content" | "catalog" | "coupons" | "site";
+export type Permission = "orders" | "delete_orders" | "customers" | "leads" | "export" | "content" | "catalog" | "coupons" | "site";
 
-export const ALL_PERMISSIONS: Permission[] = ["orders", "customers", "leads", "export", "content", "catalog", "coupons", "site"];
+export const ALL_PERMISSIONS: Permission[] = ["orders", "delete_orders", "customers", "leads", "export", "content", "catalog", "coupons", "site"];
 
 const PERMISSIONS: Record<Role, Permission[]> = {
   owner: ALL_PERMISSIONS,

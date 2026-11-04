@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/db";
-import { addNote, changeStatus, type ChangeResult } from "../orders";
+import { addNote, changeStatus, deleteOrders, type ChangeResult } from "../orders";
 import { ADMIN_COOKIE, checkPassword, createSessionToken, safeNext, SESSION_DAYS, sessionSecret } from "./auth";
 import { requireAdmin } from "./session";
 import { isStatus } from "./status";
@@ -72,4 +72,13 @@ export async function addNoteAction(_: ActionState, form: FormData): Promise<Act
   const session = await requireAdmin("orders");
   const id = String(form.get("id") ?? "");
   return run(id, () => addNote(dbOrError(), id, String(form.get("text") ?? ""), session.user));
+}
+
+/** Deletes orders for good (the owner only): one from its page, or several picked in the list. Then back to the list. */
+export async function deleteOrdersAction(form: FormData): Promise<void> {
+  const session = await requireAdmin("delete_orders");
+  const ids = form.getAll("id").map(String);
+  const n = await deleteOrders(dbOrError(), ids, session.user);
+  revalidatePath("/admin/", "layout");
+  redirect(`/admin/orders/?deleted=${n}`);
 }
