@@ -15,6 +15,7 @@
 - [אודות](https://www.modubox.com/about/)
 - [צור קשר](https://www.modubox.com/contact/)
 - [English](https://www.modubox.com/en/)
+- [המדריך המלא](https://www.modubox.com/llms-full.txt)
 
 ## מוצרים
 
