@@ -1,0 +1,74 @@
+import { newOrderId, priceCheckout, type PricedOrder } from "@/lib/checkout";
+import { buildCreateSession, createSession, zcreditConfig } from "@/lib/zcredit";
+
+// Z-Credit checkout: GET says whether online payment is on, POST starts a payment.
+// Only on a server build (Vercel); the GitHub Pages export leaves route.api.ts out.
+export const dynamic = "force-dynamic";
+
+const json = (body: unknown, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
+
+/** Whether payment is set up (ZCREDIT_* env vars); the checkout page falls back to WhatsApp when it isn't. */
+export function GET() {
+  return json({ enabled: zcreditConfig() !== null });
+}
+
+/**
+ * Body: the cart (product slugs, the builder's choices, delivery choice,
+ * optional configurator link), the customer and the number of installments.
+ * Answers { url } of Z-Credit's payment page, or { error }.
+ */
+export async function POST(req: Request) {
+  const config = zcreditConfig();
+  if (!config) return json({ error: "not_configured" }, 503);
+
+  const text = await req.text();
+  if (text.length > 50_000) return json({ error: "invalid_request" }, 413);
+  let body: unknown;
+  try {
+    body = JSON.parse(text);
+  } catch {
+    return json({ error: "invalid_request" }, 400);
+  }
+
+  const priced = priceCheckout(body);
+  if (!priced.ok) return json({ error: priced.error }, 400);
+  const order = priced.order;
+  const orderId = newOrderId();
+  const origin = new URL(req.url).origin;
+
+  try {
+    const session = await createSession(buildCreateSession(config, order, orderId, origin));
+    if (!session.ok) {
+      console.error("[checkout] CreateSession refused", { orderId, code: session.code, message: session.message });
+      return json({ error: "payment_unavailable" }, 502);
+    }
+    // TODO(order notification): no email service yet. Until one is added (e.g. Resend),
+    // the order lives in the Vercel logs (Project → Logs) and in Z-Credit's panel
+    // (AdditionalText carries the customer and address).
+    console.info("[checkout] order created, waiting for payment", JSON.stringify(orderLog(orderId, session.sessionId, order)));
+    return json({ url: session.url, orderId });
+  } catch (e) {
+    console.error("[checkout] CreateSession failed", { orderId, error: String(e) });
+    return json({ error: "payment_unavailable" }, 502);
+  }
+}
+
+function orderLog(orderId: string, sessionId: string, order: PricedOrder) {
+  return {
+    orderId,
+    sessionId,
+    total: order.total,
+    installments: order.installments,
+    payLater: order.cart.payLater,
+    customer: order.customer,
+    lines: order.cart.lines.map((l) => ({
+      product: l.product.slug,
+      qty: l.item.qty,
+      itemsTotal: l.itemsTotal,
+      addons: l.quote.lines.slice(1).map((x) => `${x.label}${x.qty > 1 ? ` ×${x.qty}` : ""}`),
+      fulfillment: l.fulfillment.label,
+      fulfillmentTotal: l.fulfillmentTotal,
+      design: l.item.design?.link,
+    })),
+  };
+}

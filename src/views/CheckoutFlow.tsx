@@ -1,14 +1,16 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@/components/Icon";
 import { lp } from "@/i18n";
 import { useLocale, useT } from "@/i18n/client";
 import { useCart } from "@/lib/cart-store";
 import { catalog } from "@/lib/catalog";
+import { checkoutRequest, MAX_INSTALLMENTS } from "@/lib/checkout";
 import { formatILS } from "@/lib/format";
 import { summarizeCart } from "@/lib/pricing";
+import { asset } from "@/lib/paths";
 import { useHydrated } from "@/lib/use-hydrated";
 import { orderMessage, waLink, type Customer } from "@/lib/whatsapp";
 import { Totals } from "./CartView";
@@ -59,6 +61,23 @@ export function CheckoutFlow() {
   const [agree, setAgree] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [done, setDone] = useState<{ id: string; message: string } | null>(null);
+  const [installments, setInstallments] = useState(1);
+  // online payment (Z-Credit) is on when the server says so; on GitHub Pages there is no server
+  const [payment, setPayment] = useState<"checking" | "online" | "offline">("checking");
+  const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState("");
+
+  useEffect(() => {
+    if (step !== 2 || payment !== "checking") return;
+    let live = true;
+    fetch(asset("/api/checkout/"), { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j: { enabled?: boolean } | null) => live && setPayment(j?.enabled ? "online" : "offline"))
+      .catch(() => live && setPayment("offline"));
+    return () => {
+      live = false;
+    };
+  }, [step, payment]);
 
   if (!hydrated) return <div className="h-64 animate-pulse rounded-3xl bg-sand" />;
 
@@ -114,6 +133,29 @@ export function CheckoutFlow() {
     clear();
     setDone({ id, message });
     window.scrollTo({ top: 0 });
+  };
+
+  /** Prices the cart again on the server and goes to Z-Credit's payment page. */
+  const pay = async () => {
+    setPaying(true);
+    setPayError("");
+    try {
+      const res = await fetch(asset("/api/checkout/"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(checkoutRequest(items, customer, installments, locale)),
+      });
+      const j = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+      if (res.ok && j.url) {
+        window.location.assign(j.url);
+        return;
+      }
+      if (j.error === "not_configured") setPayment("offline");
+      else setPayError(j.error === "price_on_request" ? k.onRequest : k.payFailed);
+    } catch {
+      setPayError(k.payFailed);
+    }
+    setPaying(false);
   };
 
   const field = (f: keyof Customer, label: string, props: React.InputHTMLAttributes<HTMLInputElement> = {}) => (
@@ -200,27 +242,40 @@ export function CheckoutFlow() {
             )}
             {step === 2 && (
               <div className="space-y-5">
-                {/* PAYMENT PROVIDER PLACEHOLDER – see README: "חיבור סליקה" */}
-                <div className="rounded-3xl border-2 border-dashed border-brand/50 bg-brand-tint/50 p-6">
+                <div className="rounded-3xl bg-brand-tint/50 p-6 ring-1 ring-brand/20">
                   <div className="flex items-center gap-3">
                     <span className="grid size-12 place-items-center rounded-2xl bg-white text-brand-dark shadow-soft" aria-hidden="true"><Icon name="card" className="size-6" /></span>
                     <div>
                       <h2 className="text-lg font-extrabold">{k.card}</h2>
-                      <p className="text-sm text-ink-soft">{k.cards(site.maxPayments)}</p>
+                      <p className="text-sm text-ink-soft">{k.cards(MAX_INSTALLMENTS)}</p>
+                      <p className="text-sm text-ink-soft">{k.wallets}</p>
                     </div>
                   </div>
-                  <div className="mt-5 grid h-44 place-items-center rounded-2xl bg-white text-center text-ink-soft ring-1 ring-line">
-                    <p className="px-6 text-sm">
-                      {k.placeholder}
-                      <br />
-                      <span className="text-xs">{k.soon}</span>
-                    </p>
-                  </div>
+                  {payment === "checking" && <p className="mt-5 h-24 animate-pulse rounded-2xl bg-white/70 p-4 text-sm text-ink-soft">{k.checking}</p>}
+                  {payment === "online" && !cart.hasOnRequest && (
+                    <div className="mt-5 space-y-3">
+                      <label className="block">
+                        <span className="mb-1.5 block text-sm font-bold">{k.installments}</span>
+                        <select id="co-installments" value={installments} onChange={(e) => setInstallments(Number(e.target.value))} className="field">
+                          {Array.from({ length: MAX_INSTALLMENTS }, (_, i) => i + 1).map((n) => (
+                            <option key={n} value={n}>{k.installmentsOption(n, ils(Math.round(cart.total / n)))}</option>
+                          ))}
+                        </select>
+                      </label>
+                      <p className="flex items-start gap-2 text-sm text-ink-soft"><Icon name="shield" className="mt-0.5 size-4 shrink-0" /> {k.secureNote}</p>
+                    </div>
+                  )}
+                  {payment === "online" && cart.hasOnRequest && <p className="mt-5 rounded-2xl bg-white p-4 text-sm font-semibold text-brand-dark" role="status">{k.onRequest}</p>}
+                  {payment === "offline" && <p className="mt-5 rounded-2xl bg-white p-4 text-sm text-ink-soft" role="status">{k.unavailable}</p>}
                 </div>
-                <p className="text-sm text-ink-soft">{k.until}</p>
+                {payError && <p className="rounded-2xl bg-red-50 p-4 text-sm font-semibold text-red-700" role="alert">{payError}</p>}
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setStep(1)} className="btn-ghost">{t.common.back}</button>
-                  <button type="button" onClick={placeOrder} className="btn-brand flex-1 py-4 text-base">{k.confirm(ils(cart.total))}</button>
+                  {payment === "online" && !cart.hasOnRequest ? (
+                    <button type="button" onClick={pay} disabled={paying} aria-busy={paying || undefined} className="btn-brand flex-1 py-4 text-base">{paying ? k.paying : k.pay(ils(cart.total))}</button>
+                  ) : (
+                    <button type="button" onClick={placeOrder} disabled={payment === "checking"} className="btn-brand flex-1 py-4 text-base">{k.confirm(ils(cart.total))}</button>
+                  )}
                 </div>
                 <a href={waLink(orderMessage(cart, customer, undefined, locale))} target="_blank" rel="noopener" className="btn-wa w-full"><Icon name="whatsapp" /> {k.orWhatsapp}</a>
               </div>
