@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import type { Permission } from "@/lib/admin/auth";
 
 const LINKS: { href: string; label: string; icon: string; perm: Permission }[] = [
@@ -27,10 +28,19 @@ function Icon({ d }: { d: string }) {
   );
 }
 
+const MORE_ICON = "M5 12h.01M12 12h.01M19 12h.01";
+/** The phone's tab bar holds five; with more, the first four and "עוד". */
+const TAB_SLOTS = 5;
+
 /** Desktop: links in the top bar. Phone: a tab bar at the bottom, in thumb's reach. */
 export function AdminNav({ perms }: { perms: Permission[] }) {
   const path = usePathname();
+  const [more, setMore] = useState(false);
   const links = LINKS.filter((l) => perms.includes(l.perm));
+  const tabs = links.length > TAB_SLOTS ? links.slice(0, TAB_SLOTS - 1) : links;
+  const rest = links.slice(tabs.length);
+  const restActive = rest.some((l) => active(path, l.href));
+  const tab = (on: boolean) => `flex w-full flex-col items-center gap-0.5 py-2.5 text-xs font-bold ${on ? "text-brand-dark" : "text-ink-soft"}`;
   return (
     <>
       <nav aria-label="ניהול" className="hidden items-center gap-1 md:flex">
@@ -41,15 +51,35 @@ export function AdminNav({ perms }: { perms: Permission[] }) {
         ))}
       </nav>
       <nav aria-label="ניהול" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
-        <ul className="grid" style={{ gridTemplateColumns: `repeat(${links.length}, minmax(0, 1fr))` }}>
-          {links.map((l) => (
+        {more && rest.length ? (
+          <ul id="admin-more" className="grid grid-cols-2 gap-1 border-b border-line p-2">
+            {rest.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} onClick={() => setMore(false)} aria-current={active(path, l.href) ? "page" : undefined} className={`flex items-center gap-2 rounded-xl px-3 py-3 text-sm font-bold ${active(path, l.href) ? "bg-brand-tint text-brand-dark" : "text-ink"}`}>
+                  <Icon d={l.icon} />
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        <ul className="grid" style={{ gridTemplateColumns: `repeat(${tabs.length + (rest.length ? 1 : 0)}, minmax(0, 1fr))` }}>
+          {tabs.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} aria-current={active(path, l.href) ? "page" : undefined} className={`flex flex-col items-center gap-0.5 py-2.5 text-xs font-bold ${active(path, l.href) ? "text-brand-dark" : "text-ink-soft"}`}>
+              <Link href={l.href} onClick={() => setMore(false)} aria-current={active(path, l.href) ? "page" : undefined} className={tab(active(path, l.href))}>
                 <Icon d={l.icon} />
                 {l.label}
               </Link>
             </li>
           ))}
+          {rest.length ? (
+            <li>
+              <button type="button" onClick={() => setMore((m) => !m)} aria-expanded={more} aria-controls="admin-more" className={tab(restActive || more)}>
+                <Icon d={MORE_ICON} />
+                {restActive && !more ? rest.find((l) => active(path, l.href))!.label : "עוד"}
+              </button>
+            </li>
+          ) : null}
         </ul>
       </nav>
     </>

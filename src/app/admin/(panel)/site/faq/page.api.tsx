@@ -22,7 +22,7 @@ export default async function FaqPage() {
       <ActionForm action={saveFaqAction} submit="שמירת כל השאלות">
         <div className="grid gap-5">
           {groups.map((g) => (
-            <section key={g.id} className="card p-4">
+            <section key={g.id} className="card min-w-0 p-4">
               <div className="mb-3 grid gap-3 sm:grid-cols-2">
                 <Field label="כותרת הקבוצה">
                   <input name={`title_${g.id}`} defaultValue={g.title} className="field font-bold" />

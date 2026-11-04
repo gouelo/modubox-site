@@ -54,7 +54,7 @@ export function RowsEditor({ name, initial, fields, title, empty, addLabel = "+ 
       <input type="hidden" name={name} value={JSON.stringify(rows)} />
       <ol className="grid gap-2">
         {rows.map((r, i) => (
-          <li key={i} className={`rounded-xl border border-line ${r.hidden ? "bg-sand/60 opacity-70" : "bg-white"}`}>
+          <li key={i} className={`min-w-0 rounded-xl border border-line ${r.hidden ? "bg-sand/60 opacity-70" : "bg-white"}`}>
             <div className="flex items-center gap-2 p-3">
               <button type="button" onClick={() => setOpen(open === i ? null : i)} className="min-w-0 flex-1 text-start" aria-expanded={open === i}>
                 <span className="block truncate font-bold">{title(r, i) || "(חדש)"}</span>
