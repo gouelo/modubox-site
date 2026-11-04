@@ -7,6 +7,9 @@ interface CartState {
   items: CartItem[];
   /** bumps when something is added, so the header can animate */
   lastAdded: number;
+  /** a coupon code the server accepted (checked again at payment) */
+  coupon: string | undefined;
+  setCoupon: (code?: string) => void;
   add: (slug: string, selections: Selections, fulfillment: FulfillmentId, design?: CartDesign) => void;
   update: (id: string, patch: Partial<Omit<CartItem, "id">>) => void;
   remove: (id: string) => void;
@@ -18,6 +21,7 @@ export const useCart = create<CartState>()(
     (set) => ({
       items: [],
       lastAdded: 0,
+      coupon: undefined,
       add: (slug, selections, fulfillment, design) =>
         set((s) => ({
           items: [...s.items, { id: Math.random().toString(36).slice(2, 10), slug, qty: 1, selections, fulfillment, ...(design ? { design } : {}) }],
@@ -25,12 +29,13 @@ export const useCart = create<CartState>()(
         })),
       update: (id, patch) => set((s) => ({ items: s.items.map((i) => (i.id === id ? { ...i, ...patch } : i)) })),
       remove: (id) => set((s) => ({ items: s.items.filter((i) => i.id !== id) })),
-      clear: () => set({ items: [] }),
+      clear: () => set({ items: [], coupon: undefined }),
+      setCoupon: (coupon) => set({ coupon }),
     }),
     {
       name: "modubox-cart",
       version: 3,
-      partialize: (s) => ({ items: s.items }),
+      partialize: (s) => ({ items: s.items, coupon: s.coupon }),
       // v1 carts carried selections from the old 3D configurator, which no longer
       // match; v2 carts had no add-ons; v3 carries the add-ons builder's choices
       migrate: (state, version) => {

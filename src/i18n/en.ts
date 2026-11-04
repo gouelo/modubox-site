@@ -367,6 +367,19 @@ export const en: Dict = {
   },
 
   cart: {
+    coupon: {
+      label: "Coupon code",
+      placeholder: "Have a discount code?",
+      apply: "Apply",
+      checking: "Checking…",
+      remove: "Remove coupon",
+      applied: (code: string) => `Coupon ${code} applied`,
+      line: (code: string) => `Coupon discount (${code})`,
+      unknown: "This code doesn’t exist. Check the spelling and try again.",
+      expired: "This coupon has expired.",
+      minOrder: (min: string) => `This coupon is valid on orders of ${min} or more.`,
+      unavailable: "We couldn’t check the code right now. Please try again in a moment, or send us your order on WhatsApp.",
+    },
     products: "Products",
     delivery: "Delivery & installation",
     total: "Total to pay",

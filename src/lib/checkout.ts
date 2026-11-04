@@ -1,5 +1,6 @@
 import type { Locale } from "@/i18n/config";
 import { addonsFor, getProduct, plain, site } from "./catalog";
+import { applyCoupon, israelToday, type AppliedCoupon, type CouponError, type CouponMap } from "./coupons";
 import { CONFIGURATOR_ORIGIN, designToCartItem, parseDesign } from "./configurator";
 import { fulfillmentOptions, summarizeCart, type CartSummary } from "./pricing";
 import type { CartItem, DesignExtra, FulfillmentId, Product, Selections } from "./types";
@@ -31,12 +32,15 @@ export interface CheckoutRequest {
   items: CheckoutRequestItem[];
   customer: Customer;
   installments: number;
+  /** a coupon code, checked on the server */
+  coupon?: string;
 }
 
-/** The checkout request for a cart (built in the browser). */
-export function checkoutRequest(items: CartItem[], customer: Customer, installments: number, locale: Locale): CheckoutRequest {
+/** The cart part of a request (the coupon preview sends only this). */
+export function cartRequest(items: CartItem[], locale: Locale, coupon?: string) {
   return {
     locale,
+    ...(coupon ? { coupon } : {}),
     items: items.map((i) => ({
       slug: i.slug,
       qty: i.qty,
@@ -44,9 +48,12 @@ export function checkoutRequest(items: CartItem[], customer: Customer, installme
       fulfillment: i.fulfillment,
       ...(i.design ? { design: { link: i.design.link, exact: i.design.exact } } : {}),
     })),
-    customer,
-    installments,
   };
+}
+
+/** The checkout request for a cart (built in the browser). */
+export function checkoutRequest(items: CartItem[], customer: Customer, installments: number, locale: Locale, coupon?: string): CheckoutRequest {
+  return { ...cartRequest(items, locale, coupon), customer, installments };
 }
 
 export type CheckoutError =
@@ -55,17 +62,30 @@ export type CheckoutError =
   | "unknown_product"
   | "empty_cart"
   /** something in the cart is priced by a representative: it can't be paid online */
-  | "price_on_request";
+  | "price_on_request"
+  /** the coupon code is unknown, expired, or the order is below its minimum */
+  | "invalid_coupon";
 
-export type Priced = { ok: true; order: PricedOrder } | { ok: false; error: CheckoutError };
+type Failed = { ok: false; error: CheckoutError; coupon?: { error: CouponError; min?: number } };
+export type PricedCart = { ok: true; locale: Locale; cart: CartSummary; coupon: AppliedCoupon | null; total: number } | Failed;
+export type Priced = { ok: true; order: PricedOrder } | Failed;
 
 export interface PricedOrder {
   locale: Locale;
   customer: Customer;
   installments: number;
   cart: CartSummary;
-  /** the amount to charge, in whole shekels */
+  /** the coupon applied, with its discount in whole shekels */
+  coupon: AppliedCoupon | null;
+  /** the amount to charge, in whole shekels (after the coupon) */
   total: number;
+}
+
+export interface PriceOptions {
+  /** the valid coupons (MODUBOX_COUPONS); none: every code is invalid */
+  coupons?: CouponMap;
+  /** YYYY-MM-DD in Israel, for coupon expiry */
+  today?: string;
 }
 
 const isObj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === "object" && !Array.isArray(x);
@@ -131,17 +151,23 @@ function designExtras(product: Product, link: string, locale: Locale): DesignExt
 }
 
 /** Reads the browser's checkout request and prices it on the server, from data/. */
-export function priceCheckout(body: unknown): Priced {
+export function priceCheckout(body: unknown, options: PriceOptions = {}): Priced {
+  if (!isObj(body)) return { ok: false, error: "invalid_request" };
+  const priced = priceCart(body, options);
+  if (!priced.ok) return priced;
+  const customer = readCustomer(body.customer, priced.locale);
+  if (!customer) return { ok: false, error: "invalid_customer" };
+  const n = int(body.installments);
+  const installments = n >= 1 && n <= MAX_INSTALLMENTS ? n : 1;
+  return { ok: true, order: { locale: priced.locale, customer, installments, cart: priced.cart, coupon: priced.coupon, total: priced.total } };
+}
+
+/** The cart and coupon of a request, priced on the server (the checkout, and the coupon preview). */
+export function priceCart(body: unknown, { coupons = new Map(), today = israelToday() }: PriceOptions = {}): PricedCart {
   if (!isObj(body) || !Array.isArray(body.items)) return { ok: false, error: "invalid_request" };
   const locale: Locale = body.locale === "en" ? "en" : "he";
   if (body.items.length === 0) return { ok: false, error: "empty_cart" };
   if (body.items.length > MAX_ITEMS) return { ok: false, error: "invalid_request" };
-
-  const customer = readCustomer(body.customer, locale);
-  if (!customer) return { ok: false, error: "invalid_customer" };
-
-  const n = int(body.installments);
-  const installments = n >= 1 && n <= MAX_INSTALLMENTS ? n : 1;
 
   const items: CartItem[] = [];
   for (const [i, raw] of body.items.entries()) {
@@ -167,11 +193,21 @@ export function priceCheckout(body: unknown): Priced {
   if (cart.lines.length === 0) return { ok: false, error: "empty_cart" };
   if (cart.hasOnRequest) return { ok: false, error: "price_on_request" };
   if (!(cart.total > 0)) return { ok: false, error: "empty_cart" };
-  return { ok: true, order: { locale, customer, installments, cart, total: cart.total } };
+
+  let coupon: AppliedCoupon | null = null;
+  const code = str(body.coupon, 40);
+  if (code) {
+    const r = applyCoupon(code, coupons, cart, today);
+    if (!r.ok) return { ok: false, error: "invalid_coupon", coupon: { error: r.error, ...(r.min ? { min: r.min } : {}) } };
+    coupon = r.coupon;
+  }
+  return { ok: true, locale, cart, coupon, total: cart.total - (coupon?.amount ?? 0) };
 }
 
 /** A Z-Credit cart line (CartItems in CreateSession). Amount is per unit. */
 export interface PaymentItem {
+  /** ours only (not sent): a delivery and installation line */
+  isDelivery?: boolean;
   Amount: number;
   Currency: "ILS";
   Name: string;
@@ -209,12 +245,41 @@ export function paymentItems(order: PricedOrder, imageUrl?: (product: Product) =
         Description: "",
         Quantity: l.item.qty,
         IsTaxFree: false,
+        isDelivery: true,
       });
     }
   }
-  const sum = out.reduce((s, x) => s + x.Amount * x.Quantity, 0);
+  // isDelivery is ours: never sent to Z-Credit
+  const items = (order.coupon?.amount ? discounted(out, order) : out).map(({ isDelivery: _, ...x }) => x);
+  const sum = items.reduce((s, x) => s + x.Amount * x.Quantity, 0);
   if (sum !== order.total) throw new Error(`payment items add up to ${sum}, not ${order.total}`);
-  return out;
+  return items;
+}
+
+/**
+ * The coupon's discount spread over the lines it covers (the products, or
+ * delivery too), in whole shekels, so the cart still adds up to the total.
+ * Z-Credit's docs don't allow a negative line, so there is none: a discounted
+ * line becomes one line for its whole quantity (×N in its name), at its price
+ * less its share, and says so in its description.
+ */
+function discounted(items: PaymentItem[], order: PricedOrder): PaymentItem[] {
+  const coupon = order.coupon!;
+  const note = order.locale === "en" ? `incl. coupon ${coupon.code}` : `כולל הנחת קופון ${coupon.code}`;
+  const covered = (x: PaymentItem) => coupon.delivery || !x.isDelivery;
+  const lines = items.map((x) =>
+    covered(x) ? { ...x, Name: x.Quantity > 1 ? `${x.Name} ×${x.Quantity}`.slice(0, 100) : x.Name, Amount: x.Amount * x.Quantity, Quantity: 1 } : x,
+  );
+  const base = lines.filter(covered).reduce((s, x) => s + x.Amount, 0);
+  let left = coupon.amount;
+  const shares = lines.map((x) => (covered(x) && base > 0 ? Math.floor((coupon.amount * x.Amount) / base) : 0));
+  left -= shares.reduce((s, n) => s + n, 0);
+  // the rounding remainder goes to the biggest covered line
+  const biggest = lines.reduce((b, x, i) => (covered(x) && (b < 0 || x.Amount > lines[b].Amount) ? i : b), -1);
+  if (biggest >= 0) shares[biggest] += left;
+  return lines.map((x, i) =>
+    shares[i] > 0 ? { ...x, Amount: x.Amount - shares[i], Description: [x.Description, note].filter(Boolean).join(" · ").slice(0, 250) } : x,
+  );
 }
 
 /** An order number: the date and six random digits, letters and digits only (Z-Credit's UniqueId), e.g. 261104482913. */

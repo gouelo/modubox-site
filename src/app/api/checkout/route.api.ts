@@ -1,4 +1,5 @@
 import { newOrderId, priceCheckout, type PricedOrder } from "@/lib/checkout";
+import { parseCoupons } from "@/lib/coupons";
 import { buildCreateSession, createSession, zcreditConfig } from "@/lib/zcredit";
 
 // Z-Credit checkout: GET says whether online payment is on, POST starts a payment.
@@ -14,7 +15,8 @@ export function GET() {
 
 /**
  * Body: the cart (product slugs, the builder's choices, delivery choice,
- * optional configurator link), the customer and the number of installments.
+ * optional configurator link), an optional coupon code, the customer and the
+ * number of installments.
  * Answers { url } of Z-Credit's payment page, or { error }.
  */
 export async function POST(req: Request) {
@@ -30,8 +32,9 @@ export async function POST(req: Request) {
     return json({ error: "invalid_request" }, 400);
   }
 
-  const priced = priceCheckout(body);
-  if (!priced.ok) return json({ error: priced.error }, 400);
+  // coupon codes live in the MODUBOX_COUPONS env var, never in the (public) repo
+  const priced = priceCheckout(body, { coupons: parseCoupons(process.env.MODUBOX_COUPONS) });
+  if (!priced.ok) return json({ error: priced.error, ...(priced.coupon ? { coupon: priced.coupon } : {}) }, 400);
   const order = priced.order;
   const orderId = newOrderId();
   const origin = new URL(req.url).origin;
@@ -58,6 +61,7 @@ function orderLog(orderId: string, sessionId: string, order: PricedOrder) {
     orderId,
     sessionId,
     total: order.total,
+    coupon: order.coupon,
     installments: order.installments,
     payLater: order.cart.payLater,
     customer: order.customer,
