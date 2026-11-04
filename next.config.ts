@@ -6,7 +6,8 @@ import oldSite from "./data/redirects.json";
 //   workflow sets GITHUB_PAGES=true and NEXT_PUBLIC_BASE_PATH. A static export
 //   has no server, so the API routes (files named route.api.ts) are left out.
 // - Vercel / the real domain: a normal Next.js build at the root, with the API
-//   routes (Z-Credit checkout). VERCEL is set by Vercel itself and always wins.
+//   routes (Z-Credit checkout) and the admin panel (/admin: its pages are
+//   page.api.tsx, its lock src/proxy.api.ts). VERCEL is set by Vercel itself and always wins.
 const pagesExport = !process.env.VERCEL && (process.env.GITHUB_PAGES === "true" || !!process.env.NEXT_PUBLIC_BASE_PATH);
 const basePath = pagesExport ? process.env.NEXT_PUBLIC_BASE_PATH || "" : "";
 
@@ -29,8 +30,8 @@ function encodePath(path: string): string {
 
 const nextConfig: NextConfig = {
   ...(pagesExport ? { output: "export" as const } : {}),
-  // route.api.ts files are server routes: only built when there is a server
-  pageExtensions: pagesExport ? ["tsx", "ts"] : ["api.ts", "tsx", "ts"],
+  // *.api.ts(x) files (API routes, the admin, the proxy) need a server: only built when there is one
+  pageExtensions: pagesExport ? ["tsx", "ts"] : ["api.tsx", "api.ts", "tsx", "ts"],
   devIndicators: false,
   trailingSlash: true,
   basePath,

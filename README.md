@@ -250,6 +250,14 @@ PINUK10=10%;SALE500=500
 
 ---
 
+## ממשק הניהול (/admin)
+
+הזמנות, לקוחות, סטטוסים, מועדי אספקה, הערות וייצוא לאקסל, בכתובת `/admin` באתר ב־Vercel (לא ב־GitHub Pages). כל הזמנה נשמרת במסד נתונים כשהלקוח עובר לתשלום, ומסומנת כשולמה רק אחרי אימות מול Z-Credit. על כל הזמנה ששולמה נשלח מייל לעסק.
+
+מה צריך ב־Vercel: מסד נתונים Neon (**Storage → Create Database → Neon**), ומשתני הסביבה `ADMIN_PASSWORD`, `RESEND_API_KEY` ו־`ORDER_EMAIL_TO`. בלי `ADMIN_PASSWORD` הממשק נעול. האפיון המלא וההוראות: [docs/admin-spec.md](docs/admin-spec.md).
+
+---
+
 ## Google Tag Manager ואירועים
 
 ‏מכולת GTM: `GTM-MB2W45D` (בקובץ `src/lib/analytics.ts`). היא נטענת **רק באתר הייצור ב־Vercel** (`VERCEL_ENV=production`), לא בתצוגות מקדימות ולא ב־GitHub Pages. משתנה הסביבה `NEXT_PUBLIC_GTM_ID` גובר עליה: מזהה מכולה אחר, או `off` כדי לכבות.

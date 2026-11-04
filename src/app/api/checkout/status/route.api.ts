@@ -1,3 +1,4 @@
+import { orderPaid } from "@/lib/order-events";
 import { verifyPayment, verifyReceipt, zcreditConfig } from "@/lib/zcredit";
 
 // The success page asks here whether its order was paid (for the purchase event),
@@ -24,6 +25,8 @@ export async function POST(req: Request) {
   }
   try {
     const result = await verifyPayment(config, session, order, total);
+    // a backup for the callback (it can't reach a protected preview): the order marked paid here too
+    if (result.paid) await orderPaid({ orderId: order, total, sessionId: session, data: result.data }, new URL(req.url).origin).catch((e) => console.error("[orders] status: marking paid failed", { order, error: String(e) }));
     return json({ paid: result.paid });
   } catch (e) {
     console.error("[checkout] status: GetSessionStatus failed", { order, error: String(e) });
