@@ -4,6 +4,7 @@ import type { Order, OrderStatus } from "@/db/schema";
 import { formatILS } from "@/lib/format";
 import { sourceLabel, STATUS_LABEL, STATUS_TONE } from "@/lib/admin/status";
 import { formatDateTime } from "@/lib/admin/time";
+import { LEAD_STATUS_LABEL, LEAD_STATUS_TONE, leadStatus } from "@/lib/admin/lead-status";
 
 /** The admin's small building blocks (server components). */
 
@@ -11,6 +12,11 @@ export const ils = (n: number) => formatILS(n, "he");
 
 export function StatusBadge({ status, className = "" }: { status: OrderStatus; className?: string }) {
   return <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-bold ring-1 ring-inset ${STATUS_TONE[status]} ${className}`}>{STATUS_LABEL[status]}</span>;
+}
+
+export function LeadBadge({ status }: { status: string }) {
+  const s = leadStatus(status);
+  return <span className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-bold ring-1 ring-inset ${LEAD_STATUS_TONE[s]}`}>{LEAD_STATUS_LABEL[s]}</span>;
 }
 
 export function PageTitle({ title, sub, action }: { title: string; sub?: ReactNode; action?: ReactNode }) {
