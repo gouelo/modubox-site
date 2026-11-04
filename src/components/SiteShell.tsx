@@ -12,6 +12,7 @@ import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { WhatsAppFab } from "./WhatsAppFab";
+import { LeadAttribution } from "./LeadAttribution";
 import { business, orgJsonLd as businessJsonLd } from "@/lib/seo/settings";
 import { loadSeo } from "@/lib/seo/store";
 import { CallFab } from "./CallFab";
@@ -72,6 +73,8 @@ export async function SiteShell({ locale, children }: { locale: Locale; children
           <ConfiguratorPanel />
           {/* cookie consent (Google Consent Mode v2) */}
           <CookieConsent />
+          {/* UTM tags and ad click ids for the lead forms */}
+          <LeadAttribution />
         </LocaleProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
         {gtm && <GoogleTagManager id={gtm} />}
