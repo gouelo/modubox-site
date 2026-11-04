@@ -49,6 +49,8 @@ export interface CatalogOverrides {
   generatedAt?: string | null;
   products: Record<string, ProductPatch>;
   addons: Record<string, AddonPatch>;
+  /** the hidden 1 ₪ test product switched on or off in the admin (site_settings "test_product"); absent: data/test-product.json's own */
+  testProduct?: { enabled: boolean };
 }
 
 export const NO_OVERRIDES: CatalogOverrides = { products: {}, addons: {} };

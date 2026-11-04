@@ -1,6 +1,6 @@
 import type { Order, OrderItem } from "@/db/schema";
 import { paymentMethodLabel } from "../orders";
-import { STATUS_LABEL } from "./status";
+import { consentLabel, sourceLabel, STATUS_LABEL } from "./status";
 import { formatDateTime } from "./time";
 
 /**
@@ -39,6 +39,9 @@ const HEADER = [
   "מספר אישור",
   "מועד אספקה",
   "הערות הלקוח",
+  "מקור",
+  "מסכים/ה לדיוור",
+  "הזמנת בדיקה",
 ];
 
 export function ordersCsv(rows: { order: Order; items: OrderItem[] }[]): string {
@@ -70,6 +73,9 @@ export function ordersCsv(rows: { order: Order; items: OrderItem[] }[]): string 
         o.approvalNumber,
         o.scheduledFor,
         o.customerNotes,
+        sourceLabel(o.source),
+        consentLabel(o.marketingConsent),
+        o.isTest ? "כן" : "",
       ]
         .map(csvCell)
         .join(","),

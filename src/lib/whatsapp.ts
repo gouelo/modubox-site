@@ -47,6 +47,8 @@ export interface Customer {
   city: string;
   address: string;
   notes?: string;
+  /** agreed to get marketing messages (the checkout's checkbox, unchecked by default) */
+  marketing?: boolean;
 }
 
 export function orderMessage(cart: CartSummary, customer?: Customer, orderId?: string, locale: Locale = "he"): string {

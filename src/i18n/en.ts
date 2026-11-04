@@ -432,6 +432,7 @@ export const en: Dict = {
       address: "Street and number *",
       notes: "Installation notes",
       notesPh: "Floor, access to the spot, which side the door should face…",
+      marketing: "I'd like to get news and offers from Modubox by email, SMS and WhatsApp (unsubscribe any time)",
     },
     toSummary: "Continue to review",
     designed: "🧊 Designed in 3D",

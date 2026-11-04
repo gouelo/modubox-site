@@ -3,7 +3,9 @@ import Link from "next/link";
 import { getDb } from "@/db";
 import { requireAdmin } from "@/lib/admin/session";
 import { Empty, NoDatabase, OrderCard, PageTitle } from "@/components/admin/ui";
-import { filtersQuery, listOrders, PAGE_SIZE, readFilters, type OrderView } from "@/lib/admin/queries";
+import { followUpLink } from "@/lib/admin/follow-up";
+import { requestOrigin } from "@/lib/admin/origin";
+import { filtersQuery, firstProducts, listOrders, PAGE_SIZE, readFilters, type OrderView } from "@/lib/admin/queries";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "הזמנות" };
@@ -27,6 +29,9 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
   if (!db) return <NoDatabase />;
   const f = readFilters(await searchParams);
   const { rows, total } = await listOrders(db, f);
+  // not paid yet: a WhatsApp follow-up under each one
+  const unpaid = rows.filter((o) => o.status === "pending_payment" && !o.isTest);
+  const [products, origin] = await Promise.all([firstProducts(db, unpaid.map((o) => o.id)), requestOrigin()]);
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const dated = !!(f.from || f.to);
   return (
@@ -94,12 +99,12 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
         </form>
       </details>
 
-      {f.view === "pending_payment" ? <p className="mb-3 text-sm text-ink-soft">לקוחות שעברו לדף התשלום ולא סיימו לשלם. אפשר להתקשר ולעזור להם לסגור.</p> : null}
+      {f.view === "pending_payment" ? <p className="mb-3 text-sm text-ink-soft">לקוחות שעברו לדף התשלום ולא סיימו לשלם. אפשר להתקשר, או לשלוח הודעת המשך בוואטסאפ: הכפתור פותח וואטסאפ עם הודעה מוכנה, ושולחים רק אחרי שקוראים.</p> : null}
 
       {rows.length ? (
         <ul className="space-y-2">
           {rows.map((o) => (
-            <OrderCard key={o.id} o={o} />
+            <OrderCard key={o.id} o={o} followUp={o.status === "pending_payment" && !o.isTest ? followUpLink(o, products.get(o.id), origin) : undefined} />
           ))}
         </ul>
       ) : (

@@ -63,7 +63,7 @@ export function CheckoutFlow() {
   const discount = couponDiscount(couponCheck);
   const toPay = cart.total - (discount?.amount ?? 0);
   const [step, setStep] = useState(0);
-  const [customer, setCustomer] = useState<Customer>({ name: "", phone: "", email: "", city: "", address: "", notes: "" });
+  const [customer, setCustomer] = useState<Customer>({ name: "", phone: "", email: "", city: "", address: "", notes: "", marketing: false });
   const [agree, setAgree] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [done, setDone] = useState<{ id: string; message: string } | null>(null);
@@ -177,7 +177,7 @@ export function CheckoutFlow() {
     setPaying(false);
   };
 
-  const field = (f: keyof Customer, label: string, props: React.InputHTMLAttributes<HTMLInputElement> = {}) => (
+  const field = (f: "name" | "phone" | "email" | "city" | "address", label: string, props: React.InputHTMLAttributes<HTMLInputElement> = {}) => (
     <label className="block">
       <span className="mb-1.5 block text-sm font-bold">{label}</span>
       <input
@@ -221,6 +221,11 @@ export function CheckoutFlow() {
                 <label className="block sm:col-span-2">
                   <span className="mb-1.5 block text-sm font-bold">{k.fields.notes}</span>
                   <textarea value={customer.notes} onChange={set("notes")} rows={3} className="field resize-none" placeholder={k.fields.notesPh} />
+                </label>
+                {/* marketing consent: never checked in advance (Israel's anti-spam law, section 30A) */}
+                <label className="flex items-start gap-3 text-sm text-ink-soft sm:col-span-2">
+                  <input type="checkbox" className="mt-0.5 size-5 shrink-0 accent-ink" checked={!!customer.marketing} onChange={(e) => setCustomer((c) => ({ ...c, marketing: e.target.checked }))} />
+                  <span>{k.fields.marketing}</span>
                 </label>
                 <button type="submit" className="btn-primary w-full py-4 text-base sm:col-span-2">{k.toSummary}</button>
               </form>

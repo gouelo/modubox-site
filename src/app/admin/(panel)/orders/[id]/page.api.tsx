@@ -9,6 +9,8 @@ import { ContactButtons, ils, NoDatabase, Row, Section, StatusBadge } from "@/co
 import { allowedMoves, NEXT_STEP, STATUS_LABEL } from "@/lib/admin/status";
 import { formatDateTime, formatDay } from "@/lib/admin/time";
 import { getOrder, paymentMethodLabel } from "@/lib/orders";
+import { followUpLink } from "@/lib/admin/follow-up";
+import { requestOrigin } from "@/lib/admin/origin";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +38,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
   const next = NEXT_STEP[o.status];
   const moves = allowedMoves(o.status, paid).filter((s) => s !== next?.to);
   const canSchedule = paid && o.status !== "cancelled" && o.status !== "refunded";
+  const followUp = o.status === "pending_payment" && !o.isTest && items[0] ? followUpLink(o, { slug: items[0].productSlug, name: items[0].productName, more: items.length - 1 }, await requestOrigin()) : null;
 
   return (
     <div className="space-y-4">
@@ -59,6 +62,12 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
           </div>
         </div>
         {o.status === "pending_payment" ? <p className="mt-3 rounded-lg bg-slate-50 p-3 text-sm text-ink-soft">הלקוח עבר לדף התשלום ועוד לא שילם. כשהתשלום יאושר ב־Z-Credit, ההזמנה תעבור לבד ל"חדשה".</p> : null}
+        {followUp ? (
+          <a href={followUp} target="_blank" rel="noopener" className="btn-wa mt-2 min-h-11 w-full justify-center text-sm">
+            <span aria-hidden>💬</span> הודעת המשך בוואטסאפ (נפתחת לעריכה, לא נשלחת לבד)
+          </a>
+        ) : null}
+        {o.isTest ? <p className="mt-3 rounded-lg bg-sand p-3 text-sm text-ink-soft">הזמנת בדיקה (מוצר הבדיקה ב־1 ₪): לא נספרת במכירות.</p> : null}
         {o.partial ? <p className="mt-3 rounded-lg bg-copper-tint p-3 text-sm text-copper-deep">ההזמנה נשמרה מפרטי התשלום בלבד, בלי פרטי המוצרים. את הפרטים אפשר לראות בפאנל של Z-Credit.</p> : null}
         <div className="mt-4 space-y-2">
           {next ? next.to === "scheduled" ? (
@@ -89,6 +98,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
             <Row label="כתובת">{[o.address, o.city].filter(Boolean).join(", ")}</Row>
             <Row label="הערות הלקוח">{o.customerNotes}</Row>
             <Row label="שפת האתר">{o.locale === "en" ? "אנגלית" : null}</Row>
+            <Row label="מסכים/ה לדיוור">{o.marketingConsent === null ? null : o.marketingConsent ? "כן, סימן/ה בקופה" : "לא"}</Row>
           </dl>
         </Section>
 

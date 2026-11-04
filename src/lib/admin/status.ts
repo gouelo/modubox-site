@@ -1,4 +1,4 @@
-import type { OrderStatus } from "@/db/schema";
+import type { OrderSource, OrderStatus } from "@/db/schema";
 
 /**
  * An order's statuses and the moves between them.
@@ -67,3 +67,10 @@ export function allowedMoves(from: OrderStatus, paid: boolean): OrderStatus[] {
 
 /** Orders that count as sales: paid, and not cancelled or refunded. */
 export const SALE_STATUSES: OrderStatus[] = FLOW;
+
+/** Where an order came from: the site's checkout (null), or entered in the admin. */
+export const SOURCE_LABEL: Record<OrderSource, string> = { phone: "טלפון", whatsapp: "וואטסאפ", other: "אחר" };
+export const sourceLabel = (s: OrderSource | null | undefined) => (s ? SOURCE_LABEL[s] ?? s : "אתר");
+
+/** The marketing checkbox: yes, no, or not asked (orders from before it existed, manual orders). */
+export const consentLabel = (c: boolean | null | undefined) => (c === true ? "כן" : c === false ? "לא" : "");
