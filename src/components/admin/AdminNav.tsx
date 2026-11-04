@@ -10,6 +10,7 @@ const LINKS: { href: string; label: string; icon: string; perm: Permission }[] =
   { href: "/admin/customers/", perm: "customers", label: "לקוחות", icon: "M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1m6.5-9a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM21 19v-1a4 4 0 0 0-3-3.87M15 3.13a3.5 3.5 0 0 1 0 6.74" },
   { href: "/admin/catalog/", perm: "catalog", label: "קטלוג", icon: "M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Zm0 0 8 4.5m0 0 8-4.5M12 12v9" },
   { href: "/admin/coupons/", perm: "coupons", label: "קופונים", icon: "M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9Zm5-4.5h.01" },
+  { href: "/admin/site/", perm: "site", label: "אתר", icon: "M3 5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Zm0 4h18M7 13h6m-6 3h4" },
   { href: "/admin/content/", perm: "content", label: "תוכן", icon: "M4 5h16M4 10h16M4 15h10M4 20h7m9-4-4 4-2-2" },
 ];
 

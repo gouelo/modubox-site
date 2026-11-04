@@ -16,9 +16,9 @@ export const SESSION_DAYS = 30;
 
 /** owner: everything. content: SEO and content only, never orders or customers (phase 2). */
 export type Role = "owner" | "content";
-export type Permission = "orders" | "customers" | "export" | "content" | "catalog" | "coupons";
+export type Permission = "orders" | "customers" | "export" | "content" | "catalog" | "coupons" | "site";
 
-export const ALL_PERMISSIONS: Permission[] = ["orders", "customers", "export", "content", "catalog", "coupons"];
+export const ALL_PERMISSIONS: Permission[] = ["orders", "customers", "export", "content", "catalog", "coupons", "site"];
 
 const PERMISSIONS: Record<Role, Permission[]> = {
   owner: ALL_PERMISSIONS,

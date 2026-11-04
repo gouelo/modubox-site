@@ -15,8 +15,9 @@ import galleryEn from "../../data/en/gallery.json";
 import faqEn from "../../data/en/faq.json";
 import clientsEn from "../../data/en/clients.json";
 import testFile from "../../data/test-product.json";
+import promoFile from "../../data/promo.json";
 import overridesFile from "../../data/catalog-overrides.json";
-import { applyAddonOverrides, applyProductOverrides, enAddonTexts, enProductTexts, type CatalogOverrides } from "./catalog-overrides";
+import { applyAddonOverrides, applyFaqPatch, applyProductOverrides, applyReviewsPatch, applySitePatch, enAddonTexts, enProductTexts, type CatalogOverrides, type PromoData } from "./catalog-overrides";
 import { dict, type Locale } from "@/i18n";
 import type { Addon, Category, Product } from "./types";
 
@@ -108,6 +109,10 @@ function localizeAddon(a: Addon, locale: Locale): Addon {
 }
 
 function localizeFaq(locale: Locale): FaqGroup[] {
+  return applyFaqPatch(fileFaq(locale), overrides.faq, locale);
+}
+
+function fileFaq(locale: Locale): FaqGroup[] {
   const groups = faqFile.groups as FaqGroup[];
   if (locale === "he") return groups;
   const en = (faqEn as EnFaq).groups;
@@ -133,6 +138,10 @@ function localizeFaq(locale: Locale): FaqGroup[] {
 }
 
 function localizeSite(locale: Locale) {
+  return applySitePatch(fileSite(locale), overrides.site, locale);
+}
+
+function fileSite(locale: Locale) {
   if (locale === "he") return siteFile;
   return {
     ...siteFile,
@@ -149,6 +158,9 @@ function localizeSite(locale: Locale) {
 }
 
 export type Site = typeof siteFile;
+
+/** The month's promotion banner (data/promo.json, or the admin's version baked in). */
+export const promo: PromoData = overrides.promo ?? (promoFile as PromoData);
 export type CategoryInfo = { id: Category; title: string; subtitle: string; intro?: string };
 
 /** Categories hidden from the catalog and menus (site.json → hiddenCategories). */
@@ -170,7 +182,11 @@ function build(locale: Locale) {
     addons,
     addonById: new Map(addons.map((a) => [a.id, a])),
     site: localizeSite(locale) as Site,
-    reviews: reviewsFile.reviews.map((r, i): Review => (locale === "he" ? r : { ...r, name: enReviews[i]?.name ?? r.name, text: enReviews[i]?.text ?? r.text })),
+    reviews: applyReviewsPatch(
+      reviewsFile.reviews.map((r, i): Review => (locale === "he" ? r : { ...r, name: enReviews[i]?.name ?? r.name, text: enReviews[i]?.text ?? r.text })),
+      overrides.reviews,
+      locale,
+    ),
     videos: videosFile.videos.map((v) => ({ ...v, title: locale === "he" ? ltrSizes(v.title) : (enVideos[v.youtubeId] ?? v.title) })),
     gallery: galleryFile.images.map((g) => (locale === "he" ? g : { ...g, alt: enGallery[g.src] ?? g.alt })),
     clients: clientsFile.clients.map((c) => (locale === "he" ? c : { ...c, name: enClients[c.file] ?? c.name })),

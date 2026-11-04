@@ -4,7 +4,8 @@
 // the browser and the server's checkout pricing all read the same prices
 // (src/lib/catalog.ts applies the file on top of data/products.json and
 // data/addons.json), and the admin's test-product switch (site_settings
-// "test_product").
+// "test_product") and the site's texts and reviews (/admin/site: "site_texts",
+// "promo", "faq", "reviews").
 //
 // On Vercel with a database only (after scripts/migrate.mjs). If the database
 // can't be read, the build fails and Vercel keeps the previous deployment live:
@@ -31,15 +32,19 @@ if (!url || !enabled) {
     // the admin's switch for the hidden 1 ₪ test product
     const test = await client.query("select value from site_settings where key = 'test_product'");
     const testProduct = test.rows[0] && typeof test.rows[0].value?.enabled === "boolean" ? { enabled: test.rows[0].value.enabled } : undefined;
+    // the site's texts and reviews (/admin/site), each saved whole under its key
+    const texts = await client.query("select key, value from site_settings where key in ('site_texts', 'promo', 'faq', 'reviews')");
+    const byKey = Object.fromEntries(texts.rows.map((r) => [r.key === "site_texts" ? "site" : r.key, r.value]));
     const out = {
       _readme: JSON.parse(fs.readFileSync(FILE, "utf8"))._readme,
       generatedAt: new Date().toISOString(),
       products: Object.fromEntries(products.rows.map((r) => [r.slug, { ...r.published, ...(r.copied_from ? { copiedFrom: r.copied_from } : {}) }])),
       addons: Object.fromEntries(addons.rows.map((r) => [r.id, r.published])),
       ...(testProduct ? { testProduct } : {}),
+      ...byKey,
     };
     fs.writeFileSync(FILE, JSON.stringify(out, null, 2) + "\n");
-    console.log(`[catalog] ${products.rows.length} product and ${addons.rows.length} add-on changes baked in${testProduct ? `; test product ${testProduct.enabled ? "on" : "off"}` : ""}`);
+    console.log(`[catalog] ${products.rows.length} product and ${addons.rows.length} add-on changes baked in${testProduct ? `; test product ${testProduct.enabled ? "on" : "off"}` : ""}${texts.rows.length ? `; site texts: ${Object.keys(byKey).join(", ")}` : ""}`);
   } finally {
     await client.end();
   }
