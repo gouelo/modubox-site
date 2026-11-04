@@ -24,6 +24,7 @@ export const en: Dict = {
     contact: { title: "Contact Us", description: (phone: string) => `Talk to Modubox on WhatsApp, call ${phone}, or leave your details and we'll get back to you.` },
     faq: { title: "FAQ", description: "Answers about Modubox sheds: materials and insulation, custom sizes, what the price includes, delivery and installation, site prep, permits, warranty and payments." },
     gallery: { title: "Photos & Videos", description: "Videos and real photos of Modubox sheds and backyard rooms in our customers' yards across Israel." },
+    privacy: { title: "Privacy Policy", description: "Modubox privacy policy: what the site collects and why, cookies and measurement tools, and how to use your rights." },
     terms: { title: "Terms & Conditions", description: "Modubox terms and conditions: delivery, installation and cancellation." },
     warranty: { title: "Warranty & Service", description: "A 10-year warranty on Modubox sheds – warranty terms and after-sales service." },
     accessibility: { title: "Accessibility Statement", description: "The Modubox website accessibility statement: accessibility level, adjustments made, known limitations and how to reach our accessibility coordinator." },
@@ -95,7 +96,7 @@ export const en: Dict = {
     social: { facebook: "Facebook", instagram: "Instagram", youtube: "YouTube" },
     products: "Our Products",
     info: "Information",
-    links: { about: "About Modubox", gallery: "Photos & Videos", warranty: "Warranty & Service", terms: "Terms & Conditions", faq: "FAQ", accessibility: "Accessibility Statement" },
+    links: { about: "About Modubox", gallery: "Photos & Videos", warranty: "Warranty & Service", terms: "Terms & Conditions", faq: "FAQ", accessibility: "Accessibility Statement", privacy: "Privacy Policy", blog: "Blog", cookies: "Cookie settings" },
     talk: "Get in Touch",
     factory: "Factory",
     factory2: "Second plant",
@@ -437,6 +438,7 @@ export const en: Dict = {
     installDetails: "Installation details",
     edit: "Edit",
     agree: { before: "I have read and agree to the ", terms: "Terms & Conditions", and: " and the ", warranty: "warranty terms", after: ", and I confirm the installation surface is flat, level and firm." },
+    privacy: { before: "Your details are used only to handle your order, under our ", link: "Privacy Policy", after: ". Card details go straight to Z-Credit and are never stored by us." },
     toPayment: "Continue to payment",
     card: "Secure credit card payment",
     cards: (n: number) => `Up to ${n} payments · Visa · Mastercard · Isracard`,
@@ -567,10 +569,41 @@ export const en: Dict = {
 
   gallery: { view: "Photo viewer", enlarge: (alt: string) => `Enlarge: ${alt}`, prev: "Previous photo", next: "Next photo" },
 
-  fab: { aria: "Message us on WhatsApp", label: "Ask us on WhatsApp" },
+  fab: { aria: "Message us on WhatsApp", label: "Ask us on WhatsApp", callAria: (phone: string) => `Call us: ${phone}` },
   floatingCta: { label: "Design your shed in 3D", sub: "New: interactive 3D builder", dismiss: "Hide this button" },
 
   accessibility: { coordinatorRole: "Modubox customer service team" },
+
+  blog: {
+    eyebrow: "Articles & guides",
+    title: "The Modubox blog",
+    description: "Guides and tips for choosing a garden shed: sizes, materials, installation, permits and uses.",
+    intro: "Guides and tips for choosing, installing and using a garden shed.",
+    allPosts: "All articles",
+    fromBlog: "From the blog",
+    more: "More from the blog",
+    home: "Home",
+    breadcrumb: "Breadcrumb",
+    minutes: (n: number) => `${n} min read`,
+    ctaTitle: "Looking for a garden shed?",
+    ctaText: "Insulated-panel sheds in every size, delivered, installed and under warranty.",
+    ctaShop: "See the sheds",
+  },
+
+  cookies: {
+    label: "Cookie consent",
+    text: "We use cookies to make the site work and – only if you agree – for measurement and advertising.",
+    more: "Privacy Policy",
+    accept: "Accept all",
+    reject: "Reject",
+    settings: "Settings",
+    save: "Save my choice",
+    title: "Cookie settings",
+    close: "Close",
+    necessary: { title: "Necessary", text: "Keep your cart, your language and your choice here. Always on.", always: "Always on" },
+    analytics: { title: "Measurement & statistics", text: "Help us see how the site is used (e.g. Google Analytics), without identifying you personally." },
+    ads: { title: "Advertising", text: "Let us measure campaigns and show you relevant ads (e.g. Google Ads and Meta)." },
+  },
 
   notFound: { title: "Page not found", text: "It may have moved. Let's get you back to the sheds.", home: "Back to home" },
 };

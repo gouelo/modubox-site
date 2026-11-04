@@ -8,7 +8,7 @@ import { Markdown } from "@/lib/markdown";
 import { waLink } from "@/lib/whatsapp";
 
 /** The text pages, each a Markdown file: content/<page>.md in Hebrew, content/en/<page>.md in English. */
-export type TextPageName = "terms" | "warranty" | "accessibility";
+export type TextPageName = "terms" | "warranty" | "accessibility" | "privacy";
 
 export const textMeta = (locale: Locale, page: TextPageName): Metadata => pageMeta(locale, `/${page}/`, dict(locale).meta[page]);
 
@@ -18,6 +18,9 @@ function longDate(iso: string, locale: Locale): string {
   if (locale === "he") return `${d}.${m}.${y}`;
   return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 }
+
+/** When the privacy policy last changed (content/privacy.md). */
+const PRIVACY_UPDATED = "2026-11-04";
 
 /** The values a page's {{placeholders}} take (the accessibility statement's contact details). */
 function vars(locale: Locale): Record<string, string> {
@@ -31,6 +34,7 @@ function vars(locale: Locale): Record<string, string> {
     // until Yoel names the coordinator, the role alone
     coordinator: name.startsWith("TODO") ? dict(locale).accessibility.coordinatorRole : name,
     updated: longDate(a.updated, locale),
+    privacyUpdated: longDate(PRIVACY_UPDATED, locale),
   };
 }
 

@@ -1,3 +1,4 @@
+import { BlogStrip } from "./BlogPages";
 import Image from "next/image";
 import Link from "next/link";
 import { Design3DButton } from "@/components/Design3DButton";
@@ -76,6 +77,21 @@ export function HomePage({ locale }: { locale: Locale }) {
             </Link>
           ))}
         </div>
+      </section>
+
+      {/* REVIEWS */}
+      <section className="mt-16 sm:mt-28">
+        <Reveal className="container-x mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 sm:mb-10">
+          <div>
+            <p className="eyebrow">{h.reviews.eyebrow}</p>
+            <h2 className="h-section mt-1">{h.reviews.title}</h2>
+            {h.reviews.note && <p className="mt-1 text-sm text-ink-soft">{h.reviews.note}</p>}
+          </div>
+          <a href={site.googleReviewsUrl} target="_blank" rel="noopener" className="flex shrink-0 items-center gap-2 text-sm font-bold">
+            <Stars locale={locale} value={5} className="size-4" /> {h.reviews.rating(site.rating, site.reviewCount)} <Icon name="arrow" className="size-4" />
+          </a>
+        </Reveal>
+        <ReviewMarquee locale={locale} reviews={reviews} />
       </section>
 
       {/* USES: what people put in the yard */}
@@ -172,22 +188,10 @@ export function HomePage({ locale }: { locale: Locale }) {
         </div>
       </section>
 
-      {/* REVIEWS */}
-      <section className="mt-16 sm:mt-28">
-        <Reveal className="container-x mb-6 flex flex-wrap items-end justify-between gap-x-4 gap-y-2 sm:mb-10">
-          <div>
-            <p className="eyebrow">{h.reviews.eyebrow}</p>
-            <h2 className="h-section mt-1">{h.reviews.title}</h2>
-            {h.reviews.note && <p className="mt-1 text-sm text-ink-soft">{h.reviews.note}</p>}
-          </div>
-          <a href={site.googleReviewsUrl} target="_blank" rel="noopener" className="flex shrink-0 items-center gap-2 text-sm font-bold">
-            <Stars locale={locale} value={5} className="size-4" /> {h.reviews.rating(site.rating, site.reviewCount)} <Icon name="arrow" className="size-4" />
-          </a>
-        </Reveal>
-        <ReviewMarquee locale={locale} reviews={reviews} />
-      </section>
-
       <ClientLogos locale={locale} />
+
+      {/* FROM THE BLOG: three recent posts, text only (the blog is in Hebrew) */}
+      {locale === "he" && <BlogStrip />}
 
       {/* CONTACT: the lead form (WhatsApp until there's an endpoint) */}
       <section id="contact" className="container-x mt-16 scroll-mt-20 sm:mt-28">
