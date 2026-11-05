@@ -63,8 +63,8 @@ describe("fulfillment", () => {
     ]);
   });
 
-  it("unknown delivery price becomes 'on request'", () => {
-    expect(fulfillmentOptions(getProduct("modubox-6x3")!)[0].price).toBeNull();
+  it("6×3 has its delivery and installation price", () => {
+    expect(fulfillmentOptions(getProduct("modubox-6x3")!)[0]).toMatchObject({ id: "deliveryAndInstallation", price: 2000 });
   });
 });
 

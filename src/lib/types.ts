@@ -42,6 +42,8 @@ export interface Product {
     inner?: string | null;
     doorWidth?: number;
     doorOpening?: number;
+    /** the sliding-window add-on's size, in cm */
+    slidingWindow?: { width: number; height: number };
     wallHeight?: number;
     approximate?: boolean;
   } | null;

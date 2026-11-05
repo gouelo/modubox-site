@@ -94,6 +94,7 @@ export function Footer({ locale }: { locale: Locale }) {
             <Icon name="shield" className="size-4" /> {f.secure(site.maxPayments)}
           </p>
         </div>
+        <p className="container-x pb-6 text-center text-xs text-white/50 sm:text-start">{f.illustration}</p>
       </div>
     </footer>
   );

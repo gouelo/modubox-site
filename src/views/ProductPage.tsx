@@ -7,6 +7,7 @@ import { Design3DButton } from "@/components/Design3DButton";
 import { Gallery } from "@/components/Gallery";
 import { Icon } from "@/components/Icon";
 import { Materials } from "@/components/Materials";
+import { PriceIncludes } from "@/components/PriceIncludes";
 import { ProductBuyBox } from "@/components/ProductBuyBox";
 import { Stars } from "@/components/Stars";
 import { AddonBuilder } from "@/components/builder/AddonBuilder";
@@ -46,6 +47,7 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
   const r = tp.rows;
   const ils = (n: number) => formatILS(n, locale);
   const cm = (n: number) => formatCm(n, locale);
+  const cm2 = (w: number, h: number) => t.format.cm(`${w}×${h}`);
   // dimensions only the factory can confirm stay off the page (the admin lists them as missing)
   const d = product.dimensions?.approximate ? null : product.dimensions;
   const delivery = fulfillmentOptions(product)[0];
@@ -71,6 +73,7 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
         ] as [string, string][])
       : []),
     ...(d?.doorOpening ? ([[r.door, cm(d.doorOpening)]] as [string, string][]) : []),
+    ...(d?.slidingWindow ? ([[r.window, cm2(d.slidingWindow.width, d.slidingWindow.height)]] as [string, string][]) : []),
     [r.warranty, t.common.years(product.warrantyYears)],
     [r.delivery, delivery.price === null ? t.common.onRequest : delivery.price === 0 ? t.common.included : ils(delivery.price)],
   ];
@@ -103,6 +106,7 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
           {product.images.length > 1 && (
             <Gallery layout="strip" images={product.images.map((src, i) => ({ src, alt: tp.photo(plain(product.name), i + 1) }))} />
           )}
+          <p className="text-xs text-ink-soft">{tp.illustration}</p>
         </div>
 
         <div className="lg:self-center">
@@ -152,6 +156,8 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
           </div>
         </div>
       </div>
+
+      {product.category === "modubox" && <PriceIncludes product={product} />}
 
       {configurable && (
         <div className="mt-10 sm:mt-14">

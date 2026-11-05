@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { cleanSelections, newOrderId, paymentItems, priceCheckout, type PricedOrder } from "../src/lib/checkout";
-import { getProduct } from "../src/lib/catalog";
+import { getProduct, products } from "../src/lib/catalog";
+import { summarizeCart } from "../src/lib/pricing";
 import { CONFIGURATOR_ORIGIN } from "../src/lib/configurator";
 import {
   buildCreateSession,
@@ -74,9 +75,24 @@ describe("priceCheckout: the server's own prices", () => {
     expect(priceCheckout(body([{ slug: "nope", qty: 1, selections: {}, fulfillment: "pickup" }]))).toEqual({ ok: false, error: "unknown_product" });
     expect(priceCheckout(body([{ slug: "modubox-2x2", qty: 0, selections: {} }]))).toEqual({ ok: false, error: "invalid_request" });
     expect(priceCheckout(body([{ slug: "modubox-2x2", qty: 1, selections: {} }], { customer: { ...customer, phone: "123" } }))).toEqual({ ok: false, error: "invalid_customer" });
-    // 6×3 has no delivery price yet: "בתיאום"
-    expect(priceCheckout(body([{ slug: "modubox-6x3", qty: 1, selections: {} }]))).toEqual({ ok: false, error: "price_on_request" });
+    // an add-on priced "בתיאום" (a configurator design's kipp window) can't be paid online either: tests/configurator.test.ts;
+    // a product with no delivery price: tests/catalog-overrides.test.ts
     expect(priceCheckout("x")).toEqual({ ok: false, error: "invalid_request" });
+  });
+
+  it("prices 6×3 with its delivery and installation (₪2,000) like every other size", () => {
+    const o = priced(body([{ slug: "modubox-6x3", qty: 1, selections: { "sliding-window": 1 }, fulfillment: "deliveryAndInstallation" }]));
+    expect(o.total).toBe(17900 + 1190 + 2000);
+  });
+
+  it("every Modubox shed costs the same in the cart and at the server's checkout", () => {
+    for (const p of products.filter((x) => x.category === "modubox")) {
+      const item = { slug: p.slug, qty: 1, selections: { "sliding-window": 1, "wpc-floor": "grey" }, fulfillment: "deliveryAndInstallation" as const };
+      const cart = summarizeCart([{ id: "1", ...item }], "he");
+      expect(cart.hasOnRequest, p.slug).toBe(false);
+      expect(cart.fulfillmentTotal, p.slug).toBe(p.fulfillment.deliveryAndInstallation);
+      expect(priced(body([item])).total, p.slug).toBe(cart.total);
+    }
   });
 
   it("keeps installments between 1 and 12", () => {
