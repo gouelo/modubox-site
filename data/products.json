@@ -1031,17 +1031,21 @@
       "badge": null,
       "shortDescription": "יחידת חצר מפנל מבודד עם שלדת אלומיניום, דלת רחבה עם מנעול וחלון סקיילייט – מחסן, משרד או חדר עבודה.",
       "dimensions": {
-        "base": null,
-        "outer": {
-          "width": 601,
-          "depth": 306,
-          "heightMin": 218,
-          "heightMax": 233
+        "base": {
+          "width": 595.0,
+          "depth": 301.0,
+          "heightMin": 209.0,
+          "heightMax": 224.0
         },
-        "inner": null,
+        "outer": {
+          "width": 601.0,
+          "depth": 308.0,
+          "heightMin": 217.0,
+          "heightMax": 233.0
+        },
+        "inner": "292/585 ס\"מ",
         "doorWidth": 91.5,
-        "doorOpening": 89.2,
-        "approximate": true
+        "doorOpening": 89.2
       },
       "fulfillment": {
         "pickup": null,
@@ -1067,9 +1071,15 @@
       ],
       "addonPriceOverrides": {},
       "images": [
-        "photos/f1c86e7f.webp",
-        "photos/7b2976de.webp",
-        "photos/dc5dd38c.webp"
+        "photos/6e56c5db.webp",
+        "photos/c12527f9.webp",
+        "photos/01738fab.webp",
+        "photos/3323aaef.webp",
+        "photos/34a6c133.webp",
+        "photos/71f73dc3.webp",
+        "photos/490e0a34.webp",
+        "photos/8de66868.webp",
+        "photos/67030a07.webp"
       ],
       "oldUrl": null,
       "todo": "אין עמוד מוצר באתר הישן; המחיר 17,900 ₪ לקוח מהקטלוג."
