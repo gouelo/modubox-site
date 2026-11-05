@@ -47,7 +47,6 @@ describe("a manual (phone) order", () => {
     expect(priceManualOrder(input({ items: [] }), coupons)).toMatchObject({ ok: false });
     expect(priceManualOrder(input({ coupon: "NOPE" }), coupons)).toEqual({ ok: false, error: "קוד הקופון לא קיים." });
     expect(priceManualOrder(input({ discount: 10_000_000 }), coupons)).toMatchObject({ ok: false });
-    expect(priceManualOrder(input({ items: [{ slug: "modubox-6x3", qty: 1, selections: {} }] }), coupons)).toMatchObject({ ok: false });
     expect(priceManualOrder(input({ payment: "bitcoin" as never }), coupons)).toMatchObject({ ok: false });
   });
 

@@ -1045,13 +1045,14 @@
         },
         "inner": "292/585 ס\"מ",
         "doorWidth": 91.5,
-        "doorOpening": 89.2
+        "doorOpening": 89.2,
+        "slidingWindow": { "width": 100, "height": 100 }
       },
       "fulfillment": {
         "pickup": null,
         "delivery": null,
         "installation": null,
-        "deliveryAndInstallation": null,
+        "deliveryAndInstallation": 2000,
         "note": "מצפון לעכו ומדרום לבאר שבע: תוספת 100 ₪. דרומית לירוחם – בתיאום."
       },
       "warrantyYears": 10,
@@ -1081,8 +1082,7 @@
         "photos/8de66868.webp",
         "photos/67030a07.webp"
       ],
-      "oldUrl": null,
-      "todo": "אין עמוד מוצר באתר הישן; המחיר 17,900 ₪ לקוח מהקטלוג."
+      "oldUrl": null
     },
     {
       "slug": "gilboa-s",

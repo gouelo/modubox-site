@@ -7,6 +7,7 @@ vi.mock("../data/catalog-overrides.json", () => ({
     products: {
       "modubox-2x1": { price: 4500, fulfillment: { deliveryAndInstallation: 800 }, addonPriceOverrides: { "sliding-window": 999 }, en: { name: "Modubox 2×1 (new)" } },
       "modubox-1x1": { hidden: true },
+      "modubox-3x1": { fulfillment: { deliveryAndInstallation: null } },
       "modubox-7x3": { copiedFrom: "modubox-3x3", name: "מחסן מודובוקס 7×3", price: 19990, sizeLabel: "7×3", widthM: 7, depthM: 3, areaM2: 18 },
     },
     addons: { "extra-door": { price: 1290, en: { name: "Another door" } }, "glass-wall": { choices: { glass: { price: 1290 } } } },
@@ -14,7 +15,7 @@ vi.mock("../data/catalog-overrides.json", () => ({
 }));
 
 const { catalog, getProduct, addonsFor, products } = await import("@/lib/catalog");
-const { summarizeCart } = await import("@/lib/pricing");
+const { fulfillmentOptions, summarizeCart } = await import("@/lib/pricing");
 const { priceCheckout } = await import("@/lib/checkout");
 
 const customer = { name: "בדיקה", phone: "0501234567", city: "עפולה", address: "הרצל 1", notes: "", email: "" };
@@ -49,6 +50,9 @@ describe("published catalog changes", () => {
     const priced = priceCheckout({ locale: "he", items: items.map(({ id: _id, ...i }) => i), customer, installments: 1 });
     expect(priced.ok).toBe(true);
     if (priced.ok) expect(priced.order.total).toBe(cart.total);
+    // no delivery price: "בתיאום", and no online payment
+    expect(fulfillmentOptions(getProduct("modubox-3x1")!)[0].price).toBeNull();
+    expect(priceCheckout({ locale: "he", items: [{ slug: "modubox-3x1", qty: 1, selections: {} }], customer, installments: 1 })).toEqual({ ok: false, error: "price_on_request" });
     const hidden = priceCheckout({ locale: "he", items: [{ slug: "modubox-1x1", qty: 1, selections: {}, fulfillment: "deliveryAndInstallation" }], customer, installments: 1 });
     expect(hidden.ok).toBe(false);
   });
