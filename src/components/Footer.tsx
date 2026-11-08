@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { dict, lp, type Locale } from "@/i18n";
 import { catalog } from "@/lib/catalog";
+import { categoryPages, categoryPath } from "@/lib/category-pages";
 import { waLink } from "@/lib/whatsapp";
 import { CookieSettingsLink } from "./CookieConsent";
 import { Icon } from "./Icon";
@@ -87,6 +88,16 @@ export function Footer({ locale }: { locale: Locale }) {
           </ul>
         </div>
       </div>
+      {/* the landing pages by kind of shed: on purpose only here, small and quiet (src/lib/category-pages.ts) */}
+      <nav className="container-x pb-6 text-xs leading-6 text-white/50" aria-label={f.kinds}>
+        <h2 className="inline font-bold tracking-normal">{f.kinds}:</h2>{" "}
+        {categoryPages(locale).map((c, i) => (
+          <span key={c.slug}>
+            {i > 0 && <span aria-hidden="true"> · </span>}
+            <Link href={categoryPath(c.slug, locale)} className="hover:text-white hover:underline">{c.label}</Link>
+          </span>
+        ))}
+      </nav>
       <div className="border-t border-white/10">
         <div className="container-x flex flex-col items-center justify-between gap-3 py-6 text-sm text-white/50 sm:flex-row">
           <p>{f.copyright(new Date().getFullYear(), locale === "he" ? site.legal.name : `${site.legal.nameEn} (${site.legal.companyId})`)}</p>

@@ -140,7 +140,21 @@
     "toilet-shower-3x1": {
       "name": "Restroom & Shower Unit 3×1",
       "shortDescription": "An XPV insulated-panel restroom and shower unit – a toilet, a vanity with mirror, and a shower tray with a handheld shower and faucet.",
-      "badge": "New!"
+      "badge": "New!",
+      "details": [
+        {
+          "title": "The unit",
+          "text": "A 3×1 m restroom and shower unit of XPV insulated panels, for durability and thermal and acoustic insulation, on an aluminum frame. A rigid, stable inner floor, a door with a cylinder lock and skylight windows up top for daylight."
+        },
+        {
+          "title": "Inside",
+          "text": "A toilet, a vanity with sink, faucet and built-in mirror, and a shower tray with a handheld shower and faucet for everyday use."
+        },
+        {
+          "title": "Installation",
+          "text": "The unit stands on a stable, firm, level surface. Delivery and installation (₪2,000) include coming to you, professional installation and a walkthrough of how to use it. Licensed professionals connect the water, sewage and power."
+        }
+      ]
     },
     "guard-booth-2x2": {
       "name": "Guard Booth 2×2",

@@ -6,9 +6,9 @@
 
 הקובץ הזה נוצר אוטומטית: `node scripts/redirects-doc.mjs`.
 
-**סה"כ: 187 הפניות.**
+**סה"כ: 174 הפניות.**
 
-## מוצרים (/product-page/…) (42)
+## מוצרים (/product-page/…) (43)
 
 | כתובת ישנה | כתובת חדשה | הערה |
 |---|---|---|
@@ -20,10 +20,10 @@
 | `/product-page/מחסן-גינה-גלבוע-s` | `/product/gilboa-s/` | product |
 | `/product-page/מחסן-מודובוקס-4x1-60` | `/product/modubox-4x1-6/` | product |
 | `/product-page/חיוב-לקוח-עבור-קיצור-רוחב-עומק-גובה` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
-| `/product-page/מזגן-איסקה-אינוורטר-מבית-טורנדו-1-כ-ס-במבצע-רק-לרוכשי-מחסן-אוורסט` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
-| `/product-page/פאנל-הכנה-לחשמל-למחסני-מודובוקס` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/מזגן-איסקה-אינוורטר-מבית-טורנדו-1-כ-ס-במבצע-רק-לרוכשי-מחסן-אוורסט` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
+| `/product-page/פאנל-הכנה-לחשמל-למחסני-מודובוקס` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
 | `/product-page/מחסן-גינה-מודובוקס-6x2` | `/product/modubox-6x2/` | product |
-| `/product-page/קיר-זכוכית-ויטרינה` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/קיר-זכוכית-ויטרינה` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
 | `/product-page/מחסן-גינה-גלבוע-מידה-l-2-10-2-10` | `/product/gilboa-l/` | product |
 | `/product-page/מחסן-מודולרי-1-1` | `/product/modubox-1x1/` | product |
 | `/product-page/מבנה-שירותים-ומקלחת-3x1` | `/product/toilet-shower-3x1/` | product |
@@ -33,53 +33,47 @@
 | `/product-page/מחסן-מודובוקס-5x2` | `/product/modubox-5x2/` | product |
 | `/product-page/עמדת-שמירה-2x2` | `/product/guard-booth-2x2/` | product |
 | `/product-page/מחסן-מודובוקס-6x3` | `/product/modubox-6x3/` | product |
-| `/product-page/כוננית-אוורסט-5-מדפים` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/כוננית-אוורסט-5-מדפים` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
 | `/product-page/מחסן-מודובוקס-2x1-60` | `/product/modubox-2x1-6/` | product |
-| `/product-page/חלון-הזזה-למחסן-מודובוקס-כולל-רשת` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
-| `/product-page/master-inv-12-x-wifi-eu` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/חלון-הזזה-למחסן-מודובוקס-כולל-רשת` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
+| `/product-page/master-inv-12-x-wifi-eu` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
 | `/product-page/מבנה-שירותים-1-6x1` | `/product/toilet-1-6x1/` | product |
-| `/product-page/tornado-master-inv-22-x-wifi-eu` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
-| `/product-page/tornado-master-inv-16-x-wifi-eu` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/tornado-master-inv-22-x-wifi-eu` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
+| `/product-page/tornado-master-inv-16-x-wifi-eu` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
 | `/product-page/מחסן-מודובוקס-1-2` | `/product/modubox-2x1/` | product |
-| `/product-page/כוננית-אוורסט-4-מדפים` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
-| `/product-page/רשת-גריל-לאוורור` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/כוננית-אוורסט-4-מדפים` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
+| `/product-page/רשת-גריל-לאוורור` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
 | `/product-page/מחסן-מודובוקס-1x0-80` | `/product/modubox-1x0-8/` | product |
-| `/product-page/tornado-master-inv-18-x-wifi-eu` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
-| `/product-page/הובלה-והרכבה` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/tornado-master-inv-18-x-wifi-eu` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
+| `/product-page/הובלה-והרכבה` | `/faq/` | delivery and installation item → FAQ (delivery and installation answers) |
 | `/product-page/מחסן-3x1-60` | `/product/modubox-3x1-6/` | product |
-| `/product-page/דלת-נוספת-כפולה` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/דלת-נוספת-כפולה` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
 | `/product-page/מחסן-גינה-גלבוע-מידה-xl-2-10-2-60` | `/product/gilboa-xl/` | product |
 | `/product-page/מחסן-מודובוקס-4-2` | `/product/modubox-4x2/` | product |
-| `/product-page/קיר-זכוכית-ויטרינה-עם-תריס-מובנה` | `/shop/` | add-on / service item → catalog (chosen on each shed's page) |
+| `/product-page/קיר-זכוכית-ויטרינה-עם-תריס-מובנה` | `/shed-accessories/` | add-on (the old Wix accessories item) → accessories page |
 | `/product-page/מחסן-מודובוקס-2x0-80` | `/product/modubox-2x0-8/` | product |
 | `/product-page/מחסן-מודובוקס-4x1` | `/product/modubox-4x1/` | product |
 | `/product-page/מבנה-שירותים-1x1` | `/product/toilet-1x1/` | product |
+| `/product-page/כוננית-מתכת-5-מדפים` | `/shed-accessories/` | metal shelving unit (in Search Console, not in the old sitemap) → accessories page |
 
-## עמודים (21)
+## עמודים (14)
 
 | כתובת ישנה | כתובת חדשה | הערה |
 |---|---|---|
 | `/booking` | `/contact/` | factory visit booking → contact |
 | `/nitzan` | `/` | landing page → home |
 | `/סרטונים-מובחרים` | `/gallery/` | videos → gallery |
-| `/מבנים-מיוחדים-ושירותים` | `/shop/` | special structures & toilets → catalog |
-| `/garden-sheds` | `/shop/` | category → catalog |
-| `/insulated-panel-sheds` | `/shop/` | category → catalog |
 | `/takanon` | `/terms/` | terms |
 | `/aboutus` | `/about/` | about |
 | `/services` | `/warranty/` | after-sale service → warranty and service |
-| `/shed-accessories` | `/shop/` | accessories → catalog (add-ons are on each shed's page) |
-| `/outdoor-sheds` | `/shop/` | category → catalog |
-| `/everest` | `/shop/` | Everest sheds → catalog |
 | `/copy-of-אודות` | `/about/` | old copy of about |
 | `/booking1111` | `/contact/` | booking (old copy) → contact |
 | `/קונפיגורטור` | `/shop/` | 3D configurator → catalog (the configurator opens from each shed) |
-| `/easy-construction-sheds` | `/shop/` | category → catalog |
-| `/gilboa` | `/product/gilboa-m/` | Gilboa sheds → Gilboa M (the category is hidden in the new catalog) |
 | `/blog/categories/מחסני-גינה` | `/blog/` | blog category → blog |
 | `/blog/categories/אחסון` | `/blog/` | blog category → blog |
 | `/service-page/ביקור-במפעל-סיור-במחסן-בתצוגה` | `/contact/` | factory tour booking → contact |
 | `/cart-page` | `/cart/` | Wix cart → cart |
+| `/מבןים-מיוחדים-ושיבוטים` | `/מבנים-מיוחדים-ושירותים/` | misspelt link to special units (in Search Console) → special units page |
 
 ## פוסטים בבלוג (/post/…) (22)
 
@@ -108,7 +102,7 @@
 | `/post/מהי-החשיבות-בבחירת-מחסן-איכותי-לגינה` | `/blog/מהי-החשיבות-בבחירת-מחסן-איכותי-לגינה/` | blog post |
 | `/post/5-טיפים-להתקנה-מוצלחת-של-מחסן-גינה` | `/blog/5-טיפים-להתקנה-מוצלחת-של-מחסן-גינה/` | blog post |
 
-## העותק האנגלי של Wix (/en/…) (85)
+## העותק האנגלי של Wix (/en/…) (78)
 
 | כתובת ישנה | כתובת חדשה | הערה |
 |---|---|---|
@@ -120,10 +114,10 @@
 | `/en/product-page/מחסן-גינה-גלבוע-s` | `/en/product/gilboa-s/` | English copy: product |
 | `/en/product-page/מחסן-מודובוקס-4x1-60` | `/en/product/modubox-4x1-6/` | English copy: product |
 | `/en/product-page/חיוב-לקוח-עבור-קיצור-רוחב-עומק-גובה` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
-| `/en/product-page/מזגן-איסקה-אינוורטר-מבית-טורנדו-1-כ-ס-במבצע-רק-לרוכשי-מחסן-אוורסט` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
-| `/en/product-page/פאנל-הכנה-לחשמל-למחסני-מודובוקס` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/מזגן-איסקה-אינוורטר-מבית-טורנדו-1-כ-ס-במבצע-רק-לרוכשי-מחסן-אוורסט` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
+| `/en/product-page/פאנל-הכנה-לחשמל-למחסני-מודובוקס` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
 | `/en/product-page/מחסן-גינה-מודובוקס-6x2` | `/en/product/modubox-6x2/` | English copy: product |
-| `/en/product-page/קיר-זכוכית-ויטרינה` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/קיר-זכוכית-ויטרינה` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
 | `/en/product-page/מחסן-גינה-גלבוע-מידה-l-2-10-2-10` | `/en/product/gilboa-l/` | English copy: product |
 | `/en/product-page/מחסן-מודולרי-1-1` | `/en/product/modubox-1x1/` | English copy: product |
 | `/en/product-page/מבנה-שירותים-ומקלחת-3x1` | `/en/product/toilet-shower-3x1/` | English copy: product |
@@ -133,24 +127,24 @@
 | `/en/product-page/מחסן-מודובוקס-5x2` | `/en/product/modubox-5x2/` | English copy: product |
 | `/en/product-page/עמדת-שמירה-2x2` | `/en/product/guard-booth-2x2/` | English copy: product |
 | `/en/product-page/מחסן-מודובוקס-6x3` | `/en/product/modubox-6x3/` | English copy: product |
-| `/en/product-page/כוננית-אוורסט-5-מדפים` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/כוננית-אוורסט-5-מדפים` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
 | `/en/product-page/מחסן-מודובוקס-2x1-60` | `/en/product/modubox-2x1-6/` | English copy: product |
-| `/en/product-page/חלון-הזזה-למחסן-מודובוקס-כולל-רשת` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
-| `/en/product-page/master-inv-12-x-wifi-eu` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/חלון-הזזה-למחסן-מודובוקס-כולל-רשת` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
+| `/en/product-page/master-inv-12-x-wifi-eu` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
 | `/en/product-page/מבנה-שירותים-1-6x1` | `/en/product/toilet-1-6x1/` | English copy: product |
-| `/en/product-page/tornado-master-inv-22-x-wifi-eu` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
-| `/en/product-page/tornado-master-inv-16-x-wifi-eu` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/tornado-master-inv-22-x-wifi-eu` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
+| `/en/product-page/tornado-master-inv-16-x-wifi-eu` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
 | `/en/product-page/מחסן-מודובוקס-1-2` | `/en/product/modubox-2x1/` | English copy: product |
-| `/en/product-page/כוננית-אוורסט-4-מדפים` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
-| `/en/product-page/רשת-גריל-לאוורור` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/כוננית-אוורסט-4-מדפים` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
+| `/en/product-page/רשת-גריל-לאוורור` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
 | `/en/product-page/מחסן-מודובוקס-1x0-80` | `/en/product/modubox-1x0-8/` | English copy: product |
-| `/en/product-page/tornado-master-inv-18-x-wifi-eu` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
-| `/en/product-page/הובלה-והרכבה` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/tornado-master-inv-18-x-wifi-eu` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
+| `/en/product-page/הובלה-והרכבה` | `/en/faq/` | English copy: delivery and installation item → FAQ (delivery and installation answers) |
 | `/en/product-page/מחסן-3x1-60` | `/en/product/modubox-3x1-6/` | English copy: product |
-| `/en/product-page/דלת-נוספת-כפולה` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/דלת-נוספת-כפולה` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
 | `/en/product-page/מחסן-גינה-גלבוע-מידה-xl-2-10-2-60` | `/en/product/gilboa-xl/` | English copy: product |
 | `/en/product-page/מחסן-מודובוקס-4-2` | `/en/product/modubox-4x2/` | English copy: product |
-| `/en/product-page/קיר-זכוכית-ויטרינה-עם-תריס-מובנה` | `/en/shop/` | English copy: add-on / service item → catalog (chosen on each shed's page) |
+| `/en/product-page/קיר-זכוכית-ויטרינה-עם-תריס-מובנה` | `/en/shed-accessories/` | English copy: add-on (the old Wix accessories item) → accessories page |
 | `/en/product-page/מחסן-מודובוקס-2x0-80` | `/en/product/modubox-2x0-8/` | English copy: product |
 | `/en/product-page/מחסן-מודובוקס-4x1` | `/en/product/modubox-4x1/` | English copy: product |
 | `/en/product-page/מבנה-שירותים-1x1` | `/en/product/toilet-1x1/` | English copy: product |
@@ -179,24 +173,17 @@
 | `/en/booking` | `/en/contact/` | English copy: factory visit booking → contact |
 | `/en/nitzan` | `/en/` | English copy: landing page → home |
 | `/en/סרטונים-מובחרים` | `/en/gallery/` | English copy: videos → gallery |
-| `/en/מבנים-מיוחדים-ושירותים` | `/en/shop/` | English copy: special structures & toilets → catalog |
-| `/en/garden-sheds` | `/en/shop/` | English copy: category → catalog |
-| `/en/insulated-panel-sheds` | `/en/shop/` | English copy: category → catalog |
 | `/en/takanon` | `/en/terms/` | English copy: terms |
 | `/en/aboutus` | `/en/about/` | English copy: about |
 | `/en/services` | `/en/warranty/` | English copy: after-sale service → warranty and service |
-| `/en/shed-accessories` | `/en/shop/` | English copy: accessories → catalog (add-ons are on each shed's page) |
-| `/en/outdoor-sheds` | `/en/shop/` | English copy: category → catalog |
-| `/en/everest` | `/en/shop/` | English copy: Everest sheds → catalog |
 | `/en/copy-of-אודות` | `/en/about/` | English copy: old copy of about |
 | `/en/booking1111` | `/en/contact/` | English copy: booking (old copy) → contact |
 | `/en/קונפיגורטור` | `/en/shop/` | English copy: 3D configurator → catalog (the configurator opens from each shed) |
-| `/en/easy-construction-sheds` | `/en/shop/` | English copy: category → catalog |
-| `/en/gilboa` | `/en/product/gilboa-m/` | English copy: Gilboa sheds → Gilboa M (the category is hidden in the new catalog) |
 | `/en/blog/categories/מחסני-גינה` | `/blog/` | English copy: blog category → blog |
 | `/en/blog/categories/אחסון` | `/blog/` | English copy: blog category → blog |
 | `/en/service-page/ביקור-במפעל-סיור-במחסן-בתצוגה` | `/en/contact/` | English copy: factory tour booking → contact |
 | `/en/cart-page` | `/en/cart/` | English copy: Wix cart → cart |
+| `/en/product-page/כוננית-מתכת-5-מדפים` | `/en/shed-accessories/` | English copy: metal shelving unit → accessories page |
 
 ## תבניות כלליות של Wix (נבדקות אחרונות) (17)
 

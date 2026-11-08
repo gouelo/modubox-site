@@ -10,7 +10,10 @@ import oldSite from "../../../data/redirects.json";
  *
  * Sources are written decoded and without the trailing slash ("/post/מחסן",
  * "/post/:slug*"), matched like next.config redirects: case-insensitive,
- * ":name*" for any rest of the path; the query string is kept.
+ * ":name*" for any rest of the path. The query string is matched never and
+ * kept only for its campaign tags (utm_*, gclid…): the old site's own
+ * parameters (?page=2, Google Business's gsas/rwg_token) would only split the
+ * page in search results, so they go.
  */
 export interface RedirectRule {
   source: string;
@@ -99,6 +102,72 @@ export function compileRules(rules: RedirectRule[]): CompiledRule[] {
   return out;
 }
 
+/** Query parameters a redirect keeps: campaign tags and ad click ids, so ads and analytics still attribute the visit. */
+const KEEP_PARAM = /^(utm_[a-z_]+|gclid|gbraid|wbraid|gad_source|fbclid|msclkid|dclid|_gl)$/i;
+
+/** "?page=2&utm_source=x" → "utm_source=x": only the parameters a redirect keeps. */
+export function keptQuery(search: string): string {
+  const q = search.replace(/^\?/, "");
+  if (!q) return "";
+  return q
+    .split("&")
+    .filter((pair) => KEEP_PARAM.test(safeDecode(pair.split("=")[0])))
+    .join("&");
+}
+
+/** The old site's own parameters, which no page here reads: Wix paging and Google Business's tracking. */
+const OLD_PARAM = /^(page|gsas|rwg_token|lang)$/i;
+
+/** The query without the old site's parameters ("" when none is left). */
+function withoutOldParams(search: string): string {
+  const q = search.replace(/^\?/, "");
+  if (!q) return "";
+  return q
+    .split("&")
+    .filter((pair) => pair && !OLD_PARAM.test(safeDecode(pair.split("=")[0])))
+    .join("&");
+}
+
+/**
+ * What the proxy answers a request with, in one hop (the agency's report:
+ * no chains like /garden-sheds → /garden-sheds/ → /shop/). Next.js's own
+ * trailing-slash redirect is off on the server (next.config skipTrailingSlashRedirect), so:
+ * 1. an old address goes straight to its new page (301), with its campaign tags;
+ * 2. a page asked for without its trailing slash gets it (308, as Next.js did), without the old site's parameters;
+ * 3. a page asked for with the old site's parameters (?page=2, ?gsas=…&rwg_token=…) goes to its clean address (301);
+ * 4. a page asked for in capitals (/EVEREST/, which Wix answered) goes to its lower-case address (301).
+ * Each in one hop: a request that needs several of these gets them all at once.
+ * The admin and the API only get the slash (their query as it is). Files (a dot in the last part) are left alone.
+ */
+export function routeRequest(rules: CompiledRule[], pathname: string, search = ""): { location: string; status: number } | null {
+  const own = /^\/(api|admin)(\/|$)/.test(pathname);
+  const file = /\/[^/]*\.[A-Za-z0-9]{1,8}$/.test(pathname);
+  if (!own) {
+    const hit = findRedirect(rules, pathname, search);
+    if (hit) return { location: hit.location, status: hit.status };
+  }
+  const q = own ? search.replace(/^\?/, "") : withoutOldParams(search);
+  const query = q ? `?${q}` : "";
+  const lower = !own && !file ? lowerCased(pathname) : null;
+  const path = lower ?? pathname;
+  const slash = !path.endsWith("/") && !file;
+  const target = `${path}${slash ? "/" : ""}${query}`;
+  if (lower || (!own && search.replace(/^\?/, "") !== q)) return { location: target, status: 301 };
+  if (slash) return { location: target, status: 308 };
+  return null;
+}
+
+/** The address in lower case when it has capitals (only its letters: the percent-encoding stays as it is), or null. */
+function lowerCased(pathname: string): string | null {
+  let decoded: string;
+  try {
+    decoded = decodeURI(pathname);
+  } catch {
+    return null;
+  }
+  return /[A-Z]/.test(decoded) ? encodeURI(decoded.toLowerCase()) : null;
+}
+
 /** Where a request goes, or null. pathname as it arrives (percent-encoded), search with its "?". */
 export function findRedirect(rules: CompiledRule[], pathname: string, search = ""): { location: string; status: number; rule: CompiledRule } | null {
   const path = normalizeSource(pathname);
@@ -117,7 +186,8 @@ export function findRedirect(rules: CompiledRule[], pathname: string, search = "
       } catch {}
     }
     let location = encodeDestination(dest);
-    if (search && search !== "?") location += (location.includes("?") ? "&" : "?") + search.replace(/^\?/, "");
+    const kept = keptQuery(search);
+    if (kept) location += (location.includes("?") ? "&" : "?") + kept;
     return { location, status: rule.statusCode, rule };
   }
   return null;

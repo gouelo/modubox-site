@@ -49,14 +49,14 @@
  },
  {
   "source": "/product-page/מזגן-איסקה-אינוורטר-מבית-טורנדו-1-כ-ס-במבצע-רק-לרוכשי-מחסן-אוורסט",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
   "source": "/product-page/פאנל-הכנה-לחשמל-למחסני-מודובוקס",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
@@ -67,8 +67,8 @@
  },
  {
   "source": "/product-page/קיר-זכוכית-ויטרינה",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
@@ -127,8 +127,8 @@
  },
  {
   "source": "/product-page/כוננית-אוורסט-5-מדפים",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
@@ -139,14 +139,14 @@
  },
  {
   "source": "/product-page/חלון-הזזה-למחסן-מודובוקס-כולל-רשת",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
   "source": "/product-page/master-inv-12-x-wifi-eu",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
@@ -157,14 +157,14 @@
  },
  {
   "source": "/product-page/tornado-master-inv-22-x-wifi-eu",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
   "source": "/product-page/tornado-master-inv-16-x-wifi-eu",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
@@ -175,14 +175,14 @@
  },
  {
   "source": "/product-page/כוננית-אוורסט-4-מדפים",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
   "source": "/product-page/רשת-גריל-לאוורור",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
@@ -193,14 +193,14 @@
  },
  {
   "source": "/product-page/tornado-master-inv-18-x-wifi-eu",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
   "source": "/product-page/הובלה-והרכבה",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/faq/",
+  "note": "delivery and installation item → FAQ (delivery and installation answers)",
   "kind": "product"
  },
  {
@@ -211,8 +211,8 @@
  },
  {
   "source": "/product-page/דלת-נוספת-כפולה",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
@@ -229,8 +229,8 @@
  },
  {
   "source": "/product-page/קיר-זכוכית-ויטרינה-עם-תריס-מובנה",
-  "destination": "/shop/",
-  "note": "add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/shed-accessories/",
+  "note": "add-on (the old Wix accessories item) → accessories page",
   "kind": "product"
  },
  {
@@ -402,24 +402,6 @@
   "kind": "page"
  },
  {
-  "source": "/מבנים-מיוחדים-ושירותים",
-  "destination": "/shop/",
-  "note": "special structures & toilets → catalog",
-  "kind": "page"
- },
- {
-  "source": "/garden-sheds",
-  "destination": "/shop/",
-  "note": "category → catalog",
-  "kind": "page"
- },
- {
-  "source": "/insulated-panel-sheds",
-  "destination": "/shop/",
-  "note": "category → catalog",
-  "kind": "page"
- },
- {
   "source": "/takanon",
   "destination": "/terms/",
   "note": "terms",
@@ -438,24 +420,6 @@
   "kind": "page"
  },
  {
-  "source": "/shed-accessories",
-  "destination": "/shop/",
-  "note": "accessories → catalog (add-ons are on each shed's page)",
-  "kind": "page"
- },
- {
-  "source": "/outdoor-sheds",
-  "destination": "/shop/",
-  "note": "category → catalog",
-  "kind": "page"
- },
- {
-  "source": "/everest",
-  "destination": "/shop/",
-  "note": "Everest sheds → catalog",
-  "kind": "page"
- },
- {
   "source": "/copy-of-אודות",
   "destination": "/about/",
   "note": "old copy of about",
@@ -471,18 +435,6 @@
   "source": "/קונפיגורטור",
   "destination": "/shop/",
   "note": "3D configurator → catalog (the configurator opens from each shed)",
-  "kind": "page"
- },
- {
-  "source": "/easy-construction-sheds",
-  "destination": "/shop/",
-  "note": "category → catalog",
-  "kind": "page"
- },
- {
-  "source": "/gilboa",
-  "destination": "/product/gilboa-m/",
-  "note": "Gilboa sheds → Gilboa M (the category is hidden in the new catalog)",
   "kind": "page"
  },
  {
@@ -559,14 +511,14 @@
  },
  {
   "source": "/en/product-page/מזגן-איסקה-אינוורטר-מבית-טורנדו-1-כ-ס-במבצע-רק-לרוכשי-מחסן-אוורסט",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
   "source": "/en/product-page/פאנל-הכנה-לחשמל-למחסני-מודובוקס",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
@@ -577,8 +529,8 @@
  },
  {
   "source": "/en/product-page/קיר-זכוכית-ויטרינה",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
@@ -637,8 +589,8 @@
  },
  {
   "source": "/en/product-page/כוננית-אוורסט-5-מדפים",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
@@ -649,14 +601,14 @@
  },
  {
   "source": "/en/product-page/חלון-הזזה-למחסן-מודובוקס-כולל-רשת",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
   "source": "/en/product-page/master-inv-12-x-wifi-eu",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
@@ -667,14 +619,14 @@
  },
  {
   "source": "/en/product-page/tornado-master-inv-22-x-wifi-eu",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
   "source": "/en/product-page/tornado-master-inv-16-x-wifi-eu",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
@@ -685,14 +637,14 @@
  },
  {
   "source": "/en/product-page/כוננית-אוורסט-4-מדפים",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
   "source": "/en/product-page/רשת-גריל-לאוורור",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
@@ -703,14 +655,14 @@
  },
  {
   "source": "/en/product-page/tornado-master-inv-18-x-wifi-eu",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
   "source": "/en/product-page/הובלה-והרכבה",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/faq/",
+  "note": "English copy: delivery and installation item → FAQ (delivery and installation answers)",
   "kind": "en"
  },
  {
@@ -721,8 +673,8 @@
  },
  {
   "source": "/en/product-page/דלת-נוספת-כפולה",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
@@ -739,8 +691,8 @@
  },
  {
   "source": "/en/product-page/קיר-זכוכית-ויטרינה-עם-תריס-מובנה",
-  "destination": "/en/shop/",
-  "note": "English copy: add-on / service item → catalog (chosen on each shed's page)",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: add-on (the old Wix accessories item) → accessories page",
   "kind": "en"
  },
  {
@@ -912,24 +864,6 @@
   "kind": "en"
  },
  {
-  "source": "/en/מבנים-מיוחדים-ושירותים",
-  "destination": "/en/shop/",
-  "note": "English copy: special structures & toilets → catalog",
-  "kind": "en"
- },
- {
-  "source": "/en/garden-sheds",
-  "destination": "/en/shop/",
-  "note": "English copy: category → catalog",
-  "kind": "en"
- },
- {
-  "source": "/en/insulated-panel-sheds",
-  "destination": "/en/shop/",
-  "note": "English copy: category → catalog",
-  "kind": "en"
- },
- {
   "source": "/en/takanon",
   "destination": "/en/terms/",
   "note": "English copy: terms",
@@ -948,24 +882,6 @@
   "kind": "en"
  },
  {
-  "source": "/en/shed-accessories",
-  "destination": "/en/shop/",
-  "note": "English copy: accessories → catalog (add-ons are on each shed's page)",
-  "kind": "en"
- },
- {
-  "source": "/en/outdoor-sheds",
-  "destination": "/en/shop/",
-  "note": "English copy: category → catalog",
-  "kind": "en"
- },
- {
-  "source": "/en/everest",
-  "destination": "/en/shop/",
-  "note": "English copy: Everest sheds → catalog",
-  "kind": "en"
- },
- {
   "source": "/en/copy-of-אודות",
   "destination": "/en/about/",
   "note": "English copy: old copy of about",
@@ -981,18 +897,6 @@
   "source": "/en/קונפיגורטור",
   "destination": "/en/shop/",
   "note": "English copy: 3D configurator → catalog (the configurator opens from each shed)",
-  "kind": "en"
- },
- {
-  "source": "/en/easy-construction-sheds",
-  "destination": "/en/shop/",
-  "note": "English copy: category → catalog",
-  "kind": "en"
- },
- {
-  "source": "/en/gilboa",
-  "destination": "/en/product/gilboa-m/",
-  "note": "English copy: Gilboa sheds → Gilboa M (the category is hidden in the new catalog)",
   "kind": "en"
  },
  {
@@ -1120,5 +1024,23 @@
   "destination": "/",
   "note": "Wix default home address",
   "kind": "pattern"
+ },
+ {
+  "source": "/product-page/כוננית-מתכת-5-מדפים",
+  "destination": "/shed-accessories/",
+  "note": "metal shelving unit (in Search Console, not in the old sitemap) → accessories page",
+  "kind": "product"
+ },
+ {
+  "source": "/en/product-page/כוננית-מתכת-5-מדפים",
+  "destination": "/en/shed-accessories/",
+  "note": "English copy: metal shelving unit → accessories page",
+  "kind": "en"
+ },
+ {
+  "source": "/מבןים-מיוחדים-ושיבוטים",
+  "destination": "/מבנים-מיוחדים-ושירותים/",
+  "note": "misspelt link to special units (in Search Console) → special units page",
+  "kind": "page"
  }
 ]

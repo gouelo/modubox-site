@@ -66,7 +66,7 @@ export interface Review {
   rating: number;
 }
 
-type EnProduct = { name?: string; shortDescription?: string; badge?: string; todo?: string; note?: string; pickupNote?: string; deliveryNote?: string };
+type EnProduct = { name?: string; shortDescription?: string; details?: { title: string; text: string }[]; badge?: string; todo?: string; note?: string; pickupNote?: string; deliveryNote?: string };
 type EnAddon = { name: string; description?: string; note?: string; choices?: Record<string, string> };
 type EnFaqImage = { alt: string; caption?: string };
 type EnFaq = { groups: { id: string; title: string; image?: EnFaqImage; items: { q: string; a: string; linkLabel?: string; media?: EnFaqImage[] }[] }[] };
@@ -85,6 +85,7 @@ function localizeProduct(p: Product, locale: Locale): Product {
     name: e.name ?? p.name,
     badge: p.badge ? (e.badge ?? p.badge) : null,
     shortDescription: e.shortDescription ?? p.shortDescription,
+    details: p.details ? (e.details ?? p.details) : undefined,
     todo: p.todo ? (e.todo ?? p.todo) : undefined,
     fulfillment: {
       ...p.fulfillment,

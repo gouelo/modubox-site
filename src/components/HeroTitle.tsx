@@ -18,6 +18,8 @@ export function HeroTitle({ lines, accent, oneLine = false, size = "text-[3.2rem
             transition={{ duration: 0.9, delay: 0.15 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
           >
             {line}
+            {/* a space at the line's end (collapsed on screen), so the heading's text reads "נוסף בחצר", not "נוסףבחצר" */}
+            {i < all.length - 1 ? " " : ""}
           </motion.span>
         </span>
       ))}

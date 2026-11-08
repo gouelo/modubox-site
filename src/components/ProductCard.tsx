@@ -21,7 +21,7 @@ export function ProductCard({ product, locale, priority = false, sizes = "(min-w
       <div className="relative aspect-video overflow-hidden rounded-3xl bg-sand shadow-soft transition duration-500 ease-(--ease-out-expo) group-hover:shadow-lift">
         <Image
           src={product.images[0]}
-          alt=""
+          alt={plain(product.name)}
           fill
           priority={priority}
           sizes={sizes}

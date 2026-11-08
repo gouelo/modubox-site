@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { ADMIN_COOKIE, readSessionToken, sessionSecret } from "@/lib/admin/auth";
 import { redirectRules } from "@/lib/seo/redirect-cache";
-import { findRedirect } from "@/lib/seo/redirects";
+import { routeRequest } from "@/lib/seo/redirects";
 
 /**
  * Two jobs, only on a server build (Vercel): the GitHub Pages export has no
@@ -11,15 +11,17 @@ import { findRedirect } from "@/lib/seo/redirects";
  *    Without a valid session cookie a page goes to the sign-in page and an
  *    API call gets 401.
  * 2. The site's permanent redirects (the old Wix addresses and the admin's
- *    own): src/lib/seo/redirects.ts. Next.js has already added the trailing
- *    slash (308) by the time a request gets here.
+ *    own) and the trailing slash, in one hop: src/lib/seo/redirects.ts
+ *    routeRequest. Next.js's own slash redirect is off on the server
+ *    (next.config skipTrailingSlashRedirect), or every old address would take
+ *    two hops (308 to add the slash, then 301).
  */
 export async function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
-  if (pathname === "/admin" || pathname.startsWith("/admin/") || pathname.startsWith("/api/admin")) return admin(req);
-  const hit = findRedirect(await redirectRules(), pathname, search);
-  if (!hit) return NextResponse.next();
-  return NextResponse.redirect(new URL(hit.location, req.url), hit.status);
+  const to = routeRequest(await redirectRules(), pathname, search);
+  if (to) return NextResponse.redirect(new URL(to.location, req.url), to.status);
+  if (pathname === "/admin/" || pathname.startsWith("/admin/") || pathname.startsWith("/api/admin")) return admin(req);
+  return NextResponse.next();
 }
 
 async function admin(req: NextRequest) {
@@ -41,7 +43,7 @@ async function admin(req: NextRequest) {
 }
 
 export const config = {
-  // every page address (for the redirects) and the admin's API; not Next's
-  // files, the site's images and assets, or the public API (checkout)
-  matcher: ["/((?!_next/|_img/|images/|brand/|cta/|clients/|api/|.*\\.[A-Za-z0-9]{2,5}$).*)", "/api/admin", "/api/admin/:path*"],
+  // every page and API address (the redirects and the trailing slash, which
+  // Next.js no longer adds itself); not Next's files, the site's images and assets
+  matcher: ["/((?!_next/|_img/|images/|brand/|cta/|clients/|.*\\.[A-Za-z0-9]{2,5}$).*)"],
 };

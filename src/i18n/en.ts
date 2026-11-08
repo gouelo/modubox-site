@@ -12,21 +12,21 @@ export const en: Dict = {
     defaultTitle: "Modubox – Insulated Garden Sheds, Studios & Backyard Rooms in Israel",
     titleTemplate: "%s | Modubox",
     description:
-      "Garden sheds, home offices and backyard rooms built from insulated panels on an aluminum frame. 10-year warranty, installed within 21 business days anywhere in Israel, up to 12 payments. Design yours in 3D.",
+      "Garden sheds, home offices and backyard rooms of insulated panels on an aluminum frame. 10-year warranty, installed anywhere in Israel, up to 12 payments.",
     keywords: ["garden shed Israel", "insulated panel shed", "backyard room", "modular shed", "Modubox", "garden office", "backyard studio Israel"],
     ogLocale: "en_US",
     ogImageAlt: "A Modubox backyard room with a full glass wall",
     shop: { title: "Shop All Sheds – Every Size and Price", description: "Every Modubox insulated shed from 1×0.80 m to 6×3 m, plus restroom units and guard booths – with prices, delivery and installation across Israel." },
     about: {
-      title: "About Us",
-      description: "Modubox designs and builds custom modular structures from aluminum and insulated panels at our factory on Kibbutz Ein Harod Meuhad. Our engineers bring over 35 years of experience.",
+      title: "About Modubox – Insulated Panel Sheds Made in Ein Harod",
+      description: "Modubox designs and builds custom modular structures of aluminum and insulated panels at its factory on Kibbutz Ein Harod Meuhad. 35+ years of experience.",
     },
-    contact: { title: "Contact Us", description: (phone: string) => `Talk to Modubox on WhatsApp, call ${phone}, or leave your details and we'll get back to you.` },
-    faq: { title: "FAQ", description: "Answers about Modubox sheds: materials and insulation, custom sizes, what the price includes, delivery and installation, site prep, permits, warranty and payments." },
-    gallery: { title: "Photos & Videos", description: "Videos and real photos of Modubox sheds and backyard rooms in our customers' yards across Israel." },
-    privacy: { title: "Privacy Policy", description: "Modubox privacy policy: what the site collects and why, cookies and measurement tools, and how to use your rights." },
-    terms: { title: "Terms & Conditions", description: "Modubox terms and conditions: delivery, installation and cancellation." },
-    warranty: { title: "Warranty & Service", description: "A 10-year warranty on Modubox sheds – warranty terms and after-sales service." },
+    contact: { title: "Contact Modubox – Garden Sheds and Backyard Rooms", description: (phone: string) => `Talk to Modubox about a garden shed, office or backyard room: WhatsApp, call ${phone}, or leave your details and we'll get back to you.` },
+    faq: { title: "FAQ – Garden Sheds, Delivery, Permits and Warranty", description: "Answers about Modubox sheds: materials, custom sizes, what the price includes, delivery and installation, site prep, permits, warranty and payments." },
+    gallery: { title: "Photos and Videos of Modubox Sheds in Israel", description: "Videos and real photos of Modubox garden sheds, offices and backyard rooms in our customers' yards across Israel, built from insulated panels." },
+    privacy: { title: "Privacy Policy", description: "The Modubox privacy policy: what the website collects and why, cookies and measurement tools, who it is shared with, and how to use your rights." },
+    terms: { title: "Terms & Conditions", description: "Modubox terms and conditions: ordering and payment, delivery and installation, site preparation, lead times, and cancellation under Israeli consumer law." },
+    warranty: { title: "Warranty & Service", description: "A 10-year warranty on Modubox sheds: what it covers, the conditions it applies under, and how to reach after-sales service for a repair or a spare part." },
     accessibility: { title: "Accessibility Statement", description: "The Modubox website accessibility statement: accessibility level, adjustments made, known limitations and how to reach our accessibility coordinator." },
     cart: { title: "Your Cart" },
     checkout: { title: "Checkout" },
@@ -35,6 +35,9 @@ export const en: Dict = {
     product: {
       title: (name: string, price: string) => `${name} – ${price}`,
       description: (name: string, text: string, years: number) => `${name}: ${text} ${years}-year warranty, delivered and installed at your home.`,
+      more: (payments: number) => `Up to ${payments} payments.`,
+      everest: (name: string) => name.replace("Modubox Shed", "Modubox Everest Shed"),
+      everestAka: (size: string) => `Everest Shed ${size}`,
     },
   },
 
@@ -103,6 +106,7 @@ export const en: Dict = {
     copyright: (year: number, legal: string) => `© ${year} Modubox, a brand of ${legal}. All rights reserved.`,
     secure: (n: number) => `Secure checkout · Up to ${n} payments`,
     illustration: "*Renders and images on this site are for illustration only",
+    kinds: "Sheds by type",
   },
 
   logoAlt: "Modubox",
@@ -119,6 +123,7 @@ export const en: Dict = {
   },
 
   home: {
+    contactPhotoAlt: "A black Modubox backyard unit with a glass wall in a garden (render)",
     videos: ["How to add a room without renovating", "A full build, start to finish"],
     uses: [
       { title: "Garden shed", text: "Tools, bikes and gear – organized and dry", alt: "A white Modubox garden shed in a backyard" },
@@ -277,7 +282,9 @@ export const en: Dict = {
 
   product: {
     breadcrumb: "Breadcrumb",
+    home: "Home",
     catalog: "Shop",
+    everestAka: (name: string) => `Also known as the ${name}`,
     photo: (name: string, i: number) => `${name} – photo ${i}`,
     vat: "Incl. VAT",
     payments: (n: number) => `Up to ${n} payments`,
@@ -288,6 +295,7 @@ export const en: Dict = {
     terms: "Terms",
     warranty: "Warranty",
     moreSizes: "Other sizes",
+    details: "About the unit",
     rows: { size: "Size (meters)", area: "Floor area", outer: "Outer dimensions", height: "Height", door: "Door opening", window: "Sliding window (extra)", warranty: "Warranty", delivery: "Delivery & installation", sizeShort: "Size" },
     askWhatsapp: "Ask about this product on WhatsApp",
     added: "Added ✓ View cart",
@@ -519,6 +527,17 @@ export const en: Dict = {
     home: "Back to home",
   },
 
+  categoryPage: {
+    catalog: "Sheds",
+    faq: "Questions and answers",
+    ask: "Ask us on WhatsApp",
+    askText: (h1: string) => `Hi Modubox, I found you on the "${h1}" page and would like details`,
+    allSizes: "See the full shop",
+    addonFrom: (price: string) => `From ${price}`,
+    addonPerM2: (price: string) => `${price} per m²`,
+    addonOnRequest: "Price on request",
+    chooseShed: "Choose a size and add extras",
+  },
   shop: {
     title: "All sheds and units",
     text: "Prices include VAT. Delivery and installation are chosen in the cart. Beyond our standard sizes, we also build to custom measurements.",
@@ -624,10 +643,14 @@ export const en: Dict = {
   blog: {
     eyebrow: "Articles & guides",
     title: "The Modubox blog",
-    description: "Guides and tips for choosing a garden shed: sizes, materials, installation, permits and uses.",
+    /** the page title (the site adds "| Modubox") */
+    metaTitle: "Blog – Guides and Tips for Choosing a Garden Shed",
+    description: "Guides and tips for choosing a garden shed: size, materials, installation, permits and uses – from the blog of Modubox, maker of insulated-panel sheds.",
     intro: "Guides and tips for choosing, installing and using a garden shed.",
     allPosts: "All articles",
     fromBlog: "From the blog",
+    /** ends a post's meta description that is too short on its own */
+    postTail: "From the blog of Modubox, maker of insulated-panel garden sheds.",
     more: "More from the blog",
     home: "Home",
     breadcrumb: "Breadcrumb",

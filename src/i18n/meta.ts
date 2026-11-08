@@ -32,3 +32,21 @@ export function pageMeta(locale: Locale, path: string, meta: Metadata = {}): Met
     openGraph: { ...ogDefaults(locale), url: lp(locale, path), ...(meta.openGraph ?? {}) },
   };
 }
+
+/** The length search engines show of a meta description (the agency's report: 120–155 characters). */
+export const DESCRIPTION_LENGTH = { min: 120, max: 155 };
+
+/**
+ * A meta description of a good length: the first candidate within 120–155
+ * characters, else the longest that fits, else the first cut at a word with "…".
+ */
+export function fitDescription(candidates: string[], { min, max } = DESCRIPTION_LENGTH): string {
+  const clean = candidates.map((c) => c.replace(/\s+/g, " ").trim()).filter(Boolean);
+  const inRange = clean.find((c) => c.length >= min && c.length <= max);
+  if (inRange) return inRange;
+  const fits = clean.filter((c) => c.length <= max).sort((a, b) => b.length - a.length)[0];
+  if (fits) return fits;
+  const first = clean[0] ?? "";
+  const cut = first.slice(0, max - 1);
+  return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), min - 1)).replace(/[\s,:;–-]+$/, "")}…`;
+}

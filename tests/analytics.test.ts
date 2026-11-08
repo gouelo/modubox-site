@@ -1,8 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { ecommerce, GTM_ID, gtmId, linkEvent } from "@/lib/analytics";
+import { ecommerce, GTM_ID, gtmAllowedOn, gtmHosts, gtmId, linkEvent } from "@/lib/analytics";
 import { getProduct } from "@/lib/catalog";
 import { summarizeCart } from "@/lib/pricing";
 import { signReceipt, verifyReceipt, signOrder } from "@/lib/zcredit";
+
+describe("gtmHosts", () => {
+  it("only the real domain, never vercel.app, unless set", () => {
+    const hosts = gtmHosts({});
+    expect(gtmAllowedOn("www.modubox.com", hosts)).toBe(true);
+    expect(gtmAllowedOn("modubox.com", hosts)).toBe(true);
+    expect(gtmAllowedOn("modubox-site.vercel.app", hosts)).toBe(false);
+    expect(gtmAllowedOn("anything.example", gtmHosts({ NEXT_PUBLIC_GTM_HOSTS: "*" }))).toBe(true);
+    expect(gtmHosts({ NEXT_PUBLIC_GTM_HOSTS: "A.com, b.com" })).toEqual(["a.com", "b.com"]);
+  });
+});
 
 describe("gtmId", () => {
   it("loads only on Vercel production", () => {

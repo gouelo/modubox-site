@@ -36,6 +36,8 @@ export interface Product {
   price: number;
   badge: string | null;
   shortDescription: string;
+  /** a longer description, in short sections (facts only), shown on the product page */
+  details?: { title: string; text: string }[];
   dimensions: {
     base?: Size3 | null;
     outer?: Size3 | null;

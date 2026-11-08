@@ -1,6 +1,7 @@
 import { BlogStrip } from "./BlogPages";
 import Image from "next/image";
 import Link from "next/link";
+import { BusinessJsonLd } from "@/components/BusinessJsonLd";
 import { Design3DButton } from "@/components/Design3DButton";
 import { BuildLauncher } from "@/components/home/BuildLauncher";
 import { CustomSizeBanner } from "@/components/CustomSize";
@@ -196,7 +197,7 @@ export function HomePage({ locale }: { locale: Locale }) {
       {/* CONTACT: the lead form (WhatsApp until there's an endpoint) */}
       <section id="contact" className="container-x mt-16 scroll-mt-20 sm:mt-28">
         <div className="relative isolate overflow-hidden rounded-[2rem] bg-ink text-white sm:rounded-[2.5rem]">
-          <Image src="renders/garden-office-black.webp" alt="" fill sizes="100vw" className="-z-10 object-cover opacity-35" />
+          <Image src="renders/garden-office-black.webp" alt={h.contactPhotoAlt} fill sizes="100vw" className="-z-10 object-cover opacity-35" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-l from-ink via-ink/85 to-ink/40 ltr:bg-gradient-to-r" />
           <div className="grid gap-8 p-6 sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-14 lg:p-14">
             <Reveal>
@@ -221,6 +222,7 @@ export function HomePage({ locale }: { locale: Locale }) {
           </div>
         </div>
       </section>
+      <BusinessJsonLd locale={locale} />
     </>
   );
 }

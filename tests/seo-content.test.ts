@@ -117,7 +117,7 @@ describe("redirects table", () => {
   });
 
   it("imports the file once, and the import answers the same", async () => {
-    expect(await importRedirects(db!)).toBe(187);
+    expect(await importRedirects(db!)).toBe(174);
     expect(await importRedirects(db!)).toBe(0);
     const fromDb = compileRules(mergeRules(fileRules(), await db!.query.redirects.findMany()));
     const fromFile = compileRules(fileRules());
@@ -132,12 +132,14 @@ describe("site settings", () => {
       expect(orgJsonLd(business({}, locale), locale)).toEqual({
         "@context": "https://schema.org",
         "@type": "HomeAndConstructionBusiness",
+        "@id": `${site.url}/#business`,
         name: dict(locale).meta.siteName,
         url: site.url,
         telephone: s.phone,
         email: s.email,
-        address: { "@type": "PostalAddress", streetAddress: s.factory, addressCountry: "IL" },
-        aggregateRating: { "@type": "AggregateRating", ratingValue: s.rating, reviewCount: s.reviewCount },
+        address: { "@type": "PostalAddress", streetAddress: s.factory, addressLocality: s.factory.replace(/^(קיבוץ|Kibbutz)\s+/, ""), addressCountry: "IL" },
+        geo: { "@type": "GeoCoordinates", latitude: expect.any(Number), longitude: expect.any(Number) },
+        logo: `${site.url}/brand/logo.svg`,
         sameAs: Object.values(s.social),
       });
     }
@@ -147,9 +149,10 @@ describe("site settings", () => {
     await saveSetting(db!, "business", { city: "עין חרוד", geo: "32.55,35.39", openingHours: ["Su-Th 08:00-17:00"], rating: 4.8, phone: "" });
     const saved = (await readSeo()).business;
     const he = orgJsonLd(business(saved, "he"), "he");
-    expect(he).toMatchObject({ address: { addressLocality: "עין חרוד" }, geo: { latitude: 32.55, longitude: 35.39 }, openingHours: ["Su-Th 08:00-17:00"], aggregateRating: { ratingValue: 4.8 }, telephone: site.phone });
+    expect(he).toMatchObject({ address: { addressLocality: "עין חרוד" }, geo: { latitude: 32.55, longitude: 35.39 }, openingHours: ["Su-Th 08:00-17:00"], telephone: site.phone });
+    expect(he).not.toHaveProperty("aggregateRating");
     const en = orgJsonLd(business(saved, "en"), "en") as { address: Record<string, unknown> };
-    expect(en.address.addressLocality).toBeUndefined();
+    expect(en.address.addressLocality).not.toBe("עין חרוד");
   });
 
   it("llms.txt: the generated guide, with the saved opening and extras", () => {

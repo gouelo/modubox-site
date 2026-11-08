@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { dict, lp, type Locale } from "@/i18n";
 import { pageMeta } from "@/i18n/meta";
 import { listPosts } from "@/lib/blog";
-import { hiddenCategories, plain, products } from "@/lib/catalog";
+import { plain, products } from "@/lib/catalog";
+import { categoryPages } from "@/lib/category-pages";
+import { categoryMeta } from "@/views/CategoryPage";
 import { aboutMeta } from "@/views/AboutPage";
 import { blogIndexMeta, postMeta } from "@/views/BlogPages";
 import { contactMeta } from "@/views/ContactPage";
@@ -39,7 +41,8 @@ export async function sitePages(): Promise<SitePage[]> {
   for (const locale of ["he", "en"] as const) {
     for (const p of PAGES) out.push({ path: lp(locale, p.path), label: p.label, locale, kind: "page", meta: () => p.meta(locale) });
     if (locale === "he") out.push({ path: "/blog/", label: "בלוג", locale, kind: "page", meta: blogIndexMeta });
-    for (const p of products.filter((x) => !hiddenCategories.has(x.category))) out.push({ path: lp(locale, `/product/${p.slug}/`), label: plain(p.name), locale, kind: "product", meta: () => productMeta(locale, p.slug) });
+    for (const c of categoryPages(locale)) out.push({ path: lp(locale, `/${c.slug}/`), label: c.label, locale, kind: "page", meta: () => categoryMeta(locale, c.slug) });
+    for (const p of products) out.push({ path: lp(locale, `/product/${p.slug}/`), label: plain(p.name), locale, kind: "product", meta: () => productMeta(locale, p.slug) });
   }
   for (const p of await listPosts()) out.push({ path: `/blog/${p.slug}/`, label: p.title, locale: "he", kind: "post", meta: () => postMeta(p.slug) });
   return out;

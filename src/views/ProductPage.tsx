@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { CustomSizeNote } from "@/components/CustomSize";
 import { Design3DButton } from "@/components/Design3DButton";
 import { Gallery } from "@/components/Gallery";
@@ -12,24 +13,35 @@ import { ProductBuyBox } from "@/components/ProductBuyBox";
 import { Stars } from "@/components/Stars";
 import { AddonBuilder } from "@/components/builder/AddonBuilder";
 import { dict, lp, type Locale } from "@/i18n";
-import { pageMeta } from "@/i18n/meta";
+import { fitDescription, pageMeta } from "@/i18n/meta";
 import { addonsFor, catalog, getProduct, photoUrl, plain, products, productsIn } from "@/lib/catalog";
 import { formatCm, formatILS } from "@/lib/format";
+import type { Product } from "@/lib/types";
 import { fulfillmentOptions } from "@/lib/pricing";
-import { business } from "@/lib/seo/settings";
+import { everestModels } from "@/lib/category-pages";
+import { BUSINESS_ID, business } from "@/lib/seo/settings";
 import { loadSeo } from "@/lib/seo/store";
 
 export function productParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
+/** A model the old site sold as "מחסן מודובוקס אוורסט": its name with "אוורסט" for search titles (data/categories.json everestModels). */
+export function searchName(p: Product, locale: Locale): string {
+  const name = plain(p.name);
+  return everestModels.has(p.slug) ? dict(locale).meta.product.everest(name) : name;
+}
+
 export function productMeta(locale: Locale, slug: string): Metadata {
   const p = getProduct(slug, locale);
   if (!p) return {};
   const m = dict(locale).meta.product;
+  const name = searchName(p, locale);
+  const base = m.description(name, p.shortDescription, p.warrantyYears);
+  const more = m.more(catalog(locale).site.maxPayments);
   return pageMeta(locale, `/product/${slug}/`, {
-    title: m.title(plain(p.name), formatILS(p.price, locale)),
-    description: m.description(plain(p.name), p.shortDescription, p.warrantyYears),
+    title: m.title(name, formatILS(p.price, locale)),
+    description: fitDescription([base, `${base} ${more}`, `${name}: ${p.shortDescription}`, `${name}: ${p.shortDescription} ${more}`]),
     openGraph: { images: [{ url: photoUrl(p.images[0]) }] },
   });
 }
@@ -52,17 +64,8 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
   const d = product.dimensions?.approximate ? null : product.dimensions;
   const delivery = fulfillmentOptions(product)[0];
   const sizes = productsIn(product.category, locale);
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: plain(product.name),
-    description: product.shortDescription,
-    brand: { "@type": "Brand", name: product.category === "gilboa" ? "Gilboa" : "Modubox" },
-    image: product.images.map((i) => (/^https?:/.test(i) ? i : `${site.url}${photoUrl(i)}`)),
-    offers: { "@type": "Offer", priceCurrency: "ILS", price: product.price, availability: "https://schema.org/InStock", url: `${site.url}${lp(locale, `/product/${product.slug}/`)}` },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: biz.rating, reviewCount: biz.reviewCount },
-    ...(facts.length ? { additionalProperty: facts.map((f) => ({ "@type": "PropertyValue", name: f.label, value: f.value })) } : {}),
-  };
+  const everest = everestModels.has(product.slug);
+  const jsonLd = productJsonLd(product, locale, delivery.price, site.installationDays, everest ? searchName(product, locale) : null, facts);
   const spec: [string, string][] = [
     [r.size, product.sizeLabel],
     [r.area, t.common.m2(product.areaM2)],
@@ -89,16 +92,19 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
 
   return (
     <div className="container-x pb-32 pt-3 sm:pt-6 lg:pb-0">
-      <nav className="text-sm text-ink-soft" aria-label={tp.breadcrumb}>
-        <Link href={lp(locale, "/shop/")} className="hover:text-ink">{tp.catalog}</Link>
-        <span className="mx-2 text-ink/30" aria-hidden="true">/</span>
-        <span aria-current="page">{range?.title}</span>
-      </nav>
+      <Breadcrumbs
+        label={tp.breadcrumb}
+        crumbs={[
+          { name: tp.home, path: lp(locale, "/") },
+          { name: tp.catalog, path: lp(locale, "/shop/") },
+          { name: plain(product.name), path: lp(locale, `/product/${product.slug}/`) },
+        ]}
+      />
 
       <div className="mt-3 grid grid-cols-[minmax(0,1fr)] gap-6 lg:mt-5 lg:grid-cols-[1.25fr_1fr] lg:gap-12">
         <div className="grid content-start gap-3">
           <div className="relative -mx-5 aspect-video overflow-hidden bg-sand sm:mx-0 sm:rounded-[2rem]">
-            <Image src={product.images[0]} alt={product.name} fill priority sizes="(min-width:1024px) 58vw, 100vw" className="object-cover" />
+            <Image src={product.images[0]} alt={plain(product.name)} fill priority sizes="(min-width:1024px) 58vw, 100vw" className="object-cover" />
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/50 to-transparent" aria-hidden="true" />
             {product.badge && <span className="absolute top-3 start-3 rounded-full bg-copper-deep px-3 py-1 text-xs font-bold text-white">{product.badge}</span>}
             <span className="absolute bottom-3 end-4 font-display text-5xl font-extrabold text-white drop-shadow-lg sm:text-6xl" dir="ltr" aria-hidden="true">{product.sizeLabel}</span>
@@ -112,6 +118,7 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
         <div className="lg:self-center">
           <p className="eyebrow">{range?.subtitle}</p>
           <h1 className="mt-2 text-[2.4rem] font-extrabold leading-[1.05] sm:text-5xl">{product.name}</h1>
+          {everest && <p className="mt-1 text-sm text-ink-soft">{tp.everestAka(t.meta.product.everestAka(product.sizeLabel))}</p>}
           <a href={site.googleReviewsUrl} target="_blank" rel="noopener" className="mt-2 inline-flex items-center gap-1.5 text-sm text-ink-soft">
             <Stars locale={locale} value={5} className="size-3.5" /> {biz.rating} · {t.common.reviewsOnGoogle(biz.reviewCount)}
           </a>
@@ -191,6 +198,18 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
         </div>
       </section>
 
+      {product.details && product.details.length > 0 && (
+        <section className="mt-12 max-w-3xl sm:mt-16" aria-labelledby="product-details">
+          <h2 id="product-details" className="text-3xl font-extrabold">{tp.details}</h2>
+          {product.details.map((d) => (
+            <div key={d.title} className="mt-5">
+              <h3 className="text-lg font-bold">{d.title}</h3>
+              <p className="mt-1 leading-8 text-ink-soft">{d.text}</p>
+            </div>
+          ))}
+        </section>
+      )}
+
       {product.category === "modubox" && <Materials locale={locale} compact />}
 
       {sizes.length > 1 && (
@@ -215,4 +234,61 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </div>
   );
+}
+
+/**
+ * The product as search engines read it (Google's product snippets and merchant listings).
+ * No aggregateRating: the Google reviews are the business's, not this product's (the agency's report).
+ * Everything else from the data: the delivery price and the 21 business days of the terms,
+ * and the return policy of the terms, which follows the Consumer Protection Law (14 days for a
+ * sale at a distance, a cancellation fee of 100 ₪ or 5%, whichever is lower: 100 ₪ on every shed here).
+ */
+export function productJsonLd(product: Product, locale: Locale, deliveryPrice: number | null, days: number, alternateName: string | null, facts: { label: string; value: string }[] = []) {
+  const { site } = catalog(locale);
+  const restocking = Math.min(100, Math.round(product.price * 0.05));
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: plain(product.name),
+    ...(alternateName ? { alternateName } : {}),
+    description: product.shortDescription,
+    sku: product.slug,
+    brand: { "@type": "Brand", name: product.category === "gilboa" ? "Gilboa" : "Modubox" },
+    image: product.images.map((i) => (/^https?:/.test(i) ? i : `${site.url}${photoUrl(i)}`)),
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "ILS",
+      price: product.price,
+      // the price list has no end date: a year ahead, renewed with every build
+      priceValidUntil: new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().slice(0, 10),
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      url: `${site.url}${encodeURI(lp(locale, `/product/${product.slug}/`))}`,
+      seller: { "@id": BUSINESS_ID },
+      ...(deliveryPrice !== null
+        ? {
+            shippingDetails: {
+              "@type": "OfferShippingDetails",
+              shippingRate: { "@type": "MonetaryAmount", value: deliveryPrice, currency: "ILS" },
+              shippingDestination: { "@type": "DefinedRegion", addressCountry: "IL" },
+              deliveryTime: {
+                "@type": "ShippingDeliveryTime",
+                handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: days, unitCode: "DAY" },
+                transitTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },
+              },
+            },
+          }
+        : {}),
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "IL",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+        returnMethod: "https://schema.org/ReturnInStore",
+        returnFees: "https://schema.org/ReturnFeesCustomerResponsibility",
+        restockingFee: { "@type": "MonetaryAmount", value: restocking, currency: "ILS" },
+      },
+    },
+    ...(facts.length ? { additionalProperty: facts.map((f) => ({ "@type": "PropertyValue", name: f.label, value: f.value })) } : {}),
+  };
 }
