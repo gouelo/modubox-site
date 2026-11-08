@@ -1,0 +1,237 @@
+{
+  "_readme": "English text for data/categories.json, by page slug: the same fields (label, title, description, h1, lead, gridTitle, sections, faq). The products shown and the address come from the Hebrew file.",
+  "pages": {
+    "garden-sheds": {
+      "label": "Garden sheds",
+      "title": "Garden Sheds – Insulated Panel Garden Sheds in Israel",
+      "description": "Insulated-panel garden sheds on an aluminum frame: weatherproof and sealed, from 1×0.80 to 6×3 m. 10-year warranty, delivered and installed.",
+      "h1": "Insulated garden sheds",
+      "lead": "A good garden shed keeps your garden tools, bikes and gear safe from rain, heat and dust, and still looks good years later. Modubox garden sheds are built from insulated panels on an aluminum frame, for private houses, garden apartments, balconies and building committees that need room for maintenance tools.",
+      "gridTitle": "Every garden shed size",
+      "sections": [
+        {
+          "title": "How to choose a garden shed",
+          "text": [
+            "Check four things. Size: measure the free space and leave room for the door to open. Insulation and sealing: an insulated shed protects what's inside from damp and extreme temperatures. Durability: an aluminum frame doesn't rust or rot, and never needs painting or oiling. Light: high windows let daylight in, so you don't have to run power to the shed.",
+            "Every Modubox garden shed includes all of this in the base price: a white or black aluminum frame, XPV insulated-panel walls and roof, a raised rigid-plastic floor, a wide lockable entry door and skylight windows up top."
+          ]
+        },
+        {
+          "title": "Narrow, small and large sheds",
+          "text": [
+            "For a balcony or the side of the house there are narrow 80 cm deep sheds, 1×0.80 and 2×0.80, which also fit a washer and dryer. Garden tools, bikes and a lawn mower fit sizes from 2×1 to 3×2, and if you also want a work corner there are sizes up to 6×3. Need an exact size for your garden? We also make custom sizes, through a personal consultation with a rep."
+          ]
+        },
+        {
+          "title": "Delivery, installation and warranty",
+          "text": [
+            "Our team delivers and installs your shed within 21 business days of your order, on a flat, level, firm surface. The delivery and installation price is shown with every size. Modubox sheds come with a 10-year warranty, and you can pay in up to 12 payments."
+          ]
+        }
+      ],
+      "faq": [
+        { "q": "What does a garden shed stand on?", "a": "A flat, level, firm surface: tiles, concrete, decking and the like, not bare soil or sand. Preparing the surface is up to you, and if you don't have one, we'll tell you what to prepare." },
+        { "q": "Will the shed hold up in winter?", "a": "Yes. The aluminum frame doesn't rust or rot, and the insulated panels keep out rain, dust and pests and protect what's inside from cold and damp." },
+        { "q": "Do I need a building permit for a garden shed?", "a": "It depends on the size, the use and the location, and the rules vary between local authorities. Check with your local planning and building committee before you order. We're happy to give you the shed's dimensions and specs to check." },
+        { "q": "How long until my garden shed is installed?", "a": "Within 21 business days of receiving your order, and the assembly itself takes a few hours." }
+      ]
+    },
+    "insulated-panel-sheds": {
+      "label": "Insulated panel sheds",
+      "title": "Insulated Panel Sheds – Made to Measure in Israel",
+      "description": "Modubox insulated panel sheds: XPV insulated walls and roof on an aluminum frame. 18 sizes plus custom sizes, a 10-year warranty, delivered and installed.",
+      "h1": "Insulated panel sheds, made to measure",
+      "lead": "An insulated panel shed is one of the best choices for storage in a yard or garden, and also for a workroom, home office or studio. The panels protect what's inside from heat, cold and damp, and the space stays comfortable in summer and winter. Every Modubox shed is built from insulated panels at our factory on Kibbutz Ein Harod Meuhad.",
+      "gridTitle": "Insulated panel sheds: every size and price",
+      "sections": [
+        {
+          "title": "What our insulated panel shed is made of",
+          "text": [
+            "The walls and roof are XPV insulated panels: two outer skins with an insulating core between them, for thermal and acoustic insulation and a seal against rain, dust and pests. The panels sit on an electrostatically painted aluminum frame and profiles, in white or black, that never rust or rot. The raised floor is made of rigid plastic tiles and can be upgraded to a WPC floor."
+          ]
+        },
+        {
+          "title": "Insulated panels, made to measure",
+          "text": [
+            "The site lists 18 fixed sizes, from 1×0.80 to 6×3 m, each with a fixed price and its own delivery and installation price. Need another size? Custom fitting is our specialty: half sizes, exact sizes for your yard and larger structures, arranged with a rep in a personal consultation, where the price is set too."
+          ]
+        },
+        {
+          "title": "Modular, not just a shed",
+          "text": [
+            "The structure is made of parts that connect to each other, so the door can go on any side, you can add a sliding window, another door, a glass wall or an electrical panel, and later enlarge, shrink or move the structure. Thanks to the insulation, customers also use our sheds as offices, clinics, studios and guest rooms. Installation takes up to 21 business days, with a 10-year warranty."
+          ]
+        }
+      ],
+      "faq": [
+        { "q": "What is the insulated panel made of?", "a": "It's an XPV panel: two outer skins with an insulating core. It insulates against heat, cold and noise, and seals out rain, dust and pests." },
+        { "q": "Can I order an insulated panel shed in a custom size?", "a": "Yes. Beyond the 18 fixed sizes we make half sizes, exact sizes for your yard and larger structures, arranged with a rep in a personal consultation, where the price is set too." },
+        { "q": "Can I work inside an insulated panel shed?", "a": "Yes. It's insulated against heat and cold, and you can add an electrical panel and an inverter air conditioner. A licensed electrician connects the panel to your home's power." },
+        { "q": "What warranty does an insulated panel shed have?", "a": "10 years from purchase, covering manufacturing and material defects, when our installer assembled it and it stays where it was installed." }
+      ]
+    },
+    "outdoor-sheds": {
+      "label": "Backyard sheds",
+      "title": "Backyard Sheds – Custom Outdoor Sheds for Home and Business",
+      "description": "Custom backyard sheds of insulated panels on an aluminum frame, for homes and businesses. Doors, windows and add-ons to choose, 10-year warranty.",
+      "h1": "Custom backyard sheds",
+      "lead": "A backyard shed has to fit its spot and its use exactly: the yard of a private house or a business, a roof or a balcony. We design, build and install backyard sheds in every size and made to measure, from our factory on Kibbutz Ein Harod Meuhad to your yard.",
+      "gridTitle": "Backyard sheds: choose a size",
+      "sections": [
+        {
+          "title": "Design the shed around your yard",
+          "text": [
+            "Pick one of 18 fixed sizes, or arrange a custom size with a rep. Choose white or black profiles, and add what you need: a 100×100 cm sliding window, an extra door or a double door with a 1.80 m opening, a glass wall, an electrical panel, a vent grill and a WPC floor. You can see your shed before you order, in the 3D configurator."
+          ]
+        },
+        {
+          "title": "For homes and businesses",
+          "text": [
+            "Customers use backyard sheds for storage, and also as offices, clinics, teen rooms, guest rooms and meeting rooms. Companies, local authorities and institutions have chosen Modubox structures too, from Ben-Gurion University to the Tel Aviv-Yafo municipality."
+          ]
+        },
+        {
+          "title": "Installation, warranty and payment",
+          "text": [
+            "Our team installs the shed within 21 business days of your order, on a flat, level, firm surface such as tiles, concrete or decking. The delivery and installation price is shown with every size. The structure has a 10-year warranty, and you can pay in up to 12 payments."
+          ]
+        }
+      ],
+      "faq": [
+        { "q": "Can I choose where the door goes?", "a": "Yes, on any side of the shed. You can swap it for a double door (1.80 m opening) and add another door, a sliding window or a glass wall, in the add-ons builder on each size's page or in the 3D configurator." },
+        { "q": "How much do delivery and installation cost?", "a": "It depends on the size: the price is shown with every shed and on its page. North of Akko and south of Be'er Sheva add ₪100, and south of Yeruham by arrangement. Under the terms, extras may apply when the spot is far from parking, involves stairs or needs a crane." },
+        { "q": "Can a backyard shed be an office?", "a": "Yes. It's insulated against heat, cold and noise, and customers use it as an office, clinic or studio. You can add an electrical panel, an inverter air conditioner, a sliding window and a glass wall." }
+      ]
+    },
+    "easy-construction-sheds": {
+      "label": "Light construction sheds",
+      "title": "Light Construction Sheds – Insulated Panel Buildings",
+      "description": "Light construction sheds of insulated panels on an aluminum frame: a modular building for storage, an office or a workroom. 18 sizes, 10-year warranty.",
+      "h1": "Light construction sheds",
+      "lead": "Light construction is a way to put up buildings quickly, from ready-made parts instead of blocks and concrete. A Modubox light construction shed leaves the factory as ready parts and goes up in your yard within a few hours, with no building work and no mess.",
+      "gridTitle": "Light construction sheds: every size",
+      "sections": [
+        {
+          "title": "What you get",
+          "text": [
+            "An electrostatically painted aluminum frame and profiles, XPV insulated-panel walls and roof, a raised rigid-plastic floor, a wide lockable entry door and skylight windows up top. It's insulated against heat, cold and noise and sealed against rain, dust and pests, so it works for storage and for work."
+          ]
+        },
+        {
+          "title": "More than storage",
+          "text": [
+            "A light construction building can be a backyard office, a workshop, a clinic, a home gym or a meeting room for a business. Every size can take a sliding window, an extra or double door, a glass wall, an electrical panel, an inverter air conditioner and a WPC floor."
+          ]
+        },
+        {
+          "title": "Installation and warranty",
+          "text": [
+            "Installation takes up to 21 business days from your order, on a flat, level, firm surface such as tiles, concrete or decking. The delivery and installation price is shown with every size, and the structure has a 10-year warranty. Because it's modular, you can later enlarge, shrink or move it."
+          ]
+        }
+      ],
+      "faq": [
+        { "q": "How long does a light construction shed take to put up?", "a": "Installation is within 21 business days of receiving your order, and on the day the assembly itself takes a few hours." },
+        { "q": "Do I need a building permit?", "a": "It depends on the size, the use and the location, and the rules vary between local authorities. Check with your local planning and building committee before you order. We're happy to give you the dimensions and specs to check." },
+        { "q": "Can the building be moved later?", "a": "Yes. It's modular: it can be taken apart and put back together somewhere else, or enlarged or shrunk, paying only for the materials and the work." }
+      ]
+    },
+    "everest": {
+      "label": "Everest sheds",
+      "title": "Everest Sheds – the Same Shed as Modubox, Every Size",
+      "description": "An Everest shed and a Modubox shed are the same shed under two brand names, both Everbox's: insulated panels on an aluminum frame, 10-year warranty.",
+      "h1": "Everest sheds",
+      "lead": "Looking for an Everest shed? You're in the right place. An Everest shed and a Modubox shed are exactly the same shed: one product under two brand names. Both brands belong to the company Everbox, and on this site you'll find the sheds under the name \"Modubox Shed\".",
+      "gridTitle": "Everest (Modubox) sheds: every size",
+      "sections": [
+        {
+          "title": "What's the difference between an Everest shed and a Modubox shed?",
+          "text": [
+            "There is none. It's the same shed, from the same materials, in the same sizes and to the same specs, under two brand names of the same company, Everbox. If you know the name \"Everest\", you get exactly the same shed here."
+          ]
+        },
+        {
+          "title": "What an Everest shed is made of",
+          "text": [
+            "The walls and roof are XPV insulated panels with an insulating core, for thermal and acoustic insulation and a seal against rain, dust and pests. The frame and profiles are electrostatically painted aluminum, in white or black. The floor is raised, and the base price also includes a wide lockable entry door and skylight windows up top."
+          ]
+        },
+        {
+          "title": "Models you knew as Everest",
+          "text": [
+            "On our old site some models were listed as \"Modubox Everest Shed\": 1×1, 2×1, 2×2, 3×2, 3×3 and 4×3. They're here in the same sizes, alongside all the others: 18 fixed sizes from 1×0.80 to 6×3 m, plus custom sizes. Every shed can take a sliding window, an extra or double door, a glass wall, an electrical panel, a WPC floor and an Everest shelving unit. The sheds have a 10-year warranty and are installed within 21 business days."
+          ]
+        }
+      ],
+      "faq": [
+        { "q": "What's the difference between a Modubox shed and an Everest shed?", "a": "There's no difference. It's exactly the same product under two brand names, and both brands belong to the company Everbox." },
+        { "q": "What warranty does an Everest shed have?", "a": "10 years from purchase, like every Modubox shed, covering manufacturing and material defects, when our installer assembled it." },
+        { "q": "Can I order an Everest shed in a custom size?", "a": "Yes. Beyond the 18 fixed sizes we make half sizes and exact sizes for your yard, through a personal consultation with a rep, who also sets the price." }
+      ]
+    },
+    "מבנים-מיוחדים-ושירותים": {
+      "label": "Special units & restrooms",
+      "title": "Special Units and Restrooms – Restroom Units, Guard Booths",
+      "description": "Restroom units, a restroom and shower unit and a guard booth of insulated panels on an aluminum frame, ready to place at home, on a site or at a business.",
+      "h1": "Special units and restrooms",
+      "lead": "Besides sheds, our factory builds modular units for special uses: restroom units, a restroom and shower unit and a guard booth. They're made from the same aluminum frame and XPV insulated panels as Modubox sheds, and arrive ready to place at a private home, a work site, a parking lot, a public space or a business.",
+      "gridTitle": "Restroom units and guard booths",
+      "sections": [
+        {
+          "title": "Restroom and shower units",
+          "text": [
+            "The 1×1 restroom unit has a rigid inner floor, a door with a cylinder lock and skylight windows. The 1.6×1 unit has a toilet, a corner sink and a faucet, and the 2×1 unit a toilet, a vanity with sink and faucet, and a mirror. The 3×1 restroom and shower unit has a toilet, a vanity with mirror, and a shower tray with a handheld shower and faucet."
+          ]
+        },
+        {
+          "title": "Guard booth",
+          "text": [
+            "The 2×2 guard booth is built from insulated panels and strong aluminum profiles, with 3 sliding windows and an electrical panel. It suits a parking lot entrance, a building site, a factory or a community gate."
+          ]
+        },
+        {
+          "title": "Built to order",
+          "text": [
+            "Every unit is built to order, and the size, openings and electrical and plumbing preparations can be adapted. The unit stands on a stable, firm, level surface, and licensed professionals connect the water, sewage and power."
+          ]
+        }
+      ],
+      "faq": [
+        { "q": "Who connects a restroom unit to water and sewage?", "a": "Licensed professionals. We supply and install the unit, and tradespeople connect the water, sewage and power." },
+        { "q": "What surface does a restroom unit stand on?", "a": "A stable, firm, level surface, so the unit stands steady and the installation is sound." },
+        { "q": "Can the unit be adapted to our needs?", "a": "Yes. Every unit is built to order, and the size, openings and electrical and plumbing preparations can be adapted. Talk to us and we'll fit it to you." }
+      ]
+    },
+    "shed-accessories": {
+      "label": "Shed accessories",
+      "title": "Shed Accessories – Add-ons for Your Garden Shed",
+      "description": "Add-ons for Modubox sheds: a sliding window, an extra or double door, a glass wall, an electrical panel, an inverter AC, a vent grill and shelves.",
+      "h1": "Shed accessories and add-ons",
+      "lead": "Every Modubox shed can be fitted to how you'll use it with add-ons: more light, more openings, power, air conditioning, flooring and shelves. You choose them in the add-ons builder on each size's page, and they go into the cart with the shed.",
+      "gridTitle": "Shed add-ons",
+      "sections": [
+        {
+          "title": "How to add them",
+          "text": [
+            "Pick a size in the shop, and on its page go step by step: doors and windows, power and cooling, interior and floor. The total updates as you go, and at the end you add it to the cart or send it to us on WhatsApp. You can also design your shed in the 3D configurator. Add-ons are sold only with a Modubox shed."
+          ]
+        }
+      ],
+      "faq": [
+        { "q": "Can I buy an add-on without a shed?", "a": "No. Add-ons are sold only with a Modubox shed, and you choose them on the size's page." },
+        { "q": "Does the air conditioner include installation?", "a": "No. The inverter air conditioner is sold as a shed add-on, without installation, and we recommend pairing it with the electrical panel." },
+        { "q": "What does the electrical panel include?", "a": "A residual-current breaker, separate breakers for sockets and lighting, 4 sockets and LED lighting. It's installed at the factory, and a licensed electrician connects it to your home's power with one cable." }
+      ]
+    },
+    "gilboa": {
+      "label": "Gilboa sheds",
+      "title": "Gilboa Sheds – Plastic Garden Sheds",
+      "description": "Gilboa plastic garden sheds of hardened polypropylene, with double walls and an inner aluminum frame. Four sizes, a 5-year warranty, pickup or delivery.",
+      "h1": "Gilboa sheds",
+      "lead": "Gilboa sheds are plastic sheds for the garden, balcony and yard, made of hardened polypropylene with double walls and an inner aluminum frame. They don't rust and need no maintenance, and they come with a 5-year warranty. There are four sizes, from 2.10×1.15 to 2.10×2.60 m.",
+      "gridTitle": "Gilboa sheds: every size",
+      "sections": [],
+      "faq": []
+    }
+  }
+}

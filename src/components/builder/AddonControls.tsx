@@ -40,7 +40,7 @@ function Thumb({ addon, on }: { addon: Addon; on: boolean }) {
   return (
     <span className={`relative grid size-16 shrink-0 place-items-center overflow-hidden rounded-xl transition-colors duration-300 sm:size-20 ${on ? "bg-brand-tint text-brand-dark" : "bg-sand text-ink/60"}`}>
       {addon.image ? (
-        <Image src={addon.image} alt="" fill sizes="80px" className="object-cover" />
+        <Image src={addon.image} alt={addon.name} fill sizes="80px" className="object-cover" />
       ) : (
         <Icon name={ICONS[addon.id] ?? "sparkle"} className="size-7" />
       )}

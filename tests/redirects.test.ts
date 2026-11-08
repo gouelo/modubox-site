@@ -1,20 +1,40 @@
 import { describe, expect, it } from "vitest";
 import live from "./fixtures/redirects-live.json";
-import { compileRules, encodeDestination, fileRules, findRedirect, mergeRules, normalizeSource, ruleWarnings } from "@/lib/seo/redirects";
+import { compileRules, encodeDestination, fileRules, findRedirect, keptQuery, mergeRules, normalizeSource, routeRequest, ruleWarnings } from "@/lib/seo/redirects";
 
-// tests/fixtures/redirects-live.json: what the live site (next.config redirects)
-// answered for every old address on 2026-11-04, before the proxy took them over.
+// tests/fixtures/redirects-live.json: every old address the live site answered on
+// 2026-11-04 (then next.config's redirects), with the proxy's answer since the SEO
+// migration (2026-11-08): the category pages answer on their own addresses, the
+// add-ons go to /shed-accessories/, and the query is dropped but for campaign tags.
 describe("redirects in the proxy", () => {
   const rules = compileRules(fileRules());
 
-  it("answer every old address exactly as next.config did", () => {
+  it("answer every old address in one hop", () => {
     for (const [url, answer] of Object.entries(live as Record<string, string>)) {
       const [pathname, query] = url.split("?");
-      const hit = findRedirect(rules, pathname, query ? `?${query}` : "");
-      const got = hit ? `${hit.status} ${hit.location}` : "none";
-      const expected = answer.startsWith("301") ? answer : "none";
-      expect(got, url).toBe(expected);
+      const r = routeRequest(rules, pathname, query ? `?${query}` : "");
+      expect(r ? `${r.status} ${r.location}` : "none", url).toBe(answer);
+      // where it lands needs no second redirect
+      if (r) expect(routeRequest(rules, ...(r.location.split(/(?=\?)/) as [string, string?])), url).toBeNull();
     }
+  });
+
+  it("keeps campaign tags only, and cleans the old site's parameters", () => {
+    expect(keptQuery("?utm_source=g&page=2&gclid=x&a=1")).toBe("utm_source=g&gclid=x");
+    expect(findRedirect(rules, "/takanon/", "?utm_medium=cpc&x=1")?.location).toBe("/terms/?utm_medium=cpc");
+    expect(routeRequest(rules, "/shop", "?page=2&utm_source=g")).toEqual({ location: "/shop/?utm_source=g", status: 301 });
+    expect(routeRequest(rules, "/shop", "?q=1")).toEqual({ location: "/shop/?q=1", status: 308 });
+    expect(routeRequest(rules, "/shop/", "?gsas=1&rwg_token=2")).toEqual({ location: "/shop/", status: 301 });
+    expect(routeRequest(rules, "/shop/", "?q=1")).toBeNull();
+  });
+
+  it("capitals go to the lower-case page; the admin, the API and files are left alone", () => {
+    expect(routeRequest(rules, "/EVEREST")).toEqual({ location: "/everest/", status: 301 });
+    expect(routeRequest(rules, "/Blog/%D7%90/")).toEqual({ location: "/blog/%D7%90/", status: 301 });
+    expect(routeRequest(rules, "/blog/%D7%90/")).toBeNull();
+    expect(routeRequest(rules, "/api/health")).toEqual({ location: "/api/health/", status: 308 });
+    expect(routeRequest(rules, "/admin/", "?page=2")).toBeNull();
+    expect(routeRequest(rules, "/sitemap.xml")).toBeNull();
   });
 
   it("match without the trailing slash, decoded, any case", () => {

@@ -24,7 +24,7 @@ export function VideoCard({ id, title, large = false, hd = large }: { id: string
         ) : (
           <button type="button" onClick={() => setPlay(true)} className="group absolute inset-0" aria-label={t.common.play(title)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`https://i.ytimg.com/vi/${id}/${hd ? "maxresdefault" : "hqdefault"}.jpg`} alt="" loading="lazy" className="size-full object-cover opacity-90 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
+            <img src={`https://i.ytimg.com/vi/${id}/${hd ? "maxresdefault" : "hqdefault"}.jpg`} alt={title} loading="lazy" className="size-full object-cover opacity-90 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
             <span className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
             <span className={`absolute left-1/2 top-1/2 grid ${large ? "size-20 sm:size-24" : "size-16"} -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-ink shadow-lift transition group-hover:scale-110`}>
               <Icon name="play" className="ms-1 size-7" />

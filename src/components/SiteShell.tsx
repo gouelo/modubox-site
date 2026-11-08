@@ -6,16 +6,14 @@ import { LocaleProvider } from "@/i18n/client";
 import { ogDefaults } from "@/i18n/meta";
 import { site } from "@/lib/catalog";
 import { asset } from "@/lib/paths";
-import { gtmId } from "@/lib/analytics";
-import { GoogleTagManager, GoogleTagManagerNoScript } from "./Analytics";
+import { gtmHosts, gtmId } from "@/lib/analytics";
+import { GoogleTagManager } from "./Analytics";
 import { ConfiguratorPanel } from "./ConfiguratorPanel";
 import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { WhatsAppFab } from "./WhatsAppFab";
 import { LeadAttribution } from "./LeadAttribution";
-import { business, orgJsonLd as businessJsonLd } from "@/lib/seo/settings";
-import { loadSeo } from "@/lib/seo/store";
 import { CallFab } from "./CallFab";
 import { CookieConsent } from "./CookieConsent";
 
@@ -41,16 +39,13 @@ export const viewport: Viewport = {
 };
 
 /** The <html> of every page, in one language: lang and dir, header, footer and the site-wide pieces. */
-export async function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
+export function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
   const t = dict(locale);
-  // the business as search engines read it: data/site.json, with what the admin saved (Content → business)
-  const orgJsonLd = businessJsonLd(business((await loadSeo()).business, locale), locale);
-  // Google Tag Manager: production only (src/lib/analytics.ts)
+  // Google Tag Manager: production, on the real domain only (src/lib/analytics.ts)
   const gtm = gtmId();
   return (
     <html lang={locale} dir={dirOf(locale)} className={heebo.variable}>
       <body className="min-h-dvh font-sans antialiased">
-        {gtm && <GoogleTagManagerNoScript id={gtm} />}
         <LocaleProvider locale={locale}>
           <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-[80] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">
             {t.common.skip}
@@ -71,8 +66,7 @@ export async function SiteShell({ locale, children }: { locale: Locale; children
           {/* UTM tags and ad click ids for the lead forms */}
           <LeadAttribution />
         </LocaleProvider>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
-        {gtm && <GoogleTagManager id={gtm} />}
+        {gtm && <GoogleTagManager id={gtm} hosts={gtmHosts(process.env, site.url)} />}
       </body>
     </html>
   );

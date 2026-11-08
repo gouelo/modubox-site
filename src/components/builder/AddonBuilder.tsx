@@ -7,7 +7,7 @@ import { lp } from "@/i18n";
 import { useLocale, useT } from "@/i18n/client";
 import { builderSteps, chosenIn, profileAddon, type BuilderStep } from "@/lib/builder";
 import { useCart } from "@/lib/cart-store";
-import { addonsFor } from "@/lib/catalog";
+import { addonsFor, plain } from "@/lib/catalog";
 import { formatILS } from "@/lib/format";
 import { defaultFulfillment, defaultSelections, fulfillmentOptions, quote, type Quote } from "@/lib/pricing";
 import type { Addon, Product, Selections } from "@/lib/types";
@@ -202,7 +202,7 @@ export function AddonBuilder({ product }: { product: Product }) {
             <div className="sticky top-24 rounded-3xl bg-ink p-6 text-white shadow-lift">
               <div className="flex items-center gap-3">
                 <span className="relative size-14 shrink-0 overflow-hidden rounded-xl bg-white/10">
-                  <Image src={product.images[0]} alt="" fill sizes="56px" className="object-cover" />
+                  <Image src={product.images[0]} alt={plain(product.name)} fill sizes="56px" className="object-cover" />
                 </span>
                 <div className="min-w-0">
                   <p className="text-sm text-white/60">{b.yourShed}</p>
@@ -446,7 +446,7 @@ function SummaryStep({ product, q, profile, goTo, stepOf, cta }: { product: Prod
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-soft">
       <div className="relative h-40 sm:h-52">
-        <Image src={product.images[0]} alt="" fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
+        <Image src={product.images[0]} alt={plain(product.name)} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" aria-hidden="true" />
         <p className="absolute bottom-3 start-4 font-display text-2xl font-extrabold text-white">{product.name}</p>
       </div>

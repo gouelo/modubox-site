@@ -39,9 +39,10 @@ export function defaultBusiness(locale: Locale = "he"): Business {
     phone: s.phone,
     email: s.email,
     streetAddress: s.factory,
-    city: "",
+    // the factory's place, without "קיבוץ"/"Kibbutz": עין חרוד מאוחד / Ein Harod Meuhad
+    city: s.factory.replace(/^(קיבוץ|Kibbutz)\s+/, ""),
     postalCode: "",
-    geo: "",
+    geo: s.mapCoords,
     openingHours: [],
     areaServed: "",
     priceRange: "",
@@ -67,12 +68,21 @@ export function business(saved: Partial<Business>, locale: Locale = "he"): Busin
   return out;
 }
 
-/** The site-wide JSON-LD, in every page (src/components/SiteShell.tsx). Without saved settings: as it always was. */
+/** The business's JSON-LD id: the full object is on the home and contact pages, other pages point to it. */
+export const BUSINESS_ID = `${site.url}/#business`;
+
+/**
+ * The business JSON-LD, whole, on the home and contact pages (src/components/BusinessJsonLd.tsx);
+ * other pages refer to it by BUSINESS_ID (a product's seller). No aggregateRating: Google ignores
+ * a business's rating of itself, and the Google reviews it would repeat are the business's, not a
+ * product's (the agency's report, 2026-11-08). The reviews still show on the pages.
+ */
 export function orgJsonLd(b: Business, locale: Locale): Record<string, unknown> {
   const [lat, lng] = b.geo.split(",").map((s) => Number(s.trim()));
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
+    "@id": BUSINESS_ID,
     name: b.name,
     ...(b.legalName ? { legalName: b.legalName } : {}),
     ...(b.description && b.description !== catalog(locale).site.tagline ? { description: b.description } : {}),
@@ -91,7 +101,7 @@ export function orgJsonLd(b: Business, locale: Locale): Record<string, unknown> 
     ...(b.areaServed ? { areaServed: b.areaServed } : {}),
     ...(b.priceRange ? { priceRange: b.priceRange } : {}),
     ...(b.foundingYear ? { foundingDate: b.foundingYear } : {}),
-    aggregateRating: { "@type": "AggregateRating", ratingValue: b.rating, reviewCount: b.reviewCount },
+    logo: `${site.url}/brand/logo.svg`,
     sameAs: b.sameAs,
   };
 }

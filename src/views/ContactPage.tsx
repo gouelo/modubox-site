@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BusinessJsonLd } from "@/components/BusinessJsonLd";
 import { Icon } from "@/components/Icon";
 import { LeadForm } from "@/components/LeadForm";
 import { Stars } from "@/components/Stars";
@@ -94,6 +95,7 @@ export function ContactPage({ locale }: { locale: Locale }) {
           </Link>
         </div>
       </div>
+      <BusinessJsonLd locale={locale} />
     </div>
   );
 }

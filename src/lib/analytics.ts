@@ -7,8 +7,10 @@ import type { CartItem } from "./types";
  * names and shapes, so the ad agency can build tags and conversions in GTM.
  * Never put a person's details (name, phone, email, address) in an event.
  *
- * GTM loads only on the production site: Vercel's production deployment
- * (VERCEL_ENV=production), so previews and GitHub Pages don't count visits.
+ * GTM loads only on the real site: Vercel's production deployment
+ * (VERCEL_ENV=production), and there only on the real domain (gtmHosts), since
+ * production also answers at modubox-site.vercel.app, which must not count
+ * visits or fire the ad tags. Previews and GitHub Pages never load it.
  * NEXT_PUBLIC_GTM_ID overrides it: another container id, or "off".
  */
 export const GTM_ID = "GTM-MB2W45D";
@@ -17,6 +19,24 @@ export function gtmId(env: Record<string, string | undefined> = process.env): st
   const set = env.NEXT_PUBLIC_GTM_ID?.trim();
   if (set) return /^GTM-[A-Z0-9]+$/.test(set) ? set : "";
   return env.VERCEL_ENV === "production" ? GTM_ID : "";
+}
+
+/**
+ * The hosts GTM loads on (the page checks location.hostname before loading it):
+ * the site's domain, with and without www. NEXT_PUBLIC_GTM_HOSTS overrides it
+ * ("a.com,b.com"), or "*" for any host (to test a container on a preview).
+ */
+export function gtmHosts(env: Record<string, string | undefined> = process.env, siteUrl = "https://www.modubox.com"): string[] {
+  const set = env.NEXT_PUBLIC_GTM_HOSTS?.trim();
+  if (set) return set.split(",").map((h) => h.trim().toLowerCase()).filter(Boolean);
+  const host = new URL(siteUrl).hostname.toLowerCase();
+  const apex = host.replace(/^www\./, "");
+  return [...new Set([host, apex, `www.${apex}`])];
+}
+
+/** Whether GTM may load on this host (what the inline script checks in the browser). */
+export function gtmAllowedOn(hostname: string, hosts: string[]): boolean {
+  return hosts.includes("*") || hosts.includes(hostname.toLowerCase());
 }
 
 export const CURRENCY = "ILS";

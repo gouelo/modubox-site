@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
   pageExtensions: pagesExport ? ["tsx", "ts"] : ["api.tsx", "api.ts", "tsx", "ts"],
   devIndicators: false,
   trailingSlash: true,
+  // on the server the proxy adds the slash itself, in the same hop as an old address's redirect
+  // (src/lib/seo/redirects.ts routeRequest): Next.js's own 308 would make every old address two hops
+  ...(pagesExport ? {} : { skipTrailingSlashRedirect: true }),
   basePath,
   // two root layouts (Hebrew at /, English at /en/), so the 404 page is app/global-not-found.tsx
   experimental: { globalNotFound: true },
