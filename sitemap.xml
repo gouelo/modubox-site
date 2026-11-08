@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 <url>
 <loc>https://www.modubox.com/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/" />
@@ -32,6 +32,102 @@
 <loc>https://www.modubox.com/gallery/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/gallery/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/gallery/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/da9360e8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7177ce78-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/88526f6c-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d6d8d9ff-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/498c3046-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/30ee5b71-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7d9f8cd8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/e5c85bdc-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2e6c51f8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/4aa938d0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a61220b3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7df1b651-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f7c6ad90-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/916fdfcb-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0ed3405a-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7fd76b8b-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d4267a14-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/13ae0513-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/226b5c6d-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/be3e5de6-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c20b2e52-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6a47c8b5-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/79203cde-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ada2bade-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2175ce6e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7180af37-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0e586c16-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/93953a0c-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ce126ab7-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ac3a0274-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/eae52cba-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/eaf74084-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
@@ -39,6 +135,102 @@
 <loc>https://www.modubox.com/en/gallery/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/gallery/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/gallery/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/da9360e8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7177ce78-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/88526f6c-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d6d8d9ff-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/498c3046-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/30ee5b71-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7d9f8cd8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/e5c85bdc-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2e6c51f8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/4aa938d0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a61220b3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7df1b651-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f7c6ad90-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/916fdfcb-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0ed3405a-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7fd76b8b-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d4267a14-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/13ae0513-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/226b5c6d-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/be3e5de6-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c20b2e52-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6a47c8b5-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/79203cde-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ada2bade-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2175ce6e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7180af37-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0e586c16-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/93953a0c-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ce126ab7-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ac3a0274-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/eae52cba-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/eaf74084-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>
 </url>
@@ -141,9 +333,130 @@
 <priority>0.7</priority>
 </url>
 <url>
+<loc>https://www.modubox.com/garden-sheds/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/garden-sheds/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/garden-sheds/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/garden-sheds/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/garden-sheds/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/garden-sheds/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/insulated-panel-sheds/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/insulated-panel-sheds/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/insulated-panel-sheds/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/insulated-panel-sheds/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/insulated-panel-sheds/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/insulated-panel-sheds/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/outdoor-sheds/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/outdoor-sheds/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/outdoor-sheds/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/outdoor-sheds/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/outdoor-sheds/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/outdoor-sheds/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/easy-construction-sheds/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/easy-construction-sheds/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/easy-construction-sheds/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/easy-construction-sheds/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/easy-construction-sheds/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/easy-construction-sheds/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/everest/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/everest/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/everest/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/everest/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/everest/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/everest/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/%D7%9E%D7%91%D7%A0%D7%99%D7%9D-%D7%9E%D7%99%D7%95%D7%97%D7%93%D7%99%D7%9D-%D7%95%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/%D7%9E%D7%91%D7%A0%D7%99%D7%9D-%D7%9E%D7%99%D7%95%D7%97%D7%93%D7%99%D7%9D-%D7%95%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/%D7%9E%D7%91%D7%A0%D7%99%D7%9D-%D7%9E%D7%99%D7%95%D7%97%D7%93%D7%99%D7%9D-%D7%95%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/%D7%9E%D7%91%D7%A0%D7%99%D7%9D-%D7%9E%D7%99%D7%95%D7%97%D7%93%D7%99%D7%9D-%D7%95%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/%D7%9E%D7%91%D7%A0%D7%99%D7%9D-%D7%9E%D7%99%D7%95%D7%97%D7%93%D7%99%D7%9D-%D7%95%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/%D7%9E%D7%91%D7%A0%D7%99%D7%9D-%D7%9E%D7%99%D7%95%D7%97%D7%93%D7%99%D7%9D-%D7%95%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/shed-accessories/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/shed-accessories/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/shed-accessories/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/shed-accessories/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/shed-accessories/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/shed-accessories/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/gilboa/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/gilboa/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/gilboa/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/gilboa/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/gilboa/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/gilboa/" />
+<changefreq>weekly</changefreq>
+<priority>0.7</priority>
+</url>
+<url>
 <loc>https://www.modubox.com/product/modubox-1x0-8/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-1x0-8/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-1x0-8/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/1f15a20e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6edae768-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/64f0fa98-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -151,6 +464,15 @@
 <loc>https://www.modubox.com/en/product/modubox-1x0-8/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-1x0-8/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-1x0-8/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/1f15a20e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6edae768-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/64f0fa98-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -158,6 +480,24 @@
 <loc>https://www.modubox.com/product/modubox-1x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-1x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-1x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3b968764-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/fb48b12a-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/916fdfcb-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/79203cde-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/eaf74084-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/94738c8f-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -165,6 +505,24 @@
 <loc>https://www.modubox.com/en/product/modubox-1x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-1x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-1x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3b968764-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/fb48b12a-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/916fdfcb-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/79203cde-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/eaf74084-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/94738c8f-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -172,6 +530,21 @@
 <loc>https://www.modubox.com/product/modubox-2x0-8/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x0-8/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x0-8/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/25b61968-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f9020362-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/4d2e7d30-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a513e6a7-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/5a241dbe-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -179,6 +552,21 @@
 <loc>https://www.modubox.com/en/product/modubox-2x0-8/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x0-8/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x0-8/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/25b61968-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f9020362-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/4d2e7d30-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a513e6a7-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/5a241dbe-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -186,6 +574,24 @@
 <loc>https://www.modubox.com/product/modubox-2x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2266500b-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/176e922f-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f73f6ee3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/38a8b8ba-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2175ce6e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ba4a92d9-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -193,6 +599,24 @@
 <loc>https://www.modubox.com/en/product/modubox-2x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2266500b-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/176e922f-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f73f6ee3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/38a8b8ba-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2175ce6e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ba4a92d9-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -200,6 +624,21 @@
 <loc>https://www.modubox.com/product/modubox-2x1-6/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x1-6/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x1-6/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a059e31e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/da4bc89d-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/722fbfb6-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/1435b6aa-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/bc761ac6-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -207,6 +646,21 @@
 <loc>https://www.modubox.com/en/product/modubox-2x1-6/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x1-6/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x1-6/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a059e31e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/da4bc89d-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/722fbfb6-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/1435b6aa-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/bc761ac6-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -214,6 +668,24 @@
 <loc>https://www.modubox.com/product/modubox-3x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a1aeef2d-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/13767fa8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f710c307-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ada2bade-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6a47c8b5-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c52c05b9-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -221,6 +693,24 @@
 <loc>https://www.modubox.com/en/product/modubox-3x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a1aeef2d-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/13767fa8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f710c307-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/ada2bade-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6a47c8b5-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c52c05b9-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -228,6 +718,24 @@
 <loc>https://www.modubox.com/product/modubox-2x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d77c1b81-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a2d69812-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/13fb91e6-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c2529d99-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a61220b3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/bcb7a769-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -235,6 +743,24 @@
 <loc>https://www.modubox.com/en/product/modubox-2x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-2x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-2x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d77c1b81-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a2d69812-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/13fb91e6-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c2529d99-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a61220b3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/bcb7a769-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -242,6 +768,18 @@
 <loc>https://www.modubox.com/product/modubox-4x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7fff7988-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0134117e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3f11fd4e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/8c419ba2-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -249,6 +787,18 @@
 <loc>https://www.modubox.com/en/product/modubox-4x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7fff7988-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0134117e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3f11fd4e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/8c419ba2-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -256,6 +806,21 @@
 <loc>https://www.modubox.com/product/modubox-3x1-6/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x1-6/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x1-6/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/9169dc67-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/e0b61509-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6f88c7e0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/218563be-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a3eb6cbd-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -263,6 +828,21 @@
 <loc>https://www.modubox.com/en/product/modubox-3x1-6/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x1-6/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x1-6/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/9169dc67-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/e0b61509-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6f88c7e0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/218563be-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a3eb6cbd-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -270,6 +850,15 @@
 <loc>https://www.modubox.com/product/modubox-4x1-6/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x1-6/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x1-6/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/de25c091-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3a5a6abb-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/49470a5c-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -277,6 +866,15 @@
 <loc>https://www.modubox.com/en/product/modubox-4x1-6/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x1-6/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x1-6/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/de25c091-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3a5a6abb-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/49470a5c-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -284,6 +882,24 @@
 <loc>https://www.modubox.com/product/modubox-3x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0e9ce80c-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/27f645f0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/39bd9bb4-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c3af4c9a-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7177ce78-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0cfb93d3-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -291,6 +907,24 @@
 <loc>https://www.modubox.com/en/product/modubox-3x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0e9ce80c-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/27f645f0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/39bd9bb4-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c3af4c9a-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7177ce78-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0cfb93d3-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -298,6 +932,24 @@
 <loc>https://www.modubox.com/product/modubox-4x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a6079b2a-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f16e8132-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0cf569d9-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/eee03e18-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d4267a14-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2e81c0ef-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -305,6 +957,24 @@
 <loc>https://www.modubox.com/en/product/modubox-4x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a6079b2a-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f16e8132-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0cf569d9-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/eee03e18-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d4267a14-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/2e81c0ef-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -312,6 +982,24 @@
 <loc>https://www.modubox.com/product/modubox-3x3/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x3/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x3/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/683b0ddc-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0a8d591f-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3b0700d0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c87f8001-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/4aa938d0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/358aea3c-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -319,6 +1007,24 @@
 <loc>https://www.modubox.com/en/product/modubox-3x3/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-3x3/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-3x3/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/683b0ddc-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0a8d591f-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3b0700d0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c87f8001-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/4aa938d0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/358aea3c-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -326,6 +1032,12 @@
 <loc>https://www.modubox.com/product/modubox-5x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-5x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-5x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/e184e900-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3835e234-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -333,6 +1045,12 @@
 <loc>https://www.modubox.com/en/product/modubox-5x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-5x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-5x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/e184e900-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3835e234-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -340,6 +1058,24 @@
 <loc>https://www.modubox.com/product/modubox-4x3/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x3/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x3/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f1c86e7f-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7b2976de-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/dc5dd38c-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6a489771-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d6d8d9ff-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6800b8e3-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -347,6 +1083,24 @@
 <loc>https://www.modubox.com/en/product/modubox-4x3/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-4x3/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-4x3/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f1c86e7f-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7b2976de-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/dc5dd38c-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6a489771-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d6d8d9ff-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6800b8e3-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -354,6 +1108,12 @@
 <loc>https://www.modubox.com/product/modubox-6x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-6x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-6x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/150eca13-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/72edbbac-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -361,6 +1121,12 @@
 <loc>https://www.modubox.com/en/product/modubox-6x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-6x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-6x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/150eca13-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/72edbbac-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -368,6 +1134,24 @@
 <loc>https://www.modubox.com/product/modubox-5x3/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-5x3/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-5x3/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/b16744e8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/8b4fe247-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f1889911-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6a27cb21-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/8795c3bc-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/fd535fe4-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -375,6 +1159,24 @@
 <loc>https://www.modubox.com/en/product/modubox-5x3/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-5x3/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-5x3/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/b16744e8-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/8b4fe247-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f1889911-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6a27cb21-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/8795c3bc-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/fd535fe4-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -382,6 +1184,33 @@
 <loc>https://www.modubox.com/product/modubox-6x3/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-6x3/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-6x3/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6e56c5db-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c12527f9-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/01738fab-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3323aaef-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/34a6c133-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/71f73dc3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/490e0a34-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/8de66868-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/67030a07-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -389,6 +1218,113 @@
 <loc>https://www.modubox.com/en/product/modubox-6x3/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/modubox-6x3/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/modubox-6x3/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/6e56c5db-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/c12527f9-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/01738fab-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/3323aaef-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/34a6c133-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/71f73dc3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/490e0a34-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/8de66868-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/67030a07-1600.webp</image:loc>
+</image:image>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/product/gilboa-s/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/gilboa-s/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/gilboa-s/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/1c86f4c5-1600.webp</image:loc>
+</image:image>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/gilboa-s/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/gilboa-s/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/gilboa-s/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/1c86f4c5-1600.webp</image:loc>
+</image:image>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/product/gilboa-m/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/gilboa-m/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/gilboa-m/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f15188c0-1600.webp</image:loc>
+</image:image>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/gilboa-m/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/gilboa-m/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/gilboa-m/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f15188c0-1600.webp</image:loc>
+</image:image>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/product/gilboa-l/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/gilboa-l/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/gilboa-l/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/53d5bd2d-1600.webp</image:loc>
+</image:image>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/gilboa-l/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/gilboa-l/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/gilboa-l/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/53d5bd2d-1600.webp</image:loc>
+</image:image>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/product/gilboa-xl/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/gilboa-xl/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/gilboa-xl/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/4154d3a8-1600.webp</image:loc>
+</image:image>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://www.modubox.com/en/product/gilboa-xl/</loc>
+<xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/gilboa-xl/" />
+<xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/gilboa-xl/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/4154d3a8-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -396,6 +1332,12 @@
 <loc>https://www.modubox.com/product/toilet-1x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-1x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-1x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a2674b47-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/b78b8f73-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -403,6 +1345,12 @@
 <loc>https://www.modubox.com/en/product/toilet-1x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-1x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-1x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a2674b47-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/b78b8f73-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -410,6 +1358,12 @@
 <loc>https://www.modubox.com/product/toilet-1-6x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-1-6x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-1-6x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/bea318f3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/dd817353-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -417,6 +1371,12 @@
 <loc>https://www.modubox.com/en/product/toilet-1-6x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-1-6x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-1-6x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/bea318f3-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/dd817353-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -424,6 +1384,18 @@
 <loc>https://www.modubox.com/product/toilet-2x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-2x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-2x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/bf3508ba-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/729588d0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0fef20e6-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f9c7c7ce-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -431,6 +1403,18 @@
 <loc>https://www.modubox.com/en/product/toilet-2x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-2x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-2x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/bf3508ba-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/729588d0-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0fef20e6-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/f9c7c7ce-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -438,6 +1422,18 @@
 <loc>https://www.modubox.com/product/toilet-shower-3x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-shower-3x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-shower-3x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/5b9450fa-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/103d7625-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/af03b46f-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d683a6e9-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -445,6 +1441,18 @@
 <loc>https://www.modubox.com/en/product/toilet-shower-3x1/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/toilet-shower-3x1/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/toilet-shower-3x1/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/5b9450fa-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/103d7625-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/af03b46f-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/d683a6e9-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -452,6 +1460,15 @@
 <loc>https://www.modubox.com/product/guard-booth-2x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/guard-booth-2x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/guard-booth-2x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a7bcde7e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7cec7c32-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0f0cbe53-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
@@ -459,6 +1476,15 @@
 <loc>https://www.modubox.com/en/product/guard-booth-2x2/</loc>
 <xhtml:link rel="alternate" hreflang="he" href="https://www.modubox.com/product/guard-booth-2x2/" />
 <xhtml:link rel="alternate" hreflang="en" href="https://www.modubox.com/en/product/guard-booth-2x2/" />
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/a7bcde7e-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/7cec7c32-1600.webp</image:loc>
+</image:image>
+<image:image>
+<image:loc>https://www.modubox.com/_img/photos/0f0cbe53-1600.webp</image:loc>
+</image:image>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
