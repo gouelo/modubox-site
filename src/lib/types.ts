@@ -84,6 +84,12 @@ export interface Addon {
   description?: string;
   note?: string;
   minWidthM?: number;
+  /**
+   * A choice add-on the product page's builder takes by the unit, a quantity
+   * for each option (two glass walls, one with a shutter), up to maxQty each:
+   * selections["<add-on>+<choice>"] (variantKey in pricing.ts).
+   */
+  perChoiceQty?: boolean;
   /** Priced by floor area: every choice but the default costs pricePerM2 × widthM × depthM. */
   pricePerM2?: number;
   /** Set by addonsFor on a per-m² add-on: the product's floor area it was priced for. */

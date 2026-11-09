@@ -43,17 +43,37 @@ export function defaultSelections(product: Product): Selections {
 }
 
 /**
- * A choice add-on's options taken by the unit (round 17, for phone orders in
- * the admin: two glass walls, a glass wall with a shutter and one without):
- * selections["<add-on>+<choice>"] = how many. Each is its own line, priced
- * here like everything else, so the server's price stays the authority. Not
- * for an add-on priced by floor area (one floor per shed). The site's own
- * builder doesn't offer it (the 3D configurator does, through its link).
+ * A choice add-on's options taken by the unit (two glass walls, a glass wall
+ * with a shutter and one without): selections["<add-on>+<choice>"] = how
+ * many. Each is its own line, priced here like everything else, so the
+ * server's price stays the authority. Not for an add-on priced by floor area
+ * (one floor per shed). The admin's phone orders offer it on every such
+ * add-on; the product page's builder on those marked `perChoiceQty` (the
+ * glass wall). Its lines carry the same ids and labels as the 3D
+ * configurator's extra glass walls (configurator.ts).
  */
 export const variantKey = (a: Pick<Addon, "id">, choiceId: string) => `${a.id}+${choiceId}`;
 export function hasVariantQty(a: Addon): boolean {
   return a.kind === "choice" && !a.pricePerM2 && !a.areaM2;
 }
+
+/** The builder takes this add-on as a quantity for each option, up to `variantMax` each. */
+export function builderVariantQty(a: Addon): boolean {
+  return !!a.perChoiceQty && hasVariantQty(a);
+}
+export const variantMax = (a: Addon) => a.maxQty ?? 10;
+
+/** How many of a choice add-on's options are taken by the unit. */
+export function variantCount(a: Addon, selections: Selections): number {
+  if (!hasVariantQty(a)) return 0;
+  return (a.choices ?? []).reduce((n, c) => {
+    const v = selections[variantKey(a, c.id)];
+    return n + (c.id !== a.default && typeof v === "number" && v > 0 ? v : 0);
+  }, 0);
+}
+
+/** The add-on a quote line belongs to ("glass-wall+glass" → "glass-wall"). */
+export const lineAddonId = (lineId: string) => lineId.split("+")[0];
 
 function variantLines(a: Addon, selections: Selections): PriceLine[] {
   if (!hasVariantQty(a)) return [];

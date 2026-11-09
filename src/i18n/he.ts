@@ -360,6 +360,7 @@ export const he = {
     perUnit: "ליח׳",
     less: (name: string) => `פחות ${name}`,
     more: (name: string) => `עוד ${name}`,
+    perChoiceHint: (max: number) => `אפשר לבחור כמה – עד ${max} מכל סוג`,
     perM2: (price: string) => `${price} למ"ר`,
     inThisShed: (n: number) => `${n} מ"ר במחסן הזה`,
   },

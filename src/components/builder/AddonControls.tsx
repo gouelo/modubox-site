@@ -1,6 +1,7 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { useLocale, useT } from "@/i18n/client";
 import { formatILS } from "@/lib/format";
 import type { Addon, AddonChoice } from "@/lib/types";
@@ -91,11 +92,74 @@ export function ToggleCard({ addon, on, onChange }: { addon: Addon; on: boolean;
   );
 }
 
+/** "+ add", which turns into a − n + stepper. `name` says what is counted, for the buttons' labels. */
+function Stepper({ qty, max, name, onChange }: { qty: number; max: number; name: string; onChange: (qty: number) => void }) {
+  const t = useT();
+  const box = useRef<HTMLSpanElement>(null);
+  const plus = useRef<HTMLButtonElement>(null);
+  const addBtn = useRef<HTMLButtonElement>(null);
+  const refocus = useRef(false);
+  // the button pressed goes away (add ⇄ stepper): keep the keyboard's place on the one that replaces it
+  useEffect(() => {
+    if (!refocus.current) return;
+    refocus.current = false;
+    (qty > 0 ? plus : addBtn).current?.focus();
+  }, [qty]);
+  const change = (n: number) => {
+    refocus.current = (n > 0) !== (qty > 0) && !!box.current?.contains(document.activeElement);
+    onChange(n);
+  };
+  return (
+    <span ref={box} className="contents">
+    <AnimatePresence mode="popLayout" initial={false}>
+      {qty > 0 ? (
+        <motion.div
+          key="stepper"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={spring}
+          className="flex shrink-0 items-center gap-1 rounded-full bg-ink p-1 text-white"
+        >
+          <button type="button" onClick={() => change(qty - 1)} aria-label={t.builder.less(name)} className="grid size-8 place-items-center rounded-full transition hover:bg-white/15 active:scale-90">
+            <Icon name={qty === 1 ? "trash" : "minus"} className="size-4" />
+          </button>
+          <span className="relative grid h-8 w-6 place-items-center overflow-hidden font-bold tabular-nums" aria-live="polite">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span key={qty} initial={{ y: 14, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -14, opacity: 0 }} transition={{ duration: 0.18 }}>
+                {qty}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+          <button ref={plus} type="button" onClick={() => change(qty + 1)} disabled={qty >= max} aria-label={t.builder.more(name)} className="grid size-8 place-items-center rounded-full transition hover:bg-white/15 active:scale-90 disabled:opacity-30">
+            <Icon name="plus" className="size-4" />
+          </button>
+        </motion.div>
+      ) : (
+        <motion.button
+          ref={addBtn}
+          key="add"
+          type="button"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={spring}
+          onClick={() => change(1)}
+          className="flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-ink/15 px-4 text-sm font-bold transition hover:border-ink hover:bg-ink hover:text-white"
+        >
+          <Icon name="plus" className="size-4" /> {t.common.add}
+          <span className="sr-only"> {name}</span>
+        </motion.button>
+      )}
+    </AnimatePresence>
+    </span>
+  );
+}
+
 /** A counted add-on: "+ add" turns into a stepper. */
 export function QtyCard({ addon, qty, onChange }: { addon: Addon; qty: number; onChange: (qty: number) => void }) {
   const max = addon.maxQty ?? 10;
   const on = qty > 0;
-  const t = useT();
   return (
     <motion.div layout="position" className={shell(on)}>
       <Thumb addon={addon} on={on} />
@@ -105,45 +169,7 @@ export function QtyCard({ addon, qty, onChange }: { addon: Addon; qty: number; o
         {addon.note && <p className="mt-2 rounded-xl bg-sand px-3 py-2 text-[13px] leading-5 text-ink-soft">{addon.note}</p>}
         <div className="mt-auto flex items-center justify-between gap-2 pt-2">
           <PriceTag price={addon.price} per={on} />
-          <AnimatePresence mode="popLayout" initial={false}>
-            {on ? (
-              <motion.div
-                key="stepper"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={spring}
-                className="flex items-center gap-1 rounded-full bg-ink p-1 text-white"
-              >
-                <button type="button" onClick={() => onChange(qty - 1)} aria-label={t.builder.less(addon.name)} className="grid size-8 place-items-center rounded-full transition hover:bg-white/15 active:scale-90">
-                  <Icon name={qty === 1 ? "trash" : "minus"} className="size-4" />
-                </button>
-                <span className="relative grid h-8 w-6 place-items-center overflow-hidden font-bold tabular-nums" aria-live="polite">
-                  <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.span key={qty} initial={{ y: 14, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -14, opacity: 0 }} transition={{ duration: 0.18 }}>
-                      {qty}
-                    </motion.span>
-                  </AnimatePresence>
-                </span>
-                <button type="button" onClick={() => onChange(qty + 1)} disabled={qty >= max} aria-label={t.builder.more(addon.name)} className="grid size-8 place-items-center rounded-full transition hover:bg-white/15 active:scale-90 disabled:opacity-30">
-                  <Icon name="plus" className="size-4" />
-                </button>
-              </motion.div>
-            ) : (
-              <motion.button
-                key="add"
-                type="button"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={spring}
-                onClick={() => onChange(1)}
-                className="flex h-10 items-center gap-1.5 rounded-full border border-ink/15 px-4 text-sm font-bold transition hover:border-ink hover:bg-ink hover:text-white"
-              >
-                <Icon name="plus" className="size-4" /> {t.common.add}
-              </motion.button>
-            )}
-          </AnimatePresence>
+          <Stepper qty={qty} max={max} name={addon.name} onChange={onChange} />
         </div>
       </div>
     </motion.div>
@@ -256,6 +282,44 @@ export function ChoiceGroup({ addon, value, onChange, gift = false }: { addon: A
           })}
         </div>
       )}
+      {addon.note && <p className="mt-3 flex items-start gap-2 rounded-xl bg-sand px-3 py-2 text-sm text-ink-soft"><Icon name="sparkle" className="mt-0.5 size-4 shrink-0 text-copper-deep" />{addon.note}</p>}
+    </div>
+  );
+}
+
+/**
+ * A choice add-on taken by the unit (`perChoiceQty`: the glass wall): a stepper
+ * for each option but "none", so a shed can have two glass walls, or one with
+ * a shutter and one without. `value(id)` is how many of an option.
+ */
+export function ChoiceQtyGroup({ addon, value, onChange, max }: { addon: Addon; value: (choiceId: string) => number; onChange: (choiceId: string, qty: number) => void; max: number }) {
+  const b = useT().builder;
+  const options = (addon.choices ?? []).filter((c) => c.id !== addon.default);
+  const total = options.reduce((n, c) => n + value(c.id), 0);
+  return (
+    <div role="group" aria-labelledby={`qty-${addon.id}`} className="rounded-2xl border border-line bg-white p-3 sm:p-4">
+      <div className="flex items-start gap-3">
+        <Thumb addon={addon} on={total > 0} />
+        <div className="min-w-0 flex-1">
+          <p id={`qty-${addon.id}`} className="font-bold leading-snug">{addon.name}</p>
+          {addon.description && <p className="mt-1 text-sm leading-6 text-ink-soft">{addon.description}</p>}
+          <p className="mt-2 text-sm font-semibold text-brand-dark">{b.perChoiceHint(max)}</p>
+        </div>
+      </div>
+      <ul className="mt-3 grid gap-2">
+        {options.map((c) => {
+          const n = value(c.id);
+          return (
+            <li key={c.id} className={`flex min-h-14 flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-xl px-3 py-2 transition-colors duration-200 ${n > 0 ? "bg-brand-tint ring-1 ring-brand" : "bg-sand/60"}`}>
+              <span className="min-w-0 flex-1">
+                <span className={`block text-[15px] ${n > 0 ? "font-bold" : "font-medium"}`}>{c.label}</span>
+                <PriceTag price={c.price} per />
+              </span>
+              <Stepper qty={n} max={max} name={c.label} onChange={(q) => onChange(c.id, Math.max(0, Math.min(max, q)))} />
+            </li>
+          );
+        })}
+      </ul>
       {addon.note && <p className="mt-3 flex items-start gap-2 rounded-xl bg-sand px-3 py-2 text-sm text-ink-soft"><Icon name="sparkle" className="mt-0.5 size-4 shrink-0 text-copper-deep" />{addon.note}</p>}
     </div>
   );

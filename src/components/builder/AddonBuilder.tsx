@@ -9,13 +9,13 @@ import { builderSteps, chosenIn, profileAddon, type BuilderStep } from "@/lib/bu
 import { useCart } from "@/lib/cart-store";
 import { addonsFor, plain } from "@/lib/catalog";
 import { formatILS } from "@/lib/format";
-import { defaultFulfillment, defaultSelections, fulfillmentOptions, quote, type Quote } from "@/lib/pricing";
+import { builderVariantQty, defaultFulfillment, defaultSelections, fulfillmentOptions, lineAddonId, quote, variantKey, variantMax, type Quote } from "@/lib/pricing";
 import type { Addon, Product, Selections } from "@/lib/types";
 import { configMessage, waLink } from "@/lib/whatsapp";
 import { AnimatedPrice } from "../AnimatedPrice";
 import { Footprint } from "../Footprint";
 import { Icon } from "../Icon";
-import { ChoiceGroup, PriceTag, QtyCard, ToggleCard } from "./AddonControls";
+import { ChoiceGroup, ChoiceQtyGroup, PriceTag, QtyCard, ToggleCard } from "./AddonControls";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -50,7 +50,14 @@ export function AddonBuilder({ product }: { product: Product }) {
   const current = steps[step];
   const profileLabel = profile?.choices?.find((c) => c.id === selections[profile.id])?.label;
 
-  const set = (id: string, v: number | string) => setSelections((s) => ({ ...s, [id]: v }));
+  // a count of 0 leaves the selections as they were before it (so "added to cart" still matches)
+  const set = (id: string, v: number | string) =>
+    setSelections((s) => {
+      if (v !== 0 || !id.includes("+")) return { ...s, [id]: v };
+      const rest = { ...s };
+      delete rest[id];
+      return rest;
+    });
   const goTo = (i: number) => {
     setDir(i > step ? 1 : -1);
     setStep(i);
@@ -62,7 +69,8 @@ export function AddonBuilder({ product }: { product: Product }) {
     add(product.slug, selections, defaultFulfillment(product));
     setAddedAs(JSON.stringify(selections));
   };
-  const stepOf = (addonId: string) => steps.findIndex((s) => s.addons.some((a) => a.id === addonId));
+  // a summary line's id is its add-on's, or "<add-on>+<option>" for a glass wall taken by the unit
+  const stepOf = (lineId: string) => steps.findIndex((s) => s.addons.some((a) => a.id === lineAddonId(lineId)));
 
   // keep the current step's chip in view in the rail, without moving the page
   useEffect(() => {
@@ -358,7 +366,9 @@ function AddonStep({ step, product, selections, set, giftAddon }: { step: Builde
     <div className="grid gap-3 md:grid-cols-2">
       {step.addons.map((a) => (
         <motion.div key={a.id} layout="position" className={a.kind === "choice" ? "md:col-span-2" : ""}>
-          {a.kind === "choice" ? (
+          {builderVariantQty(a) ? (
+            <ChoiceQtyGroup addon={a} max={variantMax(a)} value={(c) => Number(selections[variantKey(a, c)] ?? 0)} onChange={(c, n) => set(variantKey(a, c), n)} />
+          ) : a.kind === "choice" ? (
             <ChoiceGroup addon={a} value={String(selections[a.id] ?? a.default ?? "")} onChange={(v) => set(a.id, v)} gift={giftAddon === a.id} />
           ) : a.kind === "qty" ? (
             <QtyCard addon={a} qty={Number(selections[a.id] ?? 0)} onChange={(v) => set(a.id, v)} />
