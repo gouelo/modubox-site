@@ -15,6 +15,17 @@ import type { CartItem } from "./types";
  */
 export const GTM_ID = "GTM-MB2W45D";
 
+/**
+ * Google Search Console verification, the three tokens the old Wix site had
+ * in its <head>, kept for the domain move. Unlike GTM they render on every
+ * page, on every host.
+ */
+export const GOOGLE_SITE_VERIFICATION = [
+  "3x1zhx6XX4pD_RhRu8XTHAVdCtToUgfDKPMjtrIh5mA",
+  "9UAkG2iZZcik43ne6q9Jvdx-Je4gpOe-apKzBnN8Jsw",
+  "jEVrnbF2fsikwiEKm66FA9G6LP0IbW6oqPCzBVT-uDA",
+];
+
 export function gtmId(env: Record<string, string | undefined> = process.env): string {
   const set = env.NEXT_PUBLIC_GTM_ID?.trim();
   if (set) return /^GTM-[A-Z0-9]+$/.test(set) ? set : "";
