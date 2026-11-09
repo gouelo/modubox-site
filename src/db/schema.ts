@@ -371,6 +371,9 @@ export const leads = pgTable(
     status: text("status").$type<LeadStatus>().notNull().default("new"),
     /** the latest internal note (never shown to the customer); every note is in lead_events */
     notes: text("notes"),
+    /** deleted in the admin (round 17): kept, so history and old numbers hold, but out of every list, count and the AI's view */
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
+    deletedBy: text("deleted_by"),
   },
   (t) => [index("leads_created_at_idx").on(t.createdAt)],
 );

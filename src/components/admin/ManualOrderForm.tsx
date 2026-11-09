@@ -2,7 +2,7 @@
 
 import { useActionState, useMemo, useState } from "react";
 import { addonsFor, catalog, getProduct, plain } from "@/lib/catalog";
-import { defaultSelections, fulfillmentOptions, summarizeCart } from "@/lib/pricing";
+import { defaultSelections, fulfillmentOptions, hasVariantQty, summarizeCart, variantKey } from "@/lib/pricing";
 import type { CartItem, FulfillmentId, Selections } from "@/lib/types";
 import { createManualOrderAction } from "@/lib/admin/manual-order-actions";
 import { Feedback, Field } from "./ContentForms";
@@ -85,6 +85,29 @@ export function ManualOrderForm({ payLink }: { payLink: boolean }) {
                       <span className="flex-1">{plain(a.name)}</span>
                       <span className="text-ink-soft">{a.price === null || a.price === undefined ? "בתיאום" : `${ils(a.price)} ליח׳`}</span>
                     </label>
+                  ) : hasVariantQty(a) ? (
+                    // a quantity for each option (two glass walls, one with a shutter): priced again on the server
+                    <fieldset key={a.id} className="grid gap-1.5 text-sm">
+                      <legend className="mb-0.5">{plain(a.name)}</legend>
+                      {a.choices
+                        ?.filter((c) => c.id !== a.default)
+                        .map((c) => (
+                          <label key={c.id} className="flex items-center gap-3">
+                            <input
+                              type="number"
+                              min={0}
+                              max={a.maxQty ?? 10}
+                              value={Number(l.selections[variantKey(a, c.id)] ?? 0)}
+                              onChange={(e) => setSel(l.key, variantKey(a, c.id), Math.min(a.maxQty ?? 10, Math.max(0, Number(e.target.value) || 0)))}
+                              className="field w-20"
+                              dir="ltr"
+                              aria-label={`${plain(a.name)}: ${plain(c.label)}`}
+                            />
+                            <span className="flex-1">{plain(c.label)}</span>
+                            <span className="text-ink-soft">{c.price === null ? "בתיאום" : `${ils(c.price)} ליח׳`}</span>
+                          </label>
+                        ))}
+                    </fieldset>
                   ) : (
                     <label key={a.id} className="grid gap-1 text-sm">
                       <span>{plain(a.name)}</span>
@@ -177,11 +200,11 @@ export function ManualOrderForm({ payLink }: { payLink: boolean }) {
           <input name="discount" type="number" min={0} step={1} value={discount} onChange={(e) => setDiscount(e.target.value)} className="field" dir="ltr" />
         </Field>
         {payment === "zcredit_link" ? (
-          <Field label="תשלומים">
-            <select name="installments" defaultValue="1" className="field">
+          <Field label="עד כמה תשלומים הלקוח יכול לבחור" hint="הלקוח בוחר בדף התשלום של Z-Credit, מתשלום אחד ועד המספר הזה (תשלומים שווים, בלי קרדיט).">
+            <select name="maxInstallments" defaultValue="12" className="field">
               {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
                 <option key={n} value={n}>
-                  {n === 1 ? "תשלום אחד" : `${n} תשלומים`}
+                  {n === 1 ? "תשלום אחד בלבד" : `עד ${n} תשלומים`}
                 </option>
               ))}
             </select>

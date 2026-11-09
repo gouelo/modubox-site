@@ -144,6 +144,7 @@ export const en: Dict = {
       eyebrow: "Inspiration",
       title: "An extra room in your yard, for whatever you need",
       text: "A garden shed, a clinic, a teen room, a guest suite, a home library or an office: the same insulated structure, with the openings and extras that suit you.",
+      swipe: "Swipe for more ideas →",
     },
     how: { eyebrow: "How it works", title: "A shed made exactly for you", text: "Three simple steps, from your screen to your yard.", talk: "Talk to us" },
     video: {
@@ -165,8 +166,8 @@ export const en: Dict = {
   hero: {
     photoAlt: "A white Modubox backyard unit with dark profiles, an open door and an office inside, in a garden",
     eyebrow: "Aluminum frame · XPV insulated panels · Made in Israel",
-    lines: ["A shed or a studio,"],
-    accent: "right in your yard.",
+    lines: ["Your home,"],
+    accent: "now with one more room.",
     pitch: (from: string) => `Sheds, garden offices and backyard rooms, made to fit you with doors, windows, power, AC and flooring. From ${from}.`,
     catalog: "Shop all sheds",
     whatsapp: "Ask us on WhatsApp",
@@ -307,7 +308,6 @@ export const en: Dict = {
       in: ["XPV insulated panel walls", "A rigid plastic interior floor", "An entry door", "Skylight windows up top"],
       outTitle: "Not included – optional extras",
       out: ["Sliding windows and glass walls", "Another door or a double door", "Power, AC, ventilation and shelving", "WPC parquet floor"],
-      floorGift: "free in the current promo",
       footer: "You choose extras in the extras builder, and the price updates as you go. Delivery and installation are priced separately.",
     },
   },

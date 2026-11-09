@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { ADMIN_COOKIE, can, readSessionToken, sessionSecret, type AdminSession, type Permission } from "./auth";
+import { ADMIN_COOKIE, can, homeFor, readSessionToken, sessionSecret, type AdminSession, type Permission } from "./auth";
 
 /**
  * The signed-in admin, on the server (pages, server actions, routes). The
@@ -17,6 +17,6 @@ export async function requireAdmin(permission?: Permission): Promise<AdminSessio
   const s = await getSession();
   if (!s) redirect("/admin/login/");
   // someone without it goes to their own start page (the content role: the content module)
-  if (permission && !can(s, permission)) redirect(can(s, "orders") ? "/admin/" : "/admin/content/");
+  if (permission && !can(s, permission)) redirect(homeFor(s));
   return s;
 }

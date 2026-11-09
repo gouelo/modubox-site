@@ -105,20 +105,24 @@ export function HomePage({ locale }: { locale: Locale }) {
               <p className="mt-3 text-lg leading-8 text-white/70">{h.usesSection.text}</p>
             </div>
           </Reveal>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:grid-rows-[15rem_15rem_15rem]">
-            {USES.map((src, i) => ({ src, ...h.uses[i] })).map((u, i) => (
-              <Reveal key={u.src} delay={(i % 3) * 0.06} className={i === 0 ? "sm:col-span-2 lg:row-span-2" : ""}>
-                <figure className="group relative aspect-video overflow-hidden rounded-3xl bg-white/5 lg:aspect-auto lg:h-full">
-                  <Image src={u.src} alt={u.alt} fill sizes={i === 0 ? "(min-width:1024px) 66vw, 100vw" : "(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"} className="object-cover transition duration-[1.6s] ease-(--ease-out-expo) group-hover:scale-[1.04]" />
-                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night/85 to-transparent" />
-                  <figcaption className="absolute inset-x-4 bottom-3">
-                    <span className="block text-lg font-extrabold sm:text-xl">{u.title}</span>
-                    <span className="block text-sm text-white/75">{u.text}</span>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
-          </div>
+          {/* phones: one row to swipe (one reveal for the row, as cards off-screen would never come into view); from sm up the bento grid */}
+          <Reveal delay={0.1}>
+            <ul tabIndex={0} aria-label={h.usesSection.title} className="no-scrollbar -mx-5 mt-8 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:scroll-px-0 sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 lg:grid-rows-[15rem_15rem_15rem]">
+              {USES.map((src, i) => ({ src, ...h.uses[i] })).map((u, i) => (
+                <li key={u.src} className={`w-[84%] shrink-0 snap-start sm:w-auto ${i === 0 ? "sm:col-span-2 lg:row-span-2" : ""}`}>
+                  <figure className="group relative aspect-[4/3] overflow-hidden rounded-3xl bg-white/5 sm:aspect-video lg:aspect-auto lg:h-full">
+                    <Image src={u.src} alt={u.alt} fill sizes={i === 0 ? "(min-width:1024px) 66vw, (min-width:640px) 100vw, 84vw" : "(min-width:1024px) 33vw, (min-width:640px) 50vw, 84vw"} className="object-cover transition duration-[1.6s] ease-(--ease-out-expo) group-hover:scale-[1.04]" />
+                    <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-night/85 to-transparent" />
+                    <figcaption className="absolute inset-x-4 bottom-3">
+                      <span className="block text-lg font-extrabold sm:text-xl">{u.title}</span>
+                      <span className="block text-sm text-white/75">{u.text}</span>
+                    </figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-sm text-white/60 sm:hidden" aria-hidden="true">{h.usesSection.swipe}</p>
+          </Reveal>
         </div>
       </section>
 

@@ -164,13 +164,14 @@ export async function ProductPage({ locale, slug }: { locale: Locale; slug: stri
         </div>
       </div>
 
-      {product.category === "modubox" && <PriceIncludes product={product} />}
-
       {configurable && (
         <div className="mt-10 sm:mt-14">
           <AddonBuilder product={product} />
         </div>
       )}
+
+      {/* under the configurator (Yoel, round 17): first build it, then what the base price covers */}
+      {product.category === "modubox" && <PriceIncludes />}
 
       <section className="mt-12 grid gap-6 sm:mt-16 lg:grid-cols-[1fr_1.4fr] lg:gap-12">
         <div>

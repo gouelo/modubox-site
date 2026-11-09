@@ -1,8 +1,9 @@
+import { eq } from "drizzle-orm";
 import { beforeEach, describe, expect, it } from "vitest";
 import type { Db } from "../src/db";
 import { leads } from "../src/db/schema";
 import { can, type AdminSession } from "../src/lib/admin/auth";
-import { addLeadNote, changeLeadStatus, countNewLeads, exportLeads, getLead, leadsCsv, listAdminLeads, readLeadFilters } from "../src/lib/admin/leads";
+import { addLeadNote, changeLeadStatus, countNewLeads, deleteLead, exportLeads, getLead, leadsCsv, listAdminLeads, readLeadFilters, recentLeads } from "../src/lib/admin/leads";
 import { testDb } from "./db";
 
 // The admin's leads tab: filters, a lead's status and notes with their history, the CSV.
@@ -75,5 +76,29 @@ describe("who sees leads", () => {
     // deleting orders: the owner only
     expect(can(s("owner"), "delete_orders")).toBe(true);
     expect(can(s("manager"), "delete_orders")).toBe(false);
+  });
+});
+
+describe("deleting a lead", () => {
+  it("hides it from lists, counts, its page and the export, keeps the row, and only owner and sales may", async () => {
+    const [{ id }] = (await listAdminLeads(db, readLeadFilters({ q: "דנה" }))).rows;
+    expect(await deleteLead(db, id, "sales", new Date("2026-11-09T20:00:00Z"))).toEqual({ ok: true });
+    expect(await deleteLead(db, id)).toEqual({ ok: false, error: "not_found" });
+    expect(await deleteLead(db, Number("x"))).toEqual({ ok: false, error: "invalid" });
+    expect(await ids({})).toEqual(["=HYPERLINK(1)", "יוסי לוי"]);
+    expect((await listAdminLeads(db, readLeadFilters({}))).total).toBe(2);
+    expect(await countNewLeads(db)).toBe(2);
+    expect((await recentLeads(db)).map((l) => l.id)).not.toContain(id);
+    expect(await getLead(db, id)).toBeNull();
+    expect((await exportLeads(db, readLeadFilters({}))).map((l) => l.id)).not.toContain(id);
+    expect(await changeLeadStatus(db, id, "handled")).toEqual({ ok: false, error: "not_found" });
+    const [row] = await db.select().from(leads).where(eq(leads.id, id));
+    expect(row).toMatchObject({ name: "דנה כהן", deletedBy: "sales" });
+    expect(row.deletedAt).toEqual(new Date("2026-11-09T20:00:00Z"));
+    const s = (role: AdminSession["role"]): AdminSession => ({ user: role, role, exp: 0 });
+    expect(can(s("owner"), "delete_leads")).toBe(true);
+    expect(can(s("sales"), "delete_leads")).toBe(true);
+    expect(can(s("manager"), "delete_leads")).toBe(false);
+    expect(can(s("content"), "delete_leads")).toBe(false);
   });
 });

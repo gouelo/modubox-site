@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { can, checkPassword, createSessionToken, readSessionToken, safeNext, sessionSecret } from "../src/lib/admin/auth";
+import { ALL_PERMISSIONS, can, checkPassword, createSessionToken, homeFor, passwordRole, readSessionToken, safeNext, sessionSecret } from "../src/lib/admin/auth";
 import { allowedMoves, canTransition, STATUS_LABEL } from "../src/lib/admin/status";
 import { israelDayStart, israelDate } from "../src/lib/admin/time";
 import { csvCell } from "../src/lib/admin/csv";
@@ -42,6 +42,41 @@ describe("admin sign-in", () => {
     expect(can(content, "customers")).toBe(false);
     expect(can({ ...content, role: "owner" }, "orders")).toBe(true);
     expect(can(null, "orders")).toBe(false);
+  });
+
+  it("the sales team signs in with SALES_PASSWORD and sees only home, orders, customers, leads and coupons", async () => {
+    const both = { ...env, SALES_PASSWORD: "sales pass" };
+    expect(await passwordRole("correct horse battery", both)).toEqual({ user: "admin", role: "owner" });
+    expect(await passwordRole("sales pass", both)).toEqual({ user: "sales", role: "sales" });
+    expect(await passwordRole("sales pass", env)).toBeNull();
+    expect(await passwordRole("wrong", both)).toBeNull();
+    // the admin locked: not the sales team either
+    expect(await passwordRole("sales pass", { SALES_PASSWORD: "sales pass" })).toBeNull();
+    // the same password for both: the owner
+    expect(await passwordRole("x", { ADMIN_PASSWORD: "x", SALES_PASSWORD: "x" })).toEqual({ user: "admin", role: "owner" });
+
+    const sales = { user: "sales", role: "sales" as const, exp: 0 };
+    expect(ALL_PERMISSIONS.filter((p) => can(sales, p))).toEqual(["orders", "customers", "leads", "delete_leads", "coupons"]);
+    expect(homeFor(sales)).toBe("/admin/");
+    expect(can({ ...sales, role: "owner" }, "stats")).toBe(true);
+  });
+
+  it("a sales cookie needs SALES_PASSWORD, and ends when it changes, while the owner stays signed in", async () => {
+    const both = { ...env, SALES_PASSWORD: "sales pass" };
+    const secret = sessionSecret(both)!;
+    const now = Date.UTC(2026, 10, 9);
+    const sales = await createSessionToken(secret, "sales", "sales", now, both);
+    const owner = await createSessionToken(secret, "admin", "owner", now, both);
+    expect(await readSessionToken(secret, sales, now, both)).toMatchObject({ user: "sales", role: "sales" });
+    const changed = { ...env, SALES_PASSWORD: "new sales pass" };
+    expect(await readSessionToken(secret, sales, now, changed)).toBeNull();
+    expect(await readSessionToken(secret, sales, now, env)).toBeNull();
+    expect(await readSessionToken(secret, owner, now, changed)).toMatchObject({ role: "owner" });
+    // a sales cookie turned into an owner's
+    const [v, , sig] = sales.split(".");
+    const forged = `${v}.${Buffer.from(JSON.stringify({ user: "sales", role: "owner", exp: 9e9 })).toString("base64url")}.${sig}`;
+    expect(await readSessionToken(secret, forged, now, both)).toBeNull();
+    await expect(createSessionToken(secret, "sales", "sales", now, env)).rejects.toThrow();
   });
 
   it("goes back only to an admin page after signing in", () => {

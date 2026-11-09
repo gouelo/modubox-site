@@ -7,7 +7,7 @@ import { Icon } from "./Icon";
 /** A footprint drawn with dimension lines: "your yard's exact size". */
 function MeasuredFootprint({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 160 120" className={className} fill="none" aria-hidden="true">
+    <svg viewBox="8 0 170 112" className={className} fill="none" aria-hidden="true">
       <rect x="22" y="30" width="116" height="74" rx="3" stroke="currentColor" strokeOpacity="0.9" strokeWidth="2" strokeDasharray="6 5" />
       <rect x="22" y="30" width="116" height="74" rx="3" fill="currentColor" fillOpacity="0.08" />
       <path d="M22 14h116M22 9v10M138 9v10" stroke="var(--color-copper)" strokeWidth="1.6" />
@@ -30,7 +30,7 @@ export function CustomSizeBanner({ fixedSizes, locale, className = "" }: { fixed
     <div className={`grain relative isolate overflow-hidden rounded-[2rem] bg-petrol p-6 text-white sm:p-8 lg:p-10 ${className}`}>
       <div className="absolute -bottom-32 -end-24 -z-10 size-80 rounded-full bg-brand/30 blur-3xl" aria-hidden="true" />
       <div className="grid items-center gap-6 sm:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_auto] lg:gap-10">
-        <MeasuredFootprint className="w-32 text-glow sm:w-40" />
+        <MeasuredFootprint className="w-36 justify-self-center text-glow sm:w-40 sm:justify-self-auto" />
         <div>
           <p className="eyebrow text-glow">
             <Icon name="ruler" className="size-4 text-copper" /> {t.tagline}

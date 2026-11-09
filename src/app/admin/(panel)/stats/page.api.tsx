@@ -65,7 +65,7 @@ const pageName = (path: string) => (path === "/" ? "דף הבית" : path === "/
 
 /** The shop's numbers: visitors (the site's own cookieless count), sales, leads, clicks, and a question box. */
 export default async function StatsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  await requireAdmin("orders");
+  await requireAdmin("stats");
   const db = getDb();
   if (!db) return <NoDatabase />;
   const range = readRange((await searchParams).days);
@@ -76,10 +76,10 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
     <>
       <PageTitle
         title="נתונים"
-        sub={`${formatDay(s.days[0])} – ${formatDay(s.days[s.days.length - 1])}`}
+        sub={range === 1 ? `היום, ${formatDay(s.days[0])}` : `${formatDay(s.days[0])} – ${formatDay(s.days[s.days.length - 1])}`}
         action={
           <nav aria-label="תקופה">
-            <ul className="flex gap-2">
+            <ul className="flex flex-wrap gap-2">
               {RANGES.map((r) => (
                 <li key={r}>
                   <Link
@@ -87,7 +87,7 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
                     aria-current={range === r ? "page" : undefined}
                     className={`block rounded-full px-4 py-2 text-sm font-semibold ring-1 transition ${range === r ? "bg-ink text-white ring-ink" : "bg-white text-ink ring-line hover:ring-ink/30"}`}
                   >
-                    {r} ימים
+                    {r === 1 ? "היום" : `${r} ימים`}
                   </Link>
                 </li>
               ))}
@@ -105,16 +105,19 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
         <Tile label="יחס המרה" value={s.conversion === null ? "–" : `${(s.conversion * 100).toLocaleString("he-IL", { maximumFractionDigits: 1 })}%`} sub="הזמנות ולידים מתוך המבקרים" />
       </div>
 
-      <Section title="מבקרים ביום" className="mt-3">
-        {noVisitsYet ? (
-          <p className="text-sm text-ink-soft">עוד אין ביקורים. הספירה מתחילה מהביקור הראשון באתר אחרי העדכון הזה.</p>
-        ) : (
-          <>
-            <DailyChart data={s.daily} />
-            {partial ? <p className="mt-2 text-xs text-ink-soft">ספירת המבקרים התחילה ב־{formatDay(s.countingSince)}; אין נתונים מלפני כן.</p> : null}
-          </>
-        )}
-      </Section>
+      {/* today is one day: no chart for it */}
+      {range !== 1 ? (
+        <Section title="מבקרים ביום" className="mt-3">
+          {noVisitsYet ? (
+            <p className="text-sm text-ink-soft">עוד אין ביקורים. הספירה מתחילה מהביקור הראשון באתר אחרי העדכון הזה.</p>
+          ) : (
+            <>
+              <DailyChart data={s.daily} />
+              {partial ? <p className="mt-2 text-xs text-ink-soft">ספירת המבקרים התחילה ב־{formatDay(s.countingSince)}; אין נתונים מלפני כן.</p> : null}
+            </>
+          )}
+        </Section>
+      ) : null}
 
       <Section title="שאלו על הנתונים" className="mt-3">
         <AskBox enabled={askEnabled()} />

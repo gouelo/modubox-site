@@ -42,6 +42,30 @@ export function defaultSelections(product: Product): Selections {
   return s;
 }
 
+/**
+ * A choice add-on's options taken by the unit (round 17, for phone orders in
+ * the admin: two glass walls, a glass wall with a shutter and one without):
+ * selections["<add-on>+<choice>"] = how many. Each is its own line, priced
+ * here like everything else, so the server's price stays the authority. Not
+ * for an add-on priced by floor area (one floor per shed). The site's own
+ * builder doesn't offer it (the 3D configurator does, through its link).
+ */
+export const variantKey = (a: Pick<Addon, "id">, choiceId: string) => `${a.id}+${choiceId}`;
+export function hasVariantQty(a: Addon): boolean {
+  return a.kind === "choice" && !a.pricePerM2 && !a.areaM2;
+}
+
+function variantLines(a: Addon, selections: Selections): PriceLine[] {
+  if (!hasVariantQty(a)) return [];
+  const out: PriceLine[] = [];
+  for (const c of a.choices ?? []) {
+    const n = selections[variantKey(a, c.id)];
+    if (c.id === a.default || typeof n !== "number" || n <= 0) continue;
+    out.push({ id: variantKey(a, c.id), label: `${a.name}: ${c.label}`, qty: n, unitPrice: c.price, total: c.price === null ? null : c.price * n });
+  }
+  return out;
+}
+
 function addonLine(a: Addon, value: number | string | undefined, locale: Locale): PriceLine | null {
   if (a.kind === "choice") {
     const choice = a.choices?.find((c) => c.id === value);
@@ -86,6 +110,7 @@ export function quote(product: Product, selections: Selections, extras: DesignEx
     if (gift?.choiceAddon?.id === a.id) continue; // the gift's own line holds it, at ₪0
     const line = addonLine(a, selections[a.id], locale);
     if (line) lines.push(line);
+    lines.push(...variantLines(a, selections));
   }
   for (const x of extras) {
     if (x.qty > 0) lines.push({ id: x.id, label: extraLabel(x, product), qty: x.qty, unitPrice: x.unitPrice, total: x.unitPrice === null ? null : x.unitPrice * x.qty });

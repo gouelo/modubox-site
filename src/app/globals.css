@@ -65,6 +65,9 @@ html {
 }
 
 body {
+  /* a last guard against a stray box widening the page sideways on phones (a light strip at one edge);
+     clip, not hidden, so the sticky header keeps working. The known culprits are fixed at their source. */
+  overflow-x: clip;
   background: #fff;
   color: var(--color-ink);
   font-feature-settings: "kern";
@@ -85,6 +88,10 @@ h2 {
 
 @utility container-x {
   @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+}
+/* wider than the page's content: the header and the home hero, so on wide screens they reach out towards the edges (round 17) */
+@utility container-wide {
+  @apply mx-auto w-full max-w-[112rem] px-5 sm:px-6 lg:px-10 xl:px-14;
 }
 @utility font-display {
   font-family: var(--font-display);

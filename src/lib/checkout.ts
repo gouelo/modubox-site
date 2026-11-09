@@ -2,7 +2,7 @@ import type { Locale } from "@/i18n/config";
 import { addonsFor, getProduct, plain, site } from "./catalog";
 import { applyCoupon, israelToday, type AppliedCoupon, type CouponError, type CouponMap } from "./coupons";
 import { CONFIGURATOR_ORIGIN, designToCartItem, parseDesign } from "./configurator";
-import { fulfillmentOptions, summarizeCart, type CartSummary } from "./pricing";
+import { fulfillmentOptions, hasVariantQty, summarizeCart, variantKey, type CartSummary } from "./pricing";
 import type { CartItem, DesignExtra, FulfillmentId, Product, Selections } from "./types";
 import type { Customer } from "./whatsapp";
 
@@ -74,6 +74,8 @@ export interface PricedOrder {
   locale: Locale;
   customer: Customer;
   installments: number;
+  /** set: the customer picks 1 to this many installments on Z-Credit's page (a payment link from the admin); `installments` is then 1 */
+  installmentsUpTo?: number;
   cart: CartSummary;
   /** the coupon applied, with its discount in whole shekels */
   coupon: AppliedCoupon | null;
@@ -129,6 +131,12 @@ export function cleanSelections(product: Product, raw: unknown): Selections {
       const fallback = a.default ?? a.choices?.[0]?.id;
       if (choice) out[a.id] = choice.id;
       else if (fallback) out[a.id] = fallback;
+      // an option by the unit (variantKey): only a real, priced option, up to the add-on's limit
+      if (hasVariantQty(a))
+        for (const c of a.choices ?? []) {
+          const n = int(input[variantKey(a, c.id)]);
+          if (c.id !== a.default && n > 0) out[variantKey(a, c.id)] = Math.min(n, a.maxQty ?? MAX_QTY);
+        }
     } else if (a.kind === "toggle") {
       if (v === 1) out[a.id] = 1;
     } else {

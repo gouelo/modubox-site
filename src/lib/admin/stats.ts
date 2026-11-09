@@ -1,12 +1,13 @@
-import { and, count, countDistinct, desc, eq, gte, inArray, isNotNull, sql, sum } from "drizzle-orm";
+import { and, count, countDistinct, desc, eq, gte, inArray, isNotNull, isNull, sql, sum } from "drizzle-orm";
 import type { Db } from "@/db";
 import { leads, orderItems, orders, visits, type VisitChannel } from "@/db/schema";
 import { SALE_STATUSES } from "./status";
 import { israelDate, israelDayStart } from "./time";
 
-/** The "נתונים" page (/admin/stats): the shop's numbers for the last 7, 30 or 90 days. Server code only. */
+/** The "נתונים" page (/admin/stats): the shop's numbers for today, or the last 7, 30 or 90 days. Server code only. */
 
-export const RANGES = [7, 30, 90] as const;
+/** 1: today (Israel time), from midnight */
+export const RANGES = [1, 7, 30, 90] as const;
 export type Range = (typeof RANGES)[number];
 
 export function readRange(v: string | string[] | undefined): Range {
@@ -69,7 +70,7 @@ export async function stats(db: Db, range: Range, now = new Date()): Promise<Sta
       .where(views)
       .groupBy(visits.day),
     db.select({ n: count(), amount: sum(orders.total) }).from(orders).where(sold),
-    db.select({ n: count() }).from(leads).where(gte(leads.createdAt, since)),
+    db.select({ n: count() }).from(leads).where(and(gte(leads.createdAt, since), isNull(leads.deletedAt))),
     db
       .select({ kind: visits.kind, n: count() })
       .from(visits)
@@ -131,4 +132,16 @@ export async function stats(db: Db, range: Range, now = new Date()): Promise<Sta
     sources: share(sources, (l) => CHANNEL_LABEL[l as VisitChannel] ?? l),
     devices: share(devices, (l) => DEVICE_LABEL[l] ?? l),
   };
+}
+
+/** Visitors today and in the last 7 days (today included), for the owner's home page. */
+export async function visitorsSummary(db: Db, now = new Date()): Promise<{ today: number; week: number }> {
+  const days = rangeDays(7, now);
+  const rows = await db
+    .select({ day: visits.day, visitors: countDistinct(visits.visitor) })
+    .from(visits)
+    .where(and(gte(visits.day, days[0]), eq(visits.kind, "pageview")))
+    .groupBy(visits.day);
+  const today = days[days.length - 1];
+  return { today: Number(rows.find((r) => r.day === today)?.visitors ?? 0), week: rows.reduce((s, r) => s + Number(r.visitors), 0) };
 }

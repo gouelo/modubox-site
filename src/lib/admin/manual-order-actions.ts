@@ -34,7 +34,7 @@ export async function createManualOrderAction(_: ActionState, form: FormData): P
     source: str(form, "source") as OrderSource,
     payment,
     paid: payment !== "zcredit_link" && form.get("paid") === "on",
-    installments: Number(str(form, "installments")) || 1,
+    maxInstallments: Number(str(form, "maxInstallments")) || 12,
   };
   const priced = priceManualOrder(input, await activeCoupons(db));
   if (!priced.ok) return { error: priced.error };

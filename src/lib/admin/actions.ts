@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/db";
 import { addNote, changeStatus, deleteOrders, type ChangeResult } from "../orders";
-import { ADMIN_COOKIE, checkPassword, createSessionToken, safeNext, SESSION_DAYS, sessionSecret } from "./auth";
+import { ADMIN_COOKIE, createSessionToken, passwordRole, safeNext, SESSION_DAYS, sessionSecret } from "./auth";
 import { requireAdmin } from "./session";
 import { isStatus } from "./status";
 
@@ -21,13 +21,14 @@ export interface ActionState {
 export async function loginAction(_: ActionState, form: FormData): Promise<ActionState> {
   const secret = sessionSecret();
   if (!secret) return { error: "הממשק נעול: עוד לא הוגדרה סיסמה (ADMIN_PASSWORD ב־Vercel)." };
-  if (!(await checkPassword(String(form.get("password") ?? "")))) {
+  const who = await passwordRole(String(form.get("password") ?? ""));
+  if (!who) {
     // a little slower for guessing
     await new Promise((r) => setTimeout(r, 600));
     return { error: "הסיסמה לא נכונה. נסו שוב." };
   }
   const jar = await cookies();
-  jar.set(ADMIN_COOKIE, await createSessionToken(secret, "admin", "owner"), {
+  jar.set(ADMIN_COOKIE, await createSessionToken(secret, who.user, who.role), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

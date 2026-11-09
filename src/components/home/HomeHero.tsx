@@ -34,6 +34,11 @@ const PHOTO = "renders/garden-office-white.webp";
  * stops it at its end. In English (left to right) the stage mirrors: the photo
  * bleeds in from the right edge (its empty right sixth off screen) and fades
  * into the dark on the left, under the text.
+ *
+ * Round 17: the text column follows the wide header (container-wide), so on
+ * wide screens it sits near the edge instead of leaving an empty dark band;
+ * on phones the photo's box clips it and the drift is off, so no seam shows
+ * between the photo and the stats.
  */
 export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes: number; range: string }) {
   const ref = useRef<HTMLElement>(null);
@@ -50,7 +55,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
     <section ref={ref} className="relative isolate -mt-16 overflow-hidden bg-night text-white lg:-mt-[72px]">
       <div className="absolute -top-48 start-[-10%] -z-10 size-[44rem] rounded-full bg-brand/25 blur-3xl" aria-hidden="true" />
       <div className="flex flex-col lg:relative lg:h-(--hero-h) lg:[--hero-h:clamp(32rem,100svh,42vw)] lg:justify-center lg:pt-[72px]">
-        <div className="container-x grid gap-6 pt-24 lg:relative lg:z-10 lg:grid-cols-[minmax(0,40rem)] lg:gap-0 lg:pt-0">
+        <div className="container-wide grid gap-6 pt-24 lg:relative lg:z-10 lg:grid-cols-[minmax(0,46rem)] lg:gap-0 lg:pt-0">
           <div>
             <p className="eyebrow text-glow">
               <span className="h-px w-8 bg-glow/70" aria-hidden="true" /> {h.eyebrow}
@@ -60,7 +65,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
                 lines={h.lines}
                 accent={h.accent}
                 // English runs longer than Hebrew: a step smaller from lg up, so the two lines stay clear of the photo
-                size={`text-[2.75rem] sm:text-7xl lg:whitespace-nowrap ${locale === "he" ? "lg:text-[3.75rem] xl:text-[4.75rem]" : "lg:text-[3.25rem] xl:text-[4.25rem]"}`}
+                size={`text-[2.75rem] sm:text-7xl lg:whitespace-nowrap ${locale === "he" ? "lg:text-[3.25rem] xl:text-[4.25rem] 2xl:text-[5.5rem]" : "lg:text-[2.75rem] xl:text-[3.5rem] 2xl:text-[4.5rem]"}`}
               />
             </div>
           </div>
@@ -87,8 +92,9 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
           </Reveal>
         </div>
 
-        <div className="relative mx-auto mt-8 aspect-[4/3] w-full sm:aspect-[16/9] lg:absolute lg:bottom-0 lg:left-[calc(3vw-var(--photo-h)*0.356)] lg:mx-0 lg:mt-0 lg:aspect-video lg:h-(--photo-h) lg:w-auto lg:overflow-hidden lg:[--photo-h:min(var(--hero-h),40vw)] lg:[mask-image:linear-gradient(to_left,transparent,black_16%)] lg:ltr:right-[calc(3vw-var(--photo-h)*0.32)] lg:ltr:left-auto lg:ltr:[mask-image:linear-gradient(to_right,transparent,black_16%)]">
-          <motion.div style={{ y }} className="absolute inset-0">
+        <div className="relative mx-auto mt-8 aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:absolute lg:bottom-0 lg:left-[calc(3vw-var(--photo-h)*0.356)] lg:mx-0 lg:mt-0 lg:aspect-video lg:h-(--photo-h) lg:w-auto lg:[--photo-h:min(var(--hero-h),40vw)] lg:[mask-image:linear-gradient(to_left,transparent,black_16%)] lg:ltr:right-[calc(3vw-var(--photo-h)*0.32)] lg:ltr:left-auto lg:ltr:[mask-image:linear-gradient(to_right,transparent,black_16%)]">
+          {/* the drift is for the desktop stage only: on a phone the photo's box would slide off its edge and leave a seam above the stats */}
+          <motion.div style={{ y }} className="absolute inset-0 max-lg:transform-none!">
             <Image
               src={PHOTO}
               alt={h.photoAlt}
@@ -99,7 +105,7 @@ export function HomeHero({ fromPrice, sizes, range }: { fromPrice: string; sizes
             />
           </motion.div>
           <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-night to-transparent lg:h-40" aria-hidden="true" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-night/80 to-transparent lg:h-40 lg:from-night" aria-hidden="true" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-night to-transparent lg:h-40" aria-hidden="true" />
           <div className="container-x absolute inset-x-0 bottom-4 sm:bottom-6 lg:hidden">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-night/60 px-3 py-1.5 text-xs font-semibold ring-1 ring-white/15 backdrop-blur-md sm:text-sm">
               <Icon name="sparkle" className="size-4 text-glow" /> {h.caption}

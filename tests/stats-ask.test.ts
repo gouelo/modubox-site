@@ -38,6 +38,8 @@ async function seed() {
   await db.insert(leads).values([
     { kind: "contact", name: "יוסי", phone: "050-0000000", createdAt: daysAgo(2), attribution: { utm_source: "google", gclid: "x" } },
     { kind: "order", name: "רות", phone: "050-1111111", createdAt: daysAgo(50) },
+    // deleted in the admin: in no count, and not in the AI's view
+    { kind: "contact", name: "נמחק", phone: "050-2222222", createdAt: daysAgo(1), deletedAt: daysAgo(0), deletedBy: "sales" },
   ]);
   const v = (day: string, visitor: string, o: Partial<typeof visits.$inferInsert> = {}) => ({ day, visitor, kind: "pageview" as const, path: "/", device: "mobile" as const, ...o });
   await db.insert(visits).values([
@@ -58,6 +60,7 @@ describe("stats page numbers", () => {
   });
 
   it("reads the range", () => {
+    expect(readRange("1")).toBe(1);
     expect(readRange("7")).toBe(7);
     expect(readRange("90")).toBe(90);
     expect(readRange("12")).toBe(30);
@@ -138,6 +141,7 @@ describe("the AI's read-only SQL", () => {
     const addons = await runReadOnly(db, "select label, gift from order_item_addons order by label");
     expect(addons.ok && addons.rows).toHaveLength(3);
     expect((await runReadOnly(db, "select customer_name from orders")).ok).toBe(false);
+    expect(await runReadOnly(db, "select count(*)::int as n from leads")).toEqual({ ok: true, rows: [{ n: 2 }], truncated: false });
     expect((await runReadOnly(db, "select customer_phone from orders")).ok).toBe(false);
     expect((await runReadOnly(db, "select name from leads")).ok).toBe(false);
     expect((await runReadOnly(db, "select * from coupons")).ok).toBe(false);
