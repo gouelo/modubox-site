@@ -20,7 +20,7 @@ function longDate(iso: string, locale: Locale): string {
 }
 
 /** When the privacy policy last changed (content/privacy.md). */
-const PRIVACY_UPDATED = "2026-11-04";
+const PRIVACY_UPDATED = "2026-11-09";
 
 /** The values a page's {{placeholders}} take (the accessibility statement's contact details). */
 function vars(locale: Locale): Record<string, string> {

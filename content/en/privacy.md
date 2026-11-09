@@ -16,6 +16,7 @@ You are not legally required to give us these details, but without them we can't
 
 - **Cookies and browsing data:** IP address, browser and device type, the pages you visit, where you came from, and what you do on the site (for example adding to the cart or tapping WhatsApp). See Cookies below.
 - **Your cart** is kept only in your own browser (localStorage) until you order or empty it.
+- **Anonymous, cookieless visit statistics:** the site itself counts which pages are viewed, which site you came from (e.g. Google), your device type (phone or computer) and taps on WhatsApp and phone. No IP address, browser details or cookie is stored: only a scrambled identifier that changes every day, so you can't be identified or followed from one day to the next.
 
 ## What we use it for
 

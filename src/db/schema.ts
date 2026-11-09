@@ -401,3 +401,49 @@ export const leadEvents = pgTable(
 );
 
 export type LeadEvent = typeof leadEvents.$inferSelect;
+
+/*
+ * The site's own visit statistics (/admin/stats), cookieless: no cookie, no
+ * raw IP or user agent is ever kept. A visitor is a hash of the day's random
+ * salt, the IP and the user agent, so the same person counts once a day and
+ * can't be followed from one day to the next (the salts are deleted after
+ * two days). Counting started on the day this shipped; there is no history.
+ */
+export const VISIT_KINDS = ["pageview", "whatsapp_click", "phone_click"] as const;
+export type VisitKind = (typeof VISIT_KINDS)[number];
+
+/** Where a visit came from, grouped (src/lib/visits.ts channelOf). */
+export const VISIT_CHANNELS = ["google", "facebook", "direct", "other"] as const;
+export type VisitChannel = (typeof VISIT_CHANNELS)[number];
+
+export const visits = pgTable(
+  "visits",
+  {
+    id: serial("id").primaryKey(),
+    at: timestamp("at", { withTimezone: true }).notNull().defaultNow(),
+    /** YYYY-MM-DD in Israel */
+    day: text("day").notNull(),
+    kind: text("kind").$type<VisitKind>().notNull(),
+    /** the page, without its query: "/product/modubox-3x3/" */
+    path: text("path").notNull(),
+    /** another site's host the visitor came from ("www.google.com"); null: none, or a page of this site */
+    referrerHost: text("referrer_host"),
+    utmSource: text("utm_source"),
+    utmMedium: text("utm_medium"),
+    /** a page load's source (VISIT_CHANNELS); null on a move inside the site and on clicks */
+    channel: text("channel").$type<VisitChannel>(),
+    /** "mobile" (phones and tablets) or "desktop" */
+    device: text("device").$type<"mobile" | "desktop">().notNull(),
+    /** sha256(day's salt + IP + user agent), 16 hex characters */
+    visitor: text("visitor").notNull(),
+  },
+  (t) => [index("visits_day_idx").on(t.day, t.kind), index("visits_at_idx").on(t.at)],
+);
+
+/** One random salt a day for the visitor hash; deleted after two days. */
+export const visitSalts = pgTable("visit_salts", {
+  day: text("day").primaryKey(),
+  salt: text("salt").notNull(),
+});
+
+export type Visit = typeof visits.$inferSelect;

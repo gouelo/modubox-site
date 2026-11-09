@@ -21,7 +21,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
           </Link>
           <AdminNav perms={perms} />
           <div className="flex items-center gap-1">
-            <a href="/" target="_blank" rel="noopener" className="hidden rounded-full px-3 py-2 text-sm text-white/80 hover:bg-white/10 sm:block">
+            <a href="/" target="_blank" rel="noopener" className="hidden whitespace-nowrap rounded-full px-3 py-2 text-sm text-white/80 hover:bg-white/10 sm:block">
               לאתר ↗
             </a>
             <form action={logoutAction}>
