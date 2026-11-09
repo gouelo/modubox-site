@@ -145,7 +145,9 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
             <Row label="אספקה והתקנה">{o.fulfillmentTotal ? ils(o.fulfillmentTotal) : "—"}</Row>
             <Row label="קופון">{o.couponCode ? `${o.couponCode} (−${ils(o.discount)})` : null}</Row>
             <Row label="שולם">{paid ? <>{ils(o.total)} · <bdi>{formatDateTime(o.paidAt)}</bdi></> : "עוד לא"}</Row>
-            <Row label="תשלומים">{(o.paidInstallments ?? o.installments) > 1 ? `${o.paidInstallments ?? o.installments} תשלומים` : "תשלום אחד"}</Row>
+            <Row label="תשלומים">
+              {o.payment === "zcredit_link" && !o.paidAt ? "הלקוח בוחר בדף התשלום" : (o.paidInstallments ?? o.installments) > 1 ? `${o.paidInstallments ?? o.installments} תשלומים` : "תשלום אחד"}
+            </Row>
             <Row label="למתקין ביום ההתקנה">{o.payLater ? ils(o.payLater) : null}</Row>
             <Row label="אמצעי תשלום">{[paymentMethodLabel(o.paymentMethod), o.card, o.paymentMethod === null ? paymentLabel(o.payment) : ""].filter(Boolean).join(" · ")}</Row>
             <Row label="אסמכתא Z-Credit">{o.zcreditReference ? <span dir="ltr">{o.zcreditReference}</span> : null}</Row>
@@ -212,7 +214,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
               <div className={`text-[15px] ${e.kind === "note" ? "rounded-lg bg-copper-tint/60 px-3 py-2" : ""}`}>{eventText(e)}</div>
               <div className="mt-0.5 text-xs text-ink-soft">
                 <bdi>{formatDateTime(e.at)}</bdi>
-                {e.actor !== "system" ? ` · ${e.actor === "admin" ? "ניהול" : e.actor}` : ""}
+                {e.actor !== "system" ? ` · ${e.actor === "admin" ? "ניהול" : e.actor === "sales" ? "מכירות" : e.actor}` : ""}
               </div>
             </li>
           ))}

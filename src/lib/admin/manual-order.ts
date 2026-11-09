@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import type { Db } from "@/db";
 import { orderEvents, orderItems, orders, ORDER_SOURCES, type OrderSource } from "@/db/schema";
-import { priceCart, validPhone, newOrderId, type PricedOrder } from "../checkout";
+import { MAX_INSTALLMENTS, priceCart, validPhone, newOrderId, type PricedOrder } from "../checkout";
 import type { CouponMap } from "../coupons";
 import { orderRows } from "../orders";
 import { MANUAL_PAYMENTS, PAYMENT_LABEL, type ManualPayment } from "./status";
@@ -28,7 +28,8 @@ export interface ManualOrderInput {
   payment: ManualPayment;
   /** already paid (a transfer that arrived, cash) */
   paid: boolean;
-  installments?: number;
+  /** a Z-Credit link: the customer picks 1 to this many regular installments on the payment page (default 12) */
+  maxInstallments?: number;
 }
 
 export type ManualPriced = { ok: true; order: PricedOrder; couponCode: string | null; manualDiscount: number } | { ok: false; error: string };
@@ -58,11 +59,13 @@ export function priceManualOrder(input: ManualOrderInput, coupons: CouponMap): M
   if (!(Number.isInteger(discount) && discount >= 0)) return { ok: false, error: "הנחה: מספר שלם בשקלים." };
   const couponAmount = priced.coupon?.amount ?? 0;
   if (couponAmount + discount > priced.cart.total - 1) return { ok: false, error: "ההנחה גדולה מהמחיר." };
-  const n = input.installments ?? 1;
+  const max = input.maxInstallments ?? MAX_INSTALLMENTS;
   const order: PricedOrder = {
     locale: "he",
     customer,
-    installments: Number.isInteger(n) && n >= 1 && n <= 12 ? n : 1,
+    // the number is the customer's, on Z-Credit's page (the callback records it); here only the most they may pick
+    installments: 1,
+    installmentsUpTo: Number.isInteger(max) && max >= 1 && max <= MAX_INSTALLMENTS ? max : MAX_INSTALLMENTS,
     cart: priced.cart,
     // one discount line for Z-Credit: the coupon and the phone deal together
     coupon: couponAmount + discount ? { code: priced.coupon?.code ?? "MANUAL", amount: couponAmount + discount, delivery: priced.coupon?.delivery ?? true } : null,

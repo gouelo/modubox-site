@@ -83,8 +83,8 @@ export function LeadForm({ product, dark = false }: { product?: string; dark?: b
         <span className={label}>{l.city}</span>
         <input name="city" autoComplete="address-level2" className="field" placeholder={l.cityPh} />
       </label>
-      {/* honeypot: hidden from people, filled in by bots */}
-      <div aria-hidden="true" className="absolute -start-[9999px] h-px w-px overflow-hidden">
+      {/* honeypot: hidden from people, filled in by bots. Clipped in place, not pushed 9999px aside: in Hebrew "start" is the right, and a box out there can widen the page on phones */}
+      <div aria-hidden="true" className="pointer-events-none absolute start-0 top-0 h-px w-px overflow-hidden opacity-0 [clip-path:inset(50%)]">
         <label>
           Website
           <input name="website" tabIndex={-1} autoComplete="off" />

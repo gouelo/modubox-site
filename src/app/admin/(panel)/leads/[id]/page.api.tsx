@@ -3,9 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDb } from "@/db";
 import type { LeadEvent } from "@/db/schema";
+import { ConfirmForm } from "@/components/admin/ContentForms";
 import { LeadNoteForm, LeadStatusButtons } from "@/components/admin/LeadForms";
 import { LeadBadge, NoDatabase, Row, Section } from "@/components/admin/ui";
 import { getLead, LEAD_STATUS_LABEL, leadSource, leadStatus } from "@/lib/admin/leads";
+import { can } from "@/lib/admin/auth";
+import { deleteLeadAction } from "@/lib/admin/lead-actions";
 import { requireAdmin } from "@/lib/admin/session";
 import { formatDateTime } from "@/lib/admin/time";
 import { LEAD_KIND_LABELS } from "@/lib/leads";
@@ -23,7 +26,7 @@ function eventText(e: LeadEvent): string {
 }
 
 export default async function LeadPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireAdmin("leads");
+  const session = await requireAdmin("leads");
   const db = getDb();
   if (!db) return <NoDatabase />;
   const full = await getLead(db, Number((await params).id));
@@ -124,12 +127,22 @@ export default async function LeadPage({ params }: { params: Promise<{ id: strin
               <div className={`whitespace-pre-wrap text-[15px] ${"note" in e && e.note ? "rounded-lg bg-copper-tint/60 px-3 py-2" : ""}`}>{e.text}</div>
               <div className="mt-0.5 text-xs text-ink-soft">
                 <bdi>{formatDateTime(e.at)}</bdi>
-                {e.actor !== "system" ? ` · ${e.actor === "admin" ? "ניהול" : e.actor}` : ""}
+                {e.actor !== "system" ? ` · ${e.actor === "admin" ? "ניהול" : e.actor === "sales" ? "מכירות" : e.actor}` : ""}
               </div>
             </li>
           ))}
         </ol>
       </Section>
+
+      {can(session, "delete_leads") ? (
+        <ConfirmForm action={deleteLeadAction} confirm={`למחוק את הליד #${l.id} של ${l.name}?`} className="pt-2 text-center">
+          <input type="hidden" name="id" value={l.id} />
+          <button type="submit" className="min-h-11 rounded-full px-5 text-sm font-semibold text-rose-700 ring-1 ring-rose-200 hover:bg-rose-50">
+            🗑 מחיקת הליד
+          </button>
+          <p className="mt-1 text-xs text-ink-soft">הליד יוסתר מהרשימה, מהספירות ומהנתונים.</p>
+        </ConfirmForm>
+      ) : null}
     </div>
   );
 }

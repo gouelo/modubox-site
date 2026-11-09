@@ -49,9 +49,11 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
             <Link href="/admin/orders/new/" className="btn-brand min-h-11 px-4 text-sm">
               + הזמנה חדשה
             </Link>
-            <a href={`/admin/export/${filtersQuery({ ...f, page: 1 })}`} className="btn-ghost min-h-11 px-4 text-sm">
-              ⬇ ייצוא לאקסל (CSV)
-            </a>
+            {can(session, "export") ? (
+              <a href={`/admin/export/${filtersQuery({ ...f, page: 1 })}`} className="btn-ghost min-h-11 px-4 text-sm">
+                ⬇ ייצוא לאקסל (CSV)
+              </a>
+            ) : null}
           </div>
         }
       />

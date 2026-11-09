@@ -15,7 +15,7 @@ const allow = rateLimiter(30, 10 * 60_000);
 /** Body: { question }. Answers { ok: true, answer } or { ok: false, error, message } (the message is for the box, in Hebrew). */
 export async function POST(req: Request) {
   const session = await getSession();
-  if (!can(session, "orders")) return json({ error: "unauthorized" }, 401);
+  if (!can(session, "stats")) return json({ error: "unauthorized" }, 401);
   let question = "";
   try {
     const body = (await req.json()) as { question?: unknown };

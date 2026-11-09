@@ -1,4 +1,4 @@
-import { desc, eq, ilike, or } from "drizzle-orm";
+import { and, desc, eq, ilike, isNull, or } from "drizzle-orm";
 import type { Db } from "@/db";
 import { LEAD_KINDS, leads, type Lead, type LeadAttribution, type LeadKind } from "@/db/schema";
 import { validPhone } from "./phone";
@@ -126,7 +126,8 @@ export async function handleLead(db: Db | null, lead: NewLead, origin: string, n
 export async function listLeads(db: Db, q = "", limit = 200): Promise<Lead[]> {
   const like = `%${q.replace(/[%_\\]/g, (c) => `\\${c}`)}%`;
   const where = q ? or(ilike(leads.name, like), ilike(leads.phone, like), ilike(leads.email, like), ilike(leads.city, like), ilike(leads.product, like)) : undefined;
-  return db.select().from(leads).where(where).orderBy(desc(leads.createdAt), desc(leads.id)).limit(limit);
+  // leads deleted in the admin stay out
+  return db.select().from(leads).where(and(where, isNull(leads.deletedAt))).orderBy(desc(leads.createdAt), desc(leads.id)).limit(limit);
 }
 
 export const LEAD_KIND_LABELS: Record<LeadKind, string> = LEAD_SOURCES;

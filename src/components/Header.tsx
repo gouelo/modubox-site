@@ -65,7 +65,7 @@ export function Header() {
         overHero ? "border-transparent bg-transparent text-white" : `bg-white/90 text-ink backdrop-blur-xl ${scrolled ? "border-line" : "border-transparent"}`
       }`}
     >
-      <div className="container-x flex h-16 items-center gap-3 lg:h-[72px]">
+      <div className="container-wide flex h-16 items-center gap-3 lg:h-[72px]">
         <button
           className="-ms-2 grid size-11 place-items-center rounded-full lg:hidden"
           aria-label={t.header.openMenu}
@@ -79,13 +79,13 @@ export function Header() {
         <Link href={home} className="shrink-0" aria-label={t.header.logoHome}>
           <Logo white={overHero} alt="" className="h-7 w-auto lg:h-8" />
         </Link>
-        <nav className="ms-6 hidden items-center gap-1 lg:flex" aria-label={t.header.mainNav}>
+        <nav className="ms-3 hidden items-center gap-0.5 lg:flex xl:ms-6 xl:gap-1" aria-label={t.header.mainNav}>
           {NAV.map((n) => (
             <Link
               key={n.href}
               href={n.href}
               aria-current={pathname.startsWith(n.href) ? "page" : undefined}
-              className={`rounded-full px-3.5 py-2 text-[15px] font-semibold transition ${
+              className={`whitespace-nowrap rounded-full px-2.5 py-2 text-[15px] font-semibold transition xl:px-3.5 ${
                 overHero ? "text-white/90 hover:bg-white/10" : pathname.startsWith(n.href) ? "text-brand-dark hover:bg-sand" : "text-ink/85 hover:bg-sand"
               }`}
             >
@@ -95,7 +95,7 @@ export function Header() {
         </nav>
         <div className="ms-auto flex items-center gap-2">
           <LangSwitch className={overHero ? "hover:bg-white/10" : "hover:bg-sand"} />
-          <a href={`tel:${site.phone}`} className={`hidden items-center gap-2 rounded-full px-3 py-2 text-[15px] font-bold sm:flex ${overHero ? "hover:bg-white/10" : "hover:bg-sand"}`} dir="ltr">
+          <a href={`tel:${site.phone}`} className={`hidden items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-[15px] font-bold sm:flex ${overHero ? "hover:bg-white/10" : "hover:bg-sand"}`} dir="ltr">
             <Icon name="phone" className={`size-4 ${overHero ? "text-glow" : "text-brand-dark"}`} />
             {site.phone}
           </a>

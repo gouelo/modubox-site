@@ -1,4 +1,4 @@
-import { and, count, desc, eq, gte, ilike, lt, or, type SQL } from "drizzle-orm";
+import { and, count, desc, eq, gte, ilike, isNull, lt, or, type SQL } from "drizzle-orm";
 import type { Db } from "@/db";
 import { leadEvents, leads, type Lead, type LeadEvent, type LeadStatus } from "@/db/schema";
 import { isLeadStatus, LEAD_STATUS_LABEL, leadStatus } from "./lead-status";
@@ -51,8 +51,11 @@ export function leadFiltersQuery(f: Partial<LeadFilters>): string {
   return s ? `?${s}` : "";
 }
 
+/** Leads not deleted in the admin: every list, count and export reads only these. */
+export const liveLead = isNull(leads.deletedAt);
+
 function where(f: LeadFilters): SQL | undefined {
-  const conds: (SQL | undefined)[] = [];
+  const conds: (SQL | undefined)[] = [liveLead];
   if (f.status !== "all") conds.push(eq(leads.status, f.status));
   if (f.from) conds.push(gte(leads.createdAt, israelDayStart(f.from)));
   if (f.to) conds.push(lt(leads.createdAt, israelDayStart(nextDay(f.to))));
@@ -91,15 +94,20 @@ export async function listAdminLeads(db: Db, f: LeadFilters): Promise<{ rows: Le
   return { rows, total: Number(n) };
 }
 
-/** Leads no one has handled yet, for the dashboard. */
-export async function countNewLeads(db: Db): Promise<number> {
-  const [r] = await db.select({ n: count() }).from(leads).where(eq(leads.status, "new"));
+/** Leads in one status (by default those no one has handled yet), for the home page. */
+export async function countNewLeads(db: Db, status: LeadStatus = "new"): Promise<number> {
+  const [r] = await db.select({ n: count() }).from(leads).where(and(eq(leads.status, status), liveLead));
   return Number(r?.n ?? 0);
+}
+
+/** The latest leads, for the home page. */
+export async function recentLeads(db: Db, limit = 5): Promise<Lead[]> {
+  return db.select().from(leads).where(liveLead).orderBy(desc(leads.createdAt), desc(leads.id)).limit(limit);
 }
 
 export async function getLead(db: Db, id: number): Promise<{ lead: Lead; events: LeadEvent[] } | null> {
   if (!Number.isSafeInteger(id) || id < 1) return null;
-  const [lead] = await db.select().from(leads).where(eq(leads.id, id));
+  const [lead] = await db.select().from(leads).where(and(eq(leads.id, id), liveLead));
   if (!lead) return null;
   const events = await db.select().from(leadEvents).where(eq(leadEvents.leadId, id)).orderBy(leadEvents.at, leadEvents.id);
   return { lead, events };
@@ -111,7 +119,7 @@ export type LeadChange = { ok: true } | { ok: false; error: "not_found" | "inval
 export async function changeLeadStatus(db: Db, id: number, to: LeadStatus, actor = "admin", now = new Date()): Promise<LeadChange> {
   if (!isLeadStatus(to)) return { ok: false, error: "invalid" };
   return db.transaction(async (tx) => {
-    const [row] = await tx.select().from(leads).where(eq(leads.id, id)).for("update");
+    const [row] = await tx.select().from(leads).where(and(eq(leads.id, id), liveLead)).for("update");
     if (!row) return { ok: false, error: "not_found" } as const;
     const from = leadStatus(row.status);
     if (from === to) return { ok: true } as const;
@@ -125,10 +133,21 @@ export async function changeLeadStatus(db: Db, id: number, to: LeadStatus, actor
 export async function addLeadNote(db: Db, id: number, text: string, actor = "admin", now = new Date()): Promise<LeadChange> {
   const note = text.trim().slice(0, 2000);
   if (!note) return { ok: false, error: "invalid" };
-  const [row] = await db.update(leads).set({ notes: note }).where(eq(leads.id, id)).returning({ id: leads.id });
+  const [row] = await db.update(leads).set({ notes: note }).where(and(eq(leads.id, id), liveLead)).returning({ id: leads.id });
   if (!row) return { ok: false, error: "not_found" };
   await db.insert(leadEvents).values({ leadId: id, kind: "note", text: note, actor, at: now });
   return { ok: true };
+}
+
+/**
+ * Deletes a lead from the admin (owner and sales, round 17): a soft delete.
+ * The row stays (deleted_at, deleted_by) so its history and past numbers hold,
+ * but it leaves every list, count, export and the AI questions' view.
+ */
+export async function deleteLead(db: Db, id: number, actor = "admin", now = new Date()): Promise<LeadChange> {
+  if (!Number.isSafeInteger(id) || id < 1) return { ok: false, error: "invalid" };
+  const [row] = await db.update(leads).set({ deletedAt: now, deletedBy: actor }).where(and(eq(leads.id, id), liveLead)).returning({ id: leads.id });
+  return row ? { ok: true } : { ok: false, error: "not_found" };
 }
 
 /** The UTM and click ids a lead came with, as one line ("google / cpc · summer · Google Ads"). */

@@ -90,7 +90,7 @@ export interface Addon {
   areaM2?: number;
 }
 
-/** toggle → 0/1, qty → count, choice → choice id */
+/** toggle → 0/1, qty → count, choice → choice id; and "<choice add-on>+<choice>" → how many of that option (variantKey in pricing.ts) */
 export type Selections = Record<string, number | string>;
 
 export type FulfillmentId = "pickup" | "delivery" | "installation" | "deliveryAndInstallation";

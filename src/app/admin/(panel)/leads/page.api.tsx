@@ -1,46 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDb } from "@/db";
-import { LEAD_STATUSES, type Lead } from "@/db/schema";
-import { Empty, LeadBadge, NoDatabase, PageTitle } from "@/components/admin/ui";
-import { LEAD_KIND_LABELS } from "@/lib/leads";
+import { LEAD_STATUSES } from "@/db/schema";
+import { Empty, LeadCard, NoDatabase, PageTitle } from "@/components/admin/ui";
 import { LEAD_STATUS_LABEL, leadFiltersQuery, LEADS_PAGE_SIZE, listAdminLeads, readLeadFilters, type LeadFilters } from "@/lib/admin/leads";
+import { can } from "@/lib/admin/auth";
 import { requireAdmin } from "@/lib/admin/session";
-import { formatDateTime } from "@/lib/admin/time";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "לידים" };
 
 const VIEWS: { status: LeadFilters["status"]; label: string }[] = [{ status: "all", label: "כל הלידים" }, ...LEAD_STATUSES.map((s) => ({ status: s, label: LEAD_STATUS_LABEL[s] }))];
 
-/** A lead in the list: who, about what, which state. The whole card opens it. */
-function LeadCard({ l }: { l: Lead }) {
-  return (
-    <li>
-      <Link href={`/admin/leads/${l.id}/`} className="card flex items-center gap-3 p-4 transition hover:border-brand/40 hover:shadow-lift active:scale-[0.99]">
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <span className="truncate text-[15px] font-bold">{l.name}</span>
-            {l.locale === "en" ? <span className="rounded-full bg-sky-50 px-2 py-0.5 text-xs font-bold text-sky-800">EN</span> : null}
-          </div>
-          <div className="mt-0.5 truncate text-sm text-ink-soft">
-            <bdi>{formatDateTime(l.createdAt)}</bdi> · {l.product || LEAD_KIND_LABELS[l.kind] || l.kind}
-            {l.city ? ` · ${l.city}` : ""}
-          </div>
-          {l.notes ? <div className="mt-1 truncate text-sm text-copper-deep">📝 {l.notes}</div> : l.message ? <div className="mt-1 truncate text-sm text-ink-soft">{l.message}</div> : null}
-        </div>
-        <LeadBadge status={l.status} />
-      </Link>
-    </li>
-  );
-}
-
 /** Leads from the site's forms: search, status, dates; each opens its own page. */
 export default async function LeadsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  await requireAdmin("leads");
+  const session = await requireAdmin("leads");
   const db = getDb();
   if (!db) return <NoDatabase />;
-  const f = readLeadFilters(await searchParams);
+  const params = await searchParams;
+  const f = readLeadFilters(params);
+  const deleted = params.deleted === "1";
   const { rows, total } = await listAdminLeads(db, f);
   const pages = Math.max(1, Math.ceil(total / LEADS_PAGE_SIZE));
   const dated = !!(f.from || f.to);
@@ -51,11 +30,19 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
         title="לידים"
         sub={`פניות מהטפסים באתר, החדשות למעלה · ${total === 1 ? "ליד אחד" : `${total} לידים`}`}
         action={
-          <a href={`/admin/leads-export/${leadFiltersQuery({ ...f, page: 1 })}`} className="btn-ghost min-h-11 px-4 text-sm">
-            ⬇ ייצוא לאקסל (CSV)
-          </a>
+          can(session, "export") ? (
+            <a href={`/admin/leads-export/${leadFiltersQuery({ ...f, page: 1 })}`} className="btn-ghost min-h-11 px-4 text-sm">
+              ⬇ ייצוא לאקסל (CSV)
+            </a>
+          ) : undefined
         }
       />
+
+      {deleted ? (
+        <p role="status" className="mb-3 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
+          ✓ הליד נמחק.
+        </p>
+      ) : null}
 
       <form method="get" className="mb-3 flex gap-2" role="search">
         {f.status !== "all" ? <input type="hidden" name="status" value={f.status} /> : null}

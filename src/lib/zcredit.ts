@@ -100,7 +100,10 @@ export function returnUrls(origin: string, order: PricedOrder, orderId: string, 
 /**
  * The CreateSession body for a priced order. Regular payments only: one
  * payment is "none"; more are "regular" installments of exactly the number the
- * customer chose (never "credit"). Apple Pay and Google Pay stay on.
+ * customer chose (never "credit"). A payment link from the admin
+ * (`installmentsUpTo`) lets the customer pick 1 to that many on Z-Credit's page
+ * (MinQuantity/MaxQuantity: the range offered, Arena Checkout spec).
+ * Apple Pay and Google Pay stay on.
  */
 export function buildCreateSession(config: ZCreditConfig, order: PricedOrder, orderId: string, origin: string): CreateSessionRequest {
   const c = order.customer;
@@ -126,10 +129,15 @@ export function buildCreateSession(config: ZCreditConfig, order: PricedOrder, or
     ApplePayButtonEnabled: true,
     GooglePayButtonEnabled: true,
     ShowTotalSumInPayButton: true,
-    Installments: n > 1 ? { Type: "regular", MinQuantity: n, MaxQuantity: n } : { Type: "none", MinQuantity: 1, MaxQuantity: 1 },
+    Installments: installments(n, order.installmentsUpTo),
     Customer: { Name: c.name, PhoneNumber: c.phone, Email: c.email ?? "" },
     CartItems: paymentItems(order, image),
   };
+}
+
+function installments(n: number, upTo?: number): CreateSessionRequest["Installments"] {
+  if (upTo !== undefined) return upTo > 1 ? { Type: "regular", MinQuantity: 1, MaxQuantity: upTo } : { Type: "none", MinQuantity: 1, MaxQuantity: 1 };
+  return n > 1 ? { Type: "regular", MinQuantity: n, MaxQuantity: n } : { Type: "none", MinQuantity: 1, MaxQuantity: 1 };
 }
 
 /** Z-Credit answers some calls inside { HasError, Data: {…} } and some flat. */

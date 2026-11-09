@@ -158,6 +158,11 @@ describe("buildCreateSession", () => {
     expect(one.Installments).toEqual({ Type: "none", MinQuantity: 1, MaxQuantity: 1 });
   });
 
+  it("an admin payment link lets the customer pick 1 to the most allowed, regular installments only", () => {
+    expect(buildCreateSession(config, { ...order, installments: 1, installmentsUpTo: 12 }, "1", "https://modubox.com").Installments).toEqual({ Type: "regular", MinQuantity: 1, MaxQuantity: 12 });
+    expect(buildCreateSession(config, { ...order, installments: 1, installmentsUpTo: 1 }, "1", "https://modubox.com").Installments).toEqual({ Type: "none", MinQuantity: 1, MaxQuantity: 1 });
+  });
+
   it("keeps Apple Pay and Google Pay on", () => {
     expect(req.ApplePayButtonEnabled).toBe(true);
     expect(req.GooglePayButtonEnabled).toBe(true);
@@ -264,5 +269,22 @@ describe("newOrderId", () => {
   it("is the date and six digits, letters and digits only", () => {
     expect(newOrderId(new Date("2026-11-04T10:00:00Z"), () => 0.0421)).toBe("261104042100");
     expect(newOrderId()).toMatch(/^\d{12}$/);
+  });
+});
+
+describe("a choice add-on by the unit (phone orders)", () => {
+  const p = getProduct("modubox-3x2")!;
+  it("prices each option's quantity on the server, within the add-on's limit, and never for a floor", () => {
+    const sel = cleanSelections(p, { "glass-wall+glass": 2, "glass-wall+glass-shutter": 1, "glass-wall+none": 3, "glass-wall+bogus": 2, "ac+tornado-12": 50, "wpc-floor+teak": 2 });
+    expect(sel["glass-wall+glass"]).toBe(2);
+    expect(sel["glass-wall+glass-shutter"]).toBe(1);
+    expect(sel["glass-wall+none"]).toBeUndefined();
+    expect(sel["glass-wall+bogus"]).toBeUndefined();
+    expect(sel["ac+tornado-12"]).toBe(10);
+    expect(sel["wpc-floor+teak"]).toBeUndefined();
+    const base = summarizeCart([{ id: "a", slug: p.slug, qty: 1, selections: cleanSelections(p, {}), fulfillment: "pickup" }]).itemsTotal;
+    const cart = summarizeCart([{ id: "a", slug: p.slug, qty: 1, selections: cleanSelections(p, { "glass-wall+glass": 2, "glass-wall+glass-shutter": 1 }), fulfillment: "pickup" }]);
+    expect(cart.itemsTotal - base).toBe(2 * 1190 + 1990);
+    expect(cart.lines[0].quote.lines.find((l) => l.id === "glass-wall+glass")).toMatchObject({ qty: 2, unitPrice: 1190, total: 2380 });
   });
 });

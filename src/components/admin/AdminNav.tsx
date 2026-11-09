@@ -10,7 +10,7 @@ const LINKS: { href: string; label: string; icon: string; perm: Permission }[] =
   { href: "/admin/orders/", perm: "orders", label: "הזמנות", icon: "M6 3h12a1 1 0 0 1 1 1v17l-3-2-3 2-3-2-3 2-3-2V4a1 1 0 0 1 1-1Zm3 5h6m-6 4h6m-6 4h4" },
   { href: "/admin/customers/", perm: "customers", label: "לקוחות", icon: "M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1m6.5-9a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM21 19v-1a4 4 0 0 0-3-3.87M15 3.13a3.5 3.5 0 0 1 0 6.74" },
   { href: "/admin/leads/", perm: "leads", label: "לידים", icon: "M4 6h16v12H4zM4 7l8 6 8-6" },
-  { href: "/admin/stats/", perm: "orders", label: "נתונים", icon: "M4 20V10m6 10V4m6 16v-7m4 7H3" },
+  { href: "/admin/stats/", perm: "stats", label: "נתונים", icon: "M4 20V10m6 10V4m6 16v-7m4 7H3" },
   { href: "/admin/catalog/", perm: "catalog", label: "קטלוג", icon: "M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9Zm0 0 8 4.5m0 0 8-4.5M12 12v9" },
   { href: "/admin/coupons/", perm: "coupons", label: "קופונים", icon: "M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9Zm5-4.5h.01" },
   { href: "/admin/site/", perm: "site", label: "אתר", icon: "M3 5a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Zm0 4h18M7 13h6m-6 3h4" },
@@ -33,7 +33,7 @@ const MORE_ICON = "M5 12h.01M12 12h.01M19 12h.01";
 /** The phone's tab bar holds five; with more, the first four and "עוד". */
 const TAB_SLOTS = 5;
 
-/** Desktop: links in the top bar. Phone: a tab bar at the bottom, in thumb's reach. */
+/** Desktop (lg up): links in the top bar. Phone and tablet: a tab bar at the bottom, in thumb's reach. */
 export function AdminNav({ perms }: { perms: Permission[] }) {
   const path = usePathname();
   const [more, setMore] = useState(false);
@@ -44,14 +44,14 @@ export function AdminNav({ perms }: { perms: Permission[] }) {
   const tab = (on: boolean) => `flex w-full flex-col items-center gap-0.5 py-2.5 text-xs font-bold ${on ? "text-brand-dark" : "text-ink-soft"}`;
   return (
     <>
-      <nav aria-label="ניהול" className="hidden items-center gap-1 md:flex">
+      <nav aria-label="ניהול" className="no-scrollbar hidden min-w-0 items-center gap-1 overflow-x-auto lg:flex">
         {links.map((l) => (
           <Link key={l.href} href={l.href} aria-current={active(path, l.href) ? "page" : undefined} className={`whitespace-nowrap rounded-full px-3 py-2 text-[15px] font-semibold transition lg:px-3.5 ${active(path, l.href) ? "bg-white text-ink" : "text-white/80 hover:bg-white/10 hover:text-white"}`}>
             {l.label}
           </Link>
         ))}
       </nav>
-      <nav aria-label="ניהול" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
+      <nav aria-label="ניהול" className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden">
         {more && rest.length ? (
           <ul id="admin-more" className="grid grid-cols-2 gap-1 border-b border-line p-2">
             {rest.map((l) => (

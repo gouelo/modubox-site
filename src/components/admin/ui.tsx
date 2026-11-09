@@ -1,10 +1,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import type { Order, OrderStatus } from "@/db/schema";
+import type { Lead, Order, OrderStatus } from "@/db/schema";
 import { formatILS } from "@/lib/format";
 import { sourceLabel, STATUS_LABEL, STATUS_TONE } from "@/lib/admin/status";
 import { formatDateTime } from "@/lib/admin/time";
 import { LEAD_STATUS_LABEL, LEAD_STATUS_TONE, leadStatus } from "@/lib/admin/lead-status";
+import { LEAD_KIND_LABELS } from "@/lib/leads";
 
 /** The admin's small building blocks (server components). */
 
@@ -130,5 +131,27 @@ export function NoDatabase() {
       </p>
       <p className="mt-2 text-sm text-ink-soft">עד אז ההזמנות נשמרות רק בלוגים של Vercel ובפאנל של Z-Credit.</p>
     </Section>
+  );
+}
+
+/** A lead in the list: who, about what, which state. The whole card opens it. */
+export function LeadCard({ l }: { l: Lead }) {
+  return (
+    <li>
+      <Link href={`/admin/leads/${l.id}/`} className="card flex items-center gap-3 p-4 transition hover:border-brand/40 hover:shadow-lift active:scale-[0.99]">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <span className="truncate text-[15px] font-bold">{l.name}</span>
+            {l.locale === "en" ? <span className="rounded-full bg-sky-50 px-2 py-0.5 text-xs font-bold text-sky-800">EN</span> : null}
+          </div>
+          <div className="mt-0.5 truncate text-sm text-ink-soft">
+            <bdi>{formatDateTime(l.createdAt)}</bdi> · {l.product || LEAD_KIND_LABELS[l.kind] || l.kind}
+            {l.city ? ` · ${l.city}` : ""}
+          </div>
+          {l.notes ? <div className="mt-1 truncate text-sm text-copper-deep">📝 {l.notes}</div> : l.message ? <div className="mt-1 truncate text-sm text-ink-soft">{l.message}</div> : null}
+        </div>
+        <LeadBadge status={l.status} />
+      </Link>
+    </li>
   );
 }
