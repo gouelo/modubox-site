@@ -296,6 +296,8 @@ PINUK10=10%;SALE500=500
 
 ‏מכולת GTM: `GTM-MB2W45D` (בקובץ `src/lib/analytics.ts`). היא נטענת **רק באתר הייצור ב־Vercel** (`VERCEL_ENV=production`), לא בתצוגות מקדימות ולא ב־GitHub Pages. משתנה הסביבה `NEXT_PUBLIC_GTM_ID` גובר עליה: מזהה מכולה אחר, או `off` כדי לכבות.
 
+‏**אימות Google Search Console:** שלושת קודי האימות של האתר הישן (`google-site-verification`) נמצאים ב־`GOOGLE_SITE_VERIFICATION` בקובץ `src/lib/analytics.ts`, ומופיעים ב־`<head>` של כל עמוד (עברית ואנגלית), בכל כתובת, לא רק בדומיין האמיתי כמו GTM. לא למחוק אותם: בלעדיהם Search Console מאבד את האימות של הדומיין.
+
 ‏האירועים שנשלחים ל־dataLayer (בשמות של GA4, בלי שם, טלפון או מייל של לקוח):
 
 | אירוע | מתי | פרמטרים |

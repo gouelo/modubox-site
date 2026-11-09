@@ -1,8 +1,18 @@
-import { describe, expect, it } from "vitest";
-import { ecommerce, GTM_ID, gtmAllowedOn, gtmHosts, gtmId, linkEvent } from "@/lib/analytics";
+import { describe, expect, it, vi } from "vitest";
+import { rootMetadata } from "@/components/SiteShell";
+import { ecommerce, GOOGLE_SITE_VERIFICATION, GTM_ID, gtmAllowedOn, gtmHosts, gtmId, linkEvent } from "@/lib/analytics";
 import { getProduct } from "@/lib/catalog";
 import { summarizeCart } from "@/lib/pricing";
 import { signReceipt, verifyReceipt, signOrder } from "@/lib/zcredit";
+
+vi.mock("next/font/google", () => ({ Heebo: () => ({ variable: "" }) }));
+
+describe("Search Console verification", () => {
+  it("all three old-site tokens, in both languages", () => {
+    expect(GOOGLE_SITE_VERIFICATION).toHaveLength(3);
+    for (const locale of ["he", "en"] as const) expect(rootMetadata(locale).verification?.google).toEqual(GOOGLE_SITE_VERIFICATION);
+  });
+});
 
 describe("gtmHosts", () => {
   it("only the real domain, never vercel.app, unless set", () => {

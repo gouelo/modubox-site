@@ -6,7 +6,7 @@ import { LocaleProvider } from "@/i18n/client";
 import { ogDefaults } from "@/i18n/meta";
 import { site } from "@/lib/catalog";
 import { asset } from "@/lib/paths";
-import { gtmHosts, gtmId } from "@/lib/analytics";
+import { GOOGLE_SITE_VERIFICATION, gtmHosts, gtmId } from "@/lib/analytics";
 import { GoogleTagManager } from "./Analytics";
 import { ConfiguratorPanel } from "./ConfiguratorPanel";
 import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
@@ -29,6 +29,7 @@ export function rootMetadata(locale: Locale): Metadata {
     openGraph: ogDefaults(locale),
     icons: { icon: asset("/brand/favicon.svg"), apple: asset("/brand/apple-touch-icon.png") },
     formatDetection: { telephone: false },
+    verification: { google: GOOGLE_SITE_VERIFICATION },
   };
 }
 
