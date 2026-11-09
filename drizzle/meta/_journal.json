@@ -64,6 +64,20 @@
       "when": 1793801897226,
       "tag": "0008_deleted_orders",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794241574251,
+      "tag": "0009_visits",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1794241578427,
+      "tag": "0010_ai_read_views",
+      "breakpoints": true
     }
   ]
 }

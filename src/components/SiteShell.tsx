@@ -6,7 +6,7 @@ import { LocaleProvider } from "@/i18n/client";
 import { ogDefaults } from "@/i18n/meta";
 import { site } from "@/lib/catalog";
 import { asset } from "@/lib/paths";
-import { GOOGLE_SITE_VERIFICATION, gtmHosts, gtmId } from "@/lib/analytics";
+import { GOOGLE_SITE_VERIFICATION, gtmHosts, gtmId, visitHosts } from "@/lib/analytics";
 import { GoogleTagManager } from "./Analytics";
 import { ConfiguratorPanel } from "./ConfiguratorPanel";
 import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
@@ -14,6 +14,7 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { WhatsAppFab } from "./WhatsAppFab";
 import { LeadAttribution } from "./LeadAttribution";
+import { VisitBeacon } from "./VisitBeacon";
 import { CallFab } from "./CallFab";
 import { CookieConsent } from "./CookieConsent";
 
@@ -44,6 +45,8 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
   const t = dict(locale);
   // Google Tag Manager: production, on the real domain only (src/lib/analytics.ts)
   const gtm = gtmId();
+  // the site's own cookieless visit statistics (src/lib/visits.ts): Vercel's production build only
+  const stats = process.env.VERCEL_ENV === "production";
   return (
     <html lang={locale} dir={dirOf(locale)} className={heebo.variable}>
       <body className="min-h-dvh font-sans antialiased">
@@ -66,6 +69,7 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
           <CookieConsent />
           {/* UTM tags and ad click ids for the lead forms */}
           <LeadAttribution />
+          {stats && <VisitBeacon hosts={visitHosts(site.url)} />}
         </LocaleProvider>
         {gtm && <GoogleTagManager id={gtm} hosts={gtmHosts(process.env, site.url)} />}
       </body>

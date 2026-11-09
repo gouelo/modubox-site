@@ -45,6 +45,17 @@ export function gtmHosts(env: Record<string, string | undefined> = process.env, 
   return [...new Set([host, apex, `www.${apex}`])];
 }
 
+/**
+ * The hosts the site's own visit statistics count on (src/lib/visits.ts): the
+ * real domain only, never a preview or *.vercel.app. No override, unlike GTM:
+ * previews share the production database.
+ */
+export function visitHosts(siteUrl = "https://www.modubox.com"): string[] {
+  const host = new URL(siteUrl).hostname.toLowerCase();
+  const apex = host.replace(/^www\./, "");
+  return [...new Set([host, apex, `www.${apex}`])];
+}
+
 /** Whether GTM may load on this host (what the inline script checks in the browser). */
 export function gtmAllowedOn(hostname: string, hosts: string[]): boolean {
   return hosts.includes("*") || hosts.includes(hostname.toLowerCase());
