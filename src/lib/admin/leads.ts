@@ -94,15 +94,10 @@ export async function listAdminLeads(db: Db, f: LeadFilters): Promise<{ rows: Le
   return { rows, total: Number(n) };
 }
 
-/** Leads in one status (by default those no one has handled yet), for the home page. */
-export async function countNewLeads(db: Db, status: LeadStatus = "new"): Promise<number> {
-  const [r] = await db.select({ n: count() }).from(leads).where(and(eq(leads.status, status), liveLead));
+/** Leads no one has handled yet, for the dashboard. */
+export async function countNewLeads(db: Db): Promise<number> {
+  const [r] = await db.select({ n: count() }).from(leads).where(and(eq(leads.status, "new"), liveLead));
   return Number(r?.n ?? 0);
-}
-
-/** The latest leads, for the home page. */
-export async function recentLeads(db: Db, limit = 5): Promise<Lead[]> {
-  return db.select().from(leads).where(liveLead).orderBy(desc(leads.createdAt), desc(leads.id)).limit(limit);
 }
 
 export async function getLead(db: Db, id: number): Promise<{ lead: Lead; events: LeadEvent[] } | null> {

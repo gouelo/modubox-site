@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { Db } from "../src/db";
 import { leads } from "../src/db/schema";
 import { can, type AdminSession } from "../src/lib/admin/auth";
-import { addLeadNote, changeLeadStatus, countNewLeads, deleteLead, exportLeads, getLead, leadsCsv, listAdminLeads, readLeadFilters, recentLeads } from "../src/lib/admin/leads";
+import { addLeadNote, changeLeadStatus, countNewLeads, deleteLead, exportLeads, getLead, leadsCsv, listAdminLeads, readLeadFilters } from "../src/lib/admin/leads";
 import { testDb } from "./db";
 
 // The admin's leads tab: filters, a lead's status and notes with their history, the CSV.
@@ -88,7 +88,7 @@ describe("deleting a lead", () => {
     expect(await ids({})).toEqual(["=HYPERLINK(1)", "יוסי לוי"]);
     expect((await listAdminLeads(db, readLeadFilters({}))).total).toBe(2);
     expect(await countNewLeads(db)).toBe(2);
-    expect((await recentLeads(db)).map((l) => l.id)).not.toContain(id);
+    expect((await listAdminLeads(db, readLeadFilters({}))).rows.map((l) => l.id)).not.toContain(id);
     expect(await getLead(db, id)).toBeNull();
     expect((await exportLeads(db, readLeadFilters({}))).map((l) => l.id)).not.toContain(id);
     expect(await changeLeadStatus(db, id, "handled")).toEqual({ ok: false, error: "not_found" });
