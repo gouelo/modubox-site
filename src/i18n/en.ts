@@ -351,6 +351,7 @@ export const en: Dict = {
     perUnit: "each",
     less: (name: string) => `Remove one: ${name}`,
     more: (name: string) => `Add one more: ${name}`,
+    perChoiceHint: (max: number) => `Choose as many as you need – up to ${max} of each`,
     perM2: (price: string) => `${price} per m²`,
     inThisShed: (n: number) => `${n} m² in this shed`,
   },

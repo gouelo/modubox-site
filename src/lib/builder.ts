@@ -1,5 +1,6 @@
 import { dict } from "@/i18n";
 import { addonsFor } from "./catalog";
+import { variantCount } from "./pricing";
 import type { Addon, Product, Selections } from "./types";
 
 export type StepIcon = "door" | "bolt" | "shelf" | "plus" | "check";
@@ -53,6 +54,7 @@ export function builderSteps(product: Product): BuilderStep[] {
 export function chosenIn(step: BuilderStep, selections: Selections): number {
   return step.addons.filter((a) => {
     const v = selections[a.id];
+    if (variantCount(a, selections) > 0) return true;
     if (a.kind === "choice") return v !== undefined && v !== (a.default ?? a.choices?.[0]?.id);
     return typeof v === "number" && v > 0;
   }).length;
