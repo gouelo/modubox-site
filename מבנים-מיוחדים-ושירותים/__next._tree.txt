@@ -1,9 +1,9 @@
 :HL["/modubox-site/_next/static/chunks/0upc0yo-2p2lb.css","style"]
-:HL["/modubox-site/_next/static/chunks/0tnzq9hda3pev.css","style"]
+:HL["/modubox-site/_next/static/chunks/0b3kmacni66jz.css","style"]
 :HL["/modubox-site/_next/static/media/a2ad9851afd9a4d8-s.p.0jgv4ivu1938h.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/_next/static/media/d0c0bfa28634aa91-s.p.3dq6enaul-s3b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/brand/logo-white.svg","image"]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"category","t":"d","k":"%D7%9E%D7%91%D7%A0%D7%99%D7%9D-%D7%9E%D7%99%D7%95%D7%97%D7%93%D7%99%D7%9D-%D7%95%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99%D7%9D","s":["about","accessibility","admin","api","blog","cart","checkout","contact","en","faq","gallery","llms-full.txt","llms.txt","p","privacy","product","shop","terms","warranty"]},"h":65600,"c":"$Q3"}]]
 1:[["children",{"s":"(he)","h":131120,"c":"$Q2"}]]
-0:{"b":"6a7Spmd5XgKQfVjhCJTl6","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
+0:{"b":"BRnXh5ARML906WQDHC0xG","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
