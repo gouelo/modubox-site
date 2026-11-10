@@ -133,15 +133,3 @@ export async function stats(db: Db, range: Range, now = new Date()): Promise<Sta
     devices: share(devices, (l) => DEVICE_LABEL[l] ?? l),
   };
 }
-
-/** Visitors today and in the last 7 days (today included), for the owner's home page. */
-export async function visitorsSummary(db: Db, now = new Date()): Promise<{ today: number; week: number }> {
-  const days = rangeDays(7, now);
-  const rows = await db
-    .select({ day: visits.day, visitors: countDistinct(visits.visitor) })
-    .from(visits)
-    .where(and(gte(visits.day, days[0]), eq(visits.kind, "pageview")))
-    .groupBy(visits.day);
-  const today = days[days.length - 1];
-  return { today: Number(rows.find((r) => r.day === today)?.visitors ?? 0), week: rows.reduce((s, r) => s + Number(r.visitors), 0) };
-}
