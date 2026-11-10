@@ -76,8 +76,9 @@ export function Header() {
         >
           <Icon name="menu" className="size-6" />
         </button>
-        <Link href={home} className="shrink-0" aria-label={t.header.logoHome}>
-          <Logo white={overHero} alt="" className="h-7 w-auto lg:h-8" />
+        {/* the link's name is the logo's alt: SEO tools count an empty alt as missing, and search engines read an image link's alt as its anchor text */}
+        <Link href={home} className="shrink-0">
+          <Logo white={overHero} alt={t.header.logoHome} className="h-7 w-auto lg:h-8" />
         </Link>
         <nav className="ms-3 hidden items-center gap-0.5 lg:flex xl:ms-6 xl:gap-1" aria-label={t.header.mainNav}>
           {NAV.map((n) => (

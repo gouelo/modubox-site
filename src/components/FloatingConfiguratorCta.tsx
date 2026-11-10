@@ -111,7 +111,7 @@ export function FloatingConfiguratorCta() {
               <motion.span aria-hidden className="relative block" animate={still ? undefined : drift}>
                 <motion.img
                   src={asset("/cta/shed-3d.webp")}
-                  alt=""
+                  alt={t.imageAlt}
                   width={320}
                   height={283}
                   draggable={false}

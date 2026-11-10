@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import live from "./fixtures/redirects-live.json";
-import { compileRules, encodeDestination, fileRules, findRedirect, keptQuery, mergeRules, normalizeSource, routeRequest, ruleWarnings } from "@/lib/seo/redirects";
+import { compileRules, encodeDestination, englishHostRedirect, fileRules, findRedirect, keptQuery, mergeRules, normalizeSource, routeRequest, ruleWarnings } from "@/lib/seo/redirects";
 
 // tests/fixtures/redirects-live.json: every old address the live site answered on
 // 2026-11-04 (then next.config's redirects), with the proxy's answer since the SEO
@@ -26,6 +26,21 @@ describe("redirects in the proxy", () => {
     expect(routeRequest(rules, "/shop", "?q=1")).toEqual({ location: "/shop/?q=1", status: 308 });
     expect(routeRequest(rules, "/shop/", "?gsas=1&rwg_token=2")).toEqual({ location: "/shop/", status: 301 });
     expect(routeRequest(rules, "/shop/", "?q=1")).toBeNull();
+  });
+
+  it("send the old English subdomain to the English site on www, path kept, in one hop", () => {
+    const en = (host: string, path: string, q = "") => englishHostRedirect(rules, host, path, q);
+    expect(en("en.modubox.com", "/")).toEqual({ location: "https://www.modubox.com/en/", status: 301 });
+    expect(en("EN.modubox.com:443", "/shop")).toEqual({ location: "https://www.modubox.com/en/shop/", status: 301 });
+    expect(en("en.modubox.com", "/shop/", "?utm_source=g")).toEqual({ location: "https://www.modubox.com/en/shop/?utm_source=g", status: 301 });
+    expect(en("en.modubox.com", "/en/faq/")).toEqual({ location: "https://www.modubox.com/en/faq/", status: 301 });
+    // an old English product page goes straight to its new page
+    const old = en("en.modubox.com", "/product-page/%D7%9E%D7%97%D7%A1%D7%9F-%D7%9E%D7%95%D7%93%D7%95%D7%91%D7%95%D7%A7%D7%A1");
+    expect(old?.location).toBe(`https://www.modubox.com${routeRequest(rules, "/en/product-page/%D7%9E%D7%97%D7%A1%D7%9F-%D7%9E%D7%95%D7%93%D7%95%D7%91%D7%95%D7%A7%D7%A1")!.location}`);
+    expect(old?.location).not.toContain("product-page");
+    expect(en("www.modubox.com", "/")).toBeNull();
+    expect(en("he.modubox.com", "/")).toBeNull();
+    expect(englishHostRedirect(rules, null, "/")).toBeNull();
   });
 
   it("capitals go to the lower-case page; the admin, the API and files are left alone", () => {

@@ -648,7 +648,7 @@ export const he = {
   gallery: { view: "צפייה בתמונה", enlarge: (alt: string) => `הגדלת ${alt}`, prev: "הקודמת", next: "הבאה" },
 
   fab: { aria: "שלחו לנו הודעה בוואטסאפ", label: "שאלו אותנו בוואטסאפ", callAria: (phone: string) => `התקשרו אלינו: ${phone}` },
-  floatingCta: { label: "עצבו את המחסן שלכם ב־3D", sub: "חדש: הדמיה תלת־ממדית", dismiss: "הסתרת הכפתור" },
+  floatingCta: { label: "עצבו את המחסן שלכם ב־3D", sub: "חדש: הדמיה תלת־ממדית", dismiss: "הסתרת הכפתור", imageAlt: "הדמיה תלת־ממדית של מחסן מודובוקס" },
 
   accessibility: { coordinatorRole: "צוות השירות של מודובוקס" },
 
