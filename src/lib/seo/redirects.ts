@@ -207,3 +207,22 @@ export function ruleWarnings(rules: RedirectRule[]): Map<string, string[]> {
   }
   return out;
 }
+
+/** The old site's English subdomain: it now goes to the English site on www, in one hop. */
+const ENGLISH_HOST = /^en\.modubox\.com$/i;
+const SITE_ORIGIN = "https://www.modubox.com";
+
+/**
+ * en.modubox.com/x → https://www.modubox.com/en/x/ (301), through the same
+ * routeRequest as any request (so an old English address still lands on its
+ * new page, with its campaign tags, in that one hop). Null for any other host.
+ * Vercel answers en.modubox.com only once the domain is connected to the
+ * project without a redirect of its own (Settings → Domains).
+ */
+export function englishHostRedirect(rules: CompiledRule[], host: string | null | undefined, pathname: string, search = ""): { location: string; status: number } | null {
+  if (!host || !ENGLISH_HOST.test(host.replace(/:\d+$/, ""))) return null;
+  const path = /^\/en(\/|$)/i.test(pathname) ? pathname : `/en${pathname === "/" ? "/" : pathname}`;
+  const to = routeRequest(rules, path, search);
+  const location = to ? to.location : `${path}${search}`;
+  return { location: new URL(location, SITE_ORIGIN).toString(), status: 301 };
+}

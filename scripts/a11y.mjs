@@ -13,7 +13,7 @@ import { chromium } from "playwright-core";
 
 const OUT = path.resolve("out");
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const PAGES = ["/", "/shop/", "/product/modubox-3x2/", "/product/modubox-6x3/", "/product/toilet-1x1/", "/gallery/", "/faq/", "/about/", "/contact/", "/terms/", "/warranty/", "/accessibility/", "/cart/", "/cart/?filled", "/checkout/", "/everest/", "/shed-accessories/", "/מבנים-מיוחדים-ושירותים/", "/no-such-page/"];
+const PAGES = ["/", "/shop/", "/product/modubox-3x2/", "/product/modubox-6x3/", "/product/toilet-1x1/", "/gallery/", "/faq/", "/about/", "/contact/", "/terms/", "/warranty/", "/accessibility/", "/cart/", "/cart/?filled", "/checkout/", "/everest/", "/gilboa/", "/shed-accessories/", "/מבנים-מיוחדים-ושירותים/", "/no-such-page/"];
 // "?filled": the cart with sheds in it (a small and a large one, so the promotion's gifts and the floor colour picker show while they run)
 const FILLED = { state: { items: [{ id: "a11y1", slug: "modubox-2x2", qty: 1, selections: {}, fulfillment: "deliveryAndInstallation" }, { id: "a11y2", slug: "modubox-3x2", qty: 1, selections: { "wpc-floor": "teak", "glass-wall+glass": 2, "glass-wall+glass-shutter": 1 }, fulfillment: "deliveryAndInstallation" }, { id: "a11y3", slug: "modubox-4x3", qty: 1, selections: {}, fulfillment: "deliveryAndInstallation" }], coupon: undefined }, version: 3 };
 const WIDTHS = [390, 1440];

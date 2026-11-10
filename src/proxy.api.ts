@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { ADMIN_COOKIE, readSessionToken, sessionSecret } from "@/lib/admin/auth";
 import { redirectRules } from "@/lib/seo/redirect-cache";
-import { routeRequest } from "@/lib/seo/redirects";
+import { englishHostRedirect, routeRequest } from "@/lib/seo/redirects";
 
 /**
  * Two jobs, only on a server build (Vercel): the GitHub Pages export has no
@@ -15,9 +15,13 @@ import { routeRequest } from "@/lib/seo/redirects";
  *    routeRequest. Next.js's own slash redirect is off on the server
  *    (next.config skipTrailingSlashRedirect), or every old address would take
  *    two hops (308 to add the slash, then 301).
+ * 3. The old English subdomain (en.modubox.com) goes to the English site on
+ *    www (/en/…), path kept, in that same single hop.
  */
 export async function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
+  const en = englishHostRedirect(await redirectRules(), req.headers.get("host"), pathname, search);
+  if (en) return NextResponse.redirect(en.location, en.status);
   const to = routeRequest(await redirectRules(), pathname, search);
   if (to) return NextResponse.redirect(new URL(to.location, req.url), to.status);
   if (pathname === "/admin/" || pathname.startsWith("/admin/") || pathname.startsWith("/api/admin")) return admin(req);

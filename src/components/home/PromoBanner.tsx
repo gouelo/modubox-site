@@ -81,13 +81,14 @@ export function PromoBanner() {
 
 /** Swatches of the floor's colours (the WPC floor add-on's samples). */
 function FloorSwatches() {
-  const floor = catalog("he").addonById.get(giftRules.large.addon);
-  const swatches = (floor?.choices ?? []).map((c) => c.swatch).filter((x): x is string => !!x?.includes("/"));
+  const floor = catalog(useLocale()).addonById.get(giftRules.large.addon);
+  // alt for SEO tools and image search only: the wrapper is aria-hidden, the tile's words say it
+  const swatches = (floor?.choices ?? []).filter((c): c is typeof c & { swatch: string } => !!c.swatch?.includes("/")).map((c) => ({ sw: c.swatch, alt: `${floor?.name ?? ""} – ${c.label}` }));
   return (
     <span className="flex -space-x-3 rtl:space-x-reverse" aria-hidden="true">
-      {swatches.map((sw) => (
+      {swatches.map(({ sw, alt }) => (
         <span key={sw} className="relative size-11 overflow-hidden rounded-full shadow-soft ring-2 ring-white sm:size-12">
-          <Image src={sw} alt="" fill sizes="48px" className="object-cover" />
+          <Image src={sw} alt={alt} fill sizes="48px" className="object-cover" />
         </span>
       ))}
     </span>
@@ -110,7 +111,7 @@ function GiftPromo({ words, cta }: { words: { eyebrow: string; title: string; te
   const dates = [shortDate(r.advertisedStart || r.start), shortDate(r.end)] as const;
   const shelf = catalog(locale).addonById.get(r.small.addon);
   const tiles = [
-    { key: "small", when: r.atThreshold === "large" ? g.below(n) : g.upTo(n), what: g.gift(giftName(r.small, locale)), sub: "", art: shelf?.image ? <span className="relative block size-14 shrink-0 overflow-hidden rounded-xl bg-white sm:size-16" aria-hidden="true"><Image src={shelf.image} alt="" fill sizes="64px" className="object-contain p-1" /></span> : null },
+    { key: "small", when: r.atThreshold === "large" ? g.below(n) : g.upTo(n), what: g.gift(giftName(r.small, locale)), sub: "", art: shelf?.image ? <span className="relative block size-14 shrink-0 overflow-hidden rounded-xl bg-white sm:size-16" aria-hidden="true"><Image src={shelf.image} alt={shelf.name} fill sizes="64px" className="object-contain p-1" /></span> : null },
     { key: "large", when: r.atThreshold === "large" ? g.from(n) : g.above(n), what: g.gift(giftName(r.large, locale)), sub: g.anyColour, art: <FloorSwatches /> },
   ];
   return (

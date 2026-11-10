@@ -230,8 +230,46 @@
       "h1": "Gilboa sheds",
       "lead": "Gilboa sheds are plastic sheds for the garden, balcony and yard, made of hardened polypropylene with double walls and an inner aluminum frame. They don't rust and need no maintenance, and they come with a 5-year warranty. There are four sizes, from 2.10×1.15 to 2.10×2.60 m.",
       "gridTitle": "Gilboa sheds: every size",
-      "sections": [],
-      "faq": []
+      "sections": [
+        {
+          "title": "Four sizes, one width and height",
+          "text": [
+            "Every Gilboa shed is 2.10 m wide and 2.52 m high outside, with 200.5 cm walls. They differ in depth: Gilboa S is 1.15 m deep (2.41 m²) at ₪2,590, Gilboa M 1.65 m (3.45 m²) at ₪3,290, Gilboa L 2.10 m (4.49 m²) at ₪3,990 and Gilboa XL 2.60 m (5.53 m²) at ₪4,990. Each model's exact dimensions are on its own page."
+          ]
+        },
+        {
+          "title": "What a Gilboa shed is made of",
+          "text": [
+            "The shed is made of hardened polypropylene with double walls, around an inner aluminum frame. It doesn't rust and needs no maintenance, and it suits storage in the garden, on the balcony or in the yard: garden tools, bikes and things that have no room in the house.",
+            "Each size comes as one model, as it is: Gilboa sheds have no add-ons, no add-ons builder and no 3D configurator, and they can't be ordered in a custom size."
+          ]
+        },
+        {
+          "title": "Pickup, delivery or installation",
+          "text": [
+            "There are three ways to get your shed: free self pickup from Kibbutz Ein Harod Meuhad, by appointment; delivery only for ₪300, unloaded at the curb; or delivery and installation, ₪600 for Gilboa S, ₪700 for M and ₪800 for L and XL. South of Be'er Sheva down to Mitzpe Ramon, and beyond the Green Line, add ₪200.",
+            "Installation is on a flat, level, firm surface, within 21 business days of your order, or 30 business days south of Be'er Sheva. The installer sets a 2–4 hour delivery window and calls about half an hour ahead. Under the terms, a spot more than 30 m from parking adds ₪100, and carrying up stairs without a lift is ₪100 per floor."
+          ]
+        },
+        {
+          "title": "A 5-year warranty",
+          "text": [
+            "Gilboa sheds have a 5-year warranty from the day of purchase, with the invoice: repair or spare parts if the product is faulty. The shed is anchored to the floor or a wall, and anchoring is the customer's responsibility: wind damage to a shed that wasn't anchored isn't covered. Commercial or business use, moving the shed and changes to it aren't covered either. All the terms are on the warranty page."
+          ]
+        },
+        {
+          "title": "Gilboa or Modubox?",
+          "text": [
+            "A Gilboa shed is a plastic shed in fixed sizes, for home storage. A Modubox shed is built of an aluminum frame and insulated panels, comes in 18 sizes and custom sizes, and takes add-ons: doors, windows, a glass wall, an electrical panel and a WPC floor. It's insulated against heat, cold and noise, so customers also use it as an office, clinic or studio. Our team installs it, and it has a 10-year warranty. For a business shed or a workroom, a Modubox shed is the better fit."
+          ]
+        }
+      ],
+      "faq": [
+        { "q": "Can I pick the shed up myself?", "a": "Yes, from Kibbutz Ein Harod Meuhad, by appointment and free of charge. You can also order delivery only for ₪300, unloaded at the curb, or delivery and installation." },
+        { "q": "Does a Gilboa shed need anchoring?", "a": "Anchoring it to the floor or a wall is the customer's responsibility, and wind damage to a shed that wasn't anchored isn't covered by the warranty." },
+        { "q": "Can I use a Gilboa shed for a business?", "a": "The Gilboa warranty doesn't cover commercial or business use. For a business, an office or a clinic, a Modubox shed is the better fit: insulated panels and a 10-year warranty." },
+        { "q": "Can I pay in installments?", "a": "Yes, up to 12 payments, on Z-Credit's secure payment page." }
+      ]
     }
   }
 }
