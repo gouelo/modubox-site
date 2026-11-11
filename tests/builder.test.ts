@@ -45,7 +45,8 @@ describe("configuration WhatsApp message", () => {
     expect(msg).toContain("מחסן מודובוקס 3×2");
     expect(msg).toContain("מחיר בסיס: 7,800");
     expect(msg).toContain("חלון הזזה כולל רשת ×2 – 2,380");
-    expect(msg).toContain('סה"כ: 12,770');
+    expect(msg).toContain("הובלה והתקנה: 1,000");
+    expect(msg).toContain('סה"כ כולל הובלה והתקנה: 13,770');
     expect(msg).not.toContain("בתיאום");
   });
 });
