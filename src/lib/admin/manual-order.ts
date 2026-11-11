@@ -4,6 +4,7 @@ import { orderEvents, orderItems, orders, ORDER_SOURCES, type OrderSource } from
 import { MAX_INSTALLMENTS, priceCart, validPhone, newOrderId, type PricedOrder } from "../checkout";
 import type { CouponMap } from "../coupons";
 import { orderRows } from "../orders";
+import { offersProfile, profileColorOf } from "../profile-color";
 import { MANUAL_PAYMENTS, PAYMENT_LABEL, type ManualPayment } from "./status";
 import type { Customer } from "../whatsapp";
 
@@ -55,6 +56,7 @@ export function priceManualOrder(input: ManualOrderInput, coupons: CouponMap): M
     if (priced.error === "invalid_coupon") return { ok: false, error: priced.coupon?.error === "min_order" ? `הקופון תקף רק מעל ${priced.coupon.min} ₪.` : priced.coupon?.error === "expired" ? "הקופון פג תוקף או נוצל." : "קוד הקופון לא קיים." };
     return { ok: false, error: ERRORS[priced.error] ?? "לא הצלחנו לתמחר את ההזמנה." };
   }
+  if (priced.cart.lines.some((l) => offersProfile(l.product) && !profileColorOf(l.product, l.item.selections))) return { ok: false, error: "בחרו צבע פרופיל (לבן או שחור) לכל מחסן." };
   const discount = input.discount ?? 0;
   if (!(Number.isInteger(discount) && discount >= 0)) return { ok: false, error: "הנחה: מספר שלם בשקלים." };
   const couponAmount = priced.coupon?.amount ?? 0;

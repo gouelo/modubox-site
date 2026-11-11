@@ -1,6 +1,7 @@
 import { dict, type Locale } from "@/i18n";
 import { addonsFor, getProduct } from "./catalog";
 import { giftFor, giftName, type Gift } from "./promo-gifts";
+import { PROFILE_ADDON } from "./profile-color";
 import type { Addon, CartItem, DesignExtra, FulfillmentId, Product, Selections } from "./types";
 
 export interface PriceLine {
@@ -54,7 +55,8 @@ export function defaultSelections(product: Product): Selections {
  */
 export const variantKey = (a: Pick<Addon, "id">, choiceId: string) => `${a.id}+${choiceId}`;
 export function hasVariantQty(a: Addon): boolean {
-  return a.kind === "choice" && !a.pricePerM2 && !a.areaM2;
+  // the profiles' colour is one per shed
+  return a.kind === "choice" && !a.pricePerM2 && !a.areaM2 && a.id !== PROFILE_ADDON;
 }
 
 /** The builder takes this add-on as a quantity for each option, up to `variantMax` each. */

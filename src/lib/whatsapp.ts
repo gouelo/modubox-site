@@ -2,17 +2,18 @@ import { dict, type Locale } from "@/i18n";
 import { site } from "./catalog";
 import { formatILS } from "./format";
 import { fulfillmentOptions, type CartLine, type CartSummary, type Quote } from "./pricing";
-import type { CartDesign, Product } from "./types";
+import { offersProfile, PROFILE_ADDON, profileColorOf, profileLine } from "./profile-color";
+import type { CartDesign, Product, Selections } from "./types";
 
 export function waLink(text: string): string {
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
 }
 
-/** The add-on lines of a quote, then its gift on a line of its own (🎁, with no "free" price after it). */
+/** The add-on lines of a quote, then its gift on a line of its own (🎁, with no "free" price after it). The profile colour has its own line (profileLine). */
 function quoteLines(q: Quote, locale: Locale): string[] {
   const d = dict(locale);
   const t = d.common;
-  const lines = q.lines.slice(1);
+  const lines = q.lines.slice(1).filter((l) => l.id !== PROFILE_ADDON);
   const extras = lines.filter((l) => !l.gift).map((l) => {
     const qty = l.qty > 1 ? ` ×${l.qty}` : "";
     const price = l.total === null ? t.priceOnRequest : l.total === 0 ? t.noExtra : formatILS(l.total, locale);
@@ -22,13 +23,14 @@ function quoteLines(q: Quote, locale: Locale): string[] {
 }
 
 /** The configuration from the add-ons builder, for "send it to us on WhatsApp" (in the product's language). */
-export function configMessage(product: Product, q: Quote): string {
+export function configMessage(product: Product, q: Quote, selections: Selections): string {
   const locale = product.locale ?? "he";
   const d = dict(locale);
   const t = d.whatsapp.config;
   const out = [t.order(product.name), "", t.base(formatILS(product.price, locale))];
+  if (offersProfile(product)) out.push(profileLine(profileColorOf(product, selections), locale));
   const extras = quoteLines(q, locale);
-  const hasExtras = q.lines.slice(1).some((l) => !l.gift);
+  const hasExtras = q.lines.slice(1).some((l) => !l.gift && l.id !== PROFILE_ADDON);
   out.push(...(hasExtras ? ["", t.chosen, ...extras] : ["", t.none, ...extras]));
   // delivery & installation: the size's own price (as on the product page), never "by area"
   const f = fulfillmentOptions(product)[0];
@@ -80,6 +82,7 @@ export function orderMessage(cart: CartSummary, customer?: Customer, orderId?: s
   const out: string[] = [orderId ? t.newOrder(orderId) : t.hello, ""];
   cart.lines.forEach((l, i) => {
     out.push(`${i + 1}. ${l.product.name}${l.item.qty > 1 ? ` ×${l.item.qty}` : ""} – ${ils(l.itemsTotal)}`);
+    if (offersProfile(l.product)) out.push(`   ${profileLine(profileColorOf(l.product, l.item.selections), locale)}`);
     out.push(...quoteLines(l.quote, locale).map((s) => `   ${s}`));
     if (l.item.design) out.push(...designLines(l.item.design, locale).map((s) => `   ${s}`));
     out.push(`   ${fulfillmentLine(l, locale)}`);

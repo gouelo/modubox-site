@@ -131,6 +131,8 @@ export const orderItems = pgTable(
     payToInstaller: boolean("pay_to_installer").notNull().default(false),
     /** the 3D configurator design */
     designLink: text("design_link"),
+    /** the profiles' colour the customer picked: "white" | "black"; null: none picked, or an order from before it was kept (src/lib/profile-color.ts) */
+    profileColor: text("profile_color"),
   },
   (t) => [index("order_items_order_id_idx").on(t.orderId)],
 );

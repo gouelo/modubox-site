@@ -4,6 +4,7 @@ import { deletedOrders, orderEvents, orderItems, orders, type NewOrder, type Ord
 import { canTransition } from "./admin/status";
 import { plain, TEST_SLUG } from "./catalog";
 import type { PricedOrder } from "./checkout";
+import { profileColorOf } from "./profile-color";
 import type { CallbackData } from "./zcredit";
 
 /**
@@ -62,6 +63,7 @@ export function orderRows(orderId: string, sessionId: string, order: PricedOrder
       fulfillmentTotal: l.fulfillmentTotal + l.payLater,
       payToInstaller: !!l.fulfillment.payToInstaller,
       designLink: l.item.design?.link ?? null,
+      profileColor: profileColorOf(l.product, l.item.selections),
     })),
   };
 }

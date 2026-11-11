@@ -41,7 +41,7 @@ describe("configuration WhatsApp message", () => {
   it("lists the base price, each add-on and the total", () => {
     const q = quote(p32, { ...defaultSelections(p32), "double-door": 1, "sliding-window": 2, ac: "tornado-12" });
     expect(q.total).toBe(7800 + 1190 + 2 * 1190 + 1400);
-    const msg = plain(configMessage(p32, q));
+    const msg = plain(configMessage(p32, q, defaultSelections(p32)));
     expect(msg).toContain("מחסן מודובוקס 3×2");
     expect(msg).toContain("מחיר בסיס: 7,800");
     expect(msg).toContain("חלון הזזה כולל רשת ×2 – 2,380");
@@ -70,7 +70,7 @@ describe("WPC parquet floor", () => {
   it("is carried into the quote and the WhatsApp message", () => {
     const q = quote(p32, { ...defaultSelections(p32), "wpc-floor": "teak" });
     expect(q.total).toBe(7800 + 720);
-    expect(plain(configMessage(p32, q))).toContain('רצפת WPC איכותית: חום טיק (6 מ"ר) – 720');
+    expect(plain(configMessage(p32, q, defaultSelections(p32)))).toContain('רצפת WPC איכותית: חום טיק (6 מ"ר) – 720');
     expect(quote(p32, defaultSelections(p32)).lines.map((l) => l.id)).not.toContain("wpc-floor");
   });
 });
@@ -94,7 +94,7 @@ describe("electrical panel quantity (round 7)", () => {
     const q = quote(p32, { ...defaultSelections(p32), "electric-panel": 3 });
     expect(q.total).toBe(7800 + 3 * 1790);
     expect(q.lines.find((l) => l.id === "electric-panel")).toMatchObject({ qty: 3, unitPrice: 1790, total: 5370 });
-    expect(plain(configMessage(p32, q))).toContain("פאנל חשמל למחסן ×3 – 5,370");
+    expect(plain(configMessage(p32, q, defaultSelections(p32)))).toContain("פאנל חשמל למחסן ×3 – 5,370");
   });
 
   it("carries the quantity through the cart and the order message", () => {

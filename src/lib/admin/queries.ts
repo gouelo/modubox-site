@@ -4,6 +4,7 @@ import { orderItems, orders, type Order } from "@/db/schema";
 import { customerKey } from "../orders";
 import { CANCELLED, isStatus, OPEN, SALE_STATUSES, shownStatus } from "./status";
 import { israelDate, israelDayStart, nextDay, validDate } from "./time";
+import { orderProfileTag } from "../profile-color";
 
 /** The admin panel's reads. Server code only. */
 
@@ -201,6 +202,22 @@ export async function getCustomer(db: Db, key: string): Promise<{ customer: Cust
 }
 
 /** Each order's first product (slug and name), for the abandoned-checkout follow-up. */
+/** Each order's profile colour in one word ("לבן", "שחור", "לא צוין", "מעורב"), for the orders list. */
+export async function orderProfiles(db: Db, ids: string[]): Promise<Map<string, string>> {
+  if (!ids.length) return new Map();
+  const items = await db
+    .select({ orderId: orderItems.orderId, productSlug: orderItems.productSlug, profileColor: orderItems.profileColor, addons: orderItems.addons })
+    .from(orderItems)
+    .where(inArray(orderItems.orderId, ids));
+  const byOrder = Map.groupBy(items, (i) => i.orderId);
+  const out = new Map<string, string>();
+  for (const [id, rows] of byOrder) {
+    const tag = orderProfileTag(rows);
+    if (tag) out.set(id, tag);
+  }
+  return out;
+}
+
 export async function firstProducts(db: Db, ids: string[]): Promise<Map<string, { slug: string; name: string; more: number }>> {
   if (!ids.length) return new Map();
   const items = await db

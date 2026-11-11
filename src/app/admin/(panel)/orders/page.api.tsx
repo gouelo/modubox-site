@@ -9,7 +9,7 @@ import { can } from "@/lib/admin/auth";
 import { formatDateTime } from "@/lib/admin/time";
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
-import { filtersQuery, firstProducts, listOrders, PAGE_SIZE, readFilters, type OrderView } from "@/lib/admin/queries";
+import { filtersQuery, firstProducts, listOrders, orderProfiles, PAGE_SIZE, readFilters, type OrderView } from "@/lib/admin/queries";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "הזמנות" };
@@ -36,7 +36,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
   const { rows, total } = await listOrders(db, f);
   // not paid yet: a WhatsApp follow-up under each one
   const unpaid = rows.filter((o) => o.status === "pending_payment" && !o.isTest);
-  const [products, origin] = await Promise.all([firstProducts(db, unpaid.map((o) => o.id)), requestOrigin()]);
+  const [products, origin, profiles] = await Promise.all([firstProducts(db, unpaid.map((o) => o.id)), requestOrigin(), orderProfiles(db, rows.map((o) => o.id))]);
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const dated = !!(f.from || f.to);
   return (
@@ -156,7 +156,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
       ) : rows.length ? (
         <ul className="space-y-2">
           {rows.map((o) => (
-            <OrderCard key={o.id} o={o} followUp={o.status === "pending_payment" && !o.isTest ? followUpLink(o, products.get(o.id), origin) : undefined} />
+            <OrderCard key={o.id} o={o} profile={profiles.get(o.id)} followUp={o.status === "pending_payment" && !o.isTest ? followUpLink(o, products.get(o.id), origin) : undefined} />
           ))}
         </ul>
       ) : (

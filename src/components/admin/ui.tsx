@@ -62,7 +62,7 @@ export function Empty({ children }: { children: ReactNode }) {
 }
 
 /** An order in a list: who, how much, what state. The whole card opens it; `followUp` (a wa.me link) adds a WhatsApp button under it. */
-export function OrderCard({ o, followUp }: { o: Order; followUp?: string }) {
+export function OrderCard({ o, followUp, profile }: { o: Order; followUp?: string; /** the profile colour, in one word (the orders list) */ profile?: string }) {
   const card = (
     <Link href={`/admin/orders/${o.id}/`} className={`card flex items-center gap-3 p-4 transition hover:border-brand/40 hover:shadow-lift active:scale-[0.99] ${followUp ? "rounded-b-none" : ""}`}>
       <div className="min-w-0 flex-1">
@@ -72,6 +72,13 @@ export function OrderCard({ o, followUp }: { o: Order; followUp?: string }) {
           {o.isTest ? <span className="rounded-full bg-sand px-2 py-0.5 text-xs font-bold text-ink-soft">בדיקה</span> : null}
           {o.source ? <span className="rounded-full bg-sky-50 px-2 py-0.5 text-xs font-bold text-sky-800">{sourceLabel(o.source)}</span> : null}
         </div>
+        {profile ? (
+          <div className="mt-1">
+            <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-bold ring-1 ${profile === "שחור" ? "bg-ink text-white ring-ink" : profile === "לבן" ? "bg-white text-ink ring-line" : "bg-sand text-ink-soft ring-sand"}`}>
+              צבע פרופיל: {profile}
+            </span>
+          </div>
+        ) : null}
         <div className="mt-0.5 truncate text-sm text-ink-soft">
           #{o.id} · <bdi>{formatDateTime(o.createdAt)}</bdi>
           {o.city ? ` · ${o.city}` : ""}

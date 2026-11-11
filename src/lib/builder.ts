@@ -1,6 +1,7 @@
 import { dict } from "@/i18n";
 import { addonsFor } from "./catalog";
 import { variantCount } from "./pricing";
+import { PROFILE_ADDON } from "./profile-color";
 import type { Addon, Product, Selections } from "./types";
 
 export type StepIcon = "door" | "bolt" | "shelf" | "plus" | "check";
@@ -14,7 +15,7 @@ export interface BuilderStep {
 }
 
 /** The add-on chosen up front, before the steps: the profiles' colour, white or black. */
-export const PROFILE_ADDON = "profile-color";
+export { PROFILE_ADDON };
 
 /**
  * The steps of the add-ons builder on a product page. The size is the page's
