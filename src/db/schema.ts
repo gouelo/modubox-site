@@ -100,7 +100,7 @@ export interface ItemAddon {
   /** null: price on request */
   unitPrice: number | null;
   total: number | null;
-  /** the promotion's gift (₪0), e.g. "מתנה: רצפת פרקט WPC – אפור (6 מ"ר)" */
+  /** the promotion's gift (₪0), e.g. "מתנה: רצפת פרקט WPC – אלון עתיק (6 מ"ר)" */
   gift?: boolean;
 }
 

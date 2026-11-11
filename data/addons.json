@@ -106,9 +106,9 @@
       "pricePerM2": 120,
       "choices": [
         { "id": "none", "label": "ללא", "price": 0 },
-        { "id": "grey", "label": "אפור", "price": 0, "swatch": "floor/wpc-grey.webp" },
+        { "id": "grey", "label": "אלון עתיק", "price": 0, "swatch": "floor/wpc-grey.webp" },
         { "id": "teak", "label": "חום טיק", "price": 0, "swatch": "floor/wpc-teak.webp" },
-        { "id": "light", "label": "אפור־לבן", "price": 0, "swatch": "floor/wpc-light.webp" }
+        { "id": "light", "label": "אלון מולבן", "price": 0, "swatch": "floor/wpc-light.webp" }
       ],
       "default": "none",
       "description": "שילוב של עץ ופולימר: מראה טבעי של עץ עם עמידות גבוהה. עובי 37 מ\"מ, כולל שכבת בידוד וספיגת רעשים. עמידה במים – שוטפים במים וסבון.",

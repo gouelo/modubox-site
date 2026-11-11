@@ -78,7 +78,7 @@ describe("gifts in the price", () => {
 
   it("reads in English on the English site", () => {
     const q = quote(getProduct("modubox-4x3", "en")!, { "wpc-floor": "grey" }, [], DAY);
-    expect(q.gift?.line.label).toBe("Gift: WPC parquet floor – Gray (12 m²)");
+    expect(q.gift?.line.label).toBe("Gift: WPC parquet floor – Antique oak (12 m²)");
     expect(quote(getProduct("modubox-2x2", "en")!, {}, [], DAY).gift?.line.label).toBe("Gift: Everest 5-shelf unit");
   });
 
@@ -115,10 +115,10 @@ describe("the server's checkout agrees", () => {
     const r = priceCheckout(body, { today: DAY });
     if (!r.ok) throw new Error(r.error);
     const items = paymentItems(r.order);
-    expect(items[0].Description.startsWith('מתנה: רצפת פרקט WPC – אפור־לבן (12 מ"ר)')).toBe(true);
+    expect(items[0].Description.startsWith('מתנה: רצפת פרקט WPC – אלון מולבן (12 מ"ר)')).toBe(true);
     expect(items.find((x) => x.Name.includes("2×2") || x.Quantity === 2)?.Description).toContain("מתנה: כוננית אוורסט 5 מדפים");
     const rows = orderRows("261120000001", "s", r.order);
-    expect(rows.items[0].addons).toContainEqual({ label: 'מתנה: רצפת פרקט WPC – אפור־לבן (12 מ"ר)', qty: 1, unitPrice: 0, total: 0, gift: true });
+    expect(rows.items[0].addons).toContainEqual({ label: 'מתנה: רצפת פרקט WPC – אלון מולבן (12 מ"ר)', qty: 1, unitPrice: 0, total: 0, gift: true });
     expect(rows.items[1].addons).toContainEqual({ label: "מתנה: כוננית אוורסט 5 מדפים", qty: 1, unitPrice: 0, total: 0, gift: true });
   });
 
