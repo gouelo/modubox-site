@@ -6,4 +6,4 @@
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"category","t":"d","k":"insulated-panel-sheds","s":["about","accessibility","admin","api","blog","cart","checkout","contact","en","faq","gallery","llms-full.txt","llms.txt","p","privacy","product","shop","terms","warranty"]},"h":65600,"c":"$Q3"}]]
 1:[["children",{"s":"(he)","h":131120,"c":"$Q2"}]]
-0:{"b":"rytCu3KoPx1drmxJeq3Dx","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
+0:{"b":"YpU9QixS-SbKeKh4kY27K","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}
