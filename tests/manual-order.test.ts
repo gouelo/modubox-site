@@ -10,7 +10,7 @@ import { dashboard } from "../src/lib/admin/queries";
 import { ordersCsv } from "../src/lib/admin/csv";
 import { testDb } from "./db";
 
-const items = [{ slug: "modubox-2x2", qty: 1, selections: { "sliding-window": 2 }, fulfillment: "deliveryAndInstallation" }];
+const items = [{ slug: "modubox-2x2", qty: 1, selections: { "sliding-window": 2, "profile-color": "white" }, fulfillment: "deliveryAndInstallation" }];
 const input = (x: Partial<ManualOrderInput> = {}): ManualOrderInput => ({ items, customer: { name: "רונית לוי", phone: "054-7654321" }, source: "phone", payment: "transfer", paid: false, ...x });
 const coupons = parseCoupons("SALE10=10%");
 

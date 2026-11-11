@@ -4,6 +4,7 @@ import type { LeadAttribution } from "@/db/schema";
 import { formatILS } from "./format";
 import { paymentMethodLabel, type FullOrder } from "./orders";
 import { formatDateTime } from "./admin/time";
+import { itemProfile } from "./profile-color";
 
 /**
  * The email to the business on each paid order, sent with Resend
@@ -77,10 +78,11 @@ export function orderEmail({ order: o, items }: FullOrder, adminUrl: string) {
     ["אסמכתא Z-Credit", o.zcreditReference ?? ""],
     ["תאריך", formatDateTime(o.paidAt ?? o.createdAt)],
   ];
-  const lines = items.map((i) => ({
+  const lines = items.map((i) => ({ i, p: itemProfile(i) })).map(({ i, p }) => ({
     title: `${i.productName}${i.qty > 1 ? ` ×${i.qty}` : ""} – ${ils(i.itemsTotal)}`,
     details: [
-      ...i.addons.map((a) => `${a.gift ? "🎁 " : ""}${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
+      ...(p.show ? [p.line] : []),
+      ...p.addons.map((a) => `${a.gift ? "🎁 " : ""}${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
       `${i.fulfillmentLabel}${i.fulfillmentPrice ? `: ${ils(i.fulfillmentTotal)}${i.payToInstaller ? " (למתקין)" : ""}` : ""}`,
       ...(i.designLink ? [`עיצוב בקונפיגורטור: ${i.designLink}`] : []),
     ],
@@ -135,11 +137,12 @@ export function customerOrderEmail({ order: o, items }: FullOrder, origin: strin
   const subject = `קיבלנו את ההזמנה שלך, תודה! (הזמנה #${o.id})`;
   const next = he.payment.next;
 
-  const lines = items.map((i) => ({
+  const lines = items.map((i) => ({ i, p: itemProfile(i) })).map(({ i, p }) => ({
     title: `${i.productName}${i.qty > 1 ? ` ×${i.qty}` : ""}`,
     price: ils(i.itemsTotal),
     details: [
-      ...i.addons.map((a) => `${a.gift ? "🎁 " : ""}${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
+      ...(p.show ? [p.line] : []),
+      ...p.addons.map((a) => `${a.gift ? "🎁 " : ""}${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
       ...(i.designLink ? ["עוצב בקונפיגורטור התלת־ממדי"] : []),
     ],
     fulfillment: `${i.fulfillmentLabel}: ${

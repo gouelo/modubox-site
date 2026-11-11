@@ -19,13 +19,14 @@ const item = (slug: string, fulfillment: FulfillmentId, selections = {}): CartIt
 describe("builder WhatsApp message: delivery & installation (round 20)", () => {
   it("lists the size's delivery & installation price and a total that includes it", () => {
     const p = getProduct("modubox-3x2")!;
-    const q = quote(p, { ...defaultSelections(p), "electric-panel": 1, "wpc-floor": "teak" }, [], DAY);
-    const msg = plain(configMessage(p, q));
+    const sel = { ...defaultSelections(p), "electric-panel": 1, "wpc-floor": "teak" };
+    const msg = plain(configMessage(p, quote(p, sel, [], DAY), sel));
     expect(msg).toBe(
       [
         "היי מודובוקס! אשמח להזמין מחסן מודובוקס 3×2",
         "",
         "מחיר בסיס: 7,800 ₪",
+        "צבע פרופיל: לבן",
         "",
         "התוספות שבחרתי:",
         "• פאנל חשמל למחסן – 1,790 ₪",
@@ -41,7 +42,7 @@ describe("builder WhatsApp message: delivery & installation (round 20)", () => {
     for (const slug of ["modubox-1x0-8", "modubox-3x2", "guard-booth-2x2", "toilet-1x1", "gilboa-m"]) {
       for (const locale of ["he", "en"] as const) {
         const p = getProduct(slug, locale)!;
-        const msg = configMessage(p, quote(p, defaultSelections(p), [], DAY));
+        const msg = configMessage(p, quote(p, defaultSelections(p), [], DAY), defaultSelections(p));
         expect(msg, slug).not.toMatch(/לפי האזור|by area/);
         const cart = orderMessage(summarizeCart([item(slug, "deliveryAndInstallation")], locale, DAY), undefined, undefined, locale);
         expect(cart, slug).not.toMatch(/לפי האזור|by area/);
@@ -51,14 +52,14 @@ describe("builder WhatsApp message: delivery & installation (round 20)", () => {
 
   it("a small size gets its own price", () => {
     const p = getProduct("modubox-1x0-8")!;
-    const msg = plain(configMessage(p, quote(p, defaultSelections(p), [], DAY)));
+    const msg = plain(configMessage(p, quote(p, defaultSelections(p), [], DAY), defaultSelections(p)));
     expect(msg).toContain("הובלה והתקנה: 500");
     expect(msg).toContain('סה"כ כולל הובלה והתקנה: 3,090');
   });
 
   it("the guard booth's delivery is included in its price", () => {
     const p = getProduct("guard-booth-2x2")!;
-    const msg = plain(configMessage(p, quote(p, defaultSelections(p), [], DAY)));
+    const msg = plain(configMessage(p, quote(p, defaultSelections(p), [], DAY), defaultSelections(p)));
     expect(msg).toContain("הובלה והתקנה: כלול במחיר");
     expect(msg).toContain('סה"כ כולל הובלה והתקנה: 12,250');
   });
@@ -66,14 +67,14 @@ describe("builder WhatsApp message: delivery & installation (round 20)", () => {
   it("delivery on request leaves the total without it, and says so", () => {
     const base = getProduct("modubox-3x2")!;
     const p = { ...base, fulfillment: { ...base.fulfillment, deliveryAndInstallation: null } };
-    const msg = plain(configMessage(p, quote(p, defaultSelections(p), [], DAY)));
+    const msg = plain(configMessage(p, quote(p, defaultSelections(p), [], DAY), defaultSelections(p)));
     expect(msg).toContain("הובלה והתקנה: בתיאום");
     expect(msg).toContain('סה"כ (לא כולל הובלה והתקנה): 7,800');
   });
 
   it("reads in English", () => {
     const p = getProduct("modubox-3x2", "en")!;
-    const msg = plain(configMessage(p, quote(p, { ...defaultSelections(p), "electric-panel": 1, "wpc-floor": "teak" }, [], DAY)));
+    const msg = plain(configMessage(p, quote(p, { ...defaultSelections(p), "electric-panel": 1, "wpc-floor": "teak" }, [], DAY), defaultSelections(p)));
     expect(msg).toContain("Delivery & installation: ₪1,000");
     expect(msg).toContain("Total incl. delivery & installation: ₪10,590");
     expect(msg).toMatch(/🎁 Gift: /);

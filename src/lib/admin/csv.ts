@@ -2,6 +2,7 @@ import type { Order, OrderItem } from "@/db/schema";
 import { paymentMethodLabel } from "../orders";
 import { consentLabel, paymentLabel, sourceLabel, STATUS_LABEL } from "./status";
 import { formatDateTime } from "./time";
+import { itemProfile, profileColorName } from "../profile-color";
 
 /**
  * Orders as a CSV file that opens right in Excel and Google Sheets: UTF-8 with
@@ -25,6 +26,7 @@ const HEADER = [
   "עיר",
   "כתובת",
   "מוצרים",
+  "צבע פרופיל",
   "תוספות",
   "אספקה והתקנה",
   "מוצרים ותוספות (₪)",
@@ -58,7 +60,8 @@ export function ordersCsv(rows: { order: Order; items: OrderItem[] }[]): string 
         o.city,
         o.address,
         items.map((i) => `${i.productName}${i.qty > 1 ? ` ×${i.qty}` : ""}`).join(" | "),
-        items.map((i) => i.addons.map((a) => `${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}`).join(", ")).filter(Boolean).join(" | "),
+        items.map((i) => itemProfile(i)).filter((p) => p.show).map((p) => profileColorName(p.color)).join(" | "),
+        items.map((i) => itemProfile(i).addons.map((a) => `${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}`).join(", ")).filter(Boolean).join(" | "),
         items.map((i) => i.fulfillmentLabel).join(" | "),
         o.itemsTotal,
         o.fulfillmentTotal,

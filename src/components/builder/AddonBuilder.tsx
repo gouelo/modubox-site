@@ -111,7 +111,7 @@ export function AddonBuilder({ product }: { product: Product }) {
         </div>
       </div>
       {current.id === "summary" ? (
-        <SummaryStep product={product} q={q} profile={profileLabel} goTo={goTo} stepOf={stepOf} cta={cta} />
+        <SummaryStep product={product} q={q} selections={selections} profile={profileLabel} goTo={goTo} stepOf={stepOf} cta={cta} />
       ) : (
         <AddonStep step={current} product={product} selections={selections} set={set} giftAddon={q.gift?.choiceAddon?.id} />
       )}
@@ -232,7 +232,7 @@ export function AddonBuilder({ product }: { product: Product }) {
                     <Icon name="cart" /> {t.common.addToCart}
                   </motion.button>
                 )}
-                <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-glass w-full">
+                <a href={waLink(configMessage(product, q, selections))} target="_blank" rel="noopener" className="btn-glass w-full">
                   <Icon name="whatsapp" className="size-5 text-wa" /> {b.sendWhatsapp}
                 </a>
               </div>
@@ -265,7 +265,7 @@ export function AddonBuilder({ product }: { product: Product }) {
               >
                 <p className="font-display text-xl font-extrabold">{product.name}</p>
                 <Lines q={q} profile={profileLabel} onJump={(id) => goTo(stepOf(id))} />
-                <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
+                <a href={waLink(configMessage(product, q, selections))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
                   <Icon name="whatsapp" /> {b.sendWhatsapp}
                 </a>
               </motion.div>
@@ -448,7 +448,7 @@ function Lines({ q, profile, dark = false, onJump }: { q: Quote; profile?: strin
   );
 }
 
-function SummaryStep({ product, q, profile, goTo, stepOf, cta }: { product: Product; q: Quote; profile?: string; goTo: (i: number) => void; stepOf: (id: string) => number; cta: React.ReactNode }) {
+function SummaryStep({ product, q, selections, profile, goTo, stepOf, cta }: { product: Product; q: Quote; selections: Selections; profile?: string; goTo: (i: number) => void; stepOf: (id: string) => number; cta: React.ReactNode }) {
   const delivery = fulfillmentOptions(product)[0];
   const locale = useLocale();
   const t = useT();
@@ -480,7 +480,7 @@ function SummaryStep({ product, q, profile, goTo, stepOf, cta }: { product: Prod
           <Icon name="truck" className="size-4 shrink-0 text-brand-dark" />
           {delivery.price === null ? b.deliveryOnRequest : delivery.price === 0 ? b.deliveryIncluded : b.deliverySummary(formatILS(delivery.price, locale))}
         </p>
-        <a href={waLink(configMessage(product, q))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
+        <a href={waLink(configMessage(product, q, selections))} target="_blank" rel="noopener" className="btn-wa mt-4 w-full">
           <Icon name="whatsapp" /> {b.sendWhatsapp}
         </a>
         <div className="mt-3">{cta}</div>

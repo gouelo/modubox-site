@@ -5,6 +5,7 @@ import { addonsFor, catalog, getProduct, plain } from "@/lib/catalog";
 import { defaultSelections, fulfillmentOptions, hasVariantQty, summarizeCart, variantKey } from "@/lib/pricing";
 import type { CartItem, FulfillmentId, Selections } from "@/lib/types";
 import { createManualOrderAction } from "@/lib/admin/manual-order-actions";
+import { PROFILE_ADDON } from "@/lib/profile-color";
 import { Feedback, Field } from "./ContentForms";
 import { SubmitButton } from "./SubmitButton";
 
@@ -25,7 +26,10 @@ interface Line {
 const ils = (n: number) => `${n.toLocaleString("he-IL")} ₪`;
 const newLine = (slug: string, key: number): Line => {
   const p = getProduct(slug)!;
-  return { key, slug, qty: 1, selections: defaultSelections(p), fulfillment: fulfillmentOptions(p)[0].id };
+  // the profile colour is the staff's to pick, never a default
+  const selections = defaultSelections(p);
+  delete selections[PROFILE_ADDON];
+  return { key, slug, qty: 1, selections, fulfillment: fulfillmentOptions(p)[0].id };
 };
 
 export function ManualOrderForm({ payLink }: { payLink: boolean }) {
@@ -73,7 +77,20 @@ export function ManualOrderForm({ payLink }: { payLink: boolean }) {
               <fieldset className="grid gap-2">
                 <legend className="mb-1 text-sm font-bold">תוספות</legend>
                 {addonsFor(p).map((a) =>
-                  a.kind === "toggle" ? (
+                  a.id === PROFILE_ADDON ? (
+                    <fieldset key={a.id} className="grid gap-1.5 text-sm">
+                      <legend className="mb-0.5 font-bold">צבע פרופיל (חובה)</legend>
+                      <div className="flex gap-2">
+                        {a.choices?.map((c) => (
+                          <label key={c.id} className="flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl px-3 font-semibold ring-1 ring-line has-[:checked]:bg-ink has-[:checked]:text-white has-[:checked]:ring-ink">
+                            <input type="radio" name={`profile-${l.key}`} value={c.id} required checked={l.selections[a.id] === c.id} onChange={() => setSel(l.key, a.id, c.id)} className="sr-only" />
+                            <span aria-hidden className="size-4 rounded-full ring-1 ring-ink/30" style={{ background: c.swatch }} />
+                            {plain(c.label)}
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  ) : a.kind === "toggle" ? (
                     <label key={a.id} className="flex items-center gap-3 text-sm">
                       <input type="checkbox" checked={Number(l.selections[a.id]) === 1} onChange={(e) => setSel(l.key, a.id, e.target.checked ? 1 : 0)} className="size-5 accent-brand-dark" />
                       <span className="flex-1">{plain(a.name)}</span>

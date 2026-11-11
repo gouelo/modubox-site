@@ -19,6 +19,7 @@ import { sourceLabel } from "@/lib/admin/status";
 import { waNumber } from "@/lib/admin/follow-up";
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
+import { itemProfile, profileColorName } from "@/lib/profile-color";
 
 export const dynamic = "force-dynamic";
 
@@ -159,7 +160,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
       <Section title={items.length === 1 ? "מה הוזמן" : `מה הוזמן (${items.length} פריטים)`}>
         {items.length ? (
           <ul className="divide-y divide-line">
-            {items.map((i) => (
+            {items.map((i) => ({ i, p: itemProfile(i) })).map(({ i, p }) => (
               <li key={i.id} className="py-3 first:pt-0 last:pb-0">
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="font-bold">
@@ -169,8 +170,13 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
                   <span className="shrink-0 font-bold">{ils(i.itemsTotal)}</span>
                 </div>
                 <ul className="mt-1 space-y-0.5 text-sm text-ink-soft">
+                  {p.show ? (
+                    <li className="font-bold text-ink">
+                      צבע פרופיל: <span className={p.color ? undefined : "text-copper-deep"}>{profileColorName(p.color)}</span>
+                    </li>
+                  ) : null}
                   <li>מחיר בסיס: {ils(i.basePrice)}</li>
-                  {i.addons.map((a, n) => (
+                  {p.addons.map((a, n) => (
                     <li key={n} className={a.gift ? "font-bold text-brand-dark" : undefined}>
                       {a.gift ? "🎁 " : "+ "}
                       {a.label}

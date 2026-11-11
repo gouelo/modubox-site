@@ -85,7 +85,7 @@ describe("glass walls by the unit in the product page's builder", () => {
         { label: "קיר זכוכית ויטרינה: ויטרינה + תריס ונציאני מובנה", qty: 1, unitPrice: 1990, total: 1990 },
       ]),
     );
-    expect(configMessage(p, quote(p, twoAndOne))).toContain("ויטרינה – זכוכית כפולה מבודדת ×2");
+    expect(configMessage(p, quote(p, twoAndOne), twoAndOne)).toContain("ויטרינה – זכוכית כפולה מבודדת ×2");
   });
 
   it("reads in English with the same prices", () => {

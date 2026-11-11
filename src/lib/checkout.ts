@@ -3,6 +3,7 @@ import { addonsFor, getProduct, plain, site } from "./catalog";
 import { applyCoupon, israelToday, type AppliedCoupon, type CouponError, type CouponMap } from "./coupons";
 import { CONFIGURATOR_ORIGIN, designToCartItem, parseDesign } from "./configurator";
 import { fulfillmentOptions, hasVariantQty, summarizeCart, variantKey, type CartSummary } from "./pricing";
+import { PROFILE_ADDON, profileColorOf, profileLine } from "./profile-color";
 import type { CartItem, DesignExtra, FulfillmentId, Product, Selections } from "./types";
 import type { Customer } from "./whatsapp";
 
@@ -120,6 +121,8 @@ function readCustomer(x: unknown, locale: Locale): Customer | null {
  * The builder's choices, kept to what the product offers: a toggle is 0 or 1,
  * a count is a whole number up to its maximum, a choice one of its choices.
  * Anything else is dropped (a negative count must never lower the price).
+ * A choice missing takes its default, except the profiles' colour: the order
+ * says only a colour the customer picked (src/lib/profile-color.ts).
  */
 export function cleanSelections(product: Product, raw: unknown): Selections {
   const input = isObj(raw) ? raw : {};
@@ -130,7 +133,7 @@ export function cleanSelections(product: Product, raw: unknown): Selections {
       const choice = a.choices?.find((c) => c.id === v);
       const fallback = a.default ?? a.choices?.[0]?.id;
       if (choice) out[a.id] = choice.id;
-      else if (fallback) out[a.id] = fallback;
+      else if (fallback && a.id !== PROFILE_ADDON) out[a.id] = fallback;
       // an option by the unit (variantKey): only a real, priced option, up to the add-on's limit
       if (hasVariantQty(a))
         for (const c of a.choices ?? []) {
@@ -235,9 +238,13 @@ export function paymentItems(order: PricedOrder, imageUrl?: (product: Product) =
   const out: PaymentItem[] = [];
   for (const l of order.cart.lines) {
     const name = plain(l.product.name);
-    // the promotion's gift first, so the factory sees it even if the description is cut short
-    const rest = l.quote.lines.slice(1);
-    const extras = [...rest.filter((x) => x.gift), ...rest.filter((x) => !x.gift)].map((x) => plain(x.label) + (x.qty > 1 ? ` ×${x.qty}` : ""));
+    // the profile colour and the promotion's gift first, so the factory sees them even if the description is cut short
+    const rest = l.quote.lines.slice(1).filter((x) => x.id !== PROFILE_ADDON);
+    const color = profileColorOf(l.product, l.item.selections);
+    const extras = [
+      ...(color ? [profileLine(color, order.locale)] : []),
+      ...[...rest.filter((x) => x.gift), ...rest.filter((x) => !x.gift)].map((x) => plain(x.label) + (x.qty > 1 ? ` ×${x.qty}` : "")),
+    ];
     const image = imageUrl?.(l.product);
     out.push({
       Amount: l.quote.total,
