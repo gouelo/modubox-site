@@ -1,5 +1,5 @@
 :HL["/modubox-site/_next/static/chunks/0upc0yo-2p2lb.css","style"]
-:HL["/modubox-site/_next/static/chunks/0o7dx-8xzgns_.css","style"]
+:HL["/modubox-site/_next/static/chunks/2hrk63p2lpg7v.css","style"]
 :HL["/modubox-site/_next/static/media/a2ad9851afd9a4d8-s.p.0jgv4ivu1938h.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/_next/static/media/d0c0bfa28634aa91-s.p.3dq6enaul-s3b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/modubox-site/brand/logo-white.svg","image"]
@@ -7,4 +7,4 @@
 3:[["children",{"s":{"n":"slug","t":"d","k":"%D7%9E%D7%97%D7%A1%D7%9F-%D7%9C%D7%9E%D7%9B%D7%95%D7%A0%D7%AA-%D7%9B%D7%91%D7%99%D7%A1%D7%94-%D7%95%D7%9E%D7%99%D7%99%D7%91%D7%A9","s":[]},"h":96,"c":"$Q4"}]]
 2:[["children",{"s":"blog","h":64,"c":"$Q3"}]]
 1:[["children",{"s":"(he)","h":48,"c":"$Q2"}]]
-0:{"b":"YpU9QixS-SbKeKh4kY27K","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"xTkvsToDfi8fwT5GPh2b_","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
