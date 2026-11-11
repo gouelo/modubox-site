@@ -49,7 +49,7 @@
       "name": "Premium WPC flooring",
       "description": "A wood-polymer composite: the natural look of wood with high durability. 37 mm thick, with an insulating, sound-absorbing layer. Water-resistant – clean it with soap and water.",
       "note": "₪120 per m² including installation, by your shed's floor area · 5-year warranty",
-      "choices": { "none": "None", "grey": "Gray", "teak": "Teak brown", "light": "Light gray" }
+      "choices": { "none": "None", "grey": "Antique oak", "teak": "Teak brown", "light": "Whitewashed oak" }
     },
     "shelf-4": {
       "name": "Everest 4-shelf unit",
