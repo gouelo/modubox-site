@@ -84,7 +84,8 @@ describe("gifts in the price", () => {
 
   it("shows the gift in the WhatsApp order", () => {
     const cart = summarizeCart([{ id: "a", slug: "modubox-2x2", qty: 1, selections: {}, fulfillment: "deliveryAndInstallation" }], "he", DAY);
-    expect(orderMessage(cart)).toContain("מתנה: כוננית אוורסט 5 מדפים – מתנה");
+    expect(orderMessage(cart)).toContain("🎁 מתנה: כוננית אוורסט 5 מדפים");
+    expect(orderMessage(cart)).not.toContain("– מתנה");
   });
 });
 
