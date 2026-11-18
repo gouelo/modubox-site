@@ -12,7 +12,7 @@ import { deleteLeadAction } from "@/lib/admin/lead-actions";
 import { requireAdmin } from "@/lib/admin/session";
 import { formatDateTime } from "@/lib/admin/time";
 import { LEAD_KIND_LABELS } from "@/lib/leads";
-import { waNumber } from "@/lib/admin/follow-up";
+import { telHref, waNumber } from "@/lib/phone";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +36,6 @@ export default async function LeadPage({ params }: { params: Promise<{ id: strin
   const first = l.name.split(" ")[0];
   const about = l.product ? ` על ${l.product}` : "";
   const hello = encodeURIComponent(`שלום ${first}, כאן מודובוקס, לגבי הפנייה שלך באתר${about}`);
-  const digits = l.phone.replace(/[^\d+]/g, "");
   const subject = encodeURIComponent(`מודובוקס: הפנייה שלך${about}`);
   const history = [{ id: 0, at: l.createdAt, icon: "📥", text: `הליד התקבל (${LEAD_KIND_LABELS[l.kind] ?? l.kind})${l.emailedAt ? " ונשלח במייל" : ""}`, actor: "system" }, ...events.map((e) => ({ id: e.id, at: e.at, icon: e.kind === "note" ? "📝" : "🔄", text: eventText(e), actor: e.actor, note: e.kind === "note" }))];
 
@@ -58,7 +57,7 @@ export default async function LeadPage({ params }: { params: Promise<{ id: strin
         </div>
         {l.message ? <p className="mt-3 whitespace-pre-wrap rounded-xl bg-sand p-3 text-[15px] leading-7">{l.message}</p> : null}
         <div className="mt-4 grid grid-cols-3 gap-2">
-          <a href={`tel:${digits}`} className="btn-ghost min-h-12 justify-center px-3 text-sm">
+          <a href={telHref(l.phone)} className="btn-ghost min-h-12 justify-center px-3 text-sm">
             <span aria-hidden>📞</span> חיוג
           </a>
           <a href={`https://wa.me/${waNumber(l.phone)}?text=${hello}`} target="_blank" rel="noopener" className="btn-wa min-h-12 justify-center px-3 text-sm">
@@ -84,7 +83,7 @@ export default async function LeadPage({ params }: { params: Promise<{ id: strin
         <Section title="פרטים">
           <dl>
             <Row label="טלפון">
-              <a href={`tel:${digits}`} dir="ltr">
+              <a href={telHref(l.phone)} dir="ltr">
                 {l.phone}
               </a>
             </Row>

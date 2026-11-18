@@ -10,6 +10,7 @@ import { useLocale, useT } from "@/i18n/client";
 import { CURRENCY, ecommerce, gaItems, savePending, track } from "@/lib/analytics";
 import { useCart } from "@/lib/cart-store";
 import { checkoutRequest, MAX_INSTALLMENTS } from "@/lib/checkout";
+import { validPhone } from "@/lib/phone";
 import { formatILS } from "@/lib/format";
 import { summarizeCart } from "@/lib/pricing";
 import { asset } from "@/lib/paths";
@@ -123,9 +124,8 @@ export function CheckoutFlow() {
   const set = (k: keyof Customer) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setCustomer((c) => ({ ...c, [k]: e.target.value }));
   const validate = () => {
     const e: Record<string, string> = {};
-    const phone = customer.phone.replace(/[\s()-]/g, "");
-    // an Israeli number; on the English site also a number from abroad (+44…)
-    const phoneOk = /^0\d{1,2}\d{7}$/.test(phone.replace(/^\+?972/, "0")) || (locale === "en" && /^\+\d{8,15}$/.test(phone));
+    // an Israeli number (from 0 or +972); on the English site also a number from abroad (+44…)
+    const phoneOk = validPhone(customer.phone, locale);
     if (customer.name.trim().length < 2) e.name = k.errors.name;
     if (!phoneOk) e.phone = k.errors.phone;
     if (customer.email && !/^\S+@\S+\.\S+$/.test(customer.email)) e.email = k.errors.email;

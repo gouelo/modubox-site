@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getDb } from "@/db";
 import { requireAdmin } from "@/lib/admin/session";
 import type { OrderEvent } from "@/db/schema";
-import { NoteForm, StatusSelect } from "@/components/admin/OrderForms";
+import { EditCustomerForm, NoteForm, StatusSelect } from "@/components/admin/OrderForms";
 import { ContactButtons, ils, NoDatabase, Row, Section, StatusBadge } from "@/components/admin/ui";
 import { allowedMoves, CANCELLED, STATUS_NAME } from "@/lib/admin/status";
 import { formatDateTime } from "@/lib/admin/time";
@@ -16,7 +16,7 @@ import { deleteOrdersAction } from "@/lib/admin/actions";
 import { can } from "@/lib/admin/auth";
 import { MANUAL_PAYMENTS, PAYMENT_LABEL, paymentLabel } from "@/lib/admin/manual-order";
 import { sourceLabel } from "@/lib/admin/status";
-import { waNumber } from "@/lib/admin/follow-up";
+import { telHref, waNumber } from "@/lib/phone";
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
 import { itemProfile, profileColorName } from "@/lib/profile-color";
@@ -34,7 +34,7 @@ function eventText(e: OrderEvent): string {
   return e.text ?? "";
 }
 
-const EVENT_ICON: Record<string, string> = { created: "🛒", paid: "💳", status: "🔄", schedule: "📅", note: "📝", email: "✉️" };
+const EVENT_ICON: Record<string, string> = { created: "🛒", paid: "💳", status: "🔄", schedule: "📅", note: "📝", email: "✉️", edit: "✏️" };
 
 export default async function OrderPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
   const session = await requireAdmin("orders");
@@ -128,7 +128,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
               </Link>
             </Row>
             <Row label="טלפון">
-              <a href={`tel:${o.customerPhone.replace(/[^\d+]/g, "")}`} dir="ltr">
+              <a href={telHref(o.customerPhone)} dir="ltr">
                 {o.customerPhone}
               </a>
             </Row>
@@ -138,6 +138,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
             <Row label="שפת האתר">{o.locale === "en" ? "אנגלית" : null}</Row>
             <Row label="מסכים/ה לדיוור">{o.marketingConsent === null ? null : o.marketingConsent ? "כן, סימן/ה בקופה" : "לא"}</Row>
           </dl>
+          {!paid ? <EditCustomerForm id={o.id} details={{ name: o.customerName, phone: o.customerPhone, email: o.customerEmail ?? "", city: o.city ?? "", address: o.address ?? "", notes: o.customerNotes ?? "" }} /> : null}
         </Section>
 
         <Section title="תשלום">

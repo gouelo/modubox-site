@@ -1,7 +1,7 @@
 import { and, desc, eq, ilike, isNull, or } from "drizzle-orm";
 import type { Db } from "@/db";
 import { LEAD_KINDS, leads, type Lead, type LeadAttribution, type LeadKind } from "@/db/schema";
-import { validPhone } from "./phone";
+import { normalizePhone, validPhone } from "./phone";
 import { LEAD_SOURCES, leadEmail, leadsEmailConfig, sendEmail } from "./notify";
 
 /**
@@ -57,7 +57,7 @@ export function checkLead(body: unknown): LeadCheck {
       kind,
       locale,
       name,
-      phone,
+      phone: normalizePhone(phone),
       email,
       city: opt(b.city, 100),
       message: opt(b.message, kind === "order" ? 4000 : 2000),

@@ -5,6 +5,7 @@ import { formatILS } from "./format";
 import { paymentMethodLabel, type FullOrder } from "./orders";
 import { formatDateTime } from "./admin/time";
 import { itemProfile } from "./profile-color";
+import { waNumber } from "./phone";
 
 /**
  * The email to the business on each paid order, sent with Resend
@@ -246,8 +247,7 @@ export function leadEmail(
   const about = l.product || l.page || LEAD_SOURCES[l.kind];
   const subject = `ליד חדש מהאתר: ${l.name} · ${about}`;
   // the number in international form, for tel: and wa.me (an Israeli 05… becomes 9725…)
-  const digits = l.phone.replace(/\D/g, "");
-  const phoneLinks = l.phone.trim().startsWith("+") || digits.startsWith("972") ? digits : `972${digits.replace(/^0/, "")}`;
+  const phoneLinks = waNumber(l.phone);
   const a = l.attribution;
   const ads = [
     a.utm_source && `מקור: ${a.utm_source}${a.utm_medium ? ` / ${a.utm_medium}` : ""}`,

@@ -172,7 +172,7 @@ export function ManualOrderForm({ payLink }: { payLink: boolean }) {
           <input name="name" required className="field" autoComplete="off" />
         </Field>
         <Field label="טלפון">
-          <input name="phone" required className="field" dir="ltr" inputMode="tel" autoComplete="off" />
+          <input name="phone" required className="field" dir="ltr" inputMode="tel" autoComplete="off" placeholder="050-1234567 / +972 50-123-4567" />
         </Field>
         <Field label="מייל (לא חובה)">
           <input name="email" type="email" className="field" dir="ltr" autoComplete="off" />

@@ -1,8 +1,9 @@
 import { eq } from "drizzle-orm";
 import type { Db } from "@/db";
 import { orderEvents, orderItems, orders, ORDER_SOURCES, type OrderSource } from "@/db/schema";
-import { MAX_INSTALLMENTS, priceCart, validPhone, newOrderId, type PricedOrder } from "../checkout";
+import { MAX_INSTALLMENTS, priceCart, newOrderId, type PricedOrder } from "../checkout";
 import type { CouponMap } from "../coupons";
+import { normalizePhone, validPhone } from "../phone";
 import { orderRows } from "../orders";
 import { offersProfile, profileColorOf } from "../profile-color";
 import { MANUAL_PAYMENTS, PAYMENT_LABEL, type ManualPayment } from "./status";
@@ -45,9 +46,10 @@ const ERRORS: Record<string, string> = {
 /** The same pricing as the site's checkout, then the phone deal's discount. */
 export function priceManualOrder(input: ManualOrderInput, coupons: CouponMap): ManualPriced {
   const c = input.customer;
-  const customer: Customer = { name: c.name.trim().slice(0, 80), phone: c.phone.trim().slice(0, 20), email: c.email?.trim().slice(0, 120) ?? "", city: c.city?.trim().slice(0, 60) ?? "", address: c.address?.trim().slice(0, 120) ?? "", notes: c.notes?.trim().slice(0, 1000) ?? "" };
+  const customer: Customer = { name: c.name.trim().slice(0, 80), phone: c.phone.trim().slice(0, 30), email: c.email?.trim().slice(0, 120) ?? "", city: c.city?.trim().slice(0, 60) ?? "", address: c.address?.trim().slice(0, 120) ?? "", notes: c.notes?.trim().slice(0, 1000) ?? "" };
   if (customer.name.length < 2) return { ok: false, error: "שם הלקוח חסר." };
   if (!validPhone(customer.phone, "en")) return { ok: false, error: "מספר הטלפון לא תקין." };
+  customer.phone = normalizePhone(customer.phone);
   if (customer.email && !/^\S+@\S+\.\S+$/.test(customer.email)) return { ok: false, error: "המייל לא תקין." };
   if (!ORDER_SOURCES.includes(input.source)) return { ok: false, error: "מקור ההזמנה לא תקין." };
   if (!MANUAL_PAYMENTS.includes(input.payment)) return { ok: false, error: "אמצעי התשלום לא תקין." };
