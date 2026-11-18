@@ -1,10 +1,10 @@
 import { eq } from "drizzle-orm";
 import type { Db } from "@/db";
 import { orderEvents, orderItems, orders, ORDER_SOURCES, type OrderSource } from "@/db/schema";
-import { MAX_INSTALLMENTS, priceCart, newOrderId, type PricedOrder } from "../checkout";
+import { MAX_INSTALLMENTS, priceCart, newOrderId, type CustomLine, type PricedOrder } from "../checkout";
 import type { CouponMap } from "../coupons";
 import { normalizePhone, validPhone } from "../phone";
-import { orderRows } from "../orders";
+import { customTotal, orderRows } from "../orders";
 import { offersProfile, profileColorOf } from "../profile-color";
 import { MANUAL_PAYMENTS, PAYMENT_LABEL, type ManualPayment } from "./status";
 import type { Customer } from "../whatsapp";
@@ -30,6 +30,8 @@ export interface ManualOrderInput {
   payment: ManualPayment;
   /** already paid (a transfer that arrived, cash) */
   paid: boolean;
+  /** lines typed in by hand (something the site doesn't sell): [{ name, price, qty }], price in whole shekels per unit */
+  custom?: unknown;
   /** a Z-Credit link: the customer picks 1 to this many regular installments on the payment page (default 12) */
   maxInstallments?: number;
 }
@@ -43,7 +45,31 @@ const ERRORS: Record<string, string> = {
   price_on_request: "יש בהזמנה משהו שמחירו בתיאום (בלי מחיר באתר). בחרו אפשרות עם מחיר, ואת ההפרש הוסיפו בהערות.",
 };
 
-/** The same pricing as the site's checkout, then the phone deal's discount. */
+export const MAX_CUSTOM_LINES = 20;
+export const MAX_CUSTOM_PRICE = 1_000_000;
+
+/** The lines typed in by hand, checked: a name, a whole positive price, a quantity 1–100. Empty rows (no name, no price) are dropped. */
+export function readCustomLines(x: unknown): { ok: true; lines: CustomLine[] } | { ok: false; error: string } {
+  if (x === undefined || x === null || x === "") return { ok: true, lines: [] };
+  if (!Array.isArray(x)) return { ok: false, error: "הפריטים הידניים לא נקראו." };
+  const lines: CustomLine[] = [];
+  for (const r of x as Record<string, unknown>[]) {
+    const name = typeof r?.name === "string" ? r.name.trim().replace(/\s+/g, " ") : "";
+    const rawPrice = typeof r?.price === "string" ? r.price.replace(/[,\s₪]/g, "") : r?.price;
+    if (!name && (rawPrice === "" || rawPrice === undefined || rawPrice === null)) continue;
+    const price = Number(rawPrice);
+    const qty = r?.qty === undefined || r?.qty === "" ? 1 : Number(r.qty);
+    if (name.length < 2) return { ok: false, error: "לכל פריט ידני צריך שם." };
+    if (name.length > 100) return { ok: false, error: "שם פריט ידני ארוך מדי (עד 100 תווים)." };
+    if (!(Number.isInteger(price) && price >= 1 && price <= MAX_CUSTOM_PRICE)) return { ok: false, error: `מחיר פריט ידני ("${name}"): מספר שלם בשקלים, מ־1 עד ${MAX_CUSTOM_PRICE.toLocaleString("he-IL")}.` };
+    if (!(Number.isInteger(qty) && qty >= 1 && qty <= 100)) return { ok: false, error: `כמות פריט ידני ("${name}"): מספר שלם מ־1 עד 100.` };
+    lines.push({ name, price, qty });
+  }
+  if (lines.length > MAX_CUSTOM_LINES) return { ok: false, error: `עד ${MAX_CUSTOM_LINES} פריטים ידניים.` };
+  return { ok: true, lines };
+}
+
+/** The same pricing as the site's checkout, then the lines typed in by hand and the phone deal's discount. */
 export function priceManualOrder(input: ManualOrderInput, coupons: CouponMap): ManualPriced {
   const c = input.customer;
   const customer: Customer = { name: c.name.trim().slice(0, 80), phone: c.phone.trim().slice(0, 30), email: c.email?.trim().slice(0, 120) ?? "", city: c.city?.trim().slice(0, 60) ?? "", address: c.address?.trim().slice(0, 120) ?? "", notes: c.notes?.trim().slice(0, 1000) ?? "" };
@@ -59,10 +85,13 @@ export function priceManualOrder(input: ManualOrderInput, coupons: CouponMap): M
     return { ok: false, error: ERRORS[priced.error] ?? "לא הצלחנו לתמחר את ההזמנה." };
   }
   if (priced.cart.lines.some((l) => offersProfile(l.product) && !profileColorOf(l.product, l.item.selections))) return { ok: false, error: "בחרו צבע פרופיל (לבן או שחור) לכל מחסן." };
+  const custom = readCustomLines(input.custom);
+  if (!custom.ok) return { ok: false, error: custom.error };
+  const extra = customTotal({ custom: custom.lines });
   const discount = input.discount ?? 0;
   if (!(Number.isInteger(discount) && discount >= 0)) return { ok: false, error: "הנחה: מספר שלם בשקלים." };
   const couponAmount = priced.coupon?.amount ?? 0;
-  if (couponAmount + discount > priced.cart.total - 1) return { ok: false, error: "ההנחה גדולה מהמחיר." };
+  if (couponAmount + discount > priced.cart.total + extra - 1) return { ok: false, error: "ההנחה גדולה מהמחיר." };
   const max = input.maxInstallments ?? MAX_INSTALLMENTS;
   const order: PricedOrder = {
     locale: "he",
@@ -73,7 +102,8 @@ export function priceManualOrder(input: ManualOrderInput, coupons: CouponMap): M
     cart: priced.cart,
     // one discount line for Z-Credit: the coupon and the phone deal together
     coupon: couponAmount + discount ? { code: priced.coupon?.code ?? "MANUAL", amount: couponAmount + discount, delivery: priced.coupon?.delivery ?? true } : null,
-    total: priced.cart.total - couponAmount - discount,
+    total: priced.cart.total + extra - couponAmount - discount,
+    ...(custom.lines.length ? { custom: custom.lines } : {}),
   };
   return { ok: true, order, couponCode: priced.coupon?.code ?? null, manualDiscount: discount };
 }
@@ -96,7 +126,7 @@ export async function saveManualOrder(db: Db, input: ManualOrderInput, priced: E
       ...(input.paid ? { paidAt: now } : {}),
     });
     if (rows.items.length) await tx.insert(orderItems).values(rows.items);
-    const parts = [`הזמנה ידנית${label ? ` ${label}` : ""}, ${PAYMENT_LABEL[input.payment]}`, priced.manualDiscount ? `הנחה ${priced.manualDiscount} ₪` : ""].filter(Boolean);
+    const parts = [`הזמנה ידנית${label ? ` ${label}` : ""}, ${PAYMENT_LABEL[input.payment]}`, priced.order.custom?.length ? `פריטים ידניים: ${priced.order.custom.map((c) => `${c.name}${c.qty > 1 ? ` ×${c.qty}` : ""} (${c.price * c.qty} ₪)`).join(", ")}` : "", priced.manualDiscount ? `הנחה ${priced.manualDiscount} ₪` : ""].filter(Boolean);
     await tx.insert(orderEvents).values({ orderId: id, kind: "created", toStatus: "new", text: parts.join(" · "), actor, at: now });
     if (input.paid) await tx.insert(orderEvents).values({ orderId: id, kind: "paid", text: `שולם ${priced.order.total} ₪ (${PAYMENT_LABEL[input.payment]})`, actor, at: now });
   });

@@ -11,7 +11,7 @@ import { formatDateTime } from "@/lib/admin/time";
 import { committed, getOrder, paymentMethodLabel } from "@/lib/orders";
 import { ConfirmForm } from "@/components/admin/ContentForms";
 import { CopyButton } from "@/components/admin/CopyButton";
-import { markPaidAction } from "@/lib/admin/manual-order-actions";
+import { markPaidAction, paymentLinkAgainAction } from "@/lib/admin/manual-order-actions";
 import { deleteOrdersAction } from "@/lib/admin/actions";
 import { can } from "@/lib/admin/auth";
 import { MANUAL_PAYMENTS, PAYMENT_LABEL, paymentLabel } from "@/lib/admin/manual-order";
@@ -20,6 +20,7 @@ import { telHref, waNumber } from "@/lib/phone";
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
 import { itemProfile, profileColorName } from "@/lib/profile-color";
+import { CUSTOM_SLUG } from "@/lib/checkout";
 
 export const dynamic = "force-dynamic";
 
@@ -93,6 +94,24 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
             </div>
             <p className="mt-2 text-xs text-ink-soft">כשהלקוח ישלם, ההזמנה תסומן כשולמה לבד (כמו בקופה באתר).</p>
           </div>
+        ) : null}
+        {o.payment === "zcredit_link" && !paid && !CANCELLED.includes(o.status) ? (
+          <ConfirmForm action={paymentLinkAgainAction} confirm={o.paymentLink ? "ליצור קישור תשלום חדש? הוא ייבנה מהפרטים הנוכחיים של ההזמנה ויחליף את הקישור שמוצג כאן." : "ליצור קישור תשלום מהפרטים הנוכחיים של ההזמנה?"} className="mt-3 flex flex-wrap items-end gap-2">
+            <input type="hidden" name="id" value={o.id} />
+            <label className="text-sm">
+              <span className="mb-1 block font-semibold">עד כמה תשלומים</span>
+              <select name="maxInstallments" defaultValue="12" className="field min-h-11">
+                {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
+                  <option key={n} value={n}>
+                    {n === 1 ? "תשלום אחד בלבד" : `עד ${n} תשלומים`}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button type="submit" className={`${o.paymentLink ? "btn-ghost" : "btn-primary"} min-h-11 px-4 text-sm`}>
+              {o.paymentLink ? "יצירת קישור תשלום חדש" : "יצירת קישור תשלום מחדש"}
+            </button>
+          </ConfirmForm>
         ) : null}
         {o.source && !paid && !o.paymentLink && !CANCELLED.includes(o.status) ? (
           <ConfirmForm action={markPaidAction} confirm="לסמן שההזמנה שולמה?" className="mt-3 flex flex-wrap items-end gap-2">
@@ -176,7 +195,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
                       צבע פרופיל: <span className={p.color ? undefined : "text-copper-deep"}>{profileColorName(p.color)}</span>
                     </li>
                   ) : null}
-                  <li>מחיר בסיס: {ils(i.basePrice)}</li>
+                  <li>{i.productSlug === CUSTOM_SLUG ? `פריט ידני · ${ils(i.basePrice)} ליח׳` : `מחיר בסיס: ${ils(i.basePrice)}`}</li>
                   {p.addons.map((a, n) => (
                     <li key={n} className={a.gift ? "font-bold text-brand-dark" : undefined}>
                       {a.gift ? "🎁 " : "+ "}
@@ -184,11 +203,13 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
                       {a.qty > 1 ? ` ×${a.qty}` : ""}: {a.gift ? "מתנת המבצע (₪0)" : a.total === null ? <span className="text-copper-deep">מחיר בתיאום</span> : ils(a.total)}
                     </li>
                   ))}
-                  <li>
-                    🚚 {i.fulfillmentLabel}
-                    {i.fulfillmentPrice ? `: ${ils(i.fulfillmentTotal)}` : ""}
-                    {i.payToInstaller ? " (משולם למתקין)" : ""}
-                  </li>
+                  {i.fulfillment !== "none" ? (
+                    <li>
+                      🚚 {i.fulfillmentLabel}
+                      {i.fulfillmentPrice ? `: ${ils(i.fulfillmentTotal)}` : ""}
+                      {i.payToInstaller ? " (משולם למתקין)" : ""}
+                    </li>
+                  ) : null}
                   {i.designLink ? (
                     <li>
                       <a href={i.designLink} target="_blank" rel="noopener" className="font-semibold text-brand-dark underline underline-offset-4">

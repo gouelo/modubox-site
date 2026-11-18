@@ -84,7 +84,7 @@ export function orderEmail({ order: o, items }: FullOrder, adminUrl: string) {
     details: [
       ...(p.show ? [p.line] : []),
       ...p.addons.map((a) => `${a.gift ? "🎁 " : ""}${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
-      `${i.fulfillmentLabel}${i.fulfillmentPrice ? `: ${ils(i.fulfillmentTotal)}${i.payToInstaller ? " (למתקין)" : ""}` : ""}`,
+      ...(i.fulfillment === "none" ? [] : [`${i.fulfillmentLabel}${i.fulfillmentPrice ? `: ${ils(i.fulfillmentTotal)}${i.payToInstaller ? " (למתקין)" : ""}` : ""}`]),
       ...(i.designLink ? [`עיצוב בקונפיגורטור: ${i.designLink}`] : []),
     ],
   }));
@@ -146,7 +146,8 @@ export function customerOrderEmail({ order: o, items }: FullOrder, origin: strin
       ...p.addons.map((a) => `${a.gift ? "🎁 " : ""}${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}${a.total === null ? " (מחיר בתיאום)" : ""}`),
       ...(i.designLink ? ["עוצב בקונפיגורטור התלת־ממדי"] : []),
     ],
-    fulfillment: `${i.fulfillmentLabel}: ${
+    // a line typed in by hand on a manual order has no delivery of its own
+    fulfillment: i.fulfillment === "none" ? "" : `${i.fulfillmentLabel}: ${
       i.fulfillmentPrice === null ? "בתיאום" : i.fulfillmentTotal === 0 ? "כלול" : `${ils(i.fulfillmentTotal)}${i.payToInstaller ? " (לתשלום למתקין ביום ההתקנה)" : ""}`
     }`,
   }));
@@ -179,7 +180,7 @@ export function customerOrderEmail({ order: o, items }: FullOrder, origin: strin
 <table role="presentation" style="width:100%;border-collapse:collapse">${lines
     .map(
       (l) => `<tr><td style="${td};font-weight:bold">${esc(l.title)}</td><td style="${td};font-weight:bold;text-align:left;white-space:nowrap">${esc(l.price)}</td></tr>
-<tr><td colspan="2" style="padding:0 0 10px;font-size:14px;${muted}">${[...l.details, l.fulfillment].map((d) => `• ${esc(d)}`).join("<br>")}</td></tr>`,
+<tr><td colspan="2" style="padding:0 0 10px;font-size:14px;${muted}">${[...l.details, l.fulfillment].filter(Boolean).map((d) => `• ${esc(d)}`).join("<br>")}</td></tr>`,
     )
     .join("")}
 <tr><td colspan="2" style="border-top:1px solid #dbe3e2;padding:0;height:8px"></td></tr>
@@ -213,7 +214,7 @@ ${next.map((s) => `<div style="font-size:15px;line-height:1.6">✓ ${esc(s)}</di
     `מספר הזמנה: #${o.id}`,
     "",
     "סיכום ההזמנה",
-    ...lines.flatMap((l) => [`${l.title} – ${l.price}`, ...[...l.details, l.fulfillment].map((d) => `  • ${d}`)]),
+    ...lines.flatMap((l) => [`${l.title} – ${l.price}`, ...[...l.details, l.fulfillment].filter(Boolean).map((d) => `  • ${d}`)]),
     "",
     ...totals.map((r) => `${r.k}: ${r.v}`),
     "",
