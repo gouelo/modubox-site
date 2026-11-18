@@ -4,9 +4,13 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/db";
+import type { Db } from "@/db";
 import { orderEvents, orders, type OrderSource } from "@/db/schema";
+import { getOrder } from "../orders";
 import { activeCoupons } from "../coupon-store";
-import { buildCreateSession, createSession, zcreditConfig } from "../zcredit";
+import { MAX_INSTALLMENTS } from "../checkout";
+import { buildCreateSession, buildStoredSession, createSession, zcreditConfig, type CreateSessionRequest } from "../zcredit";
+import { CANCELLED } from "./status";
 import type { ActionState } from "./actions";
 import { markManualPaid, MANUAL_PAYMENTS, priceManualOrder, saveManualOrder, type ManualOrderInput, type ManualPayment } from "./manual-order";
 import { requestOrigin } from "./origin";
@@ -48,19 +52,37 @@ export async function createManualOrderAction(_: ActionState, form: FormData): P
     console.error("[orders] manual order failed:", e);
     return { error: "השמירה נכשלה. נסו שוב בעוד רגע." };
   }
-  if (config) {
-    // the payment page for the customer: the callback marks the order paid, as at checkout
-    const session = await createSession(buildCreateSession(config, priced.order, id, await requestOrigin()));
-    if (session.ok) {
-      await db.update(orders).set({ paymentLink: session.url, zcreditSessionId: session.sessionId }).where(eq(orders.id, id));
-      await db.insert(orderEvents).values({ orderId: id, kind: "note", text: "נוצר קישור תשלום Z-Credit ללקוח", actor: "admin" });
-    } else {
-      console.error("[orders] manual order payment link failed", JSON.stringify({ id, status: session.status, code: session.code, message: session.message }));
-      await db.insert(orderEvents).values({ orderId: id, kind: "note", text: `יצירת קישור התשלום נכשלה (Z-Credit: ${session.message.slice(0, 200)})`, actor: "admin" });
-    }
-  }
+  // the payment page for the customer: the callback marks the order paid, as at checkout
+  if (config) await savePaymentLink(db, id, buildCreateSession(config, priced.order, id, await requestOrigin()));
   revalidatePath("/admin", "layout");
   redirect(`/admin/orders/${id}/?created=1`);
+}
+
+/** Asks Z-Credit for the order's payment page and keeps it on the order; a failure goes in its history. */
+async function savePaymentLink(db: Db, id: string, request: CreateSessionRequest, again = false): Promise<void> {
+  const session = await createSession(request);
+  if (session.ok) {
+    await db.update(orders).set({ paymentLink: session.url, zcreditSessionId: session.sessionId, updatedAt: new Date() }).where(eq(orders.id, id));
+    await db.insert(orderEvents).values({ orderId: id, kind: "note", text: again ? "נוצר קישור תשלום Z-Credit חדש ללקוח" : "נוצר קישור תשלום Z-Credit ללקוח", actor: "admin" });
+  } else {
+    console.error("[orders] manual order payment link failed", JSON.stringify({ id, status: session.status, code: session.code, message: session.message }));
+    await db.insert(orderEvents).values({ orderId: id, kind: "note", text: `יצירת קישור התשלום נכשלה (Z-Credit: ${session.message.slice(0, 200)})`, actor: "admin" });
+  }
+}
+
+/** A new payment link for an unpaid manual order paid by link (the first failed, or the customer's details changed), from its current details. */
+export async function paymentLinkAgainAction(form: FormData): Promise<void> {
+  await requireAdmin("orders");
+  const db = getDb();
+  const config = zcreditConfig();
+  const id = str(form, "id");
+  const full = db && config ? await getOrder(db, id) : null;
+  const o = full?.order;
+  if (db && config && o && o.payment === "zcredit_link" && !o.paidAt && !CANCELLED.includes(o.status)) {
+    const upTo = Number(str(form, "maxInstallments"));
+    await savePaymentLink(db, id, buildStoredSession(config, o, full.items, Number.isInteger(upTo) && upTo >= 1 && upTo <= MAX_INSTALLMENTS ? upTo : MAX_INSTALLMENTS, await requestOrigin()), true);
+  }
+  revalidatePath(`/admin/orders/${id}/`);
 }
 
 export async function markPaidAction(form: FormData): Promise<void> {

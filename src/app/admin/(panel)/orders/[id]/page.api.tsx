@@ -11,7 +11,7 @@ import { formatDateTime } from "@/lib/admin/time";
 import { committed, getOrder, paymentMethodLabel } from "@/lib/orders";
 import { ConfirmForm } from "@/components/admin/ContentForms";
 import { CopyButton } from "@/components/admin/CopyButton";
-import { markPaidAction } from "@/lib/admin/manual-order-actions";
+import { markPaidAction, paymentLinkAgainAction } from "@/lib/admin/manual-order-actions";
 import { deleteOrdersAction } from "@/lib/admin/actions";
 import { can } from "@/lib/admin/auth";
 import { MANUAL_PAYMENTS, PAYMENT_LABEL, paymentLabel } from "@/lib/admin/manual-order";
@@ -93,6 +93,24 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
             </div>
             <p className="mt-2 text-xs text-ink-soft">כשהלקוח ישלם, ההזמנה תסומן כשולמה לבד (כמו בקופה באתר).</p>
           </div>
+        ) : null}
+        {o.payment === "zcredit_link" && !paid && !CANCELLED.includes(o.status) ? (
+          <ConfirmForm action={paymentLinkAgainAction} confirm={o.paymentLink ? "ליצור קישור תשלום חדש? הוא ייבנה מהפרטים הנוכחיים של ההזמנה ויחליף את הקישור שמוצג כאן." : "ליצור קישור תשלום מהפרטים הנוכחיים של ההזמנה?"} className="mt-3 flex flex-wrap items-end gap-2">
+            <input type="hidden" name="id" value={o.id} />
+            <label className="text-sm">
+              <span className="mb-1 block font-semibold">עד כמה תשלומים</span>
+              <select name="maxInstallments" defaultValue="12" className="field min-h-11">
+                {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
+                  <option key={n} value={n}>
+                    {n === 1 ? "תשלום אחד בלבד" : `עד ${n} תשלומים`}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button type="submit" className={`${o.paymentLink ? "btn-ghost" : "btn-primary"} min-h-11 px-4 text-sm`}>
+              {o.paymentLink ? "יצירת קישור תשלום חדש" : "יצירת קישור תשלום מחדש"}
+            </button>
+          </ConfirmForm>
         ) : null}
         {o.source && !paid && !o.paymentLink && !CANCELLED.includes(o.status) ? (
           <ConfirmForm action={markPaidAction} confirm="לסמן שההזמנה שולמה?" className="mt-3 flex flex-wrap items-end gap-2">

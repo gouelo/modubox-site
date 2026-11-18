@@ -1,7 +1,9 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { lp } from "@/i18n/config";
-import { paymentItems, type PricedOrder } from "./checkout";
+import type { Order, OrderItem } from "@/db/schema";
+import { discounted, paymentItems, type PaymentItem, type PricedOrder } from "./checkout";
 import imageLoader from "./image-loader";
+import { zcreditPhone } from "./phone";
 import type { Product } from "./types";
 
 /**
@@ -86,7 +88,7 @@ export interface CreateSessionRequest {
 }
 
 /** Where Z-Credit sends the customer and the callback, on the site the request came from. */
-export function returnUrls(origin: string, order: PricedOrder, orderId: string, sig: string) {
+export function returnUrls(origin: string, order: Pick<PricedOrder, "locale" | "total">, orderId: string, sig: string) {
   const page = (path: string) => `${origin}${lp(order.locale, path)}`;
   const q = new URLSearchParams({ order: orderId });
   return {
@@ -106,14 +108,55 @@ export function returnUrls(origin: string, order: PricedOrder, orderId: string, 
  * Apple Pay and Google Pay stay on.
  */
 export function buildCreateSession(config: ZCreditConfig, order: PricedOrder, orderId: string, origin: string): CreateSessionRequest {
-  const c = order.customer;
-  const n = order.installments;
   const https = origin.startsWith("https://");
   // product photos in Z-Credit's cart, which shows only https images
   const image = (p: Product) => (https && p.images[0] ? origin + imageLoader({ src: p.images[0], width: 480 }) : undefined);
+  return sessionRequest(config, order, orderId, origin, order.coupon?.code ?? "", order.coupon?.amount ?? 0, installments(order.installments, order.installmentsUpTo), paymentItems(order, image));
+}
+
+/**
+ * A new CreateSession body for a manual order already saved, from what it
+ * keeps (its customer as now edited, its lines and total): another payment
+ * link from the admin when the first failed or the details changed. The
+ * customer picks 1 to `upTo` installments, as on a new manual order.
+ */
+export function buildStoredSession(config: ZCreditConfig, order: Order, items: OrderItem[], upTo: number, origin: string): CreateSessionRequest {
+  const locale = order.locale === "en" ? "en" : "he";
+  const lines: PaymentItem[] = [];
+  for (const it of items) {
+    lines.push({ Amount: it.unitTotal, Currency: "ILS", Name: it.productName.slice(0, 100), Description: it.addons.map((x) => x.label + (x.qty > 1 ? ` ×${x.qty}` : "")).join(", ").slice(0, 250), Quantity: it.qty, IsTaxFree: false });
+    if (!it.payToInstaller && it.fulfillmentPrice && it.fulfillmentTotal > 0)
+      lines.push({ Amount: it.fulfillmentPrice, Currency: "ILS", Name: `${it.fulfillmentLabel} – ${it.productName}`.slice(0, 100), Description: "", Quantity: it.qty, IsTaxFree: false, isDelivery: true });
+  }
+  const coupon = order.discount > 0 ? { code: order.couponCode ?? "MANUAL", amount: order.discount, delivery: true } : null;
+  let cart = (coupon ? discounted(lines, { coupon, locale }) : lines).map(({ isDelivery: _, ...x }) => x);
+  // lines that don't add up to what the order charges (an older order's rows): one line for the whole order
+  if (!cart.length || cart.some((x) => x.Amount < 0) || cart.reduce((s, x) => s + x.Amount * x.Quantity, 0) !== order.total)
+    cart = [{ Amount: order.total, Currency: "ILS", Name: locale === "en" ? `Order ${order.id}` : `הזמנה ${order.id}`, Description: "", Quantity: 1, IsTaxFree: false }];
+  const customer = { name: order.customerName, phone: order.customerPhone, email: order.customerEmail ?? "" };
+  return sessionRequest(config, { locale, total: order.total, customer }, order.id, origin, order.couponCode ?? "", order.discount, installments(1, upTo), cart);
+}
+
+/**
+ * The CreateSession body itself. Apple Pay and Google Pay stay on. The phone
+ * goes as Z-Credit takes it, digits only (zcreditPhone): "050-1234567" or
+ * "+972…" fails the whole session ("Parameter 'Customer PhoneNumber' was send
+ * with an invalid value").
+ */
+function sessionRequest(
+  config: ZCreditConfig,
+  order: Pick<PricedOrder, "locale" | "total"> & { customer: { name: string; phone: string; email?: string } },
+  orderId: string,
+  origin: string,
+  couponCode: string,
+  couponAmount: number,
+  plan: CreateSessionRequest["Installments"],
+  cart: CreateSessionRequest["CartItems"],
+): CreateSessionRequest {
+  const c = order.customer;
   // Z-Credit takes only letters and digits here ("-97 Input Error ... non AlphaNumeric
   // characters"): the order number, and the coupon code. The customer is in Customer.
-  const note = [`Order ${orderId}`, order.coupon ? `coupon ${order.coupon.code} minus ${order.coupon.amount}` : ""].filter(Boolean).join(" ");
+  const note = [`Order ${orderId}`, couponAmount ? `coupon ${couponCode} minus ${couponAmount}` : ""].filter(Boolean).join(" ");
   return {
     Key: config.key,
     TerminalNumber: config.terminal,
@@ -129,9 +172,9 @@ export function buildCreateSession(config: ZCreditConfig, order: PricedOrder, or
     ApplePayButtonEnabled: true,
     GooglePayButtonEnabled: true,
     ShowTotalSumInPayButton: true,
-    Installments: installments(n, order.installmentsUpTo),
-    Customer: { Name: c.name, PhoneNumber: c.phone, Email: c.email ?? "" },
-    CartItems: paymentItems(order, image),
+    Installments: plan,
+    Customer: { Name: c.name, PhoneNumber: zcreditPhone(c.phone), Email: c.email ?? "" },
+    CartItems: cart,
   };
 }
 

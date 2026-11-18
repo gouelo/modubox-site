@@ -279,7 +279,7 @@ export function paymentItems(order: PricedOrder, imageUrl?: (product: Product) =
  * line becomes one line for its whole quantity (×N in its name), at its price
  * less its share, and says so in its description.
  */
-function discounted(items: PaymentItem[], order: PricedOrder): PaymentItem[] {
+export function discounted(items: PaymentItem[], order: Pick<PricedOrder, "coupon" | "locale">): PaymentItem[] {
   const coupon = order.coupon!;
   const note = order.locale === "en" ? `incl. coupon ${coupon.code}` : `כולל הנחת קופון ${coupon.code}`;
   const covered = (x: PaymentItem) => coupon.delivery || !x.isDelivery;

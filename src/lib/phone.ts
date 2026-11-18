@@ -45,3 +45,14 @@ export function waNumber(phone: string): string {
 export function telHref(phone: string): string {
   return `tel:+${waNumber(phone)}`;
 }
+
+/**
+ * The phone as Z-Credit's CreateSession takes it (Customer.PhoneNumber): an
+ * Israeli number in its local form, digits only (050-1234567 and
+ * +972 50-123-4567 → 0501234567), as in its docs ("0000000", "031234567").
+ * Anything else (a number from abroad) is left empty, so it never fails the
+ * session: the field only pre-fills Z-Credit's form, and the order keeps it.
+ */
+export function zcreditPhone(phone: string): string {
+  return israeliPhone(phone) ?? "";
+}
