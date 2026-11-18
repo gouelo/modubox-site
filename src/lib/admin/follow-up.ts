@@ -1,5 +1,6 @@
 import { lp, type Locale } from "@/i18n/config";
 import { getProduct, productPath } from "../catalog";
+import { waNumber } from "../phone";
 
 /**
  * The WhatsApp follow-up for a checkout that wasn't paid: a polite message
@@ -14,10 +15,7 @@ export interface FollowUpOrder {
 }
 
 /** wa.me wants the number in international form, digits only: 052-1234567 → 972521234567. */
-export function waNumber(phone: string): string {
-  const d = phone.replace(/\D/g, "");
-  return d.startsWith("0") ? `972${d.slice(1)}` : d;
-}
+export { waNumber };
 
 export function followUpText(o: FollowUpOrder, product: { slug: string; name: string; more: number } | undefined, origin: string): string {
   const locale: Locale = o.locale === "en" ? "en" : "he";

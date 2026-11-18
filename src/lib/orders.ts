@@ -4,6 +4,7 @@ import { deletedOrders, orderEvents, orderItems, orders, type NewOrder, type Ord
 import { canTransition } from "./admin/status";
 import { plain, TEST_SLUG } from "./catalog";
 import type { PricedOrder } from "./checkout";
+import { israeliPhone, normalizePhone, validPhone } from "./phone";
 import { profileColorOf } from "./profile-color";
 import type { CallbackData } from "./zcredit";
 
@@ -15,8 +16,7 @@ import type { CallbackData } from "./zcredit";
 
 /** A phone number as the customer's key: digits only, +972 as 0 (052-123 4567 → 0521234567). */
 export function customerKey(phone: string): string {
-  const d = phone.replace(/\D/g, "");
-  return d.startsWith("972") ? `0${d.slice(3)}` : d;
+  return israeliPhone(phone) ?? phone.replace(/\D/g, "");
 }
 
 type NewItem = typeof orderItems.$inferInsert;
@@ -236,3 +236,48 @@ export async function addNote(db: Db, id: string, text: string, actor = "admin",
   return { ok: true };
 }
 
+
+/** The customer's details on an order, as the admin edits them. */
+export interface CustomerDetails {
+  name: string;
+  phone: string;
+  email: string;
+  city: string;
+  address: string;
+  notes: string;
+}
+
+const DETAIL_LABEL: Record<keyof CustomerDetails, string> = { name: "שם", phone: "טלפון", email: "מייל", city: "יישוב", address: "כתובת", notes: "הערות הלקוח" };
+
+/** Checks and tidies edited customer details, with the manual order's rules (src/lib/admin/manual-order.ts). An error in Hebrew, or the details to keep. */
+export function readCustomerDetails(x: Partial<Record<keyof CustomerDetails, unknown>>): { ok: true; details: CustomerDetails } | { ok: false; error: string } {
+  const s = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+  const d: CustomerDetails = { name: s(x.name, 80), phone: s(x.phone, 30), email: s(x.email, 120), city: s(x.city, 60), address: s(x.address, 120), notes: s(x.notes, 1000) };
+  if (d.name.length < 2) return { ok: false, error: "שם הלקוח חסר." };
+  if (!validPhone(d.phone, "en")) return { ok: false, error: "מספר הטלפון לא תקין. אפשר להתחיל ב־0 או ב־972+." };
+  if (d.email && !/^\S+@\S+\.\S+$/.test(d.email)) return { ok: false, error: "המייל לא תקין." };
+  return { ok: true, details: { ...d, phone: normalizePhone(d.phone) } };
+}
+
+/**
+ * Corrects the customer's details on an order that isn't paid yet (a typo in
+ * the phone, say); a paid order keeps the details it was paid with. The
+ * change is kept in the order's history, field by field.
+ */
+export async function editCustomer(db: Db, id: string, d: CustomerDetails, actor = "admin", now = new Date()): Promise<ChangeResult> {
+  return db.transaction(async (tx) => {
+    const [row] = await tx.select().from(orders).where(eq(orders.id, id)).for("update");
+    if (!row) return { ok: false, error: "not_found" } as const;
+    if (row.paidAt) return { ok: false, error: "not_allowed" } as const;
+    const before: CustomerDetails = { name: row.customerName, phone: row.customerPhone, email: row.customerEmail ?? "", city: row.city ?? "", address: row.address ?? "", notes: row.customerNotes ?? "" };
+    const changed = (Object.keys(DETAIL_LABEL) as (keyof CustomerDetails)[]).filter((k) => (k === "phone" ? normalizePhone(before.phone) : before[k]) !== d[k]);
+    if (!changed.length) return { ok: true } as const;
+    await tx
+      .update(orders)
+      .set({ customerName: d.name, customerPhone: d.phone, customerKey: customerKey(d.phone), customerEmail: d.email || null, city: d.city || null, address: d.address || null, customerNotes: d.notes || null, updatedAt: now })
+      .where(eq(orders.id, id));
+    const text = `פרטי הלקוח עודכנו: ${changed.map((k) => `${DETAIL_LABEL[k]} ${before[k] || "—"} ← ${d[k] || "—"}`).join(" · ")}`;
+    await tx.insert(orderEvents).values({ orderId: id, kind: "edit", text, actor, at: now });
+    return { ok: true } as const;
+  });
+}

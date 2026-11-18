@@ -6,6 +6,7 @@ import { sourceLabel, STATUS_LABEL, STATUS_TONE } from "@/lib/admin/status";
 import { formatDateTime } from "@/lib/admin/time";
 import { LEAD_STATUS_LABEL, LEAD_STATUS_TONE, leadStatus } from "@/lib/admin/lead-status";
 import { LEAD_KIND_LABELS } from "@/lib/leads";
+import { telHref, waNumber } from "@/lib/phone";
 
 /** The admin's small building blocks (server components). */
 
@@ -105,15 +106,13 @@ export function OrderCard({ o, followUp, profile }: { o: Order; followUp?: strin
 
 /** Call, WhatsApp and email buttons for a customer. */
 export function ContactButtons({ phone, email, name }: { phone: string; email?: string | null; name: string }) {
-  const digits = phone.replace(/\D/g, "");
-  const intl = digits.startsWith("0") ? `972${digits.slice(1)}` : digits;
   const hello = encodeURIComponent(`שלום ${name.split(" ")[0]}, כאן מודובוקס לגבי ההזמנה שלך`);
   return (
     <div className="grid grid-cols-3 gap-2">
-      <a href={`tel:${digits}`} className="btn-ghost min-h-12 justify-center px-3 text-sm">
+      <a href={telHref(phone)} className="btn-ghost min-h-12 justify-center px-3 text-sm">
         <span aria-hidden>📞</span> חיוג
       </a>
-      <a href={`https://wa.me/${intl}?text=${hello}`} target="_blank" rel="noopener" className="btn-wa min-h-12 justify-center px-3 text-sm">
+      <a href={`https://wa.me/${waNumber(phone)}?text=${hello}`} target="_blank" rel="noopener" className="btn-wa min-h-12 justify-center px-3 text-sm">
         <span aria-hidden>💬</span> וואטסאפ
       </a>
       {email ? (

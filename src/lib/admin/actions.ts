@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDb } from "@/db";
-import { addNote, changeStatus, deleteOrders, type ChangeResult } from "../orders";
+import { addNote, changeStatus, deleteOrders, editCustomer, readCustomerDetails, type ChangeResult } from "../orders";
 import { ADMIN_COOKIE, createSessionToken, passwordRole, safeNext, SESSION_DAYS, sessionSecret } from "./auth";
 import { requireAdmin } from "./session";
 import { isStatus } from "./status";
@@ -73,6 +73,19 @@ export async function addNoteAction(_: ActionState, form: FormData): Promise<Act
   const session = await requireAdmin("orders");
   const id = String(form.get("id") ?? "");
   return run(id, () => addNote(dbOrError(), id, String(form.get("text") ?? ""), session.user));
+}
+
+/** Corrects the customer's details on an order not yet paid. */
+export async function editCustomerAction(_: ActionState, form: FormData): Promise<ActionState> {
+  const session = await requireAdmin("orders");
+  const id = String(form.get("id") ?? "");
+  const read = readCustomerDetails(Object.fromEntries(["name", "phone", "email", "city", "address", "notes"].map((k) => [k, form.get(k)])));
+  if (!read.ok) return { error: read.error };
+  const r = await editCustomer(dbOrError(), id, read.details, session.user);
+  // the lists and the customer's page show these details too
+  revalidatePath("/admin/", "layout");
+  if (!r.ok) return { error: r.error === "not_allowed" ? "ההזמנה כבר שולמה, אז את פרטי הלקוח בה אי אפשר לשנות." : MESSAGES[r.error] };
+  return { ok: true, message: "הפרטים עודכנו." };
 }
 
 /** Deletes orders for good (the owner only): one from its page, or several picked in the list. Then back to the list. */

@@ -3,6 +3,7 @@ import { addonsFor, getProduct, plain, site } from "./catalog";
 import { applyCoupon, israelToday, type AppliedCoupon, type CouponError, type CouponMap } from "./coupons";
 import { CONFIGURATOR_ORIGIN, designToCartItem, parseDesign } from "./configurator";
 import { fulfillmentOptions, hasVariantQty, summarizeCart, variantKey, type CartSummary } from "./pricing";
+import { normalizePhone, validPhone } from "./phone";
 import { PROFILE_ADDON, profileColorOf, profileLine } from "./profile-color";
 import type { CartItem, DesignExtra, FulfillmentId, Product, Selections } from "./types";
 import type { Customer } from "./whatsapp";
@@ -95,17 +96,14 @@ const isObj = (x: unknown): x is Record<string, unknown> => !!x && typeof x === 
 const str = (x: unknown, max: number) => (typeof x === "string" ? x.trim().slice(0, max) : "");
 const int = (x: unknown) => (typeof x === "number" && Number.isInteger(x) ? x : NaN);
 
-/** An Israeli phone number; on the English site also one from abroad (+44…). The checkout form's own rule. */
-export function validPhone(phone: string, locale: Locale): boolean {
-  const p = phone.replace(/[\s()-]/g, "");
-  return /^0\d{1,2}\d{7}$/.test(p.replace(/^\+?972/, "0")) || (locale === "en" && /^\+\d{8,15}$/.test(p));
-}
+/** The checkout form's phone rule: an Israeli number (from 0 or +972); on the English site also one from abroad (+44…). */
+export { validPhone };
 
 function readCustomer(x: unknown, locale: Locale): Customer | null {
   if (!isObj(x)) return null;
   const c: Customer = {
     name: str(x.name, 80),
-    phone: str(x.phone, 20),
+    phone: normalizePhone(str(x.phone, 30)),
     email: str(x.email, 120),
     city: str(x.city, 60),
     address: str(x.address, 120),

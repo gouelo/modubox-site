@@ -2,7 +2,9 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import type { OrderStatus } from "@/db/schema";
-import { addNoteAction, changeStatusAction, type ActionState } from "@/lib/admin/actions";
+import { addNoteAction, changeStatusAction, editCustomerAction, type ActionState } from "@/lib/admin/actions";
+import type { CustomerDetails } from "@/lib/orders";
+import { Field } from "./ContentForms";
 import { STATUS_LABEL } from "@/lib/admin/status";
 import { SubmitButton } from "./SubmitButton";
 
@@ -76,5 +78,44 @@ export function NoteForm({ id }: { id: string }) {
       <SubmitButton className="btn-primary w-full sm:w-auto sm:px-6">הוספת הערה</SubmitButton>
       <Feedback state={state} />
     </form>
+  );
+}
+
+/** Corrects the customer's details on an order not yet paid (a mistyped phone, say). Closed until opened. */
+export function EditCustomerForm({ id, details }: { id: string; details: CustomerDetails }) {
+  const [state, action] = useActionState(editCustomerAction, {});
+  return (
+    <details className="mt-3 rounded-lg ring-1 ring-line" open={!!state.error || undefined}>
+      <summary className="cursor-pointer px-3 py-2.5 text-sm font-semibold text-brand-dark">✏️ עריכת פרטי הלקוח</summary>
+      <form action={action} className="grid gap-3 p-3 pt-1 sm:grid-cols-2">
+        <input type="hidden" name="id" value={id} />
+        <Field label="שם מלא">
+          <input name="name" required defaultValue={details.name} className="field" autoComplete="off" />
+        </Field>
+        <Field label="טלפון">
+          <input name="phone" required defaultValue={details.phone} className="field" dir="ltr" inputMode="tel" autoComplete="off" placeholder="050-1234567 / +972 50-123-4567" />
+        </Field>
+        <Field label="מייל (לא חובה)">
+          <input name="email" type="email" defaultValue={details.email} className="field" dir="ltr" autoComplete="off" />
+        </Field>
+        <Field label="יישוב">
+          <input name="city" defaultValue={details.city} className="field" autoComplete="off" />
+        </Field>
+        <div className="sm:col-span-2">
+          <Field label="כתובת">
+            <input name="address" defaultValue={details.address} className="field" autoComplete="off" />
+          </Field>
+        </div>
+        <div className="sm:col-span-2">
+          <Field label="הערות הלקוח">
+            <textarea name="notes" defaultValue={details.notes} className="field min-h-20" />
+          </Field>
+        </div>
+        <div className="sm:col-span-2">
+          <SubmitButton className="btn-primary w-full sm:w-auto sm:px-6">שמירת הפרטים</SubmitButton>
+          <Feedback state={state} okText={state.message} />
+        </div>
+      </form>
+    </details>
   );
 }

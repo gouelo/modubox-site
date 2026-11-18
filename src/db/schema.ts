@@ -137,8 +137,8 @@ export const orderItems = pgTable(
   (t) => [index("order_items_order_id_idx").on(t.orderId)],
 );
 
-/** What happened to an order: created, paid, a status change, a date set, an internal note. */
-export const EVENT_KINDS = ["created", "paid", "status", "schedule", "note", "email"] as const;
+/** What happened to an order: created, paid, a status change, a date set, an internal note, its customer's details corrected. */
+export const EVENT_KINDS = ["created", "paid", "status", "schedule", "note", "email", "edit"] as const;
 export type EventKind = (typeof EVENT_KINDS)[number];
 
 export const orderEvents = pgTable(
