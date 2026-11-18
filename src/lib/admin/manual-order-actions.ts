@@ -24,14 +24,17 @@ export async function createManualOrderAction(_: ActionState, form: FormData): P
   const db = getDb();
   if (!db) return { error: "מסד הנתונים לא מחובר, אז אי אפשר לשמור." };
   let items: unknown;
+  let custom: unknown;
   try {
     items = JSON.parse(str(form, "items"));
+    custom = str(form, "custom") ? JSON.parse(str(form, "custom")) : [];
   } catch {
     return { error: "פרטי המוצרים לא נקראו. רעננו את הדף ונסו שוב." };
   }
   const payment = str(form, "payment") as ManualPayment;
   const input: ManualOrderInput = {
     items,
+    custom,
     coupon: str(form, "coupon"),
     discount: str(form, "discount") ? Number(str(form, "discount").replace(/[,\s₪]/g, "")) : 0,
     customer: { name: str(form, "name"), phone: str(form, "phone"), email: str(form, "email"), city: str(form, "city"), address: str(form, "address"), notes: str(form, "notes") },

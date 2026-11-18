@@ -72,6 +72,16 @@ type Failed = { ok: false; error: CheckoutError; coupon?: { error: CouponError; 
 export type PricedCart = { ok: true; locale: Locale; cart: CartSummary; coupon: AppliedCoupon | null; total: number } | Failed;
 export type Priced = { ok: true; order: PricedOrder } | Failed;
 
+/** A line typed in by hand on a manual order (something the site doesn't sell): its own name and price, in whole shekels per unit. */
+export interface CustomLine {
+  name: string;
+  price: number;
+  qty: number;
+}
+
+/** A custom line's product_slug in order_items: no catalog product, no delivery of its own. */
+export const CUSTOM_SLUG = "custom";
+
 export interface PricedOrder {
   locale: Locale;
   customer: Customer;
@@ -81,8 +91,10 @@ export interface PricedOrder {
   cart: CartSummary;
   /** the coupon applied, with its discount in whole shekels */
   coupon: AppliedCoupon | null;
-  /** the amount to charge, in whole shekels (after the coupon) */
+  /** the amount to charge, in whole shekels (after the coupon), custom lines included */
   total: number;
+  /** a manual order's lines typed in by hand, after the cart's */
+  custom?: CustomLine[];
 }
 
 export interface PriceOptions {
@@ -265,6 +277,7 @@ export function paymentItems(order: PricedOrder, imageUrl?: (product: Product) =
       });
     }
   }
+  for (const c of order.custom ?? []) out.push({ Amount: c.price, Currency: "ILS", Name: c.name.slice(0, 100), Description: "", Quantity: c.qty, IsTaxFree: false });
   // isDelivery is ours: never sent to Z-Credit
   const items = (order.coupon?.amount ? discounted(out, order) : out).map(({ isDelivery: _, ...x }) => x);
   const sum = items.reduce((s, x) => s + x.Amount * x.Quantity, 0);

@@ -20,6 +20,7 @@ import { telHref, waNumber } from "@/lib/phone";
 import { followUpLink } from "@/lib/admin/follow-up";
 import { requestOrigin } from "@/lib/admin/origin";
 import { itemProfile, profileColorName } from "@/lib/profile-color";
+import { CUSTOM_SLUG } from "@/lib/checkout";
 
 export const dynamic = "force-dynamic";
 
@@ -194,7 +195,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
                       צבע פרופיל: <span className={p.color ? undefined : "text-copper-deep"}>{profileColorName(p.color)}</span>
                     </li>
                   ) : null}
-                  <li>מחיר בסיס: {ils(i.basePrice)}</li>
+                  <li>{i.productSlug === CUSTOM_SLUG ? `פריט ידני · ${ils(i.basePrice)} ליח׳` : `מחיר בסיס: ${ils(i.basePrice)}`}</li>
                   {p.addons.map((a, n) => (
                     <li key={n} className={a.gift ? "font-bold text-brand-dark" : undefined}>
                       {a.gift ? "🎁 " : "+ "}
@@ -202,11 +203,13 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
                       {a.qty > 1 ? ` ×${a.qty}` : ""}: {a.gift ? "מתנת המבצע (₪0)" : a.total === null ? <span className="text-copper-deep">מחיר בתיאום</span> : ils(a.total)}
                     </li>
                   ))}
-                  <li>
-                    🚚 {i.fulfillmentLabel}
-                    {i.fulfillmentPrice ? `: ${ils(i.fulfillmentTotal)}` : ""}
-                    {i.payToInstaller ? " (משולם למתקין)" : ""}
-                  </li>
+                  {i.fulfillment !== "none" ? (
+                    <li>
+                      🚚 {i.fulfillmentLabel}
+                      {i.fulfillmentPrice ? `: ${ils(i.fulfillmentTotal)}` : ""}
+                      {i.payToInstaller ? " (משולם למתקין)" : ""}
+                    </li>
+                  ) : null}
                   {i.designLink ? (
                     <li>
                       <a href={i.designLink} target="_blank" rel="noopener" className="font-semibold text-brand-dark underline underline-offset-4">

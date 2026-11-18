@@ -23,6 +23,14 @@ interface Line {
   fulfillment: FulfillmentId;
 }
 
+/** A line typed in by hand: something the site doesn't sell, at a price agreed on the phone. */
+interface Custom {
+  key: number;
+  name: string;
+  price: string;
+  qty: number;
+}
+
 const ils = (n: number) => `${n.toLocaleString("he-IL")} ₪`;
 const newLine = (slug: string, key: number): Line => {
   const p = getProduct(slug)!;
@@ -35,17 +43,21 @@ const newLine = (slug: string, key: number): Line => {
 export function ManualOrderForm({ payLink }: { payLink: boolean }) {
   const products = catalog("he").products;
   const [lines, setLines] = useState<Line[]>(() => [newLine(products[0].slug, 1)]);
+  const [custom, setCustom] = useState<Custom[]>([]);
   const [payment, setPayment] = useState("transfer");
   const [discount, setDiscount] = useState("");
   const [state, act] = useActionState(createManualOrderAction, {});
   const cart = useMemo(() => summarizeCart(lines.map((l): CartItem => ({ id: String(l.key), slug: l.slug, qty: l.qty, selections: l.selections, fulfillment: l.fulfillment }))), [lines]);
   const set = (key: number, patch: Partial<Line>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...patch } : l)));
   const setSel = (key: number, id: string, v: number | string) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, selections: { ...l.selections, [id]: v } } : l)));
+  const setCus = (key: number, patch: Partial<Custom>) => setCustom((cs) => cs.map((c) => (c.key === key ? { ...c, ...patch } : c)));
+  const customSum = custom.reduce((s, c) => s + (Number(c.price) || 0) * c.qty, 0);
   const off = Number(discount) || 0;
 
   return (
     <form action={act} className="grid gap-5">
       <input type="hidden" name="items" value={JSON.stringify(lines.map(({ key: _k, ...l }) => l))} />
+      <input type="hidden" name="custom" value={JSON.stringify(custom.map(({ key: _k, ...c }) => c))} />
       {lines.map((l, i) => {
         const p = getProduct(l.slug)!;
         const line = cart.lines.find((x) => x.item.id === String(l.key));
@@ -166,6 +178,32 @@ export function ManualOrderForm({ payLink }: { payLink: boolean }) {
         + מוצר נוסף
       </button>
 
+      {custom.length ? (
+        <section className="card grid min-w-0 gap-3 p-4">
+          <h2 className="text-base font-extrabold">פריטים ידניים</h2>
+          <p className="text-sm text-ink-soft">משהו שלא מופיע באתר, במחיר שסיכמתם. נכלל בסכום לתשלום ובקישור התשלום.</p>
+          {custom.map((c) => (
+            <div key={c.key} className="grid grid-cols-[1fr_7rem_4.5rem_auto] items-end gap-2">
+              <Field label="תיאור">
+                <input value={c.name} onChange={(e) => setCus(c.key, { name: e.target.value })} required minLength={2} maxLength={100} className="field" autoComplete="off" />
+              </Field>
+              <Field label="מחיר ליח׳ (₪)">
+                <input type="number" min={1} step={1} value={c.price} onChange={(e) => setCus(c.key, { price: e.target.value })} required className="field" dir="ltr" />
+              </Field>
+              <Field label="כמות">
+                <input type="number" min={1} max={100} value={c.qty} onChange={(e) => setCus(c.key, { qty: Math.min(100, Math.max(1, Number(e.target.value) || 1)) })} className="field" dir="ltr" />
+              </Field>
+              <button type="button" className="min-h-11 text-sm font-semibold text-rose-700 underline" onClick={() => setCustom((cs) => cs.filter((x) => x.key !== c.key))}>
+                הסרה
+              </button>
+            </div>
+          ))}
+        </section>
+      ) : null}
+      <button type="button" className="btn-ghost min-h-11 w-fit px-4 text-sm" onClick={() => setCustom((cs) => [...cs, { key: Math.max(0, ...cs.map((x) => x.key)) + 1, name: "", price: "", qty: 1 }])}>
+        + פריט ידני (לא מהאתר)
+      </button>
+
       <section className="card grid gap-4 p-4 sm:grid-cols-2">
         <h2 className="text-base font-extrabold sm:col-span-2">הלקוח</h2>
         <Field label="שם מלא">
@@ -239,6 +277,12 @@ export function ManualOrderForm({ payLink }: { payLink: boolean }) {
           <span>מוצרים ותוספות</span>
           <span>{ils(cart.itemsTotal)}</span>
         </div>
+        {customSum ? (
+          <div className="flex justify-between">
+            <span>פריטים ידניים</span>
+            <span>{ils(customSum)}</span>
+          </div>
+        ) : null}
         {cart.fulfillmentTotal ? (
           <div className="flex justify-between">
             <span>אספקה והתקנה</span>
@@ -253,7 +297,7 @@ export function ManualOrderForm({ payLink }: { payLink: boolean }) {
         ) : null}
         <div className="mt-2 flex justify-between border-t border-line pt-2 text-lg font-extrabold">
           <span>לתשלום</span>
-          <span>{ils(Math.max(0, cart.total - off))}</span>
+          <span>{ils(Math.max(0, cart.total + customSum - off))}</span>
         </div>
         {cart.payLater ? <p className="mt-1 text-sm text-ink-soft">ועוד {ils(cart.payLater)} למתקין ביום ההתקנה.</p> : null}
         <p className="mt-1 text-xs text-ink-soft">קופון, אם יש, יורד בשמירה.</p>

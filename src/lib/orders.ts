@@ -3,7 +3,7 @@ import type { Db } from "@/db";
 import { deletedOrders, orderEvents, orderItems, orders, type NewOrder, type Order, type OrderEvent, type OrderItem, type OrderStatus } from "@/db/schema";
 import { canTransition } from "./admin/status";
 import { plain, TEST_SLUG } from "./catalog";
-import type { PricedOrder } from "./checkout";
+import { CUSTOM_SLUG, type PricedOrder } from "./checkout";
 import { israeliPhone, normalizePhone, validPhone } from "./phone";
 import { profileColorOf } from "./profile-color";
 import type { CallbackData } from "./zcredit";
@@ -36,7 +36,7 @@ export function orderRows(orderId: string, sessionId: string, order: PricedOrder
       city: c.city || null,
       address: c.address || null,
       customerNotes: c.notes || null,
-      itemsTotal: order.cart.itemsTotal,
+      itemsTotal: order.cart.itemsTotal + customTotal(order),
       fulfillmentTotal: order.cart.fulfillmentTotal,
       payLater: order.cart.payLater,
       couponCode: order.coupon?.code ?? null,
@@ -47,26 +47,50 @@ export function orderRows(orderId: string, sessionId: string, order: PricedOrder
       marketingConsent: c.marketing === true,
       isTest: !!TEST_SLUG && order.cart.lines.some((l) => l.product.slug === TEST_SLUG),
     },
-    items: order.cart.lines.map((l, i) => ({
-      orderId,
-      position: i,
-      productSlug: l.product.slug,
-      productName: plain(l.product.name),
-      qty: l.item.qty,
-      basePrice: l.product.price,
-      unitTotal: l.quote.total,
-      itemsTotal: l.itemsTotal,
-      addons: l.quote.lines.slice(1).map((x) => ({ label: plain(x.label), qty: x.qty, unitPrice: x.unitPrice, total: x.total, ...(x.gift ? { gift: true } : {}) })),
-      fulfillment: l.fulfillment.id,
-      fulfillmentLabel: plain(l.fulfillment.label),
-      fulfillmentPrice: l.fulfillment.price,
-      fulfillmentTotal: l.fulfillmentTotal + l.payLater,
-      payToInstaller: !!l.fulfillment.payToInstaller,
-      designLink: l.item.design?.link ?? null,
-      profileColor: profileColorOf(l.product, l.item.selections),
-    })),
+    items: [
+      ...order.cart.lines.map((l, i): NewItem => ({
+        orderId,
+        position: i,
+        productSlug: l.product.slug,
+        productName: plain(l.product.name),
+        qty: l.item.qty,
+        basePrice: l.product.price,
+        unitTotal: l.quote.total,
+        itemsTotal: l.itemsTotal,
+        addons: l.quote.lines.slice(1).map((x) => ({ label: plain(x.label), qty: x.qty, unitPrice: x.unitPrice, total: x.total, ...(x.gift ? { gift: true } : {}) })),
+        fulfillment: l.fulfillment.id,
+        fulfillmentLabel: plain(l.fulfillment.label),
+        fulfillmentPrice: l.fulfillment.price,
+        fulfillmentTotal: l.fulfillmentTotal + l.payLater,
+        payToInstaller: !!l.fulfillment.payToInstaller,
+        designLink: l.item.design?.link ?? null,
+        profileColor: profileColorOf(l.product, l.item.selections),
+      })),
+      ...(order.custom ?? []).map((c, i): NewItem => ({
+        orderId,
+        position: order.cart.lines.length + i,
+        productSlug: CUSTOM_SLUG,
+        productName: c.name,
+        qty: c.qty,
+        basePrice: c.price,
+        unitTotal: c.price,
+        itemsTotal: c.price * c.qty,
+        addons: [],
+        // no delivery of its own: the order page and the emails show none
+        fulfillment: "none",
+        fulfillmentLabel: "",
+        fulfillmentPrice: 0,
+        fulfillmentTotal: 0,
+        payToInstaller: false,
+        designLink: null,
+        profileColor: null,
+      })),
+    ],
   };
 }
+
+/** A manual order's custom lines, in shekels. */
+export const customTotal = (order: Pick<PricedOrder, "custom">) => (order.custom ?? []).reduce((s, c) => s + c.price * c.qty, 0);
 
 /** Saves a new order, waiting for payment (POST /api/checkout, once Z-Credit gave it a payment page). */
 export async function saveNewOrder(db: Db, orderId: string, sessionId: string, order: PricedOrder): Promise<void> {

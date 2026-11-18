@@ -62,7 +62,7 @@ export function ordersCsv(rows: { order: Order; items: OrderItem[] }[]): string 
         items.map((i) => `${i.productName}${i.qty > 1 ? ` ×${i.qty}` : ""}`).join(" | "),
         items.map((i) => itemProfile(i)).filter((p) => p.show).map((p) => profileColorName(p.color)).join(" | "),
         items.map((i) => itemProfile(i).addons.map((a) => `${a.label}${a.qty > 1 ? ` ×${a.qty}` : ""}`).join(", ")).filter(Boolean).join(" | "),
-        items.map((i) => i.fulfillmentLabel).join(" | "),
+        items.map((i) => i.fulfillmentLabel).filter(Boolean).join(" | "),
         o.itemsTotal,
         o.fulfillmentTotal,
         o.couponCode,
