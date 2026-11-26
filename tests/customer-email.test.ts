@@ -82,16 +82,15 @@ describe("the customer's confirmation email", () => {
       expect(part).toContain("דנה כהן");
       for (const s of he.payment.next) expect(part).toContain(s);
       expect(part).toContain("בעותק פיזי ביום ההתקנה");
-      expect(part).toContain("072-3954739");
-      expect(part).toContain("052-9555057");
+      expect(part).toContain("074-7066620");
     }
     expect(m.text).toContain(full.items[0].productName);
     expect(m.text).toContain(full.items[0].fulfillmentLabel);
     expect(full.items[0].addons.length).toBeGreaterThan(0);
     for (const a of full.items[0].addons) expect(m.text).toContain(a.label);
     expect(m.text).toContain("https://www.modubox.test/");
-    expect(m.html).toContain("tel:+972723954739");
-    expect(m.html).toContain("https://wa.me/972529555057");
+    expect(m.html).toContain("tel:+972747066620");
+    expect(m.html).toContain("https://wa.me/972747066620");
   });
 
   it("escapes what the customer typed", async () => {

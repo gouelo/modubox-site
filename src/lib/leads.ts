@@ -3,6 +3,7 @@ import type { Db } from "@/db";
 import { LEAD_KINDS, leads, type Lead, type LeadAttribution, type LeadKind } from "@/db/schema";
 import { normalizePhone, validPhone } from "./phone";
 import { LEAD_SOURCES, leadEmail, leadsEmailConfig, sendEmail } from "./notify";
+import { sendLeadToGambot } from "./gambot";
 
 /**
  * Leads from the site's forms (POST /api/lead): checked here, saved in the
@@ -89,6 +90,8 @@ export type LeadResult = { saved: boolean; emailed: boolean; id: number | null }
 
 /** Saves the lead and emails it; never throws. */
 export async function handleLead(db: Db | null, lead: NewLead, origin: string, now = new Date()): Promise<LeadResult> {
+  // to Gambot's webhook alongside the save and the email; it never throws, so it can't fail the lead
+  const gambot = sendLeadToGambot(lead, now);
   let id: number | null = null;
   if (db) {
     try {
@@ -116,6 +119,7 @@ export async function handleLead(db: Db | null, lead: NewLead, origin: string, n
       .where(eq(leads.id, id))
       .catch((e) => console.error("[leads] marking the lead emailed failed", { id, error: String(e) }));
   }
+  await gambot;
   // never lost silently: when it is neither saved nor emailed, the whole lead is in the logs
   if (id === null && !emailed) console.error("[leads] LEAD NOT SAVED OR EMAILED", lead);
   else if (id === null) console.warn("[leads] lead emailed but not saved", lead);

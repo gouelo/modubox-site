@@ -8,6 +8,7 @@ import { site } from "@/lib/catalog";
 import { asset } from "@/lib/paths";
 import { GOOGLE_SITE_VERIFICATION, gtmHosts, gtmId, visitHosts } from "@/lib/analytics";
 import { GoogleTagManager } from "./Analytics";
+import { GambotCall } from "./GambotCall";
 import { ConfiguratorPanel } from "./ConfiguratorPanel";
 import { FloatingConfiguratorCta } from "./FloatingConfiguratorCta";
 import { Footer } from "./Footer";
@@ -72,6 +73,7 @@ export function SiteShell({ locale, children }: { locale: Locale; children: Reac
           {stats && <VisitBeacon hosts={visitHosts(site.url)} />}
         </LocaleProvider>
         {gtm && <GoogleTagManager id={gtm} hosts={gtmHosts(process.env, site.url)} />}
+        {gtm && <GambotCall hosts={gtmHosts(process.env, site.url)} />}
       </body>
     </html>
   );

@@ -20,6 +20,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Gambot's call widget, kept as they sent it (public/gambot-call.js)
+    "public/gambot-call.js",
   ]),
 ]);
 

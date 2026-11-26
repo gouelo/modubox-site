@@ -99,7 +99,7 @@ export function siteError(s: ReturnType<typeof fileSiteTexts>): string | null {
   const phone = /^[0-9*][0-9\s-]{3,14}$/;
   if (!phone.test(s.phone)) return "טלפון לא תקין.";
   if (s.phoneAlt && !phone.test(s.phoneAlt)) return "טלפון נוסף לא תקין.";
-  if (!/^972\d{8,9}$/.test(s.whatsapp)) return "וואטסאפ: המספר בפורמט בינלאומי, ספרות בלבד, למשל 972529555057.";
+  if (!/^972\d{8,9}$/.test(s.whatsapp)) return "וואטסאפ: המספר בפורמט בינלאומי, ספרות בלבד, למשל 972747066620.";
   if (!/^\S+@\S+\.\S+$/.test(s.email)) return "מייל לא תקין.";
   if (!(s.rating >= 1 && s.rating <= 5)) return "דירוג: בין 1 ל־5.";
   if (!(Number.isInteger(s.reviewCount) && s.reviewCount >= 0)) return "מספר ביקורות: מספר שלם.";
