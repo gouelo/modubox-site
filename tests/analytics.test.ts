@@ -40,8 +40,8 @@ describe("gtmId", () => {
 
 describe("linkEvent", () => {
   it("WhatsApp links, without the message text", () => {
-    expect(linkEvent("https://wa.me/972529555057?text=%D7%A9%D7%9D%3A%20%D7%99%D7%95%D7%90%D7%9C")).toEqual({ event: "whatsapp_click", link_url: "https://wa.me/972529555057" });
-    expect(linkEvent("https://api.whatsapp.com/send?phone=972529555057")?.event).toBe("whatsapp_click");
+    expect(linkEvent("https://wa.me/972747066620?text=%D7%A9%D7%9D%3A%20%D7%99%D7%95%D7%90%D7%9C")).toEqual({ event: "whatsapp_click", link_url: "https://wa.me/972747066620" });
+    expect(linkEvent("https://api.whatsapp.com/send?phone=972747066620")?.event).toBe("whatsapp_click");
   });
   it("phone links", () => {
     expect(linkEvent("tel:052-955-5057")).toEqual({ event: "phone_click", link_url: "tel:0529555057" });
